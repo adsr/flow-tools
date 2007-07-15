@@ -443,9 +443,7 @@ char **argv;
     if ((pid = fork()) == -1) {
       fterr_err(1, "fork()");
     } else if (pid) {
-      if (pidfile)
-        write_pidfile(pid, pidfile, ftnet.dst_port);
-      exit (0); /* parent */
+         exit (0); /* parent */
     }
 
     if (!preserve_umask)
@@ -612,6 +610,10 @@ mcast_done:
   /* init hash table for demuxing exporters */
   if (!(ftch = ftchash_new(256, sizeof (struct ftchash_rec_exp), 12, 1)))
     fterr_errx(1, "ftchash_new(): failed");
+
+  /* If we bind to the socket we are running and can write the pidfile */
+  if (pidfile)
+       write_pidfile(getpid(), pidfile, ftnet.dst_port);
 
   /* init msg block */
   ftnet.iov[0].iov_len = sizeof ftpdu.buf;
