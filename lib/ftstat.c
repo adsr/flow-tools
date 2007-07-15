@@ -12363,7 +12363,7 @@ static int dump_ascii_header(FILE *fp, struct ftio *ftio,
 {
   int comma, sort_field;
   char *buf, fmt_buf[32];
-  time_t now;
+  time_t now, time_flow;
 
   /* shortcut */
   if (!(rpt->out->options & FT_STAT_OPT_HEADER))
@@ -12619,11 +12619,13 @@ static int dump_ascii_header(FILE *fp, struct ftio *ftio,
     fprintf(fp, "# records_shown:      %s\n", fmt_buf);
   }
 
+  time_flow = rpt->time_start;
   fprintf(fp, "# first-flow:           %lu %s",
-    (unsigned long)rpt->time_start, ctime((time_t*)&rpt->time_start));
+    (unsigned long)rpt->time_start, ctime(&time_flow));
 
+  time_flow = rpt->time_end;
   fprintf(fp, "# last-flow:            %lu %s",
-    (unsigned long)rpt->time_end, ctime((time_t*)&rpt->time_end));
+    (unsigned long)rpt->time_end, ctime(&time_flow));
 
   now = time((time_t*)0L);
 

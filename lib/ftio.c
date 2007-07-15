@@ -1605,6 +1605,7 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
   u_int32 flags, fields;
   u_long period;
   int n, streaming2;
+  time_t t;
 
   fth = &ftio->fth;
 
@@ -1639,17 +1640,21 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
   }
 
   if (!streaming2)
-    if (fields & FT_FIELD_CAP_START)
+    if (fields & FT_FIELD_CAP_START) {
+      t = fth->cap_start;
       fprintf(std, "%c capture start:        %s", cc,
-        ctime((time_t*)&fth->cap_start));
+        ctime(&t));
+    }
 
   if (!streaming2) {
 
     if ((flags & FT_HEADER_FLAG_DONE) || (flags & FT_HEADER_FLAG_PRELOADED)) {
 
-      if (fields & FT_FIELD_CAP_END)
+      if (fields & FT_FIELD_CAP_END) {
+	t = fth->cap_end;
         fprintf(std, "%c capture end:          %s", cc,
-          ctime((time_t*)&fth->cap_end));
+	  ctime(&t));
+      }
 
       period = fth->cap_end - fth->cap_start;
       if ((fields & FT_FIELD_CAP_END) && (fields & FT_FIELD_CAP_START))
