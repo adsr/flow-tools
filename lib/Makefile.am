@@ -7,7 +7,7 @@ AM_CFLAGS=-g -Wall -fPIC
 # DEFS=-I. -I$(srcdir)/lib
 
 include_HEADERS = ftlib.h ftqueue.h radix.h ftpaths.h ftconfig.h
-lib_LIBRARIES = libft.la
+lib_LTLIBRARIES = libft.la
 
 libft_la_SOURCES = ftio.c ftswap.c ftencode.c ftdecode.c ftprof.c bit1024.c \
  fmt.c support.c ftfile.c fttlv.c ftmap.c ftrec.c fterr.c \
