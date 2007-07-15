@@ -326,7 +326,8 @@ void *ftchash_foreach(struct ftchash *ftch)
       (char*)ftch->traverse_chunk->base+ftch->traverse_chunk->next) {
 
       ret = ftch->traverse_rec;
-      (char*)ftch->traverse_rec += ftch->d_size;
+      ftch->traverse_rec = (char*)ftch->traverse_rec + ftch->d_size;
+      
       return ret;
 
     } else {

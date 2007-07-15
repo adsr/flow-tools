@@ -68,11 +68,11 @@ int fttlv_enc_uint32(void *buf, int buf_size, int flip, u_int16 t, u_int32 v)
   }
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&v, buf, 4);
 
   return 8;
@@ -107,11 +107,11 @@ int fttlv_enc_uint16(void *buf, int buf_size, int flip, u_int16 t, u_int16 v)
   }
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&v, buf, 2);
 
   return 6;
@@ -145,11 +145,11 @@ int fttlv_enc_uint8(void *buf, int buf_size, int flip, u_int16 t, u_int8 v)
   }
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
+  buf = (char*)buf + 2;
 
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&v, buf, 1);
 
   return 5;
@@ -183,10 +183,10 @@ int fttlv_enc_str(void *buf, int buf_size, int flip, u_int16 t, char *v)
   }
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
+  buf = (char*)buf + 2;
 
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
+  buf = (char*)buf + 2;
 
   bcopy(v, buf, len);
 
@@ -230,17 +230,17 @@ int fttlv_enc_ifname(void *buf, int buf_size, int flip, u_int16 t,
     return -1;
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&ip, buf, 4);
-  (char*)buf += 4;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&ifIndex, buf, 2);
-  (char*)buf += 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(name, buf, n);
 
   return 4+len2;
@@ -287,20 +287,20 @@ int fttlv_enc_ifalias(void *buf, int buf_size, int flip, u_int16 t,
   }
 
   bcopy(&t, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+  
   bcopy(&len, buf, 2);
-  (char*)buf+= 2;
-
+  buf = (char*)buf + 2;
+	  
   bcopy(&ip, buf, 4);
-  (char*)buf += 4;
+  buf = (char*)buf + 2;
 
   bcopy(&entries, buf, 2);
-  (char*)buf += 2;
+  buf = (char*)buf + 2;
 
   bcopy(ifIndex_list, buf, esize);
-  (char*)buf += esize;
-
+  buf = (char*)buf + esize;
+  
   bcopy(name, buf, n);
 
   return 4+len2;

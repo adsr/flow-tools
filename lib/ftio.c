@@ -2267,7 +2267,7 @@ int readn(register int fd, register void *ptr, register int nbytes)
         break;
 
       nleft -= nread;
-      (char*)ptr += nread;
+      ptr = (char*)ptr + nread;
   }
   return (nbytes - nleft);
 } /* readn */
@@ -2292,7 +2292,7 @@ int writen(register int fd, register void *ptr, register int nbytes)
       return(nwritten); /* error */
 
     nleft -= nwritten;
-    (char*)ptr += nwritten;
+    ptr = (char*)ptr + nwritten;
   }
   return(nbytes - nleft);
 } /* writen */
