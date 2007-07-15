@@ -1,0 +1,18 @@
+# top level crap
+/aclocal.m4
+/autom4te.cache
+/config.guess
+/config.sub
+/configure
+/depcomp
+/install-sh
+/ltmain.sh
+/missing
+/ylwrap
+
+# special case
+/lib/ftconfig.h.in*
+
+# common patterns
+
+Makefile.in
