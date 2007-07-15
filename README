@@ -1,0 +1,17 @@
+flow-tools is a set of programs for processing and managing NetFlow exports
+from Cisco and Juniper routers.  The software was originally written by
+Mark Fullmer while working at Ohio State University.  Steve Romig and the
+OSU network security group have added documentation, functionality, and
+provided feedback.  OARnet and the Ohio ITEC have recently funded my
+time to add version 8 PDU support and various other features.
+
+For installation notes and a quick start please see INSTALL.
+
+If you are using flow-tools please subscribe to the mailing list by
+sending a message to flow-tools-request@splintered.net
+
+flow-tools is currently available at http://www.splintered.net/sw/flow-tools
+
+Mark Fullmer
+maf@splintered.net
+

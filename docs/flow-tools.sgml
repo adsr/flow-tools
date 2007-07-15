@@ -1,0 +1,235 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-tools</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-tools</application>
+</refname>
+<refpurpose>
+Tool set for working with NetFlow data.
+</refpurpose>
+</refnamediv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+Flow-tools is library and a collection of programs used to collect,
+send, process, and generate reports from NetFlow data.  The tools
+can be used together on a single server or distributed to multiple
+servers for large deployments.  The flow-toools library provides an
+API for development of custom applications for NetFlow export versions
+1,5,6 and the 14 currently defined version 8 subversions.  A Perl and
+Python interface have been contributed and are included in the distribution.
+</para>
+<para>
+Flow data is collected and stored by default in host byte order, yet
+the files are portable across big and little endian architectures.
+</para>
+<para>
+Commands that utilize the network use a localip/remoteip/port designation
+for communication.  "localip" is the IP address the host will use as a
+source for sending or bind to when receiving NetFlow PDU's (ie the destination
+address of the exporter.  Configuring the "localip" to 0 will force the kernel
+to decide what IP address to use for sending and listen on all IP addresses
+for receiving.  "remoteip" is the destination IP address used for sending or
+the expected address of the source when receiving.  If the "remoteip" is
+0 then the application will accept flows from any source address.  The "port"
+is the UDP port number used for sending or receiving.  When using multicast
+addresses the localip/remoteip/port is used to represent the source, group,
+and port respectively.
+</para>
+<para>
+Flows are exported from a router in a number of different configurable
+versions.  A flow is a collection of key fields and additional data.
+The flow key is {srcaddr, dstaddr, input, output, srcport, dstport, prot,
+ToS}.  Flow-tools supports one export version per file.
+</para>
+<para>
+Export versions 1, 5, 6, and 7 all maintain {nexthop, dPkts, dOctets,
+First, Last, flags}, ie the next-hop IP address, number of packets, number
+of octets (bytes), start time, end time, and flags such as the TCP header
+bits.  Version 5 adds the additional fields {src_as, dst_as, src_mask,
+dst_mask}, ie source AS, destination AS, source network mask, and
+destination network mask.  Version 7 which is specific to the Catalyst
+switches adds in addition to the version 5 fields {router_sc}, which is
+the Router IP address which populates the flow cache shortcut in the
+Supervisor.  Version 6 which is not officially supported by Cisco adds
+in addition to the version 5 fields {in_encaps, out_encaps, peer_nexthop},
+ie the input and output interface encapsulation size, and the IP address
+of the next hop within the peer.  Version 1 exports do not contain a
+sequence number and therefore should be avoided, although it is safe
+to store the data as version 1 if the additional fields are not used.
+</para>
+<para>
+Version 8 IOS NetFlow is a second level flow cache that reduces the
+data exported from the router.  There are currently 11 formats, all
+of which provide {dFlows, dOctets, dPkts, First, Last} for the key
+fields.
+</para>
+<para>
+<literallayout>
+  8.1 -  Source and Destination AS, Input and Output interface
+  8.2 -  Protocol and Port
+  8.3 -  Source Prefix and Input interface
+  8.4 -  Destination Prefix and Output interface
+  8.5 -  Source/Destination Prefix and Input/Output interface
+  8.9 -  8.1 + ToS
+  8.10 - 8.2 + ToS
+  8.11 - 8.3 + ToS
+  8.12 - 8.5 + ToS
+  8.13 - 8.2 + ToS
+  8.14 - 8.3 + ports + ToS
+</literallayout>
+</para>
+<para>
+Version 8 CatIOS NetFlow appears to be a less fine grained first level
+flow cache.
+</para>
+<para>
+<literallayout>
+  8.6 - Destination IP, ToS, Marked ToS, 
+  8.7 - Source/Destination IP, Input/Output interface, ToS, Marked ToS, 
+  8.8 - Source/Destination IP, Source/Destination Port,
+        Input/Output interface, ToS, Marked ToS, 
+</literallayout>
+</para>
+<para>
+</para>
+<para>
+The following programs are included in the flow-tools distribution.
+</para>
+<para>
+<command>flow-capture</command> - Collect, compress, store, and
+manage disk space for exported flows from a router.
+</para>
+<para>
+<command>flow-cat</command> - Concatenate flow files.  Typically flow files
+will contain a small window of 5 or 15 minutes of exports.  Flow-cat
+can be used to append files for generating reports that span longer time
+periods.
+</para>
+<para>
+<command>flow-fanout</command> - Replicate NetFlow datagrams to unicast or
+multicast destinations.  Flow-fanout is used to facilitate
+multiple collectors attached to a single router.
+</para>
+<para>
+<command>flow-report</command> - Generate reports for NetFlow data sets.
+Reports include source/destination IP pairs, source/destination AS,
+and top talkers.  Over 50 reports are currently supported.
+</para>
+<para>
+<command>flow-tag</command> - Tag flows based on IP address or AS #.
+Flow-tag is used to group flows by customer network.  The tags
+can later be used with flow-fanout or flow-report
+to generate customer based traffic reports.
+</para>
+<para>
+<command>flow-filter</command> - Filter flows based on any of the export
+fields.  Flow-filter is used in-line with other programs
+to generate reports based on flows matching filter expressions.
+</para>
+<para>
+<command>flow-import</command> - Import data from ASCII or cflowd format.
+</para>
+<para>
+<command>flow-export</command> - Export data to ASCII or cflowd format.
+</para>
+<para>
+<command>flow-send</command> - Send data over the network using the NetFlow
+protocol.
+</para>
+<para>
+<command>flow-receive</command> - Receive exports using the NetFlow protocol
+without storing to disk like flow-capture.
+</para>
+<para>
+<command>flow-gen</command> - Generate test data.
+</para>
+<para>
+<command>flow-dscan</command> - Simple tool for detecting some types of network
+scanning and Denial of Service attacks.
+</para>
+<para>
+<command>flow-merge</command> - Merge flow files in chronoligical order.
+</para>
+<para>
+<command>flow-xlate</command> - Perform translations on some flow fields.
+</para>
+<para>
+<command>flow-expire</command> -  Expire flows using the same policy of
+flow-capture.
+</para>
+<para>
+<command>flow-header</command> - Display meta information in flow file.
+</para>
+<para>
+<command>flow-split</command> - Split flow files into smaller files based on
+size, time, or tags.
+</para>
+
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+<para>
+<command>flow-merge</command> by
+<author>
+<firstname>Larry</firstname>
+<surname>Lidz</surname>
+</author>
+<email>ellidz@eridu.uchicago.edu</email>
+</para>
+<para>
+Patches and other contribitions by a list too long to mention here.
+</para>
+<para>
+<command>flow-tools</command> is avalable at
+<ulink url="http://www.splintered.net/sw/flow-tools"></ulink>.
+</para>
+<para>
+A mailing list is maintained at <email>flow-tools@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-capture</application>(1)
+<application>flow-cat</application>(1)
+<application>flow-dscan</application>(1)
+<application>flow-expire</application>(1)
+<application>flow-export</application>(1)
+<application>flow-fanout</application>(1)
+<application>flow-filter</application>(1)
+<application>flow-nfilter</application>(1)
+<application>flow-gen</application>(1)
+<application>flow-header</application>(1)
+<application>flow-import</application>(1)
+<application>flow-merge</application>(1)
+<application>flow-print</application>(1)
+<application>flow-receive</application>(1)
+<application>flow-report</application>(1)
+<application>flow-send</application>(1)
+<application>flow-split</application>(1)
+<application>flow-stat</application>(1)
+<application>flow-tag</application>(1)
+<application>flow-xlate</application>(1)
+</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,268 @@
+<HTML
+><HEAD
+><TITLE
+>flow-expire</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.71
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-expire</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-expire</SPAN
+>&nbsp;--&nbsp;Manage storage of flow file archives by expiring old data.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-expire</B
+>  [-h] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-e<TT
+CLASS="REPLACEABLE"
+><I
+> expire_count</I
+></TT
+>] [-E<TT
+CLASS="REPLACEABLE"
+><I
+> expire_size</I
+></TT
+>] {-w<TT
+CLASS="REPLACEABLE"
+><I
+> workdir</I
+></TT
+>}</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN22"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-expire</B
+> utility will remove the oldest flow files
+in a directory based on either a count of files or space utilization.  The
+directory is recursively searched for flow files.  Files that do not have a
+flow-tools signature will be ignored.  The internal timestamp is used so
+backups or copies of the flow files that do not retain the original
+timestamp will not impact the operation of <B
+CLASS="COMMAND"
+>flow-expire</B
+>. 
+<B
+CLASS="COMMAND"
+>flow-expire</B
+> is typically used to manage storage in
+a distributed environment where flows are collected on a different
+server than they are archived.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN28"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-e<TT
+CLASS="REPLACEABLE"
+><I
+> expire_count</I
+></TT
+></DT
+><DD
+><P
+>Retain the maximum number of files so that the total file count is
+less than <TT
+CLASS="REPLACEABLE"
+><I
+>expire_count</I
+></TT
+>.</P
+></DD
+><DT
+>-E<TT
+CLASS="REPLACEABLE"
+><I
+> expire_size</I
+></TT
+></DT
+><DD
+><P
+>Retain the maximum number of files so that the total storage is less
+than <TT
+CLASS="REPLACEABLE"
+><I
+>expire_size</I
+></TT
+>.  The letters b,K,M,G can
+be used as multipliers, ie 16 Megabytes is 16M.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-w<TT
+CLASS="REPLACEABLE"
+><I
+> workdir</I
+></TT
+></DT
+><DD
+><P
+>Work in <TT
+CLASS="FILENAME"
+>workdir</TT
+>.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN58"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN60"
+></A
+><P
+></P
+><P
+>Remove the oldest flow files in <TT
+CLASS="FILENAME"
+>/flows/krc4</TT
+> until
+the total storage is less then 2 Gigabytes.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-expire -E2Gig -w /flows/krc4</B
+></P
+><P
+></P
+></DIV
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN65"
+></A
+><P
+></P
+><P
+>Remove the oldest flow files in <TT
+CLASS="FILENAME"
+>/flows/krc4</TT
+> until
+the total number of files is less then 100.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-expire -e100 -w /flows/krc4</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN70"
+></A
+><H2
+>BUGS</H2
+><P
+>Empty directories are not removed.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN73"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN80"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

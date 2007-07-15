@@ -1,0 +1,270 @@
+<HTML
+><HEAD
+><TITLE
+>flow-gen</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.71
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-gen</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-gen</SPAN
+>&nbsp;--&nbsp;Generate test flows</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-gen</B
+>  [-h] [-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+>] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-n<TT
+CLASS="REPLACEABLE"
+><I
+> count</I
+></TT
+>] [-V<TT
+CLASS="REPLACEABLE"
+><I
+> version</I
+></TT
+>] [-z<TT
+CLASS="REPLACEABLE"
+><I
+> z_level</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN25"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-gen</B
+> utility generates a test pattern of
+flows in any of the currently supported export versions typically for
+debugging purposes.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN29"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+></DT
+><DD
+><P
+>Byte order of output.</P
+></DD
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-n<TT
+CLASS="REPLACEABLE"
+><I
+> count</I
+></TT
+></DT
+><DD
+><P
+>Generate count flows.  Default 1000.</P
+></DD
+><DT
+>-V<TT
+CLASS="REPLACEABLE"
+><I
+> version</I
+></TT
+></DT
+><DD
+><P
+>Generate version type exports.  Supported versions are:
+<P
+CLASS="LITERALLAYOUT"
+>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;1&nbsp;(No&nbsp;sequence&nbsp;numbers,&nbsp;AS,&nbsp;or&nbsp;mask)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;6&nbsp;(5+&nbsp;Encapsulation&nbsp;size)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;7&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.1&nbsp;&nbsp;NetFlow&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.2&nbsp;&nbsp;NetFlow&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.3&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.4&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.5&nbsp;&nbsp;NetFlow&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.6&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.7&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.8&nbsp;&nbsp;NetFlow&nbsp;Full&nbsp;Flow&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.9&nbsp;&nbsp;NetFlow&nbsp;ToS&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.10&nbsp;NetFlow&nbsp;ToS&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.11&nbsp;NetFlow&nbsp;ToS&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.12&nbsp;NetFlow&nbsp;ToS&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.13&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.14&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1005&nbsp;Flow-Tools&nbsp;tagged&nbsp;version&nbsp;5</P
+></P
+></DD
+><DT
+>-z<TT
+CLASS="REPLACEABLE"
+><I
+> z_level</I
+></TT
+></DT
+><DD
+><P
+>Configure compression level to <TT
+CLASS="REPLACEABLE"
+><I
+> z_level</I
+></TT
+>.  0 is
+disabled (no compression), 9 is highest compression.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN64"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN66"
+></A
+><P
+></P
+><P
+>Generate a test pattern of 1000 version 5 flows and send them in
+the Cisco NetFlow packet format to 10.0.0.1 port 9500.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-gen -V5 | flow-send 0/10.0.0.1/9500</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN70"
+></A
+><H2
+>BUGS</H2
+><P
+>The test pattern may change between releases.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN73"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN80"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

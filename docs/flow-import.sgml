@@ -1,0 +1,240 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-import</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-import</application>
+</refname>
+<refpurpose>
+Import flows into flow-tools from other NetFlow packages.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-import</command>
+<arg>-h</arg>
+<arg>-b<replaceable> big|little</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-f<replaceable> format</replaceable></arg>
+<arg>-m<replaceable> mask_fields</replaceable></arg>
+<arg>-V<replaceable> pdu_version</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-import</command> utility will convert data from
+cflowd and ASCII CSV files into flow-tools format.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-f<replaceable> format</replaceable></term>
+<listitem>
+<para>
+Export format.  Supported formats are:
+<literallayout>
+  0 cflowd
+  2 ASCII CSV
+  3 Cisco NFCollector
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-m<replaceable> mask_fields</replaceable></term>
+<listitem>
+<para>
+Select fields for cflowd and ASCII formats.  The
+<replaceable>mask_fields</replaceable>
+is built from a bitwise OR of the following:
+</para>
+<para>
+<screen>
+    UNIX_SECS       0x0000000000000001LL
+    UNIX_NSECS      0x0000000000000002LL
+    SYSUPTIME       0x0000000000000004LL
+    EXADDR          0x0000000000000008LL
+    
+    DFLOWS          0x0000000000000010LL
+    DPKTS           0x0000000000000020LL
+    DOCTETS         0x0000000000000040LL
+    FIRST           0x0000000000000080LL
+    
+    LAST            0x0000000000000100LL
+    ENGINE_TYPE     0x0000000000000200LL
+    ENGINE_ID       0x0000000000000400LL
+    
+    SRCADDR         0x0000000000001000LL
+    DSTADDR         0x0000000000002000LL
+    SRC_PREFIX      0x0000000000004000LL
+    DST_PREFIX      0x0000000000008000LL
+    NEXTHOP         0x0000000000010000LL
+    INPUT           0x0000000000020000LL
+    OUTPUT          0x0000000000040000LL
+    SRCPORT         0x0000000000080000LL
+    
+    DSTPORT         0x0000000000100000LL
+    PROT            0x0000000000200000LL
+    TOS             0x0000000000400000LL
+    TCP_FLAGS       0x0000000000800000LL
+    
+    SRC_MASK        0x0000000001000000LL
+    DST_MASK        0x0000000002000000LL
+    SRC_AS          0x0000000004000000LL
+    DST_AS          0x0000000008000000LL
+    
+    IN_ENCAPS       0x0000000010000000LL
+    OUT_ENCAPS      0x0000000020000000LL
+    PEER_NEXTHOP    0x0000000040000000LL
+    ROUTER_SC       0x0000000080000000LL
+    EXTRA_PKTS      0x0000000100000000LL
+    MARKED_TOS      0x0000000200000000LL
+</screen>
+</para>
+<para>
+The default value is all fields applicable to the <replaceable>pdu_version</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-V<replaceable> pdu_version</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>pdu_version</replaceable> format output.
+<literallayout>
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8.1  NetFlow AS Aggregation
+    8.2  NetFlow Proto Port Aggregation
+    8.3  NetFlow Source Prefix Aggregation
+    8.4  NetFlow Destination Prefix Aggregation
+    8.5  NetFlow Prefix Aggregation
+    8.6  NetFlow Destination (Catalyst switches)
+    8.7  NetFlow Source Destination (Catalyst switches)
+    8.8  NetFlow Full Flow (Catalyst switches)
+    8.9  NetFlow ToS AS Aggregation
+    8.10 NetFlow ToS Proto Port Aggregation
+    8.11 NetFlow ToS Source Prefix Aggregation
+    8.12 NetFlow ToS Destination Prefix Aggregation
+    8.13 NetFlow ToS Prefix Aggregation
+    8.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Convert the cflowd file <filename>flows.cflowd</filename> to the flow-tools
+file <filename>flows</filename>.  Store as Version 5 with compression level 5.
+</para>
+<para>
+  <command>flow-import -V5 -z5 -f0 &lt flows.cflowd > flows</command>
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Convert the ASCII CSV data in flows.ascii to flow-tools format.  The
+ASCII data must include all fields represented by 0xFF31EF in the order
+listed above.  Store as Version 5 with no compression.  
+</para>
+<para>
+  <command>flow-import -z0 -f2 -m0xFF31EF &lt flows.ascii > flows</command>
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+The pcap format is a hack.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

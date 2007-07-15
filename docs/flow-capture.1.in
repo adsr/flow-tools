@@ -1,0 +1,212 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-capture\fP" "1"
+.SH "NAME"
+\fBflow-capture\fP \(em Manage storage of flow file archives by expiring old data\&.
+.SH "SYNOPSIS"
+.PP
+\fBflow-capture\fP [-hu]  [-b\fI big|little\fP]  [-C\fI comment\fP]  [-c\fI flow_clients\fP]  [-d\fI debug_level\fP]  [-D\fI daemonize\fP]  [-e\fI expire_count\fP]  [-f\fI filter_fname\fP]  [-F\fI filter_definition\fP]  [-E\fI expire_size\fP]  [-n\fI rotations\fP]  [-N\fI nesting_level\fP]  [-p\fI pidfile\fP]  [-R\fI rotate_program\fP]  [-S\fI stat_interval\fP]  [-t\fI tag_fname\fP]  [-T\fI active_def\fP|\fIactive_def,active_def\fP \&...]  [-V\fI pdu_version\fP]  [-z\fI z_level\fP] -w\fI workdir\fP  [-x\fI xlate_fname\fP]  [-X\fI xlate_definition\fP] \fIlocalip/remoteip/port\fP 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-capture\fP utility will receive and store
+NetFlow exports to disk\&.  The flow files are rotated \fIrotations\fPtimes per day
+and expiration of old flow files can be configured by number of files
+or total space utilization\&.  Files are stored in \fBworkdir\fP and can optionally be stored in additional levels of directories\&.  Active
+files created by \fBflow-capture\fP begin
+with \&'tmp\&'\&.  Files that are complete begin with \&'ft\&'\&.
+.PP
+When the \fIremoteip\fP is configured only flows
+from that exporter will be processed, this is the most secure and recommended
+configuration\&.  When the \fIlocalip\fP is configured
+\fBflow-capture\fP will only process flows
+sent to the \fI localip\fP IP address\&.  If
+\fIremoteip\fP is 0 (not configured) flows from any
+source IP address are accepted\&.  Multiple non aggregated PDU versions may
+be accepted at once to support Cisco\&'s Catalyst 6500 NetFlow
+implementation which exports from both the supervisor and MSFC with the
+same IP address and same port but different export versions\&.  In this case
+the exports will be stored in the format specified by \fIpdu_version\fP or whichever export type is received first\&.
+.PP
+NetFlow exports are UDP and do not employ congestion control or a
+retransmission mechanism\&.  If the server flow-capture is configured
+on is too busy, or the network is congested or lossy NetFlow exports will
+be lost\&.  An estimate of lost flows is recorded in the flow files, and
+logged via syslog\&.  Most servers will provide a count of dropped packets
+due to full socket buffers via the \fBnetstat\fP utility\&.
+For example \fBnetstat -s | grep full\fP will provide a count
+of UDP packets dropped due to full socket buffers\&.  If this is a persistent
+occurrence either \fBflow-capture\fP will need a larger server
+or the compression level should be decreased with -z\&.
+.PP
+A SIGHUP signal will cause \fBflow-capture\fP to close
+the current file and create a new one\&.
+.PP
+A SIGQUIT or SIGTERM signal will cause \fBflow-capture\fP to close
+the current file and exit\&.
+.SH "OPTIONS"
+.IP "-b\fI big\fP|\fIlittle\fP" 10
+Byte order of output\&.
+.IP "-c\fI flow_clients\fP" 10
+Enable \fIflow_clients\fP TCP clients\&.  When libwrap
+is available the client must be in a permit list for the service
+flow-capture-client\&.
+.IP "-C\fI Comment\fP" 10
+Add a comment\&.
+.IP "-d\fI debug_level\fP" 10
+Enable debugging\&.
+.IP "-e\fI expire_count\fP" 10
+Retain the maximum number of files so that the total file count is
+less than \fIexpire_count\fP\&.  Defaults to
+0 (do not expire)\&.
+.IP "-E\fI expire_size\fP" 10
+Retain the maximum number of files so that the total storage is less
+than \fIexpire_size\fP\&.  The letters b,K,M,G can
+be used as multipliers, ie 16 Megabytes is 16M\&.  Default to 0 (do not expire)\&.
+.IP "-f\fI filter_fname\fP" 10
+Filter list filename\&.  Defaults to \fB@localstatedir@/cfg/filter\fP\&.
+.IP "-F\fI filter_definition\fP" 10
+Select the active definition\&.  Defaults to default\&.
+.IP "-h" 10
+Display help\&.
+.IP "-n\fI rotations\fP" 10
+Configure the number of times flow-capture will create a new file per day\&.
+The default is 95, or every 15 minutes\&.
+.IP "-N\fI nesting_level\fP" 10
+Configure the nesting level for storing flow files\&.  The default is 0\&.
+   -3    YYYY/YYYY-MM/YYYY-MM-DD/flow-file
+   -2    YYYY-MM/YYYY-MM-DD/flow-file
+   -1    YYYY-MM-DD/flow-file
+    0    flow-file
+    1    YYYY/flow-file
+    2    YYYY/YYYY-MM/flow-file
+    3    YYYY/YYYY-MM/YYYY-MM-DD/flow-file
+.IP "-p\fI pidfile\fP" 10
+Configure the process ID file\&.  Use - to disable pid file creation\&.
+.IP "-R\fI rotate_program\fP" 10
+Execute \fIrotate_program\fP with the first argument
+as the flow file name after rotating it\&.
+.IP "-S\fI stat_interval\fP" 10
+When configured \fBflow-capture\fP will log a timestamped
+message every \fIstat_interval\fP minutes
+indicating counters such as the number of flows received, packets processed,
+and lost flows\&.
+.IP "-t\fI tag_fname\fP" 10
+Load tags from \fBtag_name\fP
+.IP "-T\fI active_def\fP|\fIactive_def,active_def\&.\&.\&.\fP" 10
+Use \fIactive_def\fP as the active tag definition(s)\&.
+.IP "-u" 10
+Preserve inherited umask\&.  By default the umask will be set to 0022\&.
+.IP "-V\fI pdu_version\fP" 10
+Use \fIpdu_version\fP format output\&.
+.PP
+.nf
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8\&.1  NetFlow AS Aggregation
+    8\&.2  NetFlow Proto Port Aggregation
+    8\&.3  NetFlow Source Prefix Aggregation
+    8\&.4  NetFlow Destination Prefix Aggregation
+    8\&.5  NetFlow Prefix Aggregation
+    8\&.6  NetFlow Destination (Catalyst switches)
+    8\&.7  NetFlow Source Destination (Catalyst switches)
+    8\&.8  NetFlow Full Flow (Catalyst switches)
+    8\&.9  NetFlow ToS AS Aggregation
+    8\&.10 NetFlow ToS Proto Port Aggregation
+    8\&.11 NetFlow ToS Source Prefix Aggregation
+    8\&.12 NetFlow ToS Destination Prefix Aggregation
+    8\&.13 NetFlow ToS Prefix Aggregation
+    8\&.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+.fi
+.IP "-w\fI workdir\fP" 10
+Work in \fBworkdir\fP\&.
+.IP "-x\fI xlate_fname\fP" 10
+Translation config file name\&.  Defaults to \fB@localstatedir@/cfg/xlate\&.c
+fg\fP
+.IP "-X\fI xlate_definition\fP" 10
+Translation definition\&.  Defaults to default\&.
+.IP "-z\fI z_level\fP" 10
+Configure compression level to \fI z_level\fP\&.  0 is
+disabled (no compression), 9 is highest compression\&.
+.SH "EXAMPLES"
+.PP
+Receive flows from the exporter at 10\&.0\&.0\&.1 port 9800\&.  Maintain 5 Gigabytes
+of flow files in /flows/krc4\&.  Mask the source and destination IP addresses
+contained in the flow exports with 255\&.255\&.248\&.0\&.
+.PP
+  \fBflow-capture -w /flows/krc4 -m 255\&.255\&.248\&.0 -E5G 0/10\&.0\&.0\&.1/9800\fP
+.PP
+Receive flows from any exporter on port 9800\&.  Do not perform any flow
+file space management\&.  Store the exports in /flows/krc4\&.  Emit a stat
+log message every 5 minutes\&.
+.PP
+  \fBflow-capture -w /flows/krc4 0/0/9800 -S5\fP
+.SH "BUGS"
+.PP
+Empty directories are not removed\&.
+.SH "FILES"
+.PP
+  Configuration files:
+    Tag - \fB@localstatedir@/cfg/tag\&.cfg\fP\&.
+    Filter - \fB@localstatedir@/cfg/filter\&.cfg\fP\&.
+    Xlate - \fB@localstatedir@/cfg/xlate\&.cfg\fP\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Fri 02 Jan 2004, 16:26

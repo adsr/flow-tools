@@ -1,0 +1,199 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-export\fP" "1"
+.SH "NAME"
+\fBflow-export\fP \(em Export flow-tools files into other NetFlow packages\&.
+.SH "SYNOPSIS"
+.PP
+\fBflow-export\fP [-h]  [-d\fI debug_level\fP]  [-f\fI format\fP]  [-m\fI mask_fields\fP]  [-u\fI user:password:host:port:name:table\fP] 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-export\fP utility will convert flow-tools
+flow files to ASCII CSV, cflowd, pcap, wire, mySQL, and PGSQL format\&.
+.SH "OPTIONS"
+.IP "-d\fI debug_level\fP" 10
+Enable debugging\&.
+.IP "-f\fI format\fP" 10
+Export format\&.  Supported formats are:
+  0 cflowd
+  1 pcap
+  2 ASCII CSV
+  3 MySQL
+  4 wire
+  5 PGSQL
+.IP "-h" 10
+Display help\&.
+.IP "-m\fI mask_fields\fP" 10
+Select fields for MySQL, PostgresSQL, cflowd, and ASCII formats\&.  The
+\fImask_fields\fP is built from a bitwise OR of the following:
+.IP "" 10
+.PP
+.nf
+    UNIX_SECS       0x0000000000000001LL
+    UNIX_NSECS      0x0000000000000002LL
+    SYSUPTIME       0x0000000000000004LL
+    EXADDR          0x0000000000000008LL
+    
+    DFLOWS          0x0000000000000010LL
+    DPKTS           0x0000000000000020LL
+    DOCTETS         0x0000000000000040LL
+    FIRST           0x0000000000000080LL
+    
+    LAST            0x0000000000000100LL
+    ENGINE_TYPE     0x0000000000000200LL
+    ENGINE_ID       0x0000000000000400LL
+    
+    SRCADDR         0x0000000000001000LL
+    DSTADDR         0x0000000000002000LL
+    SRC_PREFIX      0x0000000000004000LL
+    DST_PREFIX      0x0000000000008000LL
+    NEXTHOP         0x0000000000010000LL
+    INPUT           0x0000000000020000LL
+    OUTPUT          0x0000000000040000LL
+    SRCPORT         0x0000000000080000LL
+    
+    DSTPORT         0x0000000000100000LL
+    PROT            0x0000000000200000LL
+    TOS             0x0000000000400000LL
+    TCP_FLAGS       0x0000000000800000LL
+    
+    SRC_MASK        0x0000000001000000LL
+    DST_MASK        0x0000000002000000LL
+    SRC_AS          0x0000000004000000LL
+    DST_AS          0x0000000008000000LL
+    
+    IN_ENCAPS       0x0000000010000000LL
+    OUT_ENCAPS      0x0000000020000000LL
+    PEER_NEXTHOP    0x0000000040000000LL
+    ROUTER_SC       0x0000000080000000LL
+    EXTRA_PKTS      0x0000000100000000LL
+    MARKED_TOS      0x0000000200000000LL
+.fi
+.IP "" 10
+When exporting to cflowd format the \fImask_fields\fP field is the cflowd mask which is defined as the following:
+.IP "" 10
+.PP
+.nf
+    ROUTERMASK         0x00000001
+    SRCIPADDRMASK      0x00000002
+    DSTIPADDRMASK      0x00000004
+    INPUTIFINDEXMASK   0x00000008
+    OUTPUTIFINDEXMASK  0x00000010
+    SRCPORTMASK        0x00000020
+    DSTPORTMASK        0x00000040
+    PKTSMASK           0x00000080
+    BYTESMASK          0x00000100
+    IPNEXTHOPMASK      0x00000200
+    STARTTIMEMASK      0x00000400
+    ENDTIMEMASK        0x00000800
+    PROTOCOLMASK       0x00001000
+    TOSMASK            0x00002000
+    SRCASMASK          0x00004000
+    DSTASMASK          0x00008000
+    SRCMASKLENMASK     0x00010000
+    DSTMASKLENMASK     0x00020000
+    TCPFLAGSMASK       0x00040000
+    INPUTENCAPMASK     0x00080000
+    OUTPUTENCAPMASK    0x00100000
+    PEERNEXTHOPMASK    0x00200000
+    ENGINETYPEMASK     0x00400000
+    ENGINEIDMASK       0x00800000
+    
+    INDEX_V1_MASK      0x00043FFF
+    INDEX_V5_MASK      0x00C7FFFF
+    INDEX_V6_MASK      0x00FFFFFF
+    INDEX_V7_MASK      0x00C7FFFF
+    INDEX_V8_1_MASK    0x00C0CD99
+    INDEX_V8_2_MASK    0x00C00DE1
+    INDEX_V8_3_MASK    0x00C14D8B
+    INDEX_V8_4_MASK    0x00C28D95
+    INDEX_V8_5_MASK    0x00C3CD9F
+.fi
+ 
+.IP "" 10
+The default value is all fields applicable to the the flow file, or
+the cflowd INDEX mask applicabable to the export format\&.
+.IP "-u\fI user:password:host:port:name:table\fP" 10
+Configure MySQL or PostgresSQL Access\&.
+.SH "EXAMPLES"
+.PP
+Convert the flow-tools file \fBflows\fP to the cflowd
+file \fBflows\&.cflowd\fP\&.  Include all fields\&.
+.PP
+  \fBflow-export -f0 < flows > flows\&.cflowd\fP
+.SH "EXAMPLES"
+.PP
+Convert the flow-tools file \fBflows\fP to the ASCII\&.  Include
+the SRCADDR and DSTADDR fields\&.
+.PP
+  \fBflow-export -f2 -m0x3000 < flows > flows\&.ascii\fP
+.SH "EXAMPLES"
+.PP
+Export the flow-tools file \fBflows\fP to an MySQL Database\&.
+Include only SRCADDR, DSTADDR and DOCTETS\&.
+.PP
+  \fBflow-export -f3 -mSRCADDR,DSTADDR,DOCTETS -u "user:password:host:port:name:table" < flows \fP
+.SH "BUGS"
+.PP
+The pcap format is a hack\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.PP
+Database Support:
+William Emmanuel Yu wyu@ateno\&.edu
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Thu 04 Dec 2003, 01:04

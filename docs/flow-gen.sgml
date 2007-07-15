@@ -1,0 +1,163 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-gen</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-gen</application>
+</refname>
+<refpurpose>
+Generate test flows
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-gen</command>
+<arg>-h</arg>
+<arg>-b<replaceable> big</replaceable>|<replaceable>little</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-n<replaceable> count</replaceable></arg>
+<arg>-V<replaceable> version</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-gen</command> utility generates a test pattern of
+flows in any of the currently supported export versions typically for
+debugging purposes.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-n<replaceable> count</replaceable></term>
+<listitem>
+<para>
+Generate count flows.  Default 1000.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-V<replaceable> version</replaceable></term>
+<listitem>
+<para>
+Generate version type exports.  Supported versions are:
+<literallayout>
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8.1  NetFlow AS Aggregation
+    8.2  NetFlow Proto Port Aggregation
+    8.3  NetFlow Source Prefix Aggregation
+    8.4  NetFlow Destination Prefix Aggregation
+    8.5  NetFlow Prefix Aggregation
+    8.6  NetFlow Destination (Catalyst switches)
+    8.7  NetFlow Source Destination (Catalyst switches)
+    8.8  NetFlow Full Flow (Catalyst switches)
+    8.9  NetFlow ToS AS Aggregation
+    8.10 NetFlow ToS Proto Port Aggregation
+    8.11 NetFlow ToS Source Prefix Aggregation
+    8.12 NetFlow ToS Destination Prefix Aggregation
+    8.13 NetFlow ToS Prefix Aggregation
+    8.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Generate a test pattern of 1000 version 5 flows and send them in
+the Cisco NetFlow packet format to 10.0.0.1 port 9500.
+</para>
+<para>
+  <command>flow-gen -V5 | flow-send 0/10.0.0.1/9500</command>
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+The test pattern may change between releases.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,26 @@
+Cflow:
+ Dave Plonka's Cflow perl module.  See http://net.doit.wisc.edu/~plonka/Cflow/
+
+inter.net:
+  Miguel A.L. Paraz <map@internet.org.ph>
+  William Emmanuel S. Yu <william.s.yu@ieee.org> <wyy@cersa.admu.edu.ph>
+ flow-split flow-split-non flow-as-if flow-cidr
+
+acl-filter.tgz:
+ <rwariua@socrates.Berkeley.EDU>
+ Cisco style community and as-path acl's.  Uses mrtd to process
+ BGP dump's.
+
+find_scanners:
+ Paul Dokas <dokas@cs.umn.edu>.  Compact report of top IP's, ports, etc.
+
+pyflowtools:
+ Robin Sommer <robin@net.uni-sb.de>.  Python support.
+ http://www.net.uni-sb.de/~robin/flowtools
+
+see also:
+
+flow-extract: E. Larry Lidz" <ellidz@eridu.uchicago.edu
+ see http://security.uchicago.edu/tools/net-forensics
+
+

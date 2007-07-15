@@ -1,0 +1,320 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-dscan</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-dscan</application>
+</refname>
+<refpurpose>
+Detect scanning and other suspicious network activity.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-dscan</command>
+<arg>-bBhlmpwW</arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-D<replaceable> iplist_depth</replaceable></arg>
+<arg>-s<replaceable> state_file</replaceable></arg>
+<arg>-i<replaceable> input_filter</replaceable></arg>
+<arg>-L<replaceable> suppress_list</replaceable></arg>
+<arg>-o<replaceable> output_filter</replaceable></arg>
+<arg>-O<replaceable> excessive_octets</replaceable></arg>
+<arg>-P<replaceable> excessive_flows</replaceable></arg>
+<arg>-S<replaceable> port_scan_trigger</replaceable></arg>
+<arg>-t<replaceable> ager_timeout</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-dscan</command> utility is used to detect suspicious
+activity such as port scanning, host scanning, and flows with 
+unusually high octets or packets.  A source and destination suppress
+list is supported to help prevent false alarms due to hosts such as
+nameservers or popular web servers that exchange traffic with a large
+number of hosts.  Alarms are logged to syslog or stderr.  The internal
+state of flow-dscan can be saved and loaded to allow for interrupted operation.
+</para>
+<para>
+<command>flow-dscan</command> will work best if configured to only watch only inbound or outbound
+traffic by using the input or output interface filter option.
+</para>
+<para>
+The host scanner works by counting the length of the destination IP
+hash chain.  If it goes above 64, then the src is considered to
+be scanning.
+</para>
+<para>
+The port scanner works by keeping a bitmap of the destination port
+number < 1024 per destination IP.  If it goes above 64, the src is
+considered to be port scanning the destination.
+</para>
+<para>
+When a src has been flagged as scanning it will not be reported again
+until the record is aged out and enough flows trigger it again.
+</para>
+<para>
+A SIGHUP signal will instruct flow-dscan to reload the suppress list.
+</para>
+<para>
+A SIGUSR1 signal will instruct flow-dscan to dump its internal state.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b</term>
+<listitem>
+<para>
+Do not detach and run in the background.  Alerts go to stderr.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-B</term>
+<listitem>
+<para>
+Do not detach and run in the background.  Alerts go to syslog.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-D<replaceable> iplist_depth</replaceable></term>
+<listitem>
+<para>
+Depth of IP host list for detecting host scanning.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-i<replaceable> input_filter</replaceable></term>
+<listitem>
+<para>
+Input interface filter list.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-I<replaceable> output_filter</replaceable></term>
+<listitem>
+<para>
+Output interface filter list.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-l</term>
+<listitem>
+<para>
+Load state from <filename>/var/tmp/dscan.state</filename> or the filename
+specified with -s.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-L<replaceable> suppress_list</replaceable></term>
+<listitem>
+<para>
+Basename of suppress files.  There are two suppress files for input and
+output traffic.  The suppress file syntax is
+</para>
+<para>
+IP_address protocol source_port destination_port
+</para>
+<para>
+A '-' can be used as a wildcard in the protocol, source_port,
+and destination_port fields.  Only a single protocol, source_port, and
+destination_port is supported per IP address.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-m</term>
+<listitem>
+<para>
+Multicast address filter.  Use to ignore multicast addresses.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-O<replaceable> excessive_octets</replaceable></term>
+<listitem>
+<para>
+Trigger an alert if a flow is processed with the octets field exceeding
+<replaceable>excessive_octets</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p</term>
+<listitem>
+<para>
+Dump state to <filename>/var/tmp/dscan.state</filename> or the filename
+specified with -s.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-P<replaceable> excessive_packets</replaceable></term>
+<listitem>
+<para>
+Trigger an alert if a flow is processed with the packets field exceeding
+<replaceable>excessive_packets</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s<replaceable> statefile</replaceable></term>
+<listitem>
+<para>
+State filename.  Defaults to <filename>/var/tmp/dscan.state</filename>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S<replaceable> port_scan_trigger</replaceable></term>
+<listitem>
+<para>
+Number of ports a IP address must have used to be considered scanning.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-t<replaceable> ager_timeout</replaceable></term>
+<listitem>
+<para>
+How long to keep flows around.  Default to 90000.  This is measured in
+flows processed.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-T<replaceable> excessive_time</replaceable></term>
+<listitem>
+<para>
+Trigger an alert if a flow is processed with the End-Start field exceeding
+<replaceable>excessive_time</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-w</term>
+<listitem>
+<para>
+Filter (ignore) candidate inbound www traffic, ie IP protocol 6, source port
+80, and destination port > 1023.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-W</term>
+<listitem>
+<para>
+Filter (ignore) candidate outbound www traffic, ie IP protocol 6, destination
+port 80, and source  port > 1023.
+</para>
+</listitem>
+</varlistentry>
+
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+In a topology where 25 is the only output interface run flow-dscan over
+the data in <filename>/flows/krc4</filename>.  Ignore www and multicast
+traffic, store the internal state in
+<filename>dscan.statefile</filename> on exit.  Use empty suppress list
+files <filename>dscan.suppress.src</filename> and
+<filename>dscan.suppress.dst</filename>.  The output produced by flow-dscan
+typically must be manually inspected by using flow-filter and flow-print.
+Many of the alerts will be false until the suppress lists are populated
+for the local environment.
+</para>
+<para>
+  <command>flow-cat /flows/krc4 | flow-dscan -I25 -b -m -s dscan.statefile -p -W</command>
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+The ager should automatically become more aggressive when a low memory
+condition exists.
+
+There is no upper limit on the number of records that can be allocated.  If
+the ager is not running often enough the host will be run out of memory.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

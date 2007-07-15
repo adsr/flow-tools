@@ -1,0 +1,478 @@
+<HTML
+><HEAD
+><TITLE
+>flow-tools-examples</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.71
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-tools-examples</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-tools-examples</SPAN
+>&nbsp;--&nbsp;Example usage of flow-tools.</DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN10"
+></A
+><H2
+>EXAMPLE - Configuring Cisco IOS Router</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN12"
+></A
+><P
+></P
+><P
+>NetFlow is configured on each input interface, then global commands are
+used to specify the export destination.  To ensure a consistant source
+address address Loopback0 is configured as the export source.
+<PRE
+CLASS="PROGRAMLISTING"
+>ip cef distributed
+ip flow-export version 5 origin-as
+ip flow-export destination 10.0.0.100 5004
+ip flow-export source Loopback0
+
+interface Loopback0
+ ip address 10.1.1.1 255.255.255.255
+
+interface FastEthernet0/1/0 
+ ip address 10.0.0.1 255.255.255.0
+ no ip directed-broadcast
+ ip route-cache flow
+ ip route-cache distributed&#13;</PRE
+>
+
+Many other options exist such as aggregated NetFlow and sampled NetFlow which
+are detailed at <A
+HREF="http://www.cisco.com"
+TARGET="_top"
+>http://www.cisco.com</A
+>.</P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN16"
+></A
+><H2
+>EXAMPLE - Configuring Cisco CatIOS Switch</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN18"
+></A
+><P
+></P
+><P
+>Some Cisco Catalyst switches support a different implementation of NetFlow
+that is performed on the supervisor.  With the cache based forwarding model
+which is implemented in the Catalyst 55xx with Route Switch Module (RSM)
+and NetFlow Feature Card (NFFC), the RSM processes the first flow and the
+remaining packets in the flow are forwarded by the Supervisor.  This is
+also implemented in the early versions of the 65xx with MSFC.  The
+deterministic forwarding model used in the 65xx with MSFC2 do not use
+NetFlow to determine the forwarding path, the flow cache is only used
+for statistics as in the current IOS implementations.  In all of 
+of the above configurations flow exports arrive from both the RSM/MSFC and
+the Supervisor engines as distinct streams.  In the worst cast the RSM
+exports in version 5 and the Supervisor exports in version 7.
+Fortunately flow-capture and flow-receive can sort all this out by 
+processing flows from both sources and converting them to a common 
+export format.</P
+><P
+>The router side running IOS is configured identically to the example
+given above.  The CatIOS NetFlow Data Export configuration follows:</P
+><P
+><PRE
+CLASS="PROGRAMLISTING"
+>set mls flow full
+set mls nde version 7
+set mls nde 10.0.0.1 9800
+set mls nde enable</PRE
+></P
+><P
+>When the 65xx is running in Native mode, from a users perspective the 
+switch is only running IOS.</P
+><P
+>More detailed examples can be found on Cisco's web site 
+<A
+HREF="http://www.cisco.com"
+TARGET="_top"
+>http://www.cisco.com</A
+>.</P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN26"
+></A
+><H2
+>EXAMPLE - Configuring Juniper Router</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN28"
+></A
+><P
+></P
+><P
+>Juniper supports flow exports by the routing engine sampling packet
+headers and aggregating them into flows.  Packet sampling is done by 
+defining a firewall filter to accept and sample all traffic, 
+applying that rule to the interface, then configuring the sampling
+forwarding option.
+<PRE
+CLASS="PROGRAMLISTING"
+>interfaces {
+    ge-0/3/0 {
+        unit 0 {
+            family inet {
+                filter {
+                    input all;
+                    output all;
+                }
+                address 10.0.0.1/24;
+            }
+        }
+    }
+
+firewall {
+    filter all {
+        term all {
+            then {
+                sample;
+                accept;
+            }
+        }
+    }
+}
+
+forwarding-options {
+    sampling {
+        input {
+            family inet {
+                rate 100;
+            }
+        }
+        output {
+            cflowd 10.0.0.100 {
+                port 9800;
+                version 5;
+            }
+        }
+    }
+}</PRE
+></P
+><P
+>Other options exist such as aggregated flows which 
+are detailed at <A
+HREF="http://www.juniper.net"
+TARGET="_top"
+>http://www.juniper.net</A
+>.</P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN33"
+></A
+><H2
+>EXAMPLE - Network topology and <TT
+CLASS="FILENAME"
+>flow.acl</TT
+></H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN36"
+></A
+><P
+></P
+><P
+>The network topology and flow.acl will be used for many of the examples
+that follow.  Flows are collected and stored in <TT
+CLASS="FILENAME"
+>/flows/R</TT
+>.
+<PRE
+CLASS="SCREEN"
+>&#13;                       ISP-A       ISP-B
+                         +           +
+                          +         +
+            IP=10.1.2.1/24 +       + IP=10.1.1.1/24
+                 ifIndex=2  +     +  ifIndex=1
+       interface=serial1/1   +   +   interface=serial0/0
+                             -----
+                             | R | Campus Router
+                             -----
+                             +   +
+           IP=10.1.4.1/24   +     +   IP=10.1.3.1/24
+                ifIndex=4  +       +  ifIndex=3
+    interface=Ethernet1/1 +         + interface=Ethernet0/0
+                         +           +
+                       Sales      Marketing&#13;</PRE
+>
+<PRE
+CLASS="PROGRAMLISTING"
+>ip access-list standard sales permit 10.1.4.0 0.0.0.255
+ip access-list standard not_sales deny 10.1.4.0 0.0.0.255
+ip access-list standard marketing permit 10.1.3.0 0.0.0.255
+ip access-list standard not_marketing deny 10.1.3.0 0.0.0.255
+ip access-list standard campus permit 10.1.4.0 0.0.0.255
+ip access-list standard campus permit 10.1.3.0 0.0.0.255
+ip access-list standard not_campus deny 10.1.4.0 0.0.0.255
+ip access-list standard not_campus deny 10.1.3.0 0.0.0.255
+ip access-list standard evil_hacket permit host 10.6.6.6
+ip access-list standard spoofer permit host 10.9.9.9
+ip access-list standard multicast 224.0.0.0 15.255.255.255</PRE
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN41"
+></A
+><H2
+>EXAMPLE - Finding spoofed addresses</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN43"
+></A
+><P
+></P
+><P
+>A common problem on the Internet is the use of "spoofed" (addresses
+that are not assigned to an organization) for use in DoS attacks or 
+compromising servers that rely on the source IP address for authentication.</P
+><P
+>Display all flow records that originate from the campus and are sent
+to the Internet but are not using legal addresses.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Snot_campus -I1,2 | flow-print</B
+></P
+><P
+>Summary of the destinations of the internally spoofed addresses sorted by octets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Snot_campus -I1,2 | flow-stat -f8 -S2</B
+></P
+><P
+>Summary of the sources of the internally spoofed addresses sorted by flows.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Snot_campus -I1,2 | flow-stat -f9 -S1</B
+></P
+><P
+>Summary of the internally spoofed sources and destination pairs sorted by packets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Snot_campus -I1,2 | flow-stat -f10 -S4</B
+></P
+><P
+>Display all flow records that originate external to the campus that have
+campus addresses.  Many times these can be attackers trying to exploit host
+based authentication mechanisms like unix r* commands.  Another common
+source is mobile clients which send packets with their campus addresses
+before obtaining a valid IP.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Scampus -i1,2 | flow-print</B
+></P
+><P
+>Summary of the destinations of the externally spoofed addresses sorted by octets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Scampus -i1,2 | flow-stat -f8 -S2</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN63"
+></A
+><H2
+>EXAMPLE - Locate hosts using or running services</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN65"
+></A
+><P
+></P
+><P
+>Find all SMTP servers active during the collection period
+that have established connections to the Internet.  Summarize sorted
+by octets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -I1,2 -P25 | flow-stat -f9 -S2</B
+></P
+><P
+>Find all outbound NNTP connections to the Internet.  Summarize with source
+and destination IP sorted by octets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -I1,2 -P119 | flow-stat -f10 -S3</B
+></P
+><P
+>Find all inbound NNTP connections to the Internet.  Summarize with source
+and destination IP sorted by octets.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -i1,2 -P119 | flow-stat -f10 -S3</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN75"
+></A
+><H2
+>EXAMPLE - Multicast usage</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN77"
+></A
+><P
+></P
+><P
+>Summarize Multicast S,G where sources are on campus.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Dmulticast -I1,2 | flow-stat -f10 -S3</B
+></P
+><P
+>Summarize Multicast S,G where sources are off campus.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -Dmulticast -i1,2 | flow-stat -f10 -S3</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN84"
+></A
+><H2
+>EXAMPLE - Find scanners</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN86"
+></A
+><P
+></P
+><P
+>Find SMTP scanners with flow-dscan.  This will also find SMTP clients which
+try to contact many servers.  This behavior is characterized by a 
+recent Microsoft worm.</P
+><P
+><P
+CLASS="LITERALLAYOUT"
+><B
+CLASS="COMMAND"
+>touch dscan.suppress.src dscan.suppress.dst</B
+><br>
+<br>
+<B
+CLASS="COMMAND"
+>flow-cat /flows/R | flow-filter -P25 | flow-dscan -b</B
+><br>&#13;</P
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN92"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN99"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

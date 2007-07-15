@@ -1,0 +1,405 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-tag\fP" "1"
+.SH "NAME"
+\fBflow-tag\fP \(em Apply tags to flow files\&.
+.SH "SYNOPSIS"
+.PP
+\fBflow-tag\fP [-hk]  [-b\fI big\fP|\fIlittle\fP]  [-C\fI comment\fP]  [-d\fI debug_level\fP]  [-t\fI tag_fname\fP]  [-T\fI tag_definition\fP]  [-v\fI variable binding\fP] 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-tag\fP utility is used to add or modify
+source and destination tags in flow records\&.  Tags are 32 bit 
+identifiers derived from rules and fields in a flow record\&.  Tags
+can be used to group flows with common prefixes, autonomous systems,
+next hops, exporter id and/or input/output interface\&.
+\fBflow-stat\fP can be used with tagged flows to produce
+group based reports\&.  For example, all outbound traffic for a customer
+where the customer is defined by a list of IP prefixes\&.
+.SH "OPTIONS"
+.IP "-b\fI big\fP|\fIlittle\fP" 10
+Byte order of output\&.
+.IP "-C\fI Comment\fP" 10
+Add a comment\&.
+.IP "-d\fI debug_level\fP" 10
+Enable debugging\&.
+.IP "-h" 10
+Display help\&.
+.IP "-k" 10
+Keep time from input\&.
+.IP "-t\fI tag_fname\fP" 10
+Load tags from \fBtag_name\fP\&.  Defaults to 
+\fB@localstatedir@/cfg/tag\fP
+.IP "-T\fI active_def\fP|" 10
+Use \fIactive_def\fP as the active tag definition(s)\&.
+.IP "-v\fI variable binding\fP" 10
+Set a variable FOO=bar\&.
+.PP
+.PP
+The configuration file is a collection of actions and definitions\&.  An
+action is triggered by a definition and a definition is invoked only
+if listed with the \fI-T\fP flag\&.  Lines begining
+with # are treated as comments and ignored\&.
+.PP
+Words in the configuration file of the form @VAR or @{VAR:default} will be
+expanded at run-time by setting variable names with the -v option\&.
+.PP
+.PP
+.nf
+tag-action command            Description/Example
+----------------------------------------------------------------------
+tag-action                    Begin tag-action section
+                              tag-action foo
+
+type                          Configure the type of action, one of
+                              source-prefix, destination-prefix, prefix,
+                              source-as, destination-as, as, next-hop,
+                              tcp-source-port, tcp-destination-port,
+                              tcp-port, udp-source-port,
+                              udp-destination-port, udp-port,
+                              tos, exporter, source-ip-address,
+                              destination-ip-address, ip-address,
+                              input-interface, output-interface,
+                              interface, any\&.
+                              type src-prefix
+
+match                         Match criteria\&.  The match condition
+                              depends on the type\&.  Following the
+                              match condition is one of
+                              set-destination, set-source,
+                              or-destination, or-source to
+                              set or logically or a value to the
+                              source or destination tag\&.
+                              match 128\&.146/16 set-destination 0x010001
+
+Multiple actions may match and set tags on the same flow\&.  Note that
+listing many actions will cause tags to be applied in O(actions) time\&.
+The actions try to run in O(1) time\&.  For example if 10 prefixes are
+listed in a single action it will take about the same CPU as if 100
+prefixes are used\&.  Listing 100 actions will require 100 times the
+CPU as 1 action\&.
+
+
+tag-action types                    Description
+----------------------------------------------------------------------
+
+source-prefix                       Source Prefix
+
+destination-prefix                  Destination Prefix
+
+prefix                              Source or Destination Prefix
+
+source-as                           Source AS
+
+destination-as                      Destination AS
+
+as                                  Source or Destination AS
+
+next-hop                            IP Next Hop
+
+tcp-source-port                     TCP Source Port
+
+tcp-destination-port                TCP Destination Port
+
+tcp-port                            TCP Source or Destination Port
+
+udp-source-port                     UDP Source Port
+
+udp-destination-port                UDP Destination Port
+
+udp-port                            UDP Source or Destination Port
+
+tos                                 Type of Service
+
+exporter                            Exporter IP Address
+
+source-ip-address                   Source IP Address
+
+destination-ip-address              Destination IP Address
+
+ip-address                          Source or Destination IP Address
+
+input-interface                     Input Interface
+
+output-interface                    Output Interface
+
+interface                           Input or Output Interface
+
+any                                 Match any flows
+
+
+tag-action matches                  Description
+----------------------------------------------------------------------
+
+set-destination                     Set the destination tag, replacing
+                                    any previous tag\&.
+
+set-source                          Set the source tag, replacing any
+                                    previous tag\&.
+
+or-destination                      Logically or this value to the
+                                    existing destination tag
+
+or-source                           Logically or this value to the
+                                    existing source tag
+
+.fi
+.PP
+A definition lists a set of actions which are evaluated if the filter
+criteria is met\&.  Each definition is built with terms\&.  A term has
+its action(s) evaluated if the filter is passed\&.
+.PP
+.nf
+definition command                  Description/Example
+-----------------------------------------------------------------------
+tag-definition                      Begin tag-defintion secrion
+                                    tag-definition bar
+
+term                                Begin a list of actions to be
+                                    evaluated that match the filter
+                                    rule\&.
+                                    term
+
+input-filter                        List of input ifIndexes the flow
+                                    must match\&.
+                                    input-filter 1,2,3,4
+
+output-filter                       List of output ifIndexes the flow
+                                    must match\&.
+                                    output-filter 1,2,3,4
+
+exporter                            IP address of exporter the flow must
+                                    match\&.
+                                    exporter 1\&.2\&.3\&.4
+
+action                              Name of action to evaluate\&.  Actions
+                                    are evaluated in the order they
+                                    appear in a definition\&.
+                                    action foo
+.fi
+.PP
+.SH "EXAMPLES"
+.PP
+The meaning of a tag is user defined\&.  The following example uses 
+16 bits of a tag as a customer ID and 4 bits as a customer type\&.
+\fBflow-xlate\fP can be used to apply a mask to these
+fields\&.
+.PP
+.nf
+\f(CW# file: gigapop-tags
+# tag format
+# 
+# 0       7         15        23        31
+# 0000 0000 0000 0000 0000 0000 0000 0000 (32 bits)
+# RRRRRRRRRRRRRR TTTT NNNNNNNNNNNNNNNNNNN
+#              |    |                   | Site name
+#              |    | Site type
+#              | Reserved
+#
+#
+# SITE_NAME_MASK = 0x0000FFFF  
+# SITE_TYPE_MASK = 0x00FF0000
+#
+# ID             Name
+#---------------------------------
+# 0x0001         OSU
+# 0x0002         CWRU
+# 0x0003         BGSU   
+# \&.\&.\&. etc
+# 0x0019         MULTICAST
+#
+# ID             Type  
+#------------------------
+# 0x01         Participant
+# 0x02         SEGP
+# 0x03         Sponsored-Participant
+# 0x04         Gigapop
+# 0x05         MULTICAST
+
+tag-action OHIO-GIGAPOP_DST
+ type destination-prefix
+# OSU
+ match 128\&.146/16 set-destination     0x010001
+ match 164\&.107/16 set-destination     0x010001
+ match 140\&.254/16 set-destination     0x010001
+ match 192\&.153\&.26/24 set-destination  0x010001
+# CWRU
+ match 129\&.22/16 set-destination      0x010002
+ match 192\&.5\&.110/24 set-destination   0x010002
+# BGSU
+ match 129\&.1/16 set-destination       0x010003
+# \&.\&.\&.etc
+# MULTICAST
+ match 224/4 set-destination 0x050019
+
+tag-action OHIO-GIGAPOP_SRC
+ type source-prefix
+# OSU
+ match 128\&.146/16 set-source     0x010001
+ match 164\&.107/16 set-source     0x010001
+ match 140\&.254/16 set-source     0x010001
+ match 192\&.153\&.26/24 set-source  0x010001
+# CWRU
+ match 129\&.22/16 set-source      0x010002
+ match 192\&.5\&.110/24 set-source   0x010002
+# BGSU
+ match 129\&.1/16 set-source       0x010003
+# \&.\&.\&.etc
+
+tag-action OTHER_DST
+ type destination-prefix
+ match 0/0 set-destination 0x0
+ 
+tag-action OTHER_SRC
+ type source-prefix
+ match 0/0 set-source 0x0
+
+tag-definition OHIO-GIGAPOP
+ term
+# Abilene interface
+ input-filter 25
+# clear tag first -- it defaults to 0, so this may not be necessary\&.
+ action OTHER_DST
+ action OHIO-GIGAPOP_DST
+ term
+# Abilene interface
+ output-filter 25
+# clear tag first -- it defaults to 0, so this may not be necessary\&.
+ action OTHER_SRC
+ action OHIO-GIGAPOP_SRC
+\fR
+.fi
+.PP
+.PP
+First populate \fB@localstatedir@/sym/tag\fP for \fBflow-stat\fP to use as symbols\&.
+.PP
+.nf
+\f(CW0x0001 OSU
+0x0002 CWRU
+0x0003 BGSU
+0x0019 MULTICAST
+0x010000 PART
+0x020000 SEGP
+0x030000 SPART
+0x040000 GIGAPOP
+0x050000 MULTICAST\fR
+.fi
+.PP
+.PP
+To generate a report for outgoing traffic to Abilene based on customer ID:
+.PP
+.nf
+\f(CWflow-cat \fBflows\fP | flow-filter -I25 | flow-tag -t gigapop-tags -TOHIO-GIGAPOP | flow-xlate -t0x0000FFFF | flow-stat -n -f30 -S2\fR
+.fi
+.PP
+.PP
+.nf
+#  --- ---- ---- Report Information --- --- ---
+#
+# Fields:    Total
+# Symbols:   Enabled
+# Sorting:   Descending Field 2
+# Name:      Source Tag
+#
+# Args:      \&.\&./flow-stat -n -f30 -S2 
+#
+#
+# Src Tag   flows                 octets                packets
+#
+OSU         4942230               181326237007          302476793
+CWRU        874883                54358312807           70589318
+BGSU        1008797               7600209852            22060870
+.fi
+.PP
+To generate a report for inbound traffic from Abilene based on customer type:
+.PP
+.nf
+\f(CWflow-cat \fBflows\fP | flow-filter -i25 | flow-tag -t gigapop-tags -TOHIO-GIGAPOP | flow-xlate -T0xFF0000 | flow-stat -n -f31 -S2\fR
+.fi
+.PP
+.PP
+.nf
+#  --- ---- ---- Report Information --- --- ---
+#
+# Fields:    Total
+# Symbols:   Enabled
+# Sorting:   Descending Field 2
+# Name:      Destination Tag
+#
+# Args:      \&.\&./flow-stat -n -f31 -S2 
+#
+#
+# Dst Tag   flows                 octets                packets
+#
+PART        15923156              663289954569          981163979
+SEGP        4995795               135525076170          196534917
+MULTICAST   45171                 49866825003           137798118
+GIGAPOP     942209                26422533266           23199961
+SPART       73998                 5170323905            7597985
+.fi
+.SH "FILES"
+.PP
+  Configuration files:
+    Symbols - \fB@localstatedir@/sym/*\fP\&.
+    Tag - \fB@localstatedir@/cfg/tag\&.cfg\fP\&.
+.SH "BUGS"
+.PP
+None known\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Fri 02 Jan 2004, 16:26

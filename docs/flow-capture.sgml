@@ -1,0 +1,407 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-capture</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-capture</application>
+</refname>
+<refpurpose>
+Manage storage of flow file archives by expiring old data.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-capture</command>
+<arg>-hu</arg>
+<arg>-b<replaceable> big|little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-c<replaceable> flow_clients</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-D<replaceable> daemonize</replaceable></arg>
+<arg>-e<replaceable> expire_count</replaceable></arg>
+<arg>-f<replaceable> filter_fname</replaceable></arg>
+<arg>-F<replaceable> filter_definition</replaceable></arg>
+<arg>-E<replaceable> expire_size</replaceable></arg>
+<arg>-n<replaceable> rotations</replaceable></arg>
+<arg>-N<replaceable> nesting_level</replaceable></arg>
+<arg>-p<replaceable> pidfile</replaceable></arg>
+<arg>-R<replaceable> rotate_program</replaceable></arg>
+<arg>-S<replaceable> stat_interval</replaceable></arg>
+<arg>-t<replaceable> tag_fname</replaceable></arg>
+<arg rep="repeat">-T<replaceable> active_def</replaceable>|<replaceable>active_def,active_def</replaceable></arg>
+<arg>-V<replaceable> pdu_version</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+<arg choice="req">-w<replaceable> workdir</replaceable></arg>
+<arg>-x<replaceable> xlate_fname</replaceable></arg>
+<arg>-X<replaceable> xlate_definition</replaceable></arg>
+<arg choice="req"><replaceable>localip/remoteip/port</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-capture</command> utility will receive and store
+NetFlow exports to disk.  The flow files are rotated <replaceable>rotations
+</replaceable>times per day
+and expiration of old flow files can be configured by number of files
+or total space utilization.  Files are stored in <filename>workdir</filename>
+and can optionally be stored in additional levels of directories.  Active
+files created by <command>flow-capture</command> begin
+with 'tmp'.  Files that are complete begin with 'ft'.
+</para>
+<para>
+When the <replaceable>remoteip</replaceable> is configured only flows
+from that exporter will be processed, this is the most secure and recommended
+configuration.  When the <replaceable>localip</replaceable> is configured
+<command>flow-capture</command> will only process flows
+sent to the <replaceable> localip</replaceable> IP address.  If
+<replaceable>remoteip</replaceable> is 0 (not configured) flows from any
+source IP address are accepted.  Multiple non aggregated PDU versions may
+be accepted at once to support Cisco's Catalyst 6500 NetFlow
+implementation which exports from both the supervisor and MSFC with the
+same IP address and same port but different export versions.  In this case
+the exports will be stored in the format specified by <replaceable>pdu_version
+</replaceable> or whichever export type is received first.
+</para>
+<para>
+NetFlow exports are UDP and do not employ congestion control or a
+retransmission mechanism.  If the server flow-capture is configured
+on is too busy, or the network is congested or lossy NetFlow exports will
+be lost.  An estimate of lost flows is recorded in the flow files, and
+logged via syslog.  Most servers will provide a count of dropped packets
+due to full socket buffers via the <command>netstat</command> utility.
+For example <command>netstat -s | grep full</command> will provide a count
+of UDP packets dropped due to full socket buffers.  If this is a persistent
+occurrence either <command>flow-capture</command> will need a larger server
+or the compression level should be decreased with -z.
+</para>
+<para>
+A SIGHUP signal will cause <command>flow-capture</command> to close
+the current file and create a new one.
+</para>
+<para>
+A SIGQUIT or SIGTERM signal will cause <command>flow-capture</command> to close
+the current file and exit.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-c<replaceable> flow_clients</replaceable></term>
+<listitem>
+<para>
+Enable <replaceable>flow_clients</replaceable> TCP clients.  When libwrap
+is available the client must be in a permit list for the service
+flow-capture-client.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-e<replaceable> expire_count</replaceable></term>
+<listitem>
+<para>
+Retain the maximum number of files so that the total file count is
+less than <replaceable>expire_count</replaceable>.  Defaults to
+0 (do not expire).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-E<replaceable> expire_size</replaceable></term>
+<listitem>
+<para>
+Retain the maximum number of files so that the total storage is less
+than <replaceable>expire_size</replaceable>.  The letters b,K,M,G can
+be used as multipliers, ie 16 Megabytes is 16M.  Default to 0 (do not expire).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-f<replaceable> filter_fname</replaceable></term>
+<listitem>
+<para>
+Filter list filename.  Defaults to <filename>@localstatedir@/cfg/filter</filename>.
+</para>
+</listitem>
+</varlistentry>
+ 
+<varlistentry>
+<term>-F<replaceable> filter_definition</replaceable></term>
+<listitem>
+<para>
+Select the active definition.  Defaults to default.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-n<replaceable> rotations</replaceable></term>
+<listitem>
+<para>
+Configure the number of times flow-capture will create a new file per day.
+The default is 95, or every 15 minutes.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-N<replaceable> nesting_level</replaceable></term>
+<listitem>
+<para>
+Configure the nesting level for storing flow files.  The default is 0.
+   -3    YYYY/YYYY-MM/YYYY-MM-DD/flow-file
+   -2    YYYY-MM/YYYY-MM-DD/flow-file
+   -1    YYYY-MM-DD/flow-file
+    0    flow-file
+    1    YYYY/flow-file
+    2    YYYY/YYYY-MM/flow-file
+    3    YYYY/YYYY-MM/YYYY-MM-DD/flow-file
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p<replaceable> pidfile</replaceable></term>
+<listitem>
+<para>
+Configure the process ID file.  Use - to disable pid file creation.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-R<replaceable> rotate_program</replaceable></term>
+<listitem>
+<para>
+Execute <replaceable>rotate_program</replaceable> with the first argument
+as the flow file name after rotating it.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S<replaceable> stat_interval</replaceable></term>
+<listitem>
+<para>
+When configured <command>flow-capture</command> will log a timestamped
+message every <replaceable>stat_interval</replaceable> minutes
+indicating counters such as the number of flows received, packets processed,
+and lost flows.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-t<replaceable> tag_fname</replaceable></term>
+<listitem>
+<para>
+Load tags from <filename>tag_name</filename>
+</para>
+</listitem>
+</varlistentry>
+ 
+<varlistentry>
+<term>-T<replaceable> active_def</replaceable>|<replaceable>active_def,active_def...</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>active_def</replaceable> as the active tag definition(s).
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-u</term>
+<listitem>
+<para>
+Preserve inherited umask.  By default the umask will be set to 0022.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-V<replaceable> pdu_version</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>pdu_version</replaceable> format output.
+<literallayout>
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8.1  NetFlow AS Aggregation
+    8.2  NetFlow Proto Port Aggregation
+    8.3  NetFlow Source Prefix Aggregation
+    8.4  NetFlow Destination Prefix Aggregation
+    8.5  NetFlow Prefix Aggregation
+    8.6  NetFlow Destination (Catalyst switches)
+    8.7  NetFlow Source Destination (Catalyst switches)
+    8.8  NetFlow Full Flow (Catalyst switches)
+    8.9  NetFlow ToS AS Aggregation
+    8.10 NetFlow ToS Proto Port Aggregation
+    8.11 NetFlow ToS Source Prefix Aggregation
+    8.12 NetFlow ToS Destination Prefix Aggregation
+    8.13 NetFlow ToS Prefix Aggregation
+    8.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-w<replaceable> workdir</replaceable></term>
+<listitem>
+<para>
+Work in <filename>workdir</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-x<replaceable> xlate_fname</replaceable></term>
+<listitem>
+<para>
+Translation config file name.  Defaults to <filename>@localstatedir@/cfg/xlate.c
+fg</filename>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-X<replaceable> xlate_definition</replaceable></term>
+<listitem>
+<para>
+Translation definition.  Defaults to default.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+
+<informalexample>
+<para>
+Receive flows from the exporter at 10.0.0.1 port 9800.  Maintain 5 Gigabytes
+of flow files in /flows/krc4.  Mask the source and destination IP addresses
+contained in the flow exports with 255.255.248.0.
+</para>
+<para>
+  <command>flow-capture -w /flows/krc4 -m 255.255.248.0 -E5G 0/10.0.0.1/9800</command>
+</para>
+</informalexample>
+
+<informalexample>
+<para>
+Receive flows from any exporter on port 9800.  Do not perform any flow
+file space management.  Store the exports in /flows/krc4.  Emit a stat
+log message every 5 minutes.
+</para>
+<para>
+  <command>flow-capture -w /flows/krc4 0/0/9800 -S5</command>
+</para>
+</informalexample>
+
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+Empty directories are not removed.
+</para>
+</refsect1>
+
+<refsect1>
+<title>FILES</title>  
+<para>
+  Configuration files:
+    Tag - <filename>@localstatedir@/cfg/tag.cfg</filename>.
+    Filter - <filename>@localstatedir@/cfg/filter.cfg</filename>.
+    Xlate - <filename>@localstatedir@/cfg/xlate.cfg</filename>.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

@@ -1,0 +1,121 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-header</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-header</application>
+</refname>
+<refpurpose>
+Display meta information in flow file.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-header</command>
+<arg>-h</arg>
+<arg>-c<replaceable> comment_char</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-header</command> utility will display the flow meta
+information flow-tools uses internally.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+<varlistentry>
+<term>-c<replaceable> comment_char</replaceable></term>
+<listitem>
+<para>
+Field header.  Defaults to #
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Turn on debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Display the header information in <filename>flowfile</filename>
+    <command>flow-header < <filename>flowfile</filename></command>
+</para>
+</informalexample>
+<screen>
+#
+# mode:                 normal
+# capture hostname:     foo.bar
+# exporter IP address:  10.0.0.1
+# capture start:        Wed May  1 23:45:02 2001
+# compress:             on
+# byte order:           little
+# stream version:       3
+# export version:       5
+# lost flows:           480
+# corrupt packets:      0
+# sequencer resets:     0
+# capture end:          Thu May  2 00:00:01 2001
+# capture flows:        65880
+</screen>
+</refsect1>
+<refsect1>
+<title>BUGS</title>
+<para>
+None known.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

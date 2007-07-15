@@ -1,0 +1,302 @@
+<HTML
+><HEAD
+><TITLE
+>flow-mask</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-mask</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-mask</SPAN
+>&nbsp;--&nbsp;Apply tags to flow files.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-mask</B
+>  [-hk] [-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+>] [-C<TT
+CLASS="REPLACEABLE"
+><I
+> comment</I
+></TT
+>] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-m<TT
+CLASS="REPLACEABLE"
+><I
+> mask_fname</I
+></TT
+>] [-M<TT
+CLASS="REPLACEABLE"
+><I
+> active_def</I
+></TT
+>...]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN25"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-mask</B
+> utility is used to modify the
+source and destination mask length's in flow records.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN29"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+></DT
+><DD
+><P
+>Byte order of output.</P
+></DD
+><DT
+>-C<TT
+CLASS="REPLACEABLE"
+><I
+> Comment</I
+></TT
+></DT
+><DD
+><P
+>Add a comment.</P
+></DD
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-k</DT
+><DD
+><P
+>Keep time from input.</P
+></DD
+><DT
+>-m<TT
+CLASS="REPLACEABLE"
+><I
+> mask_fname</I
+></TT
+></DT
+><DD
+><P
+>Load masks from <TT
+CLASS="FILENAME"
+>mask_name</TT
+>.  Defaults to 
+<TT
+CLASS="FILENAME"
+>@localstatedir@/cfg/mask</TT
+></P
+></DD
+><DT
+>-M<TT
+CLASS="REPLACEABLE"
+><I
+> mask_def</I
+></TT
+></DT
+><DD
+><P
+>Use <TT
+CLASS="REPLACEABLE"
+><I
+>active_def</I
+></TT
+> as the active tag definition(s).</P
+></DD
+></DL
+></DIV
+><P
+></P
+><P
+>The configuration file is a collection of definitions.  A definition
+lists a sequence of prefixes and the mask length to replace the matching
+prefix with.
+Lines begining with # are treated as comments and ignored.</P
+><P
+><PRE
+CLASS="SCREEN"
+>mask-definition command             Description
+----------------------------------------------------------------------
+mask-definition                     Begin mask-definition section
+                                    mask-definition foo
+
+prefix                              List the prefix to match on and the
+                                    replacement mask.
+                                    prefix 128.146/16 24&#13;</PRE
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN73"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN75"
+></A
+><P
+></P
+><PRE
+CLASS="PROGRAMLISTING"
+>#
+#file: masks
+#
+mask-definition foo
+# All networks in 128.146/16 are /24's.
+ prefix 128.146/16 24
+# except for 128.146.214/24, which are /32's.
+ prefix 128.146.214/24 32</PRE
+><P
+><B
+CLASS="COMMAND"
+>flow-cat <TT
+CLASS="FILENAME"
+>flows</TT
+> | flow-mask -mfoo -Fmasks | flow-print -f4</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN80"
+></A
+><H2
+>FILES</H2
+><P
+>  Configuration files:
+    Mask - <TT
+CLASS="FILENAME"
+>@localstatedir@/cfg/mask.cfg</TT
+>.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN84"
+></A
+><H2
+>BUGS</H2
+><P
+>None known.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN87"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN94"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

@@ -1,0 +1,613 @@
+<HTML
+><HEAD
+><TITLE
+>flow-tag</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-tag</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-tag</SPAN
+>&nbsp;--&nbsp;Apply tags to flow files.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-tag</B
+>  [-hk] [-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+>] [-C<TT
+CLASS="REPLACEABLE"
+><I
+> comment</I
+></TT
+>] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-t<TT
+CLASS="REPLACEABLE"
+><I
+> tag_fname</I
+></TT
+>] [-T<TT
+CLASS="REPLACEABLE"
+><I
+> tag_definition</I
+></TT
+>] [-v<TT
+CLASS="REPLACEABLE"
+><I
+> variable binding</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN27"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-tag</B
+> utility is used to add or modify
+source and destination tags in flow records.  Tags are 32 bit 
+identifiers derived from rules and fields in a flow record.  Tags
+can be used to group flows with common prefixes, autonomous systems,
+next hops, exporter id and/or input/output interface.
+<B
+CLASS="COMMAND"
+>flow-stat</B
+> can be used with tagged flows to produce
+group based reports.  For example, all outbound traffic for a customer
+where the customer is defined by a list of IP prefixes.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN32"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-b<TT
+CLASS="REPLACEABLE"
+><I
+> big</I
+></TT
+>|<TT
+CLASS="REPLACEABLE"
+><I
+>little</I
+></TT
+></DT
+><DD
+><P
+>Byte order of output.</P
+></DD
+><DT
+>-C<TT
+CLASS="REPLACEABLE"
+><I
+> Comment</I
+></TT
+></DT
+><DD
+><P
+>Add a comment.</P
+></DD
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-k</DT
+><DD
+><P
+>Keep time from input.</P
+></DD
+><DT
+>-t<TT
+CLASS="REPLACEABLE"
+><I
+> tag_fname</I
+></TT
+></DT
+><DD
+><P
+>Load tags from <TT
+CLASS="FILENAME"
+>tag_name</TT
+>.  Defaults to 
+<TT
+CLASS="FILENAME"
+>@localstatedir@/cfg/tag</TT
+></P
+></DD
+><DT
+>-T<TT
+CLASS="REPLACEABLE"
+><I
+> active_def</I
+></TT
+>|</DT
+><DD
+><P
+>Use <TT
+CLASS="REPLACEABLE"
+><I
+>active_def</I
+></TT
+> as the active tag definition(s).</P
+></DD
+><DT
+>-v<TT
+CLASS="REPLACEABLE"
+><I
+> variable binding</I
+></TT
+></DT
+><DD
+><P
+>Set a variable FOO=bar.</P
+></DD
+></DL
+></DIV
+><P
+></P
+><P
+>The configuration file is a collection of actions and definitions.  An
+action is triggered by a definition and a definition is invoked only
+if listed with the <TT
+CLASS="REPLACEABLE"
+><I
+>-T</I
+></TT
+> flag.  Lines begining
+with # are treated as comments and ignored.</P
+><P
+>Words in the configuration file of the form @VAR or @{VAR:default} will be
+expanded at run-time by setting variable names with the -v option.</P
+><P
+><PRE
+CLASS="SCREEN"
+>tag-action command            Description/Example
+----------------------------------------------------------------------
+tag-action                    Begin tag-action section
+                              tag-action foo
+
+type                          Configure the type of action, one of
+                              source-prefix, destination-prefix, prefix,
+                              source-as, destination-as, as, next-hop,
+                              tcp-source-port, tcp-destination-port,
+                              tcp-port, udp-source-port,
+                              udp-destination-port, udp-port,
+                              tos, exporter, source-ip-address,
+                              destination-ip-address, ip-address,
+                              input-interface, output-interface,
+                              interface, any.
+                              type src-prefix
+
+match                         Match criteria.  The match condition
+                              depends on the type.  Following the
+                              match condition is one of
+                              set-destination, set-source,
+                              or-destination, or-source to
+                              set or logically or a value to the
+                              source or destination tag.
+                              match 128.146/16 set-destination 0x010001
+
+Multiple actions may match and set tags on the same flow.  Note that
+listing many actions will cause tags to be applied in O(actions) time.
+The actions try to run in O(1) time.  For example if 10 prefixes are
+listed in a single action it will take about the same CPU as if 100
+prefixes are used.  Listing 100 actions will require 100 times the
+CPU as 1 action.
+
+
+tag-action types                    Description
+----------------------------------------------------------------------
+
+source-prefix                       Source Prefix
+
+destination-prefix                  Destination Prefix
+
+prefix                              Source or Destination Prefix
+
+source-as                           Source AS
+
+destination-as                      Destination AS
+
+as                                  Source or Destination AS
+
+next-hop                            IP Next Hop
+
+tcp-source-port                     TCP Source Port
+
+tcp-destination-port                TCP Destination Port
+
+tcp-port                            TCP Source or Destination Port
+
+udp-source-port                     UDP Source Port
+
+udp-destination-port                UDP Destination Port
+
+udp-port                            UDP Source or Destination Port
+
+tos                                 Type of Service
+
+exporter                            Exporter IP Address
+
+source-ip-address                   Source IP Address
+
+destination-ip-address              Destination IP Address
+
+ip-address                          Source or Destination IP Address
+
+input-interface                     Input Interface
+
+output-interface                    Output Interface
+
+interface                           Input or Output Interface
+
+any                                 Match any flows
+
+
+tag-action matches                  Description
+----------------------------------------------------------------------
+
+set-destination                     Set the destination tag, replacing
+                                    any previous tag.
+
+set-source                          Set the source tag, replacing any
+                                    previous tag.
+
+or-destination                      Logically or this value to the
+                                    existing destination tag
+
+or-source                           Logically or this value to the
+                                    existing source tag
+&#13;</PRE
+></P
+><P
+>A definition lists a set of actions which are evaluated if the filter
+criteria is met.  Each definition is built with terms.  A term has
+its action(s) evaluated if the filter is passed.
+<PRE
+CLASS="SCREEN"
+>definition command                  Description/Example
+-----------------------------------------------------------------------
+tag-definition                      Begin tag-defintion secrion
+                                    tag-definition bar
+
+term                                Begin a list of actions to be
+                                    evaluated that match the filter
+                                    rule.
+                                    term
+
+input-filter                        List of input ifIndexes the flow
+                                    must match.
+                                    input-filter 1,2,3,4
+
+output-filter                       List of output ifIndexes the flow
+                                    must match.
+                                    output-filter 1,2,3,4
+
+exporter                            IP address of exporter the flow must
+                                    match.
+                                    exporter 1.2.3.4
+
+action                              Name of action to evaluate.  Actions
+                                    are evaluated in the order they
+                                    appear in a definition.
+                                    action foo&#13;</PRE
+></P
+><P
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN86"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN88"
+></A
+><P
+></P
+><P
+>The meaning of a tag is user defined.  The following example uses 
+16 bits of a tag as a customer ID and 4 bits as a customer type.
+<B
+CLASS="COMMAND"
+>flow-xlate</B
+> can be used to apply a mask to these
+fields.
+<PRE
+CLASS="PROGRAMLISTING"
+># file: gigapop-tags
+# tag format
+# 
+# 0       7         15        23        31
+# 0000 0000 0000 0000 0000 0000 0000 0000 (32 bits)
+# RRRRRRRRRRRRRR TTTT NNNNNNNNNNNNNNNNNNN
+#              |    |                   | Site name
+#              |    | Site type
+#              | Reserved
+#
+#
+# SITE_NAME_MASK = 0x0000FFFF  
+# SITE_TYPE_MASK = 0x00FF0000
+#
+# ID             Name
+#---------------------------------
+# 0x0001         OSU
+# 0x0002         CWRU
+# 0x0003         BGSU   
+# ... etc
+# 0x0019         MULTICAST
+#
+# ID             Type  
+#------------------------
+# 0x01         Participant
+# 0x02         SEGP
+# 0x03         Sponsored-Participant
+# 0x04         Gigapop
+# 0x05         MULTICAST
+
+tag-action OHIO-GIGAPOP_DST
+ type destination-prefix
+# OSU
+ match 128.146/16 set-destination     0x010001
+ match 164.107/16 set-destination     0x010001
+ match 140.254/16 set-destination     0x010001
+ match 192.153.26/24 set-destination  0x010001
+# CWRU
+ match 129.22/16 set-destination      0x010002
+ match 192.5.110/24 set-destination   0x010002
+# BGSU
+ match 129.1/16 set-destination       0x010003
+# ...etc
+# MULTICAST
+ match 224/4 set-destination 0x050019
+
+tag-action OHIO-GIGAPOP_SRC
+ type source-prefix
+# OSU
+ match 128.146/16 set-source     0x010001
+ match 164.107/16 set-source     0x010001
+ match 140.254/16 set-source     0x010001
+ match 192.153.26/24 set-source  0x010001
+# CWRU
+ match 129.22/16 set-source      0x010002
+ match 192.5.110/24 set-source   0x010002
+# BGSU
+ match 129.1/16 set-source       0x010003
+# ...etc
+
+tag-action OTHER_DST
+ type destination-prefix
+ match 0/0 set-destination 0x0
+ 
+tag-action OTHER_SRC
+ type source-prefix
+ match 0/0 set-source 0x0
+
+tag-definition OHIO-GIGAPOP
+ term
+# Abilene interface
+ input-filter 25
+# clear tag first -- it defaults to 0, so this may not be necessary.
+ action OTHER_DST
+ action OHIO-GIGAPOP_DST
+ term
+# Abilene interface
+ output-filter 25
+# clear tag first -- it defaults to 0, so this may not be necessary.
+ action OTHER_SRC
+ action OHIO-GIGAPOP_SRC&#13;</PRE
+></P
+><P
+>First populate <TT
+CLASS="FILENAME"
+>@localstatedir@/sym/tag</TT
+> for <B
+CLASS="COMMAND"
+>flow-stat</B
+> to use as symbols.
+<PRE
+CLASS="PROGRAMLISTING"
+>0x0001 OSU
+0x0002 CWRU
+0x0003 BGSU
+0x0019 MULTICAST
+0x010000 PART
+0x020000 SEGP
+0x030000 SPART
+0x040000 GIGAPOP
+0x050000 MULTICAST</PRE
+></P
+><P
+>To generate a report for outgoing traffic to Abilene based on customer ID:
+<PRE
+CLASS="PROGRAMLISTING"
+>flow-cat <TT
+CLASS="FILENAME"
+>flows</TT
+> | flow-filter -I25 | flow-tag -t gigapop-tags -TOHIO-GIGAPOP | flow-xlate -t0x0000FFFF | flow-stat -n -f30 -S2</PRE
+>
+<PRE
+CLASS="SCREEN"
+>#  --- ---- ---- Report Information --- --- ---
+#
+# Fields:    Total
+# Symbols:   Enabled
+# Sorting:   Descending Field 2
+# Name:      Source Tag
+#
+# Args:      ../flow-stat -n -f30 -S2 
+#
+#
+# Src Tag   flows                 octets                packets
+#
+OSU         4942230               181326237007          302476793
+CWRU        874883                54358312807           70589318
+BGSU        1008797               7600209852            22060870</PRE
+></P
+><P
+>To generate a report for inbound traffic from Abilene based on customer type:
+<PRE
+CLASS="PROGRAMLISTING"
+>flow-cat <TT
+CLASS="FILENAME"
+>flows</TT
+> | flow-filter -i25 | flow-tag -t gigapop-tags -TOHIO-GIGAPOP | flow-xlate -T0xFF0000 | flow-stat -n -f31 -S2</PRE
+>
+<PRE
+CLASS="SCREEN"
+>#  --- ---- ---- Report Information --- --- ---
+#
+# Fields:    Total
+# Symbols:   Enabled
+# Sorting:   Descending Field 2
+# Name:      Destination Tag
+#
+# Args:      ../flow-stat -n -f31 -S2 
+#
+#
+# Dst Tag   flows                 octets                packets
+#
+PART        15923156              663289954569          981163979
+SEGP        4995795               135525076170          196534917
+MULTICAST   45171                 49866825003           137798118
+GIGAPOP     942209                26422533266           23199961
+SPART       73998                 5170323905            7597985</PRE
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN104"
+></A
+><H2
+>FILES</H2
+><P
+>  Configuration files:
+    Symbols - <TT
+CLASS="FILENAME"
+>@localstatedir@/sym/*</TT
+>.
+    Tag - <TT
+CLASS="FILENAME"
+>@localstatedir@/cfg/tag.cfg</TT
+>.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN109"
+></A
+><H2
+>BUGS</H2
+><P
+>None known.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN112"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN119"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

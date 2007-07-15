@@ -1,0 +1,394 @@
+<HTML
+><HEAD
+><TITLE
+>flow-export</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-export</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-export</SPAN
+>&nbsp;--&nbsp;Export flow-tools files into other NetFlow packages.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-export</B
+>  [-h] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-f<TT
+CLASS="REPLACEABLE"
+><I
+> format</I
+></TT
+>] [-m<TT
+CLASS="REPLACEABLE"
+><I
+> mask_fields</I
+></TT
+>] [-u<TT
+CLASS="REPLACEABLE"
+><I
+> user:password:host:port:name:table</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN22"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-export</B
+> utility will convert flow-tools
+flow files to ASCII CSV, cflowd, pcap, wire, mySQL, and PGSQL format.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN26"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-f<TT
+CLASS="REPLACEABLE"
+><I
+> format</I
+></TT
+></DT
+><DD
+><P
+>Export format.  Supported formats are:
+  0 cflowd
+  1 pcap
+  2 ASCII CSV
+  3 MySQL
+  4 wire
+  5 PGSQL</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-m<TT
+CLASS="REPLACEABLE"
+><I
+> mask_fields</I
+></TT
+></DT
+><DD
+><P
+>Select fields for MySQL, PostgresSQL, cflowd, and ASCII formats.  The
+<TT
+CLASS="REPLACEABLE"
+><I
+>mask_fields</I
+></TT
+>
+is built from a bitwise OR of the following:</P
+><P
+><PRE
+CLASS="SCREEN"
+>    UNIX_SECS       0x0000000000000001LL
+    UNIX_NSECS      0x0000000000000002LL
+    SYSUPTIME       0x0000000000000004LL
+    EXADDR          0x0000000000000008LL
+    
+    DFLOWS          0x0000000000000010LL
+    DPKTS           0x0000000000000020LL
+    DOCTETS         0x0000000000000040LL
+    FIRST           0x0000000000000080LL
+    
+    LAST            0x0000000000000100LL
+    ENGINE_TYPE     0x0000000000000200LL
+    ENGINE_ID       0x0000000000000400LL
+    
+    SRCADDR         0x0000000000001000LL
+    DSTADDR         0x0000000000002000LL
+    SRC_PREFIX      0x0000000000004000LL
+    DST_PREFIX      0x0000000000008000LL
+    NEXTHOP         0x0000000000010000LL
+    INPUT           0x0000000000020000LL
+    OUTPUT          0x0000000000040000LL
+    SRCPORT         0x0000000000080000LL
+    
+    DSTPORT         0x0000000000100000LL
+    PROT            0x0000000000200000LL
+    TOS             0x0000000000400000LL
+    TCP_FLAGS       0x0000000000800000LL
+    
+    SRC_MASK        0x0000000001000000LL
+    DST_MASK        0x0000000002000000LL
+    SRC_AS          0x0000000004000000LL
+    DST_AS          0x0000000008000000LL
+    
+    IN_ENCAPS       0x0000000010000000LL
+    OUT_ENCAPS      0x0000000020000000LL
+    PEER_NEXTHOP    0x0000000040000000LL
+    ROUTER_SC       0x0000000080000000LL
+    EXTRA_PKTS      0x0000000100000000LL
+    MARKED_TOS      0x0000000200000000LL</PRE
+></P
+><P
+>When exporting to cflowd format the <TT
+CLASS="REPLACEABLE"
+><I
+>mask_fields</I
+></TT
+>
+field is the cflowd mask which is defined as the following:</P
+><P
+><PRE
+CLASS="SCREEN"
+>    ROUTERMASK         0x00000001
+    SRCIPADDRMASK      0x00000002
+    DSTIPADDRMASK      0x00000004
+    INPUTIFINDEXMASK   0x00000008
+    OUTPUTIFINDEXMASK  0x00000010
+    SRCPORTMASK        0x00000020
+    DSTPORTMASK        0x00000040
+    PKTSMASK           0x00000080
+    BYTESMASK          0x00000100
+    IPNEXTHOPMASK      0x00000200
+    STARTTIMEMASK      0x00000400
+    ENDTIMEMASK        0x00000800
+    PROTOCOLMASK       0x00001000
+    TOSMASK            0x00002000
+    SRCASMASK          0x00004000
+    DSTASMASK          0x00008000
+    SRCMASKLENMASK     0x00010000
+    DSTMASKLENMASK     0x00020000
+    TCPFLAGSMASK       0x00040000
+    INPUTENCAPMASK     0x00080000
+    OUTPUTENCAPMASK    0x00100000
+    PEERNEXTHOPMASK    0x00200000
+    ENGINETYPEMASK     0x00400000
+    ENGINEIDMASK       0x00800000
+    
+    INDEX_V1_MASK      0x00043FFF
+    INDEX_V5_MASK      0x00C7FFFF
+    INDEX_V6_MASK      0x00FFFFFF
+    INDEX_V7_MASK      0x00C7FFFF
+    INDEX_V8_1_MASK    0x00C0CD99
+    INDEX_V8_2_MASK    0x00C00DE1
+    INDEX_V8_3_MASK    0x00C14D8B
+    INDEX_V8_4_MASK    0x00C28D95
+    INDEX_V8_5_MASK    0x00C3CD9F</PRE
+> </P
+><P
+>The default value is all fields applicable to the the flow file, or
+the cflowd INDEX mask applicabable to the export format.</P
+></DD
+><DT
+>-u<TT
+CLASS="REPLACEABLE"
+><I
+> user:password:host:port:name:table</I
+></TT
+></DT
+><DD
+><P
+>Configure MySQL or PostgresSQL Access.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN61"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN63"
+></A
+><P
+></P
+><P
+>Convert the flow-tools file <TT
+CLASS="FILENAME"
+>flows</TT
+> to the cflowd
+file <TT
+CLASS="FILENAME"
+>flows.cflowd</TT
+>.  Include all fields.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-export -f0 &lt; flows &#62; flows.cflowd</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN69"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN71"
+></A
+><P
+></P
+><P
+>Convert the flow-tools file <TT
+CLASS="FILENAME"
+>flows</TT
+> to the ASCII.  Include
+the SRCADDR and DSTADDR fields.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-export -f2 -m0x3000 &lt; flows &#62; flows.ascii</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN76"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN78"
+></A
+><P
+></P
+><P
+>Export the flow-tools file <TT
+CLASS="FILENAME"
+>flows</TT
+> to an MySQL Database.
+Include only SRCADDR, DSTADDR and DOCTETS.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-export -f3 -mSRCADDR,DSTADDR,DOCTETS -u "user:password:host:port:name:table" &lt; flows </B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN83"
+></A
+><H2
+>BUGS</H2
+><P
+>The pcap format is a hack.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN86"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+><P
+>Database Support:
+William Emmanuel Yu
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:wyu@ateno.edu"
+>wyu@ateno.edu</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN98"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

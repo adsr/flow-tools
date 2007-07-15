@@ -1,0 +1,44 @@
+
+!
+! permit anything
+!
+ip access-list standard all permit any
+
+ip access-list extended ext1 permit ip any any
+
+!
+! 
+!
+!ip access-list extended bedbugs_out deny tcp host 128.146.222.2 host 128.146.1.7
+ip access-list extended bedbugs_out permit tcp host 128.146.222.2 any
+
+ip access-list extended bedbugs_icmp permit icmp host 128.146.222.2 any
+
+ip access-list standard bb_out permit host 128.146.222.2
+!
+! permit OSU
+!
+ip access-list standard osu permit 128.146.0.0 0.0.255.255
+ip access-list standard osu permit 140.254.0.0 0.0.255.255
+ip access-list standard osu permit 164.107.0.0 0.0.255.255
+ip access-list standard osu permit 131.167.0.0 0.0.255.255
+ip access-list standard osu deny any
+
+!
+! permit anything other than OSU
+!
+ip access-list standard notosu deny 128.146.0.0 0.0.255.255
+ip access-list standard notosu deny 140.254.0.0 0.0.255.255
+ip access-list standard notosu deny 164.107.0.0 0.0.255.255
+ip access-list standard notosu deny 131.167.0.0 0.0.255.255
+ip access-list standard notosu permit any
+
+!
+! permit OSU homenet
+!
+ip access-list standard homenet permit 140.254.112.0 0.0.0.255
+ip access-list standard homenet permit 140.254.113.0 0.0.0.255
+ip access-list standard homenet permit 140.254.114.0 0.0.0.255
+ip access-list standard homenet permit 140.254.115.0 0.0.0.255
+ip access-list standard homenet deny any 
+

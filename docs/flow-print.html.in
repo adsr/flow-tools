@@ -1,0 +1,285 @@
+<HTML
+><HEAD
+><TITLE
+>flow-print</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-print</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-print</SPAN
+>&nbsp;--&nbsp;Display flows in formatted ASCII.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-print</B
+>  [-hlnpw] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-f<TT
+CLASS="REPLACEABLE"
+><I
+> format</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN18"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-print</B
+> utility will display flow data in
+ASCII using pre-defined formats selectable with -f.
+
+<P
+CLASS="LITERALLAYOUT"
+>Some&nbsp;of&nbsp;the&nbsp;less&nbsp;descriptive&nbsp;column&nbsp;headers&nbsp;are&nbsp;defined&nbsp;below<br>
+<br>
+Header&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Description<br>
+-------------------------------<br>
+Sif&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source&nbsp;Interface&nbsp;ifIndex.<br>
+DiF&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination&nbsp;Interface&nbsp;ifIndex.<br>
+Pr&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protocol.<br>
+P&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Protocol.<br>
+SrcP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source&nbsp;Port.<br>
+DstP&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination&nbsp;Port.<br>
+Pkts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Packets.<br>
+Octets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Octets&nbsp;(Bytes).<br>
+Active&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;in&nbsp;ms&nbsp;the&nbsp;flow&nbsp;was&nbsp;active.<br>
+B/Pk&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Bytes&nbsp;per&nbsp;Packet.<br>
+Ts&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Type&nbsp;of&nbsp;Service.<br>
+Fl&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flags,&nbsp;for&nbsp;TCP&nbsp;the&nbsp;cumulative&nbsp;or&nbsp;of&nbsp;the&nbsp;TCP&nbsp;control&nbsp;bits.<br>
+srcAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Source&nbsp;AS.<br>
+dstAS&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Destination&nbsp;AS.<br>
+Start&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Start&nbsp;time&nbsp;of&nbsp;the&nbsp;flow.<br>
+End&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;End&nbsp;time&nbsp;of&nbsp;the&nbsp;flow.<br>
+router_sc&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V7&nbsp;IP&nbsp;address&nbsp;of&nbsp;router&nbsp;producing&nbsp;shorcuts.<br>
+peer_nexthop&nbsp;&nbsp;V6&nbsp;IP&nbsp;address&nbsp;of&nbsp;peer&nbsp;next&nbsp;hop&nbsp;IP&nbsp;address.<br>
+encap&nbsp;i/o&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Version&nbsp;6&nbsp;only.&nbsp;&nbsp;Encapsulation&nbsp;size&nbsp;in/out<br>
+duration&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Time&nbsp;in&nbsp;ms&nbsp;the&nbsp;flow&nbsp;was&nbsp;active.<br>
+input&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Input&nbsp;Interface&nbsp;ifIndex.<br>
+output&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Output&nbsp;Interface&nbsp;ifIndex.<br>
+flows&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Number&nbsp;of&nbsp;aggregated&nbsp;flows.<br>
+mTos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V8.x&nbsp;ToS&nbsp;of&nbsp;pkts&nbsp;that&nbsp;exceeded&nbsp;the&nbsp;contract.<br>
+xpackets&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;V8.x&nbsp;Packets&nbsp;that&nbsp;exceed&nbsp;the&nbsp;contract.</P
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN23"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-f<TT
+CLASS="REPLACEABLE"
+><I
+> format</I
+></TT
+></DT
+><DD
+><P
+>Select format.  The default is appropriate for the export type of the
+flow data.  Available formats are:
+<P
+CLASS="LITERALLAYOUT"
+>&nbsp;&nbsp;&nbsp;&nbsp;0&nbsp;1&nbsp;line,&nbsp;interfaces,&nbsp;hex&nbsp;ports<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;2&nbsp;line&nbsp;(includes&nbsp;timing&nbsp;and&nbsp;flags)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;2&nbsp;line&nbsp;candidate&nbsp;TCP&nbsp;syn&nbsp;attack&nbsp;flows<br>
+&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;1&nbsp;line,&nbsp;no&nbsp;interfaces,&nbsp;decimal&nbsp;ports<br>
+&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;1&nbsp;line&nbsp;with&nbsp;AS&nbsp;number<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;1&nbsp;line,&nbsp;132&nbsp;column<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;show&nbsp;ip&nbsp;accounting&nbsp;emulation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;1&nbsp;line,&nbsp;132&nbsp;column&nbsp;+router_id<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;1&nbsp;line,&nbsp;132&nbsp;column&nbsp;+encapsulation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;1&nbsp;line&nbsp;with&nbsp;tag&nbsp;values<br>
+&nbsp;&nbsp;&nbsp;10&nbsp;AS&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;11&nbsp;Protocol&nbsp;Port&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;12&nbsp;Source&nbsp;Prefix&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;13&nbsp;Destination&nbsp;Prefix&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;14&nbsp;Prefix&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;15&nbsp;Destination&nbsp;aggregation&nbsp;(Catalyst)<br>
+&nbsp;&nbsp;&nbsp;16&nbsp;Source&nbsp;Destination&nbsp;aggregation&nbsp;(Catalyst)<br>
+&nbsp;&nbsp;&nbsp;17&nbsp;Full&nbsp;Flow&nbsp;(Catalyst)<br>
+&nbsp;&nbsp;&nbsp;18&nbsp;ToS&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;19&nbsp;ToS&nbsp;Proto&nbsp;Port&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;20&nbsp;ToS&nbsp;Source&nbsp;Prefix&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;21&nbsp;ToS&nbsp;Destination&nbsp;Prefix&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;22&nbsp;ToS&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;23&nbsp;ToS&nbsp;Prefix&nbsp;Port&nbsp;aggregation<br>
+&nbsp;&nbsp;&nbsp;24&nbsp;Full&nbsp;(Catalyst)</P
+></P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-l</DT
+><DD
+><P
+>Unbuffer output.</P
+></DD
+><DT
+>-n</DT
+><DD
+><P
+>Use symbolic names where appropriate.</P
+></DD
+><DT
+>-p</DT
+><DD
+><P
+>Display header information.</P
+></DD
+><DT
+>-w</DT
+><DD
+><P
+>Wide output.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN57"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN59"
+></A
+><P
+></P
+><P
+>Display flows in <TT
+CLASS="FILENAME"
+>flowfile</TT
+></P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-print &lt; flowfile</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN64"
+></A
+><H2
+>FILES</H2
+><P
+>  Configuration files:
+    Symbols - <TT
+CLASS="FILENAME"
+>@localstatedir@/sym/*</TT
+>.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN68"
+></A
+><H2
+>BUGS</H2
+><P
+>None known.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN71"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN78"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

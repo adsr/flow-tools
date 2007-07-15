@@ -1,0 +1,247 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-cat</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-cat</application>
+</refname>
+<refpurpose>
+Concatenate flow files
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-cat</command>
+<arg>-aghmp</arg>
+<arg>-b<replaceable> big</replaceable>|<replaceable>little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-o<replaceable> filename</replaceable></arg>
+<arg>-t<replaceable> start_time</replaceable></arg>
+<arg>-T<replaceable> start_time</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+<arg rep="repeat"><replaceable>file</replaceable>|<replaceable>directory</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-cat</command> utility processes files and/or directories
+of files in the flow-tools format.  The resulting concatenated data set is
+written to the standard output or <filename>file</filename> specified by
+<option>-o</option>.  If <filename>file</filename> is a single dash (`-')
+or absent, flow-cat will read from the standard input.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-a</term>
+<listitem>
+<para>
+Do not ignore filenames that begin with <filename>tmp</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-g</term>
+<listitem>
+<para>
+Sort file list by capture start time before processing.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-m</term>
+<listitem>
+<para>
+Disable the use of mmap().
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p</term>
+<listitem>
+<para>
+Preload headers.  Use to preserve meta information such as lost flows.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-o<replaceable> file</replaceable></term>
+<listitem>
+<para>
+Write to <filename>file</filename> instead of the standard out.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-t<replaceable> start_time</replaceable></term>
+<listitem>
+<para>
+Select flow files up to <replaceable>start_time</replaceable>.  If used with
+-T select files between <replaceable>start_time</replaceable> and
+<replaceable>end_time</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-T<replaceable> end_time</replaceable></term>
+<listitem>
+<para>
+Select flow files after <replaceable>end_time</replaceable>.  If used with
+-t select files between <replaceable>start_time</replaceable> and
+<replaceable>end_time</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term><replaceable>file</replaceable>|<replaceable>directory...</replaceable></term>
+<listitem>
+<para>
+Process the files and/or directory.
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>TIME/DATE parsing</title>
+<para>
+start_time and end_time parsing is implemented with
+<filename>getdate.y</filename>, a commonly used function to process free-form
+time date specifications.  Example usage borrowed from <command>cvs</command>:
+    1 month ago
+    2 hours ago
+    400000 seconds ago
+    last year
+    last Monday
+    yesterday
+    a fortnight ago
+    3/31/92 10:00:07 PST
+    January 23, 1987 10:05pm
+    22:00 GMT
+</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Concatenate all flow files begining with ft-v05.2001-05.01, use 
+flow-print to display the results.
+</para>
+<para>
+    <command>flow-cat ft-v05.2001-05-01.* | flow-print</command>
+</para>
+</informalexample>
+
+<informalexample>
+<para>
+Concatenate flow files in <filename>/flows/krc4</filename>, store
+store the output in <filename>compressed.flows</filename> at compression
+level 9 (best).  The headers are preloaded so various metadata such
+as the flow count is correct in the result.  Filenames begining with
+<filename>tmp</filename> which are typically in-progress flow files
+from <application>flow-capture</application> are not processed.
+</para>
+<para>
+    <command>flow-cat -p -z9 /flows/krc4 > compressed.flows</command>
+</para>
+</informalexample>
+
+</refsect1>
+
+
+<refsect1>
+<title>BUGS</title>
+<para>
+None known.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

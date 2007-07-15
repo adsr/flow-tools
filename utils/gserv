@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+#
+# convert unix /etc/services format to flow-tools
+#
+
+while (<>) {
+
+  chomp;
+
+  next if (/^\s*#/);
+
+  @f = split;
+
+  ($f[1]) = split(/\//, $f[1]);
+
+  $serv{$f[1]} = $f[0];
+
+}
+
+foreach $key (sort numerically keys(%serv)) {
+  print "$key $serv{$key}\n";
+}
+
+sub numerically { $a <=> $b; }
+

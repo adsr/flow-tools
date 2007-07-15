@@ -1,0 +1,153 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-expire</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-expire</application>
+</refname>
+<refpurpose>
+Manage storage of flow file archives by expiring old data.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-expire</command>
+<arg>-h</arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-e<replaceable> expire_count</replaceable></arg>
+<arg>-E<replaceable> expire_size</replaceable></arg>
+<arg choice="req">-w<replaceable> workdir</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-expire</command> utility will remove the oldest flow files
+in a directory based on either a count of files or space utilization.  The
+directory is recursively searched for flow files.  Files that do not have a
+flow-tools signature will be ignored.  The internal timestamp is used so
+backups or copies of the flow files that do not retain the original
+timestamp will not impact the operation of <command>flow-expire</command>. 
+<command>flow-expire</command> is typically used to manage storage in
+a distributed environment where flows are collected on a different
+server than they are archived.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-e<replaceable> expire_count</replaceable></term>
+<listitem>
+<para>
+Retain the maximum number of files so that the total file count is
+less than <replaceable>expire_count</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-E<replaceable> expire_size</replaceable></term>
+<listitem>
+<para>
+Retain the maximum number of files so that the total storage is less
+than <replaceable>expire_size</replaceable>.  The letters b,K,M,G can
+be used as multipliers, ie 16 Megabytes is 16M.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-w<replaceable> workdir</replaceable></term>
+<listitem>
+<para>
+Work in <filename>workdir</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+
+<informalexample>
+<para>
+Remove the oldest flow files in <filename>/flows/krc4</filename> until
+the total storage is less then 2 Gigabytes.
+</para>
+<para>
+  <command>flow-expire -E2Gig -w /flows/krc4</command>
+</para>
+</informalexample>
+
+<informalexample>
+<para>
+Remove the oldest flow files in <filename>/flows/krc4</filename> until
+the total number of files is less then 100.
+</para>
+<para>
+  <command>flow-expire -e100 -w /flows/krc4</command>
+</para>
+</informalexample>
+
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+Empty directories are not removed.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

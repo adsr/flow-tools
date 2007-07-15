@@ -1,0 +1,97 @@
+#!/usr/local/bin/python
+
+import getopt
+import os
+import rrdtool
+import sys
+import string
+
+#
+# process syslog output from flow-capture and flow-fanout into a rrd
+# Requires flow-tools-0.66 or above.
+#
+# -p allows configuration of the path to the rrd file
+#
+# rrd's have a DS of flows, pkts, and lost.  When processing the output of
+# flow-fanout an additional send_nobufs DS is used.
+#
+
+# default to cwd
+rrdPath = '.'
+
+opts, args = getopt.getopt(sys.argv[1:], 'p:')
+
+for o, v in opts:
+  if o == '-p' :
+    rrdPath = v;
+
+testFile = {}
+line = sys.stdin.readline()
+
+while line :
+
+  fields = line.split()
+
+  if (len(fields) < 6) or (fields[5] != 'STAT:'):
+    line = sys.stdin.readline()
+    continue
+
+  if fields[4][5:11] == 'fanout' :
+    name='fanout'
+  elif fields[4][5:12] == 'capture' :
+    name='capture'
+  else :
+    raise ValueError, "Expecting flow-capture or flow-fanout logs, got %s" %\
+      fields[4]
+
+  tv = {}
+  for f in fields :
+    try :
+      type, value = f.split('=')
+    except ValueError :
+      continue
+
+    tv[type] = value
+
+
+  rrdFile = '%s/%s.%s.%s.%s.%s.rrd' %\
+    (rrdPath, name, fields[3],tv['src_ip'],tv['dst_ip'],tv['d_ver'])
+
+  update = '%s:%s:%s:%s' % (tv['now'],tv['flows'],tv['pkts'],tv['lost'])
+
+  if name == 'fanout' :
+    update = '%s:%s' % (update, tv['send_nobufs'])
+
+  if not testFile.get(rrdFile, 0):
+
+    if not os.access(rrdFile, os.F_OK) :
+
+      print 'Creating RRD ', rrdFile
+
+      if name == 'capture' :
+
+# 7 days of 5 minute averages (no averaging)
+# 365 days of 1 day averages
+        rrdtool.create(rrdFile, '--start', str(int(tv['now']) - 300),
+          'DS:flows:COUNTER:600:U:U',
+          'DS:pkts:COUNTER:600:U:U',
+          'DS:lost:COUNTER:600:U:U',
+          'RRA:AVERAGE:0.5:1:2016',
+          'RRA:AVERAGE:0.5:288:365')
+        testFile[rrdFile] = 1
+
+      elif (name == 'fanout') :
+
+        rrdtool.create(rrdFile, '--start', str(int(tv['now']) - 300),
+          'DS:flows:COUNTER:600:U:U',
+          'DS:pkts:COUNTER:600:U:U',
+          'DS:lost:COUNTER:600:U:U',
+          'DS:nobufs:COUNTER:600:U:U',
+          'RRA:AVERAGE:0.5:1:2016',
+          'RRA:AVERAGE:0.5:288:365')
+        testFile[rrdFile] = 1
+
+  rrdtool.update(rrdFile, update)
+
+  line = sys.stdin.readline()
+

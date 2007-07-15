@@ -1,0 +1,116 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-gen\fP" "1"
+.SH "NAME"
+\fBflow-gen\fP \(em Generate test flows
+.SH "SYNOPSIS"
+.PP
+\fBflow-gen\fP [-h]  [-b\fI big\fP|\fIlittle\fP]  [-d\fI debug_level\fP]  [-n\fI count\fP]  [-V\fI version\fP]  [-z\fI z_level\fP] 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-gen\fP utility generates a test pattern of
+flows in any of the currently supported export versions typically for
+debugging purposes\&.
+.SH "OPTIONS"
+.IP "-b\fI big\fP|\fIlittle\fP" 10
+Byte order of output\&.
+.IP "-d\fI debug_level\fP" 10
+Enable debugging\&.
+.IP "-h" 10
+Display help\&.
+.IP "-n\fI count\fP" 10
+Generate count flows\&.  Default 1000\&.
+.IP "-V\fI version\fP" 10
+Generate version type exports\&.  Supported versions are:
+.PP
+.nf
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8\&.1  NetFlow AS Aggregation
+    8\&.2  NetFlow Proto Port Aggregation
+    8\&.3  NetFlow Source Prefix Aggregation
+    8\&.4  NetFlow Destination Prefix Aggregation
+    8\&.5  NetFlow Prefix Aggregation
+    8\&.6  NetFlow Destination (Catalyst switches)
+    8\&.7  NetFlow Source Destination (Catalyst switches)
+    8\&.8  NetFlow Full Flow (Catalyst switches)
+    8\&.9  NetFlow ToS AS Aggregation
+    8\&.10 NetFlow ToS Proto Port Aggregation
+    8\&.11 NetFlow ToS Source Prefix Aggregation
+    8\&.12 NetFlow ToS Destination Prefix Aggregation
+    8\&.13 NetFlow ToS Prefix Aggregation
+    8\&.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+.fi
+.IP "-z\fI z_level\fP" 10
+Configure compression level to \fI z_level\fP\&.  0 is
+disabled (no compression), 9 is highest compression\&.
+.SH "EXAMPLES"
+.PP
+Generate a test pattern of 1000 version 5 flows and send them in
+the Cisco NetFlow packet format to 10\&.0\&.0\&.1 port 9500\&.
+.PP
+  \fBflow-gen -V5 | flow-send 0/10\&.0\&.0\&.1/9500\fP
+.SH "BUGS"
+.PP
+The test pattern may change between releases\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Sat 08 Jun 2002, 23:41

@@ -1,0 +1,168 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-rpt2rrd\fP" "1"
+.SH "NAME"
+\fBflow-rpt2rrd\fP \(em Convert flow-report CSV output to RRDtool format\&.
+.SH "SYNOPSIS"
+.PP
+\fBflow-rpt2rrd\fP [-nv]  [-d\fI debug_level\fP]  [-k\fI keys\fP]  [-K\fI keys_file\fP]  [-f\fI fields\fP]  [-p\fI rrd_path\fP]  [-P\fI rrd_postfix\fP]  [-r\fI rrd_storage\fP] 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-rpt2rrd\fP utility processes the CSV output of
+flow-report into RRDtool format\&.  The aggregates for a key are each
+stored as a DS in RRD filename {rrd_path,"/",key,rrd_postfix,"\&.rrd"}\&.
+By default a DS is created for flows, octets, and packets\&.  The key
+must be specified, for example an ip-port report could use smtp,nntp,ssh,telnet
+as the keys which would create a separate RRD for each key\&.
+.SH "OPTIONS"
+.IP "-d\fI debug_level\fP" 10
+Set debug level to debug_level (debugging code)
+.IP "-h" 10
+Help\&.
+.IP "-k\fI keys\fP|\fIhtml\fP" 10
+Comma separated list of key values\&.  If the report has symbols
+then the key must be the symbol, ie smtp not 25\&.  The totals_* lines
+may be used if they are enabled in the report\&.  There is no default, 
+keys must be specified with -k or -K\&.
+.IP "-K\fI keys_file\fP" 10
+Load keys from \fIkeys_file\fP\&.  See -k\&.
+.IP "-f" 10
+Comma separated list of columns to store\&.  Each column maps to a DS in the
+RRD\&.  Defaults to flows,octets,packets
+.IP "-n" 10
+Enable symbol table lookups\&.  For example TCP port 25 = smtp\&.  This will
+result in RRD file names with the symbolic names if symbol lookups were
+not enabled in the report\&.
+.IP "-p\fI rrd_path\fP" 10
+Set path to RRD files\&.  Defaults to "\&."\&.
+.IP "-P\fI rrd_postfix\fP" 10
+Set RRD file name postfix\&.  Defaults to ""\&.
+.IP "-r\fI rrd_storage\fP" 10
+Set RRD storage for 5 minute, 30 minute, 2 hour, and 1 day databases\&.  List
+items are : seperated\&.  Defaults to 600:600:600:732\&.
+.IP "-v" 10
+Enable verbose output\&.
+.SH "EXAMPLES"
+.PP
+.nf
+The following example shows the combined use of flow-nfilter (inline), 
+flow-report, and flow-rpt2rrd to create an RRD depicting traffic 
+from clmbo-r4 to AS 10796 and 6478 for 2004-11-08\&.  rrdtool graph is
+then used to create a \&.png\&.
+
+#!/bin/sh
+
+cat << EOF>report\&.cfg
+
+include-filter nfilter\&.cfg
+
+stat-report CLMBO-R4-TO-INTERNET-BY-DESTINATION-AS
+  type destination-as
+  filter CLMBO-R4-INTERNET-OUT
+  scale 100
+  output   
+    options +header,+xheader
+    fields -duration
+
+stat-definition 5min-summaries
+  report CLMBO-R4-TO-INTERNET-BY-DESTINATION-AS
+EOF
+
+cat << EOF>nfilter\&.cfg
+# ifMIB\&.ifMIBObjects\&.ifXTable\&.ifXEntry\&.ifName\&.46 = so-0/0/0\&.0
+filter-primitive CLMBO-R4-INTERNET
+  type ifindex
+  permit 46
+
+# Match on traffic to the Internet
+filter-definition CLMBO-R4-INTERNET-OUT
+  match output-interface CLMBO-R4-INTERNET
+EOF
+
+mkdir rrds
+
+# 5 minute flow files from flow-capture are here
+FLOW_DATA=/flows/clmbo-r4/2004-11-08/
+
+# for each 5 minute flow,aggregate with flow-report then store to RRD
+for name in $FLOW_DATA/*; do
+  echo working\&.\&.\&.$name
+  flow-report -s report\&.cfg -S5min-summaries < $name | flow-rpt2rrd -k10796,6478  -p rrds
+done
+
+# first flow - 0:1:23 11/8/2004
+START=1099890083
+# last flow - 0:1:25 11/9/2004
+END=1099976485
+
+rrdtool graph CLMBO-R4-TO-INTERNET\&.png --start $START --end $END \
+        --vertical-label "Bits/Second" --title="CLMBO-R4 TO INTERNET BY AS" \
+        DEF:AS10796in=rrds/10796\&.rrd:octets:AVERAGE \
+        DEF:AS6478in=rrds/6478\&.rrd:octets:AVERAGE \
+        CDEF:b_AS10796in=AS10796in,8,* \
+        CDEF:b_AS6478in=AS6478in,8,* \
+        LINE1:b_AS10796in#FF0000:AS10796-in \
+        LINE1:b_AS6478in#555555:AS6478-in \
+.fi
+.SH "BUGS"
+.PP
+Hard coded to expect 5 minute flow file intervals\&.  Does not properly parse
+flow-report time-series output\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Wed 11 May 2005, 08:34

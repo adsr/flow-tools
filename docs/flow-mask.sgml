@@ -1,0 +1,185 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-mask</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-mask</application>
+</refname>
+<refpurpose>
+Apply tags to flow files.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-mask</command>
+<arg>-hk</arg>
+<arg>-b<replaceable> big</replaceable>|<replaceable>little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-m<replaceable> mask_fname</replaceable></arg>
+<arg rep="repeat">-M<replaceable> active_def</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-mask</command> utility is used to modify the
+source and destination mask length's in flow records.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-k</term>
+<listitem>
+<para>
+Keep time from input.
+</para>
+</listitem>  
+</varlistentry>
+
+<varlistentry>
+<term>-m<replaceable> mask_fname</replaceable></term>
+<listitem>
+<para>
+Load masks from <filename>mask_name</filename>.  Defaults to 
+<filename>@localstatedir@/cfg/mask</filename>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-M<replaceable> mask_def</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>active_def</replaceable> as the active tag definition(s).
+</para>
+</listitem>
+</varlistentry>
+</variablelist>
+
+<para>
+</para>
+<para>
+The configuration file is a collection of definitions.  A definition
+lists a sequence of prefixes and the mask length to replace the matching
+prefix with.
+Lines begining with # are treated as comments and ignored.
+</para>
+<para>
+<screen>
+mask-definition command             Description
+----------------------------------------------------------------------
+mask-definition                     Begin mask-definition section
+                                    mask-definition foo
+
+prefix                              List the prefix to match on and the
+                                    replacement mask.
+                                    prefix 128.146/16 24
+
+</screen>
+</para>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<programlisting>
+#
+#file: masks
+#
+mask-definition foo
+# All networks in 128.146/16 are /24's.
+ prefix 128.146/16 24
+# except for 128.146.214/24, which are /32's.
+ prefix 128.146.214/24 32
+</programlisting>
+<para>
+<command>flow-cat <filename>flows</filename> | flow-mask -mfoo -Fmasks | flow-print -f4</command>
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>FILES</title>
+<para>
+  Configuration files:
+    Mask - <filename>@localstatedir@/cfg/mask.cfg</filename>.
+</para>
+</refsect1>
+
+
+<refsect1>
+<title>BUGS</title>
+<para>
+None known.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

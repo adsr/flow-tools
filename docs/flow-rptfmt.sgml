@@ -1,0 +1,174 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-rptfmt</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-rptfmt</application>
+</refname>
+<refpurpose>
+Format the output of flow-report in ASCII or HTML
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-rptfmt</command>
+<arg>-hHnp</arg>
+<arg>-a<replaceable> alarm_time</replaceable></arg>
+<arg>-f<replaceable> format</replaceable></arg>
+<arg>-F<replaceable> fields</replaceable></arg>
+<arg>-m<replaceable> max_lines</replaceable></arg>
+<arg>-s<replaceable> sort_field</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-rptfmt</command> utility processes the CSV output of
+flow-report into formatted ASCII or HTML.  Sorting, maximum display lines,
+field filter, header display, and name substitution are supported during
+post processing.  Additionally an alarm can be set for use in CGI scripts
+to limit the CPU time of formatting.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-a<replaceable> alarm_time</replaceable></term>
+<listitem>
+<para>
+Exit after <replaceable>alarm_time</replaceable> seconds.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-f<replaceable> ascii</replaceable>|<replaceable>html</replaceable</term>
+<listitem>
+<para>
+Set output format.  Defaults to ASCII.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-F<replaceable> display_fields</replaceable></term>
+<listitem>
+<para>
+Limit columns to <replaceable>display_fields</replaceable>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-H</term>
+<listitem>
+<para>
+Display header information.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-m <replaceable>max_lines</replaceable></term>
+<listitem>
+<para>
+Limit rows to max_lines.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-n</term>
+<listitem>
+<para>
+Enable symbol table lookups.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p</term>
+<listitem>
+<para>
+Display in percent total form.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s<replaceable> sort_field</replaceable></term>
+<listitem>
+<para>
+Sort on <replaceable>sort_field</replaceable>.  Prepend with + for ascending,
+- for descending sort.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Format the output of daily-ip-protocol.txt in ASCII.  Display the ip-protocol
+and octets fields in percent total format with symbols.  Limit output to top
+5 sorted by octets.
+</para>
+<para>
+    <command>cat daily-ip-protocol.txt | flow-rptfmt -fascii -Fip-protocol,octets -p -n -m5 </command>
+</para>
+</informalexample>
+
+</refsect1>
+
+
+<refsect1>
+<title>BUGS</title>
+<para>
+Sorting could be faster.  Percent totals could be faster.  May not work
+with flow-report prior to 0.68.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

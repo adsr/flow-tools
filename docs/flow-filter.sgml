@@ -1,0 +1,341 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-filter</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-filter</application>
+</refname>
+<refpurpose>
+Filter flows.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-filter</command>
+<arg>-hko</arg>
+<arg>-a<replaceable> src_as_filter</replaceable></arg>
+<arg>-A<replaceable> dst_as_filter</replaceable></arg>
+<arg>-b<replaceable> big</replaceable>|<replaceable>little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-D<replaceable> dstaddr_filter_name</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-e<replaceable> exaddr_filter</replaceable></arg>
+<arg>-f<replaceable> acl_fname</replaceable></arg>
+<arg>-i<replaceable> input_filter</replaceable></arg>
+<arg>-I<replaceable> output_filter</replaceable></arg>
+<arg>-p<replaceable> srcport_filter</replaceable></arg>
+<arg>-P<replaceable> dstport_filter</replaceable></arg>
+<arg>-r<replaceable> ipprot_filter</replaceable></arg>
+<arg>-S<replaceable> srcaddr_filter_name</replaceable></arg>
+<arg>-t<replaceable> tos_filter</replaceable></arg>
+<arg>-T<replaceable> tcp_flags_filter</replaceable></arg>
+<arg>-x<replaceable> nexthop_filter_name</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-filter</command> utility will filter flows based on
+user selectable criteria.  The IP address filters are defined in 
+<filename>flow.acl</filename> or by the filename specified by -f.
+</para>
+<para>
+Other filters such as input interface and ports are defined on the
+command line.  These filters accept range and negation operators, ie
+-i1-15 for input interfaces 1 through 15 or -i1,15 for input interfaces
+1 and 15, or !1,15 for not input interfaces 1 and 15.
+</para>
+<para>
+The syntax is kludgy and needs reworked but works for most applications.
+
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-a<replaceable> src_as_filter</replaceable></term>
+<listitem>
+<para>
+Source AS filter, ie -a159 to permit Autonomous System 159.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-A<replaceable> dst_as_filter</replaceable></term>
+<listitem>
+<para>
+Destination AS filter, ie -A159,3112 to permit Autonomous Systems 159 and 3112.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment. 
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-D<replaceable> dstaddr_filter_name</replaceable></term>
+<listitem>
+<para>
+Destination IP address filter.  This is the name or number of a standard
+access list defined in <filename>flow.acl</filename> or the file specified
+by -f.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-e<replaceable> exaddr_filter</replaceable></term>
+<listitem>
+<para>
+Exporter IP address filter.  One exporter address can be filtered.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-f<replaceable> acl_fname</replaceable></term>
+<listitem>
+<para>
+Access list filename.  Defaults to <filename>flow.acl</filename>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-i<replaceable> input_filter</replaceable></term>
+<listitem>
+<para>
+Input interface filter, ie -i0 to permit traffic from interface 0.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-k</term>
+<listitem>
+<para>
+Keep time from input.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-I<replaceable> output_filter</replaceable></term>
+<listitem>
+<para>
+Output interface filter, ie -I0 to permit traffic to interface 0.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-o</term>
+<listitem>
+<para>
+Logical OR instead of AND filters.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p<replaceable> srcport_filter</replaceable></term>
+<listitem>
+<para>
+Source port filter, ie -p80 to only permit source port 80.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-P<replaceable> dstport_filter</replaceable></term>
+<listitem>
+<para>
+Destination port filter, ie -P80,8080 to permit destination ports 80 and 8080.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-r<replaceable> ipprot_filter</replaceable></term>
+<listitem>
+<para>
+IP Protocol filter, ie -r6 to only permit TCP traffic.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S<replaceable> srcaddr_filter_name</replaceable></term>
+<listitem>
+<para>
+Source IP address filter.  This is the name or number of a standard
+access list defined in <filename>flow.acl</filename> or the file
+specified by -f.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-t<replaceable> tos_filter</replaceable></term>
+<listitem>
+<para>
+ToS bits filter.  An optional mask is available which is applied to
+the tos field before comparing to the filter list.  For example to
+match a tos bit pattern of 101xxxxx use 0xA0/0xE0.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-T<replaceable> tcp_flags_filter</replaceable></term>
+<listitem>
+<para>
+TCP bits filter.  An optional mask is available which is applied to
+the TCP flags field before comparing to the filter list.  For example to
+match a flows with the SYN bit set use 0x2/0x2.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-x<replaceable> nexthop_filter_name</replaceable></term>
+<listitem>
+<para>
+NextHop IP address filter.  This is the name or number of a standard
+access list defined in <filename>flow.acl</filename> or the file
+specified by -f.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+
+<informalexample>
+<para>
+Print all traffic with a destination port of 80.
+</para>
+<para>
+  <command>flow-cat /flows/krc4 | flow-filter -P80 | flow-print</command>
+</para>
+</informalexample>
+
+<informalexample>
+<para>
+Print all traffic with with source IP 10.0.0.1.  Populate
+<filename>flow.acl</filename> with
+  ip access-list standard badguy permit host 10.0.0.1
+</para>
+<para>
+  <command>flow-cat /flows/krc4 | flow-filter -Sbadguy | flow-print</command>
+</para>
+</informalexample>
+
+<informalexample>
+<para>
+Report all destinations that IP 10.0.0.1 has sent traffic to.  Sort by
+octets.  Populate <filename>flow.acl</filename> with
+  ip access-list standard badguy permit host 10.0.0.1
+</para>
+<para>
+  <command>flow-cat /flows/krc4 | flow-filter -Sbadguy | flow-stat -f8 -S2</command>
+</para>
+</informalexample>
+
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+Extended access lists are not fully implemented.
+The command line filter syntax is a kludge.
+</para>
+</refsect1>
+
+<refsect1>
+<title>NOTES</title>
+<para>
+Use flow-nfilter.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

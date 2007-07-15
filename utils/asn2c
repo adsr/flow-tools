@@ -1,0 +1,42 @@
+#!/usr/local/bin/perl
+
+#
+# converts internic netinfo/asn.txt to C code
+#
+
+print '#include "bytes.h"
+#include "sym.h"
+#include "fmt.h"
+
+struct sym_table sym_asn[] = { 
+
+';
+
+
+
+while (<>) {
+
+  chop;
+
+  next if (!/^ *\d+/);
+  $_ =~ s/^ +//g;
+
+  @f = split;
+
+  next if ($f[0] =~ /^32768|64512/);
+
+  if ($f[1] eq '-') {
+    for ($asn = $f[0]; $asn <= $f[2]; ++$asn) {
+      print "{\"$f[3]\",  $asn},\n";
+    }
+  } else {
+    print "{\"$f[1]\",  $f[0]},\n";
+  }
+
+}
+
+print '
+
+  {(char*)0L,  0},
+};
+'

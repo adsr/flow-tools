@@ -1,0 +1,206 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-receive</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-receive</application>
+</refname>
+<refpurpose>
+Receive flow data with the NetFlow protocol.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-receive</command>
+<arg>-h</arg>
+<arg>-b<replaceable> big|little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-o<replaceable> output_file</replaceable></arg>
+<arg>-S<replaceable> stat_interval</replaceable></arg>
+<arg>-V<replaceable> pdu_version</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+<arg choice="req"><replaceable>localip/remoteip/port</replaceable></arg>
+
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-receive</command> utility is used to receive flows in NetFlow
+format.  When the <replaceable>remoteip</replaceable> is configured only flows
+from that exporter will be processed, this is the most secure and recommended
+configuration.  When the <replaceable>localip</replaceable> is configured
+<command>flow-receive</command> will only process flows
+sent to the <replaceable> localip</replaceable> IP address.  If
+<replaceable>remoteip</replaceable> is 0 (not configured) flows from any
+source IP address are accepted.  Multiple non aggregated PDU versions may
+be accepted at once to support Cisco's Catalyst 6500 NetFlow
+implementation which exports from both the supervisor and MSFC with the
+same IP address and same port but different export versions.  In this case
+the exports will be stored in the format specified by the -V flag or
+whichever export type is received first.
+ </para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-o<replaceable> file</replaceable></term>
+<listitem>
+<para>
+Write to <filename>file</filename> instead of the standard out.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S<replaceable> stat_interval</replaceable></term>
+<listitem>
+<para>
+When configured <command>flow-receive</command> will emit a timestamped
+message on stderr every <replaceable>stat_interval</replaceable> minutes
+indicating counters such as the number of flows received, packets processed,
+and lost flows.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-V<replaceable> pdu_version</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>pdu_version</replaceable> format output.
+<literallayout>
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8.1  NetFlow AS Aggregation
+    8.2  NetFlow Proto Port Aggregation
+    8.3  NetFlow Source Prefix Aggregation
+    8.4  NetFlow Destination Prefix Aggregation
+    8.5  NetFlow Prefix Aggregation
+    8.6  NetFlow Destination (Catalyst switches)
+    8.7  NetFlow Source Destination (Catalyst switches)
+    8.8  NetFlow Full Flow (Catalyst switches)
+    8.9  NetFlow ToS AS Aggregation
+    8.10 NetFlow ToS Proto Port Aggregation
+    8.11 NetFlow ToS Source Prefix Aggregation
+    8.12 NetFlow ToS Destination Prefix Aggregation
+    8.13 NetFlow ToS Prefix Aggregation
+    8.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.   
+</para>
+</listitem>
+</varlistentry>
+
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Listen on port 9800 on any local interface for exports from IP address
+10.0.0.1, store the exports in <filename>flows</filename>
+</para>
+<para>
+  <command>flow-receive</command> 0/10.0.0.1/9800 > <filename>flows</filename>
+</para>
+<para>
+Listen on port 9800 on any local interface from any IP address, display
+the received flows with flow-print.
+</para>
+<para>
+  <command>flow-receive</command> 0/0/9800 | <command>flow-print</command>
+</para>
+</informalexample>
+
+</refsect1>
+<refsect1>
+<title>BUGS</title>
+<para>
+It is not currently possible to convert between the aggregated formats (8.x)
+and the non aggregated formats (1,5,6,7).
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

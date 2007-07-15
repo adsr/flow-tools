@@ -1,0 +1,392 @@
+<HTML
+><HEAD
+><TITLE
+>flow-fanout</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-fanout</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-fanout</SPAN
+>&nbsp;--&nbsp;Fanout (replicate) flow exports to many destinations.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-fanout</B
+>  [-h] [-A<TT
+CLASS="REPLACEABLE"
+><I
+> AS0_substitution</I
+></TT
+>] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-f<TT
+CLASS="REPLACEABLE"
+><I
+> filter_fname</I
+></TT
+>] [-F<TT
+CLASS="REPLACEABLE"
+><I
+> filter_definition</I
+></TT
+>] [-m<TT
+CLASS="REPLACEABLE"
+><I
+> privacy_mask</I
+></TT
+>] [-p<TT
+CLASS="REPLACEABLE"
+><I
+> pidfile</I
+></TT
+>] [-s] [-S<TT
+CLASS="REPLACEABLE"
+><I
+> stat_interval</I
+></TT
+>] [-V<TT
+CLASS="REPLACEABLE"
+><I
+> pdu_version</I
+></TT
+>] [-x<TT
+CLASS="REPLACEABLE"
+><I
+> xmit_delay</I
+></TT
+>] {<TT
+CLASS="REPLACEABLE"
+><I
+>localip/remoteip/port</I
+></TT
+>} {<TT
+CLASS="REPLACEABLE"
+><I
+>localip/remoteip/port</I
+></TT
+>...}</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN37"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-fanout</B
+> utility will replicate flows arriving
+on localip/remoteip/port to destination(s) specified by localip/remoteip/port.</P
+><P
+>Flows processed by multiple exporters will be mixed into a single output
+stream.  This functionality appeared to support Cisco Catalyst exports and
+may have other uses.</P
+><P
+>A SIGQUIT or SIGTERM signal will cause <B
+CLASS="COMMAND"
+>flow-fanout</B
+> to exit.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN44"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-A<TT
+CLASS="REPLACEABLE"
+><I
+> AS0_substitution</I
+></TT
+></DT
+><DD
+><P
+>Cisco's NetFlow exports represent the local autonomous system as 0 instead of
+the real value.  This option can be used to replace the 0 in the export with
+the a configured value.  Unfortunately under certain configurations AS 0 can
+also represent a cache miss or non forwarded traffic so use with caution.</P
+></DD
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-f<TT
+CLASS="REPLACEABLE"
+><I
+> filter_fname</I
+></TT
+></DT
+><DD
+><P
+>Filter list filename.  Defaults to <TT
+CLASS="FILENAME"
+>@localstatedir@/cfg/filter</TT
+>.</P
+></DD
+><DT
+>-F<TT
+CLASS="REPLACEABLE"
+><I
+> filter_definition</I
+></TT
+></DT
+><DD
+><P
+>Select the active definition.  Defaults to default.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-m<TT
+CLASS="REPLACEABLE"
+><I
+> privacy_mask</I
+></TT
+></DT
+><DD
+><P
+>Apply <TT
+CLASS="REPLACEABLE"
+><I
+>privacy_mask</I
+></TT
+> to the source and destination IP
+address of flows.  For example a privacy_mask of 255.255.255.0 would convert
+flows with source/destination IP addresses 10.1.1.1 and 10.2.2.2 to 10.1.1.0
+and 10.2.2.0 respectively.</P
+></DD
+><DT
+>-p<TT
+CLASS="REPLACEABLE"
+><I
+> pidfile</I
+></TT
+></DT
+><DD
+><P
+>Configure the process ID file.  Use - to disable pid file creation.</P
+></DD
+><DT
+>-s</DT
+><DD
+><P
+>Spoof the source IP address.  If the IP address is 0 then it is replaced
+with the exporter source IP.</P
+></DD
+><DT
+>-S<TT
+CLASS="REPLACEABLE"
+><I
+> stat_interval</I
+></TT
+></DT
+><DD
+><P
+>When configured <B
+CLASS="COMMAND"
+>flow-fanout</B
+> will emit a timestamped
+message on stderr every <TT
+CLASS="REPLACEABLE"
+><I
+>stat_interval</I
+></TT
+> minutes
+indicating counters such as the number of flows received, packets processed,
+and lost flows.</P
+></DD
+><DT
+>-V<TT
+CLASS="REPLACEABLE"
+><I
+> pdu_version</I
+></TT
+></DT
+><DD
+><P
+>Use <TT
+CLASS="REPLACEABLE"
+><I
+>pdu_version</I
+></TT
+> format output.
+<P
+CLASS="LITERALLAYOUT"
+>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;1&nbsp;(No&nbsp;sequence&nbsp;numbers,&nbsp;AS,&nbsp;or&nbsp;mask)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;6&nbsp;(5+&nbsp;Encapsulation&nbsp;size)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;7&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.1&nbsp;&nbsp;NetFlow&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.2&nbsp;&nbsp;NetFlow&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.3&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.4&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.5&nbsp;&nbsp;NetFlow&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.6&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.7&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.8&nbsp;&nbsp;NetFlow&nbsp;Full&nbsp;Flow&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.9&nbsp;&nbsp;NetFlow&nbsp;ToS&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.10&nbsp;NetFlow&nbsp;ToS&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.11&nbsp;NetFlow&nbsp;ToS&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.12&nbsp;NetFlow&nbsp;ToS&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.13&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.14&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1005&nbsp;Flow-Tools&nbsp;tagged&nbsp;version&nbsp;5</P
+></P
+></DD
+><DT
+>-x<TT
+CLASS="REPLACEABLE"
+><I
+> xmit_delay</I
+></TT
+></DT
+><DD
+><P
+>Configure a microsecond transmit delay between packets.  This may be necessary in some configurations to prevent a transmit buffer overrun.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN106"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN108"
+></A
+><P
+></P
+><P
+>Replicate flows arriving to local IP address 10.0.0.1 from the router
+exporting with IP address 10.1.1.1 on port 9500 to localhost port 9500
+and 10.5.5.5 port 9200.  The exports sent to 10.5.5.5 will be sent with
+a source IP address of 10.0.0.5 which must be a valid local IP address.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-fanout 10.0.0.1/10.1.1.1/9500 0/0/9500 10.0.0.5/10.5.5.5/9200</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN112"
+></A
+><H2
+>BUGS</H2
+><P
+>NetFlow exports do not contain the exporter IP address inside the payload so
+the original exporter IP address (typically a router) will be lost when using
+<B
+CLASS="COMMAND"
+>flow-fanout</B
+>.  A work around for this protocol limitation
+is to use local IP aliases and the <TT
+CLASS="REPLACEABLE"
+><I
+>localip</I
+></TT
+> option.
+
+When the spoofing option is used multiple exporters with different IP addresses
+will share the same sequence number but will have the original source IP.
+Fixing this requires per source : destination sequence number mapping.  It
+is much easier to just use multiple instances of flow-fanout running on
+different ports.&#13;</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN117"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN124"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

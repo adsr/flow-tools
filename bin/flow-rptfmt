@@ -1,0 +1,545 @@
+#!/usr/local/bin/python
+
+import sys
+import string
+import getopt
+import signal
+
+#
+# flow-rptfmt - pretty print flow-report output
+#
+# $Id: flow-rptfmt,v 1.3 2005/05/11 12:38:37 maf Exp $
+#
+# TODO:
+#   speed up sorting by first mapping array to long/floats.
+#   better support for older flow-reports with internal list of
+#     key fields.
+#   use the 'totals' line if available.  Then don't have to
+#     load entire report for percent totals.
+
+#
+# Class: ftsym
+#   load a symbol table from a file in value symbol format, provide
+#   access methods findbyname and findbyval
+#
+class ftsym:
+
+#
+# load symbols
+#
+  def __init__(self,field):
+    self.sv = {}
+    self.vs = {}
+    __symbol_lookup = { 'ip-source-port' : 'tcp-port.sym',
+                      'ip-destination-port' : 'tcp-port.sym',
+                      'ip-protocol' : 'ip-prot.sym',
+                      'source-as' : 'asn.sym',
+                      'destination-as' : 'asn.sym',
+                      'source-tag' : 'tag.sym',
+                      'destination-tag' : 'tag.sym',
+                      'ip-address-type' : 'ip-type.sym',
+                    }
+    fname = "/usr/local/netflow/var/sym/%s" % __symbol_lookup[field]
+    f = open(fname, "r")
+    line = f.readline()
+    while line:
+      line.strip()
+      (v,s) = line.split();
+      self.vs[v] = s
+      self.sv[s] = v
+      line = f.readline()
+    f.close()
+
+#
+# access by name, return value.  If the name does not exist return the name.
+#
+  def findbyname(self, name):
+    return self.sv.get(name,name)
+
+#
+# access by value, return name.  If the value does not exist return the value.
+#
+  def findbyval(self, val):
+    return self.vs.get(val,val)
+
+
+#
+# Class: ftrptfmt
+#
+#   Read in output of flow-report.
+#
+#   load(stream) - read from the stream
+#   pickdisplay(fields) - configure a comma seperated list of fields to display
+#   sort(field) - sort report -descending or +ascending on field
+#   mapsym() - replace key values with symbols
+#   percent() - replace non key fields with percent totals
+#   dump(format, header, max_lines) - dump output in format (ascii/html).
+#    if header is != 0, then list the header values too.
+#
+class ftrptfmt:
+#
+#
+#
+  def __init__(self):
+    # not in data area
+    self.in_data = 0
+    # no header info yet
+    self.header_info = []
+    self.field_totals = {}
+    self.field_lens = {}
+    self.field_names = {}
+    self.field_vals = {}
+    self.field_avals = []
+    self.field_idx = {}
+    self.field_iter = []
+    self.field_total = 0
+    self.field_use = {'all' : 1}
+    self.field_display = {}
+    self.field_keys = {}
+    self.recno = int(0)
+    self.display_summary_detail = 0
+    self.max_lines = 0
+    self.display_header = 0
+    self.got_totals = 0
+    self.soft_field = ''
+
+
+#
+# 
+#
+  def _fmt_summary_detail(self):
+
+    if self.got_totals:
+      print "Ignores:                 %s" % self.field_vals['ignores']
+      print "Total Flows:             %s" % self.field_vals['flows']
+      print "Total Octets:            %s" % self.field_vals['octets']
+      print "Total Packets:           %s" % self.field_vals['packets']
+      print "Total Duration (ms):     %s" % self.field_vals['duration']
+    print "Real Time:               %s" % self.field_vals['time_real']
+    print "Average Flow Time:       %s" % self.field_vals['aflowtime']
+    print "Average Packets/Second:  %s" % self.field_vals['aps']
+    print "Average Flows/Second:    %s" % self.field_vals['afs']
+    print "Average Packets/Flow:    %s" % self.field_vals['apf']
+    print "Flows/Second:            %s" % self.field_vals['fps']
+    print "Flows/Second (real):     %s" % self.field_vals['fps_real']
+
+    print "\nAverage IP packet size distribution:"
+    print "\n   1-32   64   96  128  160  192  224  256  288  320  352  384  416  448  480\n  ",
+    for x in range(7,22):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+    print "\n\n    512  544  576 1024 1536 2048 2560 3072 3584 4096 4608\n  ",
+    for x in range(22,33):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+
+    print "\n\nPackets per flow distribution:"
+    print "\n      1    2    4    8   12   16   20   24   28   32   36   40   44   48   52\n  ",
+    for x in range(33,48):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+    print "\n\n     60  100  200  300  400  500  600  700  800  900 >900\n   ",
+    for x in range(48,59):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+
+    print "\n\nOctets per flow distribution:"
+    print "\n     32   64  128  256  512 1280 2048 2816 3584 4352 5120 5888 6656 7424 8192\n  ",
+    for x in range(59,74):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+    print "\n\n   8960 9728 10496 11264 12032 12800 13568 14336 15104 15872 >15872\n  ",
+    print ("%-3.3f" % float(self.field_vals[74]))[1:],
+    for x in range(75,85):
+      print ("%-3.3f " % float(self.field_vals[x]))[1:],
+
+    print "\n\nFlow Time Distribution (ms):"
+    print "\n    10    50  100  200  500 1000 2000 3000 4000 5000 6000 7000 8000 9000 10000\n  ",
+    for x in range(85,100):
+      print ("%-3.3f" % float(self.field_vals[x]))[1:],
+    print "\n\n  12000 14000 16000 18000 20000 22000 24000 26000 28000 30000 >30000\n  ",
+    for x in range(100,111):
+      print ("%-3.3f " % float(self.field_vals[x]))[1:],
+    print
+
+#
+#
+#
+  def fmt_ascii_lines(self) :
+
+    # summary-detail is a special format
+    if self.display_summary_detail != 1:
+
+      line = int(self.max_lines)
+
+      for x in self.field_iter:
+        for y in xrange(self.field_total):
+          if self.field_display[y]:
+#            print "x=",x,"y=",y,"#"
+            i = self.field_avals[x][y]
+            print i.ljust(self.field_lens[y]),
+        if line:
+          line = line - 1
+          if not line:
+            break
+        print
+
+    else:
+
+      self._fmt_summary_detail()
+
+#
+#
+#
+  def fmt_ascii_header(self) :
+
+    if not self.display_header:
+      return
+
+    for i in self.header_info:
+      if i[0:7] == '# rec1:':
+        break
+      print i;
+
+    print "# ", sys.argv
+
+    # summary-detail is a special format
+    if self.display_summary_detail != 1:
+      for x in xrange(self.field_total):
+        if self.field_display[x]:
+          i = self.field_names[x]
+          l = self.field_lens[x] 
+          print i.ljust(l),
+      print
+#
+#
+#
+  def fmt_ascii_footer(self) :
+    print "\n",
+
+#
+# HTML
+#
+
+  def fmt_html_header(self) :
+ 
+    if self.display_header:
+
+      print '''<pre>''' 
+      for i in self.header_info:
+        if i[0:7] == '#rec1:':
+          break
+        print i
+      print '''</pre>''' 
+
+    print "<table border cellspacing=0 cellpadding=5>"
+    print "<tr>"
+    if self.display_summary_detail != 1:
+      for x in xrange(self.field_total):
+        if self.field_display[x]:
+          print " <th>", self.field_names[x], '''</th>'''
+    print '''</tr>'''
+  
+#
+#
+#
+  def fmt_html_lines(self) :
+
+    if self.display_summary_detail != 1:
+
+      line = int(self.max_lines)
+      
+      for x in self.field_iter:
+        print "<tr>"
+        for y in xrange(self.field_total):
+          if self.field_display[y]:   
+            i = self.field_avals[x][y]
+            print "  <td>", i, '''</td>'''
+        if line:
+          line = line - 1
+          if not line:
+            break
+        print '''</tr>'''
+
+    else:
+      print '''<pre>''' 
+      self._fmt_summary_detail()
+      print '''</pre>''' 
+#
+#
+#
+  def fmt_html_footer(self) :
+    print '''</table>'''
+  
+
+#
+# load data in flow-report format
+#
+  def load(self, f, sort_field, max_lines, opt_percent):
+
+    self.max_lines = int(max_lines)
+    self.sort_field = sort_field
+
+    # first line
+    line = f.readline()
+  
+    while line:
+  
+      # lop off trailing and extra whitespace
+      line = line.strip()
+
+      # report data starts after recn comment
+      if (not self.in_data) :
+    
+        if line[:5] == '# rec' and line[:10] != '# records:':
+
+          # special totals record
+          if line[:6] == '# rec1':
+
+            self.got_totals = 1
+            line2 = f.readline()
+            line2 = line2.strip()
+            splt = string.split(line2,',')
+
+            x = 0
+            for i in string.split(line[8:],','):
+              self.field_vals[i] = splt[x]
+              x += 1
+
+          elif line[:6] == '# rec2':
+              self.display_summary_detail = 1
+
+              line2 = f.readline()
+              line2 = line2.strip()
+              splt = string.split(line2,',')
+
+              x = 0
+              for i in string.split(line[8:],','):
+                self.field_vals[i] = splt[x]
+                self.field_vals[x] = splt[x]
+                x += 1
+
+          else:
+    
+            if line[:6] == '# recn':
+              self.in_data = 1
+    
+            # foreach element in field names
+            x = 0
+            for i in string.split(line[8:],','):
+
+              # remove key designators
+              if i[-1:] == '*':
+                i = i[:-1]
+                self.field_keys[self.field_total] = 1
+              i = string.lower(i)
+              self.field_idx[i] = self.field_total
+    
+              # default to the length of the header
+              self.field_lens[self.field_total] = len(i)
+    
+              # append the header name
+              self.field_names[self.field_total] = i
+    
+              self.field_total += 1
+    
+        else:
+            self.header_info.append(line)
+    
+      else :
+    
+        # if in the data area and not a comment, store it
+        if self.in_data and line [:1] != '#':
+    
+          splt = string.split(line, ',')
+    
+          for i in xrange(self.field_total):
+
+            if len(splt[i]) > self.field_lens[i]:
+              self.field_lens[i] = len(splt[i])
+    
+          self.field_avals.append(splt)
+    
+          self.recno += 1
+    
+      # next line
+      line = f.readline()
+
+      # short cut, if not sorting and max lines is defined then can stop early
+      if self.max_lines and (self.sort_field == '') and (opt_percent == 0) and (self.recno == self.max_lines):
+        break;
+
+    # default to sequentially as read
+    self.field_iter = range(self.recno)
+
+#
+#
+#
+  def pickdisplay(self, f):
+
+    self.field_use['all'] = 0
+    for i in string.split(f, ','):
+      self.field_use[i] = 1
+    
+    # figure out which fields are okay to print
+    if self.field_use['all'] == 1:
+      for x in xrange(self.field_total):
+        self.field_display[x] = 1
+    else:
+      for x in xrange(self.field_total):
+        self.field_display[x] = self.field_use.get(self.field_names[x],0)
+
+#
+#
+#
+  def sort(self):
+
+    sort_field = self.sort_field
+    
+    if self.sort_field != '':
+    
+      i = self.field_idx[sort_field[1:]]
+    
+      if sort_field[0] == '+':
+
+        if sort_field[1:] == 'pps' or sort_field[1:] == 'bps':
+          self.field_iter.sort(lambda a,b: cmp(float(self.field_avals[a][i]),
+            float(self.field_avals[b][i])))
+
+        elif sort_field[1:] == 'ip-next-hop-address' or sort_field[1:] == 'ip-source-address' or sort_field[1:] == 'ip-destination-address' or sort_field[1:] == 'ip-exporter-address':
+          self.field_iter.sort(lambda a,b: cmp(self.field_avals[a][i],
+            self.field_avals[b][i]))
+        else:
+          self.field_iter.sort(lambda a,b: cmp(long(self.field_avals[a][i]),
+            long(self.field_avals[b][i])))
+
+      elif sort_field[0] == '-':
+
+        if sort_field[1:] == 'pps' or sort_field[1:] == 'bps':
+          self.field_iter.sort(lambda b,a: cmp(float(self.field_avals[a][i]),
+            float(self.field_avals[b][i])))
+
+        elif sort_field[1:] == 'ip-next-hop-address' or sort_field[1:] == 'ip-source-address' or sort_field[1:] == 'ip-destination-address' or sort_field[1:] == 'ip-exporter-address':
+          self.field_iter.sort(lambda b,a: cmp(self.field_avals[a][i],
+            self.field_avals[b][i]))
+
+        else:
+          self.field_iter.sort(lambda b,a: cmp(long(self.field_avals[a][i]),
+            long(self.field_avals[b][i])))
+
+#
+#
+#
+  def mapsym(self):
+    
+    # foreach key field try to map in symbols
+    for i in self.field_keys.keys():
+      if self.field_display[i] != 1:
+        continue
+      n = self.field_names[i]
+      sym = ftsym(n)
+      for j in self.field_iter:
+        self.field_avals[j][i] = sym.findbyval(self.field_avals[j][i])
+        # readjust field len
+        if len(self.field_avals[j][i]) > self.field_lens[i]:
+          self.field_lens[i] = len(self.field_avals[j][i])
+
+#
+#
+#
+  def percent(self):
+
+    # foreach field
+    for i in xrange(self.field_total):
+      # skip key fields
+      if self.field_keys.get(i,0) == 1:
+        continue
+      # for each value for the field
+      self.field_totals[i] = 0
+      for j in self.field_iter:
+        self.field_totals[i] += long(self.field_avals[j][i])
+      for j in self.field_iter:
+        self.field_avals[j][i] = "%5.6f" % (float(self.field_avals[j][i]) / float(self.field_totals[i]) * 100)
+        # readjust field len
+        if len(self.field_avals[j][i]) > self.field_lens[i]:
+          self.field_lens[i] = len(self.field_avals[j][i])
+
+
+#
+#
+#
+  def dump(self, format, display_header):
+
+    self.display_header = display_header
+
+    if format == 'ascii':
+      fmt_header = ftrptfmt.fmt_ascii_header
+      fmt_lines = ftrptfmt.fmt_ascii_lines
+      fmt_footer = ftrptfmt.fmt_ascii_footer
+
+    if format == 'html':
+      fmt_header = ftrptfmt.fmt_html_header
+      fmt_lines = ftrptfmt.fmt_html_lines
+      fmt_footer = ftrptfmt.fmt_html_footer
+
+    fmt_header(self)
+    fmt_lines(self)
+    fmt_footer(self)
+ 
+#
+# main
+#
+   
+(opts,rags) = getopt.getopt(sys.argv[1:], "a:f:F:ghHps:m:n")
+
+opt_display_header = 1
+opt_display = 'all'
+opt_format = 'ascii'
+opt_sort_field = ''
+opt_mapsym = 0
+opt_percent = 0
+opt_max_lines = 0
+opt_alarm = int(0)
+
+for o,v in opts:
+
+  if o == '-a':
+    opt_alarm = int(v)
+  elif o == '-f':
+    opt_format = v
+  elif o == '-F':
+    opt_display = v
+  elif o == '-H':
+    opt_display_header = 0
+  elif o == '-m':
+    opt_max_lines = v
+  elif o == '-n':
+    opt_mapsym = 1
+  elif o == '-p':
+    opt_percent = 1
+  elif o == '-s':
+    opt_sort_field = v
+  elif o == '-h':
+    print "Usage: flow-rptfmt [-hHnp] [-a alarm] [-f format] [-F display_fields]"
+    print "                   [-m max_lines] [-s sort_field]"
+    sys.exit(0)
+
+
+def sig_alarm(sig, stack):
+  print "flow-rptfmt exceeded CPU time, consider running report offline."
+  sys.exit(0)
+
+signal.signal(signal.SIGALRM, sig_alarm)
+
+if opt_alarm:
+  signal.alarm(opt_alarm)
+
+rpt = ftrptfmt()
+rpt.load(sys.stdin, opt_sort_field, opt_max_lines, opt_percent)
+rpt.pickdisplay(opt_display)
+rpt.sort()
+if (opt_mapsym == 1):
+  rpt.mapsym()
+if (opt_percent == 1):
+  rpt.percent()
+try:
+  rpt.dump(opt_format, opt_display_header)
+except IOError:
+  sys.exit(0)
+
+

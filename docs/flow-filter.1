@@ -1,0 +1,156 @@
+...\" $Header: /usr/src/docbook-to-man/cmd/RCS/docbook-to-man.sh,v 1.3 1996/06/17 03:36:49 fld Exp $
+...\"
+...\"	transcript compatibility for postscript use.
+...\"
+...\"	synopsis:  .P! <file.ps>
+...\"
+.de P!
+\\&.
+.fl			\" force out current output buffer
+\\!%PB
+\\!/showpage{}def
+...\" the following is from Ken Flowers -- it prevents dictionary overflows
+\\!/tempdict 200 dict def tempdict begin
+.fl			\" prolog
+.sy cat \\$1\" bring in postscript file
+...\" the following line matches the tempdict above
+\\!end % tempdict %
+\\!PE
+\\!.
+.sp \\$2u	\" move below the image
+..
+.de pF
+.ie     \\*(f1 .ds f1 \\n(.f
+.el .ie \\*(f2 .ds f2 \\n(.f
+.el .ie \\*(f3 .ds f3 \\n(.f
+.el .ie \\*(f4 .ds f4 \\n(.f
+.el .tm ? font overflow
+.ft \\$1
+..
+.de fP
+.ie     !\\*(f4 \{\
+.	ft \\*(f4
+.	ds f4\"
+'	br \}
+.el .ie !\\*(f3 \{\
+.	ft \\*(f3
+.	ds f3\"
+'	br \}
+.el .ie !\\*(f2 \{\
+.	ft \\*(f2
+.	ds f2\"
+'	br \}
+.el .ie !\\*(f1 \{\
+.	ft \\*(f1
+.	ds f1\"
+'	br \}
+.el .tm ? font underflow
+..
+.ds f1\"
+.ds f2\"
+.ds f3\"
+.ds f4\"
+.ta 8n 16n 24n 32n 40n 48n 56n 64n 72n 
+.TH "\fBflow-filter\fP" "1"
+.SH "NAME"
+\fBflow-filter\fP \(em Filter flows\&.
+.SH "SYNOPSIS"
+.PP
+\fBflow-filter\fP [-hko]  [-a\fI src_as_filter\fP]  [-A\fI dst_as_filter\fP]  [-b\fI big\fP|\fIlittle\fP]  [-C\fI comment\fP]  [-D\fI dstaddr_filter_name\fP]  [-d\fI debug_level\fP]  [-e\fI exaddr_filter\fP]  [-f\fI acl_fname\fP]  [-i\fI input_filter\fP]  [-I\fI output_filter\fP]  [-p\fI srcport_filter\fP]  [-P\fI dstport_filter\fP]  [-r\fI ipprot_filter\fP]  [-S\fI srcaddr_filter_name\fP]  [-t\fI tos_filter\fP]  [-T\fI tcp_flags_filter\fP]  [-x\fI nexthop_filter_name\fP]  [-z\fI z_level\fP] 
+.SH "DESCRIPTION"
+.PP
+The \fBflow-filter\fP utility will filter flows based on
+user selectable criteria\&.  The IP address filters are defined in 
+\fBflow\&.acl\fP or by the filename specified by -f\&.
+.PP
+Other filters such as input interface and ports are defined on the
+command line\&.  These filters accept range and negation operators, ie
+-i1-15 for input interfaces 1 through 15 or -i1,15 for input interfaces
+1 and 15, or !1,15 for not input interfaces 1 and 15\&.
+.PP
+The syntax is kludgy and needs reworked but works for most applications\&.
+.SH "OPTIONS"
+.IP "-a\fI src_as_filter\fP" 10
+Source AS filter, ie -a159 to permit Autonomous System 159\&.
+.IP "-A\fI dst_as_filter\fP" 10
+Destination AS filter, ie -A159,3112 to permit Autonomous Systems 159 and 3112\&.
+.IP "-b\fI big\fP|\fIlittle\fP" 10
+Byte order of output\&.
+.IP "-C\fI Comment\fP" 10
+Add a comment\&. 
+.IP "-d\fI debug_level\fP" 10
+Enable debugging\&.
+.IP "-D\fI dstaddr_filter_name\fP" 10
+Destination IP address filter\&.  This is the name or number of a standard
+access list defined in \fBflow\&.acl\fP or the file specified
+by -f\&.
+.IP "-e\fI exaddr_filter\fP" 10
+Exporter IP address filter\&.  One exporter address can be filtered\&.
+.IP "-f\fI acl_fname\fP" 10
+Access list filename\&.  Defaults to \fBflow\&.acl\fP\&.
+.IP "-h" 10
+Display help\&.
+.IP "-i\fI input_filter\fP" 10
+Input interface filter, ie -i0 to permit traffic from interface 0\&.
+.IP "-k" 10
+Keep time from input\&.
+.IP "-I\fI output_filter\fP" 10
+Output interface filter, ie -I0 to permit traffic to interface 0\&.
+.IP "-o" 10
+Logical OR instead of AND filters\&.
+.IP "-p\fI srcport_filter\fP" 10
+Source port filter, ie -p80 to only permit source port 80\&.
+.IP "-P\fI dstport_filter\fP" 10
+Destination port filter, ie -P80,8080 to permit destination ports 80 and 8080\&.
+.IP "-r\fI ipprot_filter\fP" 10
+IP Protocol filter, ie -r6 to only permit TCP traffic\&.
+.IP "-S\fI srcaddr_filter_name\fP" 10
+Source IP address filter\&.  This is the name or number of a standard
+access list defined in \fBflow\&.acl\fP or the file
+specified by -f\&.
+.IP "-t\fI tos_filter\fP" 10
+ToS bits filter\&.  An optional mask is available which is applied to
+the tos field before comparing to the filter list\&.  For example to
+match a tos bit pattern of 101xxxxx use 0xA0/0xE0\&.
+.IP "-T\fI tcp_flags_filter\fP" 10
+TCP bits filter\&.  An optional mask is available which is applied to
+the TCP flags field before comparing to the filter list\&.  For example to
+match a flows with the SYN bit set use 0x2/0x2\&.
+.IP "-x\fI nexthop_filter_name\fP" 10
+NextHop IP address filter\&.  This is the name or number of a standard
+access list defined in \fBflow\&.acl\fP or the file
+specified by -f\&.
+.IP "-z\fI z_level\fP" 10
+Configure compression level to \fI z_level\fP\&.  0 is
+disabled (no compression), 9 is highest compression\&.
+.SH "EXAMPLES"
+.PP
+Print all traffic with a destination port of 80\&.
+.PP
+  \fBflow-cat /flows/krc4 | flow-filter -P80 | flow-print\fP
+.PP
+Print all traffic with with source IP 10\&.0\&.0\&.1\&.  Populate
+\fBflow\&.acl\fP with
+  ip access-list standard badguy permit host 10\&.0\&.0\&.1
+.PP
+  \fBflow-cat /flows/krc4 | flow-filter -Sbadguy | flow-print\fP
+.PP
+Report all destinations that IP 10\&.0\&.0\&.1 has sent traffic to\&.  Sort by
+octets\&.  Populate \fBflow\&.acl\fP with
+  ip access-list standard badguy permit host 10\&.0\&.0\&.1
+.PP
+  \fBflow-cat /flows/krc4 | flow-filter -Sbadguy | flow-stat -f8 -S2\fP
+.SH "BUGS"
+.PP
+Extended access lists are not fully implemented\&.
+The command line filter syntax is a kludge\&.
+.SH "NOTES"
+.PP
+Use flow-nfilter\&.
+.SH "AUTHOR"
+.PP
+Mark Fullmer maf@splintered\&.net
+.SH "SEE ALSO"
+.PP
+\fBflow-tools\fP(1)
+...\" created by instant / docbook-to-man, Tue 02 Nov 2004, 21:03

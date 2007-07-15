@@ -1,0 +1,26 @@
+#!/usr/bin/perl
+
+#
+# converts internic netinfo/asn.txt to flow-tools <value> <name> format
+#
+
+while (<>) {
+
+  chomp;
+
+  next if (!/^\s*\d+/);
+  $_ =~ s/^\s+//g;
+
+  @f = split;
+
+  if ($f[0] =~ /-/) {
+    ($high, $low) = split(/-/, $f[0]);
+    for ($asn = $high; $asn <= $low; ++$asn) {
+      print "$asn $f[1]\n";
+    }
+  } else {
+    print "$f[0] $f[1]\n";
+  }
+
+}
+

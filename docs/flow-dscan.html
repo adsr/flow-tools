@@ -1,0 +1,452 @@
+<HTML
+><HEAD
+><TITLE
+>flow-dscan</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.71
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-dscan</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-dscan</SPAN
+>&nbsp;--&nbsp;Detect scanning and other suspicious network activity.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-dscan</B
+>  [-bBhlmpwW] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-D<TT
+CLASS="REPLACEABLE"
+><I
+> iplist_depth</I
+></TT
+>] [-s<TT
+CLASS="REPLACEABLE"
+><I
+> state_file</I
+></TT
+>] [-i<TT
+CLASS="REPLACEABLE"
+><I
+> input_filter</I
+></TT
+>] [-L<TT
+CLASS="REPLACEABLE"
+><I
+> suppress_list</I
+></TT
+>] [-o<TT
+CLASS="REPLACEABLE"
+><I
+> output_filter</I
+></TT
+>] [-O<TT
+CLASS="REPLACEABLE"
+><I
+> excessive_octets</I
+></TT
+>] [-P<TT
+CLASS="REPLACEABLE"
+><I
+> excessive_flows</I
+></TT
+>] [-S<TT
+CLASS="REPLACEABLE"
+><I
+> port_scan_trigger</I
+></TT
+>] [-t<TT
+CLASS="REPLACEABLE"
+><I
+> ager_timeout</I
+></TT
+>]</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN34"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-dscan</B
+> utility is used to detect suspicious
+activity such as port scanning, host scanning, and flows with 
+unusually high octets or packets.  A source and destination suppress
+list is supported to help prevent false alarms due to hosts such as
+nameservers or popular web servers that exchange traffic with a large
+number of hosts.  Alarms are logged to syslog or stderr.  The internal
+state of flow-dscan can be saved and loaded to allow for interrupted operation.</P
+><P
+><B
+CLASS="COMMAND"
+>flow-dscan</B
+> will work best if configured to only watch only inbound or outbound
+traffic by using the input or output interface filter option.</P
+><P
+>The host scanner works by counting the length of the destination IP
+hash chain.  If it goes above 64, then the src is considered to
+be scanning.</P
+><P
+>The port scanner works by keeping a bitmap of the destination port
+number &#60; 1024 per destination IP.  If it goes above 64, the src is
+considered to be port scanning the destination.</P
+><P
+>When a src has been flagged as scanning it will not be reported again
+until the record is aged out and enough flows trigger it again.</P
+><P
+>A SIGHUP signal will instruct flow-dscan to reload the suppress list.</P
+><P
+>A SIGUSR1 signal will instruct flow-dscan to dump its internal state.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN45"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-b</DT
+><DD
+><P
+>Do not detach and run in the background.  Alerts go to stderr.</P
+></DD
+><DT
+>-B</DT
+><DD
+><P
+>Do not detach and run in the background.  Alerts go to syslog.</P
+></DD
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-D<TT
+CLASS="REPLACEABLE"
+><I
+> iplist_depth</I
+></TT
+></DT
+><DD
+><P
+>Depth of IP host list for detecting host scanning.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-i<TT
+CLASS="REPLACEABLE"
+><I
+> input_filter</I
+></TT
+></DT
+><DD
+><P
+>Input interface filter list.</P
+></DD
+><DT
+>-I<TT
+CLASS="REPLACEABLE"
+><I
+> output_filter</I
+></TT
+></DT
+><DD
+><P
+>Output interface filter list.</P
+></DD
+><DT
+>-l</DT
+><DD
+><P
+>Load state from <TT
+CLASS="FILENAME"
+>/var/tmp/dscan.state</TT
+> or the filename
+specified with -s.</P
+></DD
+><DT
+>-L<TT
+CLASS="REPLACEABLE"
+><I
+> suppress_list</I
+></TT
+></DT
+><DD
+><P
+>Basename of suppress files.  There are two suppress files for input and
+output traffic.  The suppress file syntax is</P
+><P
+>IP_address protocol source_port destination_port</P
+><P
+>A '-' can be used as a wildcard in the protocol, source_port,
+and destination_port fields.  Only a single protocol, source_port, and
+destination_port is supported per IP address.</P
+></DD
+><DT
+>-m</DT
+><DD
+><P
+>Multicast address filter.  Use to ignore multicast addresses.</P
+></DD
+><DT
+>-O<TT
+CLASS="REPLACEABLE"
+><I
+> excessive_octets</I
+></TT
+></DT
+><DD
+><P
+>Trigger an alert if a flow is processed with the octets field exceeding
+<TT
+CLASS="REPLACEABLE"
+><I
+>excessive_octets</I
+></TT
+>.</P
+></DD
+><DT
+>-p</DT
+><DD
+><P
+>Dump state to <TT
+CLASS="FILENAME"
+>/var/tmp/dscan.state</TT
+> or the filename
+specified with -s.</P
+></DD
+><DT
+>-P<TT
+CLASS="REPLACEABLE"
+><I
+> excessive_packets</I
+></TT
+></DT
+><DD
+><P
+>Trigger an alert if a flow is processed with the packets field exceeding
+<TT
+CLASS="REPLACEABLE"
+><I
+>excessive_packets</I
+></TT
+>.</P
+></DD
+><DT
+>-s<TT
+CLASS="REPLACEABLE"
+><I
+> statefile</I
+></TT
+></DT
+><DD
+><P
+>State filename.  Defaults to <TT
+CLASS="FILENAME"
+>/var/tmp/dscan.state</TT
+></P
+></DD
+><DT
+>-S<TT
+CLASS="REPLACEABLE"
+><I
+> port_scan_trigger</I
+></TT
+></DT
+><DD
+><P
+>Number of ports a IP address must have used to be considered scanning.</P
+></DD
+><DT
+>-t<TT
+CLASS="REPLACEABLE"
+><I
+> ager_timeout</I
+></TT
+></DT
+><DD
+><P
+>How long to keep flows around.  Default to 90000.  This is measured in
+flows processed.</P
+></DD
+><DT
+>-T<TT
+CLASS="REPLACEABLE"
+><I
+> excessive_time</I
+></TT
+></DT
+><DD
+><P
+>Trigger an alert if a flow is processed with the End-Start field exceeding
+<TT
+CLASS="REPLACEABLE"
+><I
+>excessive_time</I
+></TT
+>.</P
+></DD
+><DT
+>-w</DT
+><DD
+><P
+>Filter (ignore) candidate inbound www traffic, ie IP protocol 6, source port
+80, and destination port &#62; 1023.</P
+></DD
+><DT
+>-W</DT
+><DD
+><P
+>Filter (ignore) candidate outbound www traffic, ie IP protocol 6, destination
+port 80, and source  port &#62; 1023.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN143"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN145"
+></A
+><P
+></P
+><P
+>In a topology where 25 is the only output interface run flow-dscan over
+the data in <TT
+CLASS="FILENAME"
+>/flows/krc4</TT
+>.  Ignore www and multicast
+traffic, store the internal state in
+<TT
+CLASS="FILENAME"
+>dscan.statefile</TT
+> on exit.  Use empty suppress list
+files <TT
+CLASS="FILENAME"
+>dscan.suppress.src</TT
+> and
+<TT
+CLASS="FILENAME"
+>dscan.suppress.dst</TT
+>.  The output produced by flow-dscan
+typically must be manually inspected by using flow-filter and flow-print.
+Many of the alerts will be false until the suppress lists are populated
+for the local environment.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-cat /flows/krc4 | flow-dscan -I25 -b -m -s dscan.statefile -p -W</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN153"
+></A
+><H2
+>BUGS</H2
+><P
+>The ager should automatically become more aggressive when a low memory
+condition exists.
+
+There is no upper limit on the number of records that can be allocated.  If
+the ager is not running often enough the host will be run out of memory.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN156"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN163"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

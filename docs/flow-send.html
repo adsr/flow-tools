@@ -1,0 +1,269 @@
+<HTML
+><HEAD
+><TITLE
+>flow-send</TITLE
+><META
+NAME="GENERATOR"
+CONTENT="Modular DocBook HTML Stylesheet Version 1.73
+"></HEAD
+><BODY
+CLASS="REFENTRY"
+BGCOLOR="#FFFFFF"
+TEXT="#000000"
+LINK="#0000FF"
+VLINK="#840084"
+ALINK="#0000FF"
+><H1
+><A
+NAME="AEN1"
+><SPAN
+CLASS="APPLICATION"
+>flow-send</SPAN
+></A
+></H1
+><DIV
+CLASS="REFNAMEDIV"
+><A
+NAME="AEN6"
+></A
+><H2
+>Name</H2
+><SPAN
+CLASS="APPLICATION"
+>flow-send</SPAN
+>&nbsp;--&nbsp;Transmit flow data with the NetFlow protocol.</DIV
+><DIV
+CLASS="REFSYNOPSISDIV"
+><A
+NAME="AEN10"
+></A
+><H2
+>Synopsis</H2
+><P
+><B
+CLASS="COMMAND"
+>flow-send</B
+>  [-h] [-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+>] [-m<TT
+CLASS="REPLACEABLE"
+><I
+> privacy_mask</I
+></TT
+>] [-s] [-x<TT
+CLASS="REPLACEABLE"
+><I
+> xmit_delay</I
+></TT
+>] [-V<TT
+CLASS="REPLACEABLE"
+><I
+> pdu_version</I
+></TT
+>] {<TT
+CLASS="REPLACEABLE"
+><I
+>localip/remoteip/port</I
+></TT
+>}</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN25"
+></A
+><H2
+>DESCRIPTION</H2
+><P
+>The <B
+CLASS="COMMAND"
+>flow-send</B
+> utility is used to transmit flows in NetFlow
+format to a collector specified by localip/remoteip/port.</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN29"
+></A
+><H2
+>OPTIONS</H2
+><P
+></P
+><DIV
+CLASS="VARIABLELIST"
+><DL
+><DT
+>-d<TT
+CLASS="REPLACEABLE"
+><I
+> debug_level</I
+></TT
+></DT
+><DD
+><P
+>Enable debugging.</P
+></DD
+><DT
+>-h</DT
+><DD
+><P
+>Display help.</P
+></DD
+><DT
+>-s</DT
+><DD
+><P
+>Enable spoofing of source IP address.</P
+></DD
+><DT
+>-m<TT
+CLASS="REPLACEABLE"
+><I
+> privacy_mask</I
+></TT
+></DT
+><DD
+><P
+>Apply <TT
+CLASS="REPLACEABLE"
+><I
+>privacy_mask</I
+></TT
+> to the source and destination IP
+address of flows.  For example a privacy_mask of 255.255.255.0 would convert
+flows with source/destination IP addresses 10.1.1.1 and 10.2.2.2 to 10.1.1.0
+and 10.2.2.0 respectively.</P
+></DD
+><DT
+>-V<TT
+CLASS="REPLACEABLE"
+><I
+> pdu_version</I
+></TT
+></DT
+><DD
+><P
+>Use <TT
+CLASS="REPLACEABLE"
+><I
+>pdu_version</I
+></TT
+> format when transmitting.
+<P
+CLASS="LITERALLAYOUT"
+>&nbsp;&nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;1&nbsp;(No&nbsp;sequence&nbsp;numbers,&nbsp;AS,&nbsp;or&nbsp;mask)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;5<br>
+&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;6&nbsp;(5+&nbsp;Encapsulation&nbsp;size)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;NetFlow&nbsp;version&nbsp;7&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.1&nbsp;&nbsp;NetFlow&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.2&nbsp;&nbsp;NetFlow&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.3&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.4&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.5&nbsp;&nbsp;NetFlow&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.6&nbsp;&nbsp;NetFlow&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.7&nbsp;&nbsp;NetFlow&nbsp;Source&nbsp;Destination&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.8&nbsp;&nbsp;NetFlow&nbsp;Full&nbsp;Flow&nbsp;(Catalyst&nbsp;switches)<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.9&nbsp;&nbsp;NetFlow&nbsp;ToS&nbsp;AS&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.10&nbsp;NetFlow&nbsp;ToS&nbsp;Proto&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.11&nbsp;NetFlow&nbsp;ToS&nbsp;Source&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.12&nbsp;NetFlow&nbsp;ToS&nbsp;Destination&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.13&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;8.14&nbsp;NetFlow&nbsp;ToS&nbsp;Prefix&nbsp;Port&nbsp;Aggregation<br>
+&nbsp;&nbsp;&nbsp;&nbsp;1005&nbsp;Flow-Tools&nbsp;tagged&nbsp;version&nbsp;5</P
+></P
+></DD
+><DT
+>-x<TT
+CLASS="REPLACEABLE"
+><I
+> xmit_delay</I
+></TT
+></DT
+><DD
+><P
+>Configure a microsecond transmit delay between packets.  This may be necessary in some configurations to prevent a transmit buffer overrun.</P
+></DD
+></DL
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN63"
+></A
+><H2
+>EXAMPLES</H2
+><DIV
+CLASS="INFORMALEXAMPLE"
+><A
+NAME="AEN65"
+></A
+><P
+></P
+><P
+>Transmit all flows in the directory /flows/krc4 to the collector at 10.0.0.1
+listening on port 9500.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-cat /flows/krc4 | flow-send 0/10.0.0.1/9500</B
+></P
+><P
+>Generate a test pattern of version 7 flows and send them to a collector at 10.0.0.1 listening on port 9500.</P
+><P
+>  <B
+CLASS="COMMAND"
+>flow-gen -V7 | flow-send 0/10.0.0.1/9500</B
+></P
+><P
+></P
+></DIV
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN72"
+></A
+><H2
+>BUGS</H2
+><P
+>It is not currently possible to convert between the aggregated formats (8.x)
+and the non aggregated formats (1,5,6,7).</P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN75"
+></A
+><H2
+>AUTHOR</H2
+><P
+>Mark Fullmer
+<TT
+CLASS="EMAIL"
+>&#60;<A
+HREF="mailto:maf@splintered.net"
+>maf@splintered.net</A
+>&#62;</TT
+></P
+></DIV
+><DIV
+CLASS="REFSECT1"
+><A
+NAME="AEN82"
+></A
+><H2
+>SEE ALSO</H2
+><P
+><SPAN
+CLASS="APPLICATION"
+>flow-tools</SPAN
+>(1)</P
+></DIV
+></BODY
+></HTML
+>

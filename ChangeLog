@@ -1,0 +1,911 @@
+* 5-11-2005 flow-tools 0.68 released. 
+
+* added flow-rpt2rrd - post process flow-report into RRD's.
+
+* added flow-log2rrd - post process logs from 
+
+* added flow-rptfmt - post process flow-report into readable and HTML.
+
+* ftstat.c s/psizr256/psize256/ - uebelacker@tuhh.de
+
+* rec_v5->engine_id not set properly in ftdecode.c
+  - baldwinL@mynetwatchman.com
+
+* --enable-lfs set flags for large file support - alexbrennen@gmail.com
+
+* Added CryptoPAn support to flow-xlate
+  req by Abilene
+
+* mailing list archive is available at mail-archive.com
+  req by spork@bway.net
+
+* flow-cat.c: progress debug output - weinhold@berbee.com
+
+* portability: gcc no longer supports goto label which label is at the
+  end of a compound statement - Andreas Jochens <aj@andaco.de>
+
+* flow-stat.c: protect from divize by zero - should only happen on invalid
+  flows - - Espen.Breivik@uninett.no
+
+* flow-filter.c: exaddr filter - Espen.Breivik@uninett.no
+
+* ftxlate.c: tag-mask eval_tag_mask() not using correct offsets
+  - Cougar <cougar@random.ee> & kgraham@valueclick.com
+
+* flow-send: default tx_delay to 0 like flow-fanout - rjd@merit.edu
+
+* flow-export: debug should be global - dwatanab@uci.edu
+
+* flow-report: path will accept spaces, ie |flow-rpt2rrd -p rrd -k 25
+
+* flow-report: records is in rec1
+
+* flow-fanout: did not set address family for receive fd - noted by
+  fingers@fingers.co.za
+
+* docs: add FILES section to man pages
+
+* flow-report: -hh to list available reports
+
+* flow-report, flow-tag, flow-xlate, flow-nfilter.  Run-time variable
+  expansion of the form @VAR or @{VAR:default} for config files.
+
+* flow-receive: dropped inline tagging and nfilter support
+
+* 12-4-2003 flow-tools 0.67 released. 
+
+* flow-export: pgsql support from wyu@ateneo.edu
+
+* docs: flow-report: Added description of reports.
+
+* ftlib: ftfil.c - match_end_time() broken - noted by
+  "Joe Loiacono" <jloiacon@csc.com>
+
+* ftlib: fttag.c - better syntax checking for or-src/dst and set-src/dst
+
+* ftlib: ftlib.h FT_TAG_TYPE_MATCH_NEXTHOP duplicated - flow-tag crash 
+  with next-hop type noted by Maxim Grigoriev <maxim@fnal.gov>
+
+* ftlib: ftstat.c - broken ip-destination-address-source-count.  patch from
+  "Shigeki Taniguchi" <staniguchi@csc.com>
+
+* flow-fanout: filters not loaded - noted by RAR@syssrc.com
+
+* ftlib: missing function prototypes for ftstat_*, rename bind to binding
+  to prevent shadowing bind().  patch from Bill Fumerola <billf@mu.org>
+
+* flow-fanout, flow-capture.  Process SIGTERM like SIGQUIT so flow-tools
+  will work better under daemontools - req by
+  Bernhard Weisshuhn <bkw@weisshuhn.de>
+
+* docs: flow-nfilter and flow-cat TIME/DATE parsing section.
+
+* flow-dscan: drp->flags not updated when loading saved state - patch from
+  Jon Snyder <jon@pdx.edu>
+
+* flow-dscan: allow concurrent -w and -W, patch from
+  Dan Thorson <dan.thorson@seagate.com>
+
+* docs: flow-print -f24 - noted by
+  noted by Christian Bauer <Christian.Bauer@NEFkom.de>
+
+* dist: tag.sym and tag.cfg example files reversed - noted by
+
+* ftlib: ftlib.h - FT_TAG_SET and FT_TAG_OR are broken - patch from
+  Valtteri Vuorikoski <vuori@geo0-hel-fi.magenta.net>
+
+* ftlib: ftrec.c - add 1005to5 translation - patch from
+  Valtteri Vuorikoski <vuori@geo0-hel-fi.magenta.net>
+
+* flow-stat -f0 will try to divide by 0 with an empty flow file
+  - noted by Mike Hunter <mhunter@ack.Berkeley.EDU>
+
+* flow-capture: -u preserve unherited umask - patch from
+  Everton da Silva Marques <everton@lab.ipaccess.diveo.net.br>
+
+* flow-receive: remove -m and -A.
+
+* flow-capture: remove -m and -A, functionality is now in xlate -x -X.
+
+* flow-xlate: - config file based now.
+
+* docs: flow-report: note which fields are sortable and what the key
+  field is.
+
+* flow-capture: accept()'s 3rd arg should be casted to socklen_t*, noted
+  by Alistair.McGlinchy@marks-and-spencer.com
+
+* docs: flow-nfilter, port is 0..65535 not 0..255 - noted by
+  Mike Hunter <mhunter@ack.Berkeley.EDU>
+
+* ftlib: ftlib.h - set-{dst,src} and or-{dst,src} constants not correct - 
+  patch from  Valtteri Vuorikoski <vuori@geo0-hel-fi.magenta.net>
+
+* ftlib: ftchash.c - ftchash_sort() should not try to sort 0 entry table -
+  noted by "Shane D." <shane.dawalt@wright.edu>
+
+* flow-import: missing !HAVE_STRSEP compatability - patch from
+  Alistair.McGlinchy@marks-and-spencer.com
+
+* ftlib: ftstat.c - output path not parsed correctly with leading whitespace
+  -- noted by Maxim Grigoriev <maxim@fnal.gov>
+
+* ftlib: fttag.c - src->source dst->destination
+
+* ftlib: fttag.c - ip-address, exporter, interface tag actions, requested by
+  Tim Irwin <tim@arch.bellsouth.net>
+
+* ftlib: ftsym.c - ftsym_new() should handle null filename - noted by
+  Celso Alves Vieira <celso@telemar.com.br>
+
+* flow-dscan: buf len 64, not 54 - Anil Madhavapeddy <anil@recoil.org>
+
+* 4-3-2003 flow-tools-0.66 released
+
+* reapply flow-fanout linux patch, also infected flow-send
+
+* 4-3-2003 flow-tools-0.65 released
+
+* flow-send, flow-fanout: -s source IP address spoofing.
+
+* build: builddir != srcdir problems - noted by jos@catnook.com
+
+* build: All default config files installed by default.
+
+* build: config files end in .cfg, symbol files end in .sym.  Note this changes
+  the names of the default configuration files.
+
+* ftlib: ftfil.c - random sample filter - reqested by
+  Edward Balas <ebalas@iu.edu>
+
+* ftlib: ftstat.c - ip-destination-address-source-count missing count - noted
+  by Christian Cinetto <cinetto@garr.it>
+
+* build: example tags file installed by default.
+
+* ftlib: ftstat.c - broken ip-source-address/ip-destination-port - noted
+  by Gerhard.Haindl@t-systems.at
+
+* ftlib: ftstat.c - broken ip-destination-address/destination-as - noted
+  by carsten.strahler@lambdanet.net
+
+* remove bin scripts (mostly historical OSU stuff)
+
+* upgrade to automake 1.7.3 and autoconf 2.57
+
+* docs: flow-report.sgml missing
+    ip-source/destination-address/ip-protocol/ip-tos/ip-source/destination-port
+  noted by shane.dawalt@wright.edu
+
+* flow-fanout: will not compile under linux - patch from
+  alex.shepard@gettyimages.com
+
+* ftlib: ftstat.c - use FMT_SYM_LEN instead of hard coded 32 byte length.
+  increase len to 64 bytes.
+
+* ftlib: fmt.c - fmt_uint*s() did not properly null terminate when symbol
+  strlen >= max - noted by jed@onenet.net
+
+* 2-23-2003 flow-tools-0.64 released
+
+* flow-fanout, flow-capture, flow-receive: add startup= to STAT: line
+
+* docs: flow-fanout - missing -f -F - noted by RAR@syssrc.com
+
+* flow-split: consuming too many resources, noted by fin@finseth.com
+
+* ftlib: ftstat.c - rec2: in summary-detail report missing time_real field
+  - noted by shane.dawalt@wright.edu
+
+* build: strouq() -> strtoull().  Check if strtoul() is really strtoull() -
+  noted by shane.dawalt@wright.edu
+
+* ftlib: ftstat.c - protect potential divide by 0 errors - noted by
+  shane.dawalt@wright.edu
+
+* flow-split: stag not initialized - patch from fin@finseth.com
+
+* build: ftlib.h should not require ftconfig.h - noted by jan@kneschke.de
+
+* build: lib/ftconfig.h does not belong in dist - noted by jos@catnook.com
+
+* ftlib: ftlib.h - FT_SO_RCV_BUFSIZE default to 4MB
+
+* ftlib: suppport.c - bigsockbuf() - more agressive reduction on large
+  buffers.  Report size.
+
+* ftlib: ftmask.c - flow-mask: rn_deladdr(): failed.  Missing masklen
+  set - noted by nik.hinson@assurance-dynamics.com
+
+* ftlib: ftfil.c - invert option to filter-definition req by mhyde@escape.ca
+
+* ftlib: shadowed variable names - fumerola@yahoo-inc.com
+
+* flow-cat: exit status 1 if no streams processed - req by
+  mhunter@ack.Berkeley.EDU
+
+* ftlib: ftstat.c - bucket_dump_1(): loop typo noted by
+  nik.hinson@assurance-dynamics.com
+
+* flow-capture: reload tags and filters with SIGHUP
+
+* flow-import: format4 wire format.
+
+* ftlib: ftstat.c - tag mask option should not require local tagging - noted
+  by clay@bloomcounty.org
+
+* flow-*: catch extra command line args - noted by rcarrara@augustmail.com
+
+* ftlib: fttag.c - fix ToS tagging, add ANY tagging.
+
+* 12-12-2002 flow-tools-0.63 released
+
+* ftlib: ftstat.c - More informative error message when invalid field -
+  patch from wyu@ateneo.edu
+
+* docs: flow-capture - hosts.allow requires flow-capture-client, not
+  flow-capture - noted by stewart@net.ohio-state.edu
+
+* flow-capture: TCP client port should be same as UDP netflow port - noted
+  by stewart@net.ohio-state.edu
+
+* ftlib: ftfil.c: moved primitive initialization code to
+  parse_primitive_type() to avoid state loss when 'default'
+  or 'mask' keyword used before a permit/deny.
+
+* ftlib: ftfil.c: tos, marked_tos, tcp_flags mask applied to flow not
+  to a copy - noted by nik.hinson@assurance-dynamics.com
+
+* flow-export -f4 wire format - requested by mikeh@ncsa.uiuc.edu
+
+* docs: flow-print.sgml - document column headers.
+
+* flow-report / ftstat.c - added runtime variable binding and output
+  path substitution support, ie run with -v ROUTER=NYCM and use
+  output path '/report/@ROUTER/report-out'
+
+* ftlib: ftvar.c - variable binding functions.
+
+* ftlib: ftstat.c - summary-detail report will produce core if no flows
+  are processed - noted by rjd@merit.edu
+
+* docs: not all targets included in distribution - noted by
+  Jeje <jeje@jeje.org>
+
+* ftlib: ftio.c byte order of output not always in synch with flags -
+  noted by mikeh@ncsa.uiuc.edu
+
+* docs: flow-filter port correction - mhunter@ack.Berkeley.EDU 
+
+* ftlib: ftstat.c names option works with IP addresses -- DNS lookups.
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: ftstat.c: min_pps,max_pps,min_bps,max_bps calculations,
+  reduce memory and CPU footprint if *ps calculations are not selected.
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: ftstat.c: linear-interpolated-flows-octets-packets,first,last,
+  duration,ip-source-address/source-tag,ip-source-address/destination-tag,
+  ip-destination-address/source-tag,ip-destination-address/destination-tag,
+  ip-source/destination-address/source/destination-tag,
+  ip-source/destination-address/ip-protocol/ip-tos reports.
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: ftstat.c: new fields, index,first,last
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: ftstat.c: integrated mask eval
+  req by nik.hinson@assurance-dynamics.com
+
+* flow-mask: new - replace mask length based on prefix.
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: fttag.c: tag on tcp-src-port, tcp-dst-port, tcp-port, udp-src-port,
+  udp-dst-port, udp-port, tos.
+  req by nik.hinson@assurance-dynamics.com
+
+* ftlib: fttag.c: rework to use jump tables to support more match types
+  w/o performance impact.
+
+* flow-stat: -f32 did not have symbol lookups enabled, noted by
+  Michael Redinger <Michael.Redinger@uibk.ac.at
+
+* docs: flow-tag man page example does not work - noted by
+  Michael.Redinger@uibk.ac.at
+
+* flow-fanout: -V does not work, noted by gritzko@dcn.ru
+
+* 10-15-2002 flow-tools-0.62 released
+
+* ftlib: ftstat.c: fcount displayed (flows counted in pps and bbs calcs)
+
+* build: localstatedir no longer hardcoded to /var/ft.  man and html pages
+  have localstatedir substitution.
+
+* ftlib: ftstat.c: multiple output per report, output to a pipe,
+  source/destination address format, source/destination address count
+  report.
+
+* flow-import: -m allows ascii input.  #:<fields> in ascii output
+  automatically parsed as -m option.
+
+* flow-export: fix -m, -m now allows ascii input, ie -m unix_secs,dpkts,doctets
+
+* ftlib: ftstat.c masked tag not restored if filter evaluated to DENY.
+
+* ftlib: ftstat.c bucket record count in header not correct.
+
+* ftlib: ftstat.c ip-address and ip-port to pick up flow-stat -f7 and -f11
+  style reports.  noted by acidic@apricot.fruit.org
+
+* flow-cat / flow-receive: Pay closer attention to FT_FIELD_CAP_START and
+  FT_FIELD_CAP_END so a bogus capture period is not displayed on
+  output from flow-receive > file.  noted by  ylee@net2phone.com
+
+* flow-print: Missing leading 0's on msec formats, noted by
+  ertoz@cs.umn.edu
+
+* ftlib: ftfil.c: use consistent naming with flow-report
+
+* flow-fanout, flow-receive, flow-capture: handle interrupted recvmsg()
+  syscall which happens on some linux MP configurations.
+
+* ftlib: ftfil.c - pps/bps not handled correctly - patch from jon@pdx.edu
+
+* flow-print - format 24 from Christian.Bauer@NEFonline.de
+
+* flow-import - Cisco NFC format from torppa@polykoira.megabaud.fi
+
+* flow-capture - more informative err message on bind() failure - noted by
+  stewart@net.ohio-state.edu
+
+* docs: flow-capture.sgml - no -o option - noted by stewart@net.ohio-state.edu
+
+* flow-search - remove hard coded path, noted by stewart@net.ohio-state.edu
+
+* ftlib: ftdecode.c - ftpdu_verify() can segv on invalid packets < 4 bytes
+  noted by Eric Stewart stewart@net.ohio-state.edu
+
+* ftlib: ftfil.c - PERMIT/DENY reversed for many when default PERMIT --
+  noted by Gerhard.Haindl@t-systems.at
+
+* ftlib: ftstat.c - tag mask before filter - noted by wyu@ateneo.edu
+
+* 8-27-2002 flow-tools-0.61 released
+
+* ftlib: strtoull.c - missing ULLONG_MAX - noted by papaleonardos.3@osu.edu
+
+* build: --with-mysql allows path, ie --with-mysql=/usr/local
+
+* ftlib: ftstat.c - don't require FT_XFIELD_SRC_MASK / FT_XFIELD_DST_MASK -
+  dynamically add the requirement when FT_STAT_OPT_PREFIX_* is set -
+  noted by mw@uk.yahoo-inc.com
+
+* ftlib: ftio.c - more informative warning when trying to process non
+  flow-tools files.
+
+* ftlib: ftfile.c - more informative warning when ignoring files.
+
+* ftlib: fttag.c - parser requires 'type' for a match and 'term' in a
+  definition.
+
+* ftlib: ftdecode.c - allow padded Cat 6K packets.
+
+* flow-receive, flow-capture: no longer need ftio_set_xip() - noted by
+  mw@uk.yahoo-inc.com
+
+* flow-tag, ftstat: allow retagging - noted by clay@opus.bloomcounty.org
+
+* flow-cat: cleanup error message
+
+* flow-export: len = 0, mysql typo
+
+* ftlib: ftstat.c missed a few , - noted by nik.hinson@assurance-dynamics.com
+
+* 8-15-2002 flow-tools-0.60 released
+
+* flow-capture,flow-receive,flow-fanout: add filter option.
+
+* flow-export: MySQL support based on patch from wyu@ateneo.edu
+
+* ftlib: ftfil.c pps and bps filter.
+
+* build: scripts in bin directory get installed
+
+* build/ftlib: added BSD strtoull.c for DEC portability - noted by
+  shane.dawalt@wright.edu
+
+* flow-report: future replacement for flow-stat
+
+* ftlib: added ftstat.c - stats and report library
+
+* ftlib:  FT_RECGET_* macros
+
+* docs: updated documentation.
+
+* configs: updated asn.txt and asn symbol file
+
+* ftlib: fmt.c - fmt_ipv4prefix() was not processing 0/0 correctly.
+
+* ftlib: ftfil.c - fix memory leak with ftd->name and ftfil->name
+
+* ftlib: ftfil.c - delay primitive resolution until file is parsed
+  -- a filter-definition can precede a filter-primitive 
+
+* ftlib: ftfil.c - time only primitive implemented.  Req by wyu@ateneo.edu
+
+* 7-6-2002 flow-tools-0.59 released
+
+* build: ftbuild.h created by configure
+
+* ftlib: ftfil.c - time -> time-date
+
+* flow-cat: -t start_time -T end_time options for file inclusion based on
+  time/date.
+
+* contrib: update pyflowtools to pyflowtools-0.3.tar.gz
+
+* contrib: updated inter.net to Inter.netPH-1.3.tar.gz
+
+* flow-stat: format 23 bug input/output are u_int16 not u_int8.  patch from
+  Y.Lachin@transtk.ru
+
+* ftlib: ftfil.c - too many hash bits, src/dst reversed, bzero() fed wrong
+  size.  Noted by William Emmanuel S. Yu.
+
+* flow-receive: tag_active should default to null not "".  noted by
+  "Saro Hayan" <saro@arizona.edu>
+
+* 6-11-2002 flow-tools-0.58 released
+
+* 0.57 dist stats: 815 downloads (651 unique).  253 mailing list members.
+
+* ftlib: fttag.c cleanup, walk_free()
+
+* signal() portability, potential SIGCHLD race condition in flow-capture.
+  Noted by Jarkko Torppa <jarkko.torppa@elisa.fi>
+
+* flow-split: split on tags.
+
+* flow-filter: -x nexthop_filter patch from Jen Linkova <jen@rambler-co.ru>
+
+* flow-capture,flow-receive: tagging integration.
+
+* ftlib: ftio_header_print() updated for new 8.x agg methods
+
+* flow-nfilter: new improved version of flow-filter
+
+* ftlib: ftfil.c - new flow filtering library
+
+* ftlib: import getdate.c
+
+* ftlib: Unitialized variable in ftio_header_print - noted by 
+  "Dutky, Steve" <steve.dutky@tfn.com>
+
+* flow-capture,flow-fanout : -p pidfile option.
+  req by "Ed Ravin" <eravin@panix.com>
+
+* flow-filter,flow-tag,flow-xlate: -k (keep time) option.
+  req by Annie Tong <annie.tong@wcom.com>
+
+* flow-gen: tos variance, v1005 support
+
+* ftlib: byte order fix - noted by Y.h.Lee@motorola.com
+
+* ftlib,flow-capture: fix memory leak - noted by Christian.Bauer@NEFkom.de
+
+* flow-fanout: missing #include <time.h> - noted by Gerhard.Haindl@t-systems.at
+
+* build: autoconf/automake update 2.53/1.6.1
+
+* 4-20-2002 flow-tools-0.57 released
+
+* 0.56 dist stats: 1512 downloads (1269 unique).  209 mailing list members.
+
+* flow-print: avoid divide by 0 when processing corrupt flows (dPkts=0)
+
+* flow-filter: add -o option to OR instead of AND filters.  From
+  Cougar <cougar@random.ee>
+
+* ftlib: ftfile_pathname() would not properly generate pathnames for
+  nesting level -1 and -2.  Patch from Arvids <arvids@vendomar.lv>,
+  also fixed by Chris Timmons <cwt@elltel.net>.
+
+* docs: add .sgml source to distribution
+
+* contrib: add Robin Sommer's pyflowtools (Python module for ftlib)
+
+* contrib: update inter.net
+
+* flow-fanout: support multiple exporters.  Add -S stat_inverval
+
+* flow-tag: new utility.  Tag flows using fttag logic.
+
+* docs: clean up html formatting of man pages
+
+* flow-xlate: add -tT options to mask tag
+
+* flow-print: add format 9 for tagged flows
+
+* tcp-port: Joe St Sauver <JOE@OREGON.UOREGON.EDU> - Napster, FastTrack,
+  Gnutella, etc
+
+* flow-send: accept -V and -m flags
+
+* flow-capture: tcp client support
+
+* flow-stat: use system qsort() instead of internal.
+
+* build/code: misc harmless compiler warning cleanups
+
+* build/code: install ftlib.a in prefix/lib, install ftlib header files
+  in prefix/include.  Remove HAVE_CONFIG_H dependency.  Combine header
+  files in to ftlib.h
+
+* build: ftbuild.sh hostname -s is not portable, whoami may not be in path
+
+* ftlib: fttag.c tag flows based on ASN, Prefix, or Next-Hop
+
+* ftlib: support.[ch] scan_ip_prefix()
+
+* ftlib: ftchash.c sort_offset is not static
+
+* flow-xlate: count total flows for -d1 stats, default to no compression
+
+* ftlib: import NetBSD radix.c
+
+* flow-merge: E. Larry Lidz <ellidz@eridu.uchicago.edu> not processing all
+  flows in certain cases.
+
+* flow-export: V1005 mask not set for version 1005 
+
+* flow-print: fix -f2 core dump (introduced in 0.56)
+
+* flow-export: fix -f1 core dump (introduced in 0.56)
+
+* 12-28-2001 flow-tools-0.56 released
+
+* cleanup -h in all.  Add build information via ftbuild.h
+
+* New SGML documentation.
+
+* Dave Plonka <plonka@doit.wisc.edu>: patch to allow more file rotations
+  per day.
+
+* flow-filter works with the v8 formats.
+
+* Jos Backus <josb@cncdsl.com> Superfluous trailing \0's in string literals
+  (actually just need to remove old progname globals)
+
+* Maxim Konovalov <maxim@macomnet.ru>: use const for fterr_* formats.
+
+* Paul Dokas <dokas@cs.umn.edu>: contrib find_scanners.  Perl script to
+  provide compact summarizations of top in/out ip's, ports, etc.
+
+* version 8.6 - 8.14 support
+  DESTONLY,SRC_DEST,FULL_FLOW,AS_TOS,PROT_PORT_TOS,SRC_PREFIX_TOS,
+  DST_PREFIX_TOS,PREFIX_TOS,PREFIX_PORT_TOS
+
+* -T TCP flags filter option to flow-filter
+
+* Robert Wariua rwariua@socrates.Berkeley.EDU : contrib acl-filter.tgz.
+  mrtd + NetFlow.  community and as-path acl's.
+
+* Updated inter.net contrib.
+
+* flow-capture - -R option to specify program to execute on rotate.  Based on
+  patch from Stefan Stefanov <sstefanov@orbitel.bg>
+
+* flow-capture,flow-receive - store exporter IP when multiple exporters instead
+  of 0.  patch from Dave Plonka <plonka@doit.wisc.edu> and
+  Jos Backus <josb@cncdsl.com>
+
+* Solaris compile problem - noted by Dave Hartzell <hartzell@greatplains.net
+
+* Sif Dif in flow-print format4 and -w - 
+  Everton da Silva Marques <EMarques@diveo.net.br>
+
+* initial support for v1005 - tagged version 5
+
+* off by one malloc() bugs in ftio.c and support.c -- core dump noted by
+  Ferry Korving <ferry@xs4all.nl> and probably
+  "Devon True" <dtrue@mail.xodiax.com>
+
+* flow-cat: o: not i: in getopt - Heiko Schlichting <flow-tools@FU-Berlin.DE>
+
+* 7-17-2001 flow-tools-0.55 released
+
+* flow-receive,flow-capture: -S option to emit processed packets every n 
+  minutes.
+
+* flow-receive,flow-capture: accept wildcard source IP, demux on src_ip,
+  dst_ip, and d_version.  xlate to common version when possible.
+
+* flow-stat: update to use ftsym_*()
+
+* flow-stat: format 1,2,3 use hash tables instead of possible overflow
+
+* flow-print: wide output option
+
+* flow-print: update to use ftsym_*()
+
+* ftsym_*() implementation.  Dynamic symbol table support.
+
+* scan_ip() will try gethostbyname() if arg looks like a hostname.
+
+* flow-cat: preload header option (-p).  Prescans flow files to create
+  better output header.
+
+* Wilhelm Becker <Wilhelm.Becker@HRZ.Uni-Dortmund.DE>
+  set SO_REUSEADDR on multicast socket
+  ttl is u_char, not int
+
+* added flow-import: import flows from cflowd or ASCII CSV formats
+
+* Dave Plonka <plonka@doit.wisc.edu> - patch for configure to emit an
+  error message if zlib not found.
+
+* flow-profile: removed.  Outdated ugly hack.
+
+* flow-export: cflowd binary file implementation.
+
+* fixed off by one bug in fmt_uint8() when formatting value >99
+
+* flow-xlate: Disable header rewrite (stdin)
+
+* flow-export: ASCII CSV (comma separated value) implementation.
+
+* flow-stat: update to use fts3rec_compute_offsets().  Full support for v8.
+
+* flow-stat: engine_type and engine_id reports
+
+* added fts3rec_compute_offsets() - provides a cleaner way to handle
+  the many export versions.
+
+* 6-22-2001 flow-tools-0.54 released
+
+* added flow-xlate.  Allow translations including packet/byte scaling,
+  AS 0 substitution, classful address masking, flow mask address masking,
+  and privacy mask. Translate among export version 1, 5, 6, and 7.
+
+* Wilhelm Becker <Wilhelm.Becker@HRZ.Uni-Dortmund.DE> - ftio_write() and
+  ftio_close() not properly updating bytes written.  Add header size to
+  total size in flow-capture. -E now works in flow-capture again.
+
+* added reference to flow-extract in contrib/README
+
+* flow-stat: more informative header -- suggested by stanislav shalunov
+  <shalunov@internet2.edu>
+
+* fixed bug: if using mmap'd files and the flow-file had no records a warning
+  would be displayed and a single corrupt record would be returned by
+  ftio_read()
+
+* added Dave Plonka's Cflow perl module to the contrib area.
+
+* added inter.net work from Miguel A.L. Paraz <map@internet.org.ph> and
+  William Emmanuel S. Yu <william.s.yu@ieee.org> to contrib area.  Utils
+  to work with prefix lists and reporting scripts.
+
+* flow-stat: format24-26 src prefix, dst prefix, src/dst prefix fopd
+
+* committed E. Larry Lidz" <ellidz@eridu.uchicago.edu> flow-merge.c
+
+* flow-stat: format23 - Input/Output interface flows,octets,packets,duration
+
+* flow-stat: option -w (wide output).  Default to not printing duration field.
+
+* flow-stat: move large arrays off the stack
+
+* flow-stat: implement format21 - src/dst AS flows,octets,packets,duration
+  report
+
+* removed -C option to flow-stat (summarize to classful IP networks) --
+  use flow-xlate instead
+
+* flow-stat: implemented sorting options for formats which use hash tables
+  (src ip, dst ip, ip, nexthop, src/dst ip)
+
+* integrate Dave Plonka <plonka@doit.wisc.edu>'s offsetof() method for
+  computing structure element offsets.  Fixes v1 export packet decode.
+
+* Added ToS filter capability to flow-filter
+
+* Juniper v8 hack.  Juniper sets v8 aggregation version to 0 instead of
+  2.  Reported by Jerome Fleury <jeje@jeje.org>
+
+* updated flow-stat to use ftchash_*
+
+* new ftchash_* - generalized constant hash implementation to replace
+  hash_ip*.c
+
+* flow-stat - fixed bug in hash_ip.c hash_ip2.c where etime not updated on
+  initial allocation
+
+* flow-capture, flow-receive -m option.  Mask ip addresses (srcaddr,dstaddr)
+  in version 1,5,6,7 with privacy mask.  Defaults to 255.255.255.255.
+  Does not alter multicast S,G's.
+
+* flow-capture, flow-send, flow-receive, flow-fanout call bigsockbuf() to
+  allocate large socket buffers instead of setsockopt() directly.
+
+* bigsockbuf() implementation.  Instead of using a hard coded value
+  when attempting to extend the socket buffer size which can vary
+  among systems, guess, then decrement by 512 bytes on failure until
+  success.  Noted by jason@intercom.com
+
+* flow-fanout handle signals, log PDU version forwarding.
+
+* flow-fanout checks sequence numbers, version, and verifies integrity
+  of received packets before forwarding
+
+* flow-capture, flow-fanout utilize fterr_setexit() to ensure removal of
+  pidfile.
+
+* fterr_setxit() implementation
+
+* flow-gen - do not create bogus flows, use more reasonable initialization.
+  Noted by Robert Hough <rch@solveinteractive.com>
+
+* flow-stat - ignore bogus 0 packet flows instead of divide by 0
+  Noted by Robert Hough <rch@solveinteractive.com>
+
+* working docs/Makefile.am
+
+* 4-24-2001 flow-tools-0.53 released
+
+* Solaris portability buglets
+
+* flow-fanout,flow-receive,flow-capture support joining a multicast group
+  for receiving flows localip/remoteip/port is replaced by s/g/port
+
+* flow-send,flow-fanout set the ttl if the destination address is multicast
+  localip/remoteip/port -> localip/remoteip/port/ttl.  TTL defaults to 0.
+
+* flow-fanout maintaines pidfile
+
+* flow-fanout will honor SIGQUIT
+
+* flow-capture will unlink pid file on exit
+
+* flow-capture log SIGQUIT and SIGHUP
+
+* flow-capture will honor SIGQUIT before processing a file
+
+* flow-fanout daemonizes by default
+
+* flow-fanout,flow-capture,flow-send,flow-receive all use common format
+  to describe peer - localip/remoteip/port
+
+* flow-send,flow-fanout can set local IP address when sending
+
+* flow-receive,flow-capture,flow-fanout can bind to a specific local IP
+
+* added directory support to flow-cat
+
+* added directory support to flow-capture and flow-expire
+
+* flow-cat all command line options not processed due to unbalanced "
+
+* flow-capture - filenames generated have +- GMT offset
+  (example from Dave Plonka <plonka@doit.wisc.edu>)
+
+* ftio_set_ver(): use new ver struct for updating ftio->fth.fields, not old
+  (broken v8 files)
+
+* fttlv_enc_uint8(): 1 byte encoding, not 2
+  (broken v8 files)
+
+* 4-8-2001 flow-tools 0.52 released
+
+* prepend FT_ to QUEUE* functions to prevent conflicting with BSDI's
+  sys/queue.h
+
+* flow-stat.c stat0() also report in realtime.
+
+* fterr.c portablilty
+
+* 3-14-2001 flow-tools 0.51 released
+
+* Fixed byte ordering problem with flow-fanout
+
+* Added ToS based format to flow-stat
+
+* compsci@cs.fiu.edu time fields byte order problem on BIG_ENDIAN
+
+* Added Miguel A.L. Paraz <map@internet.org.ph> flow-split to contrib
+
+* flow-capture header size rewrite fix
+
+* fixed longword alignment problem in ftio_write_header()
+
+* generalized error/warning/info with fterr_*()
+
+* 3-11-2001 flow-tools 0.50 released
+
+* added mmap() support for reading flows.  flow-cat can enable it.
+
+* initial implementation of ifName:ifIndex and alias mappings.  flow-receive
+  and flow-capture will add the mappings if they exist.
+
+* added SECURITY document
+
+* flow-cat handles ^C
+
+* new tool, flow-split.  Split a flow stream based on # of flows or time
+
+* fixed sequence # calculation when encoding
+
+* stream version 3 -- variable length header, exporter ip in flows.
+  note, version 2 not supported.
+
+* fixed memory dealloc / potential core dump on exit bug in flow-dscan.c
+
+* new utility flow-header to just dump the header of a file/stream
+
+* flow-capture and flow-receive update lost flows and sequence resets in
+  header
+
+* flow-receive rewrites header on close and updates fields properly
+
+* flow-capture and flow-receive update new exporter_ip field in header
+
+* 2-21-2001 flow-tools 0.411 released
+
+* Andrey Zolotnicky" <andrey@kost.kz> detach in flow-capture main() shadows
+  global
+
+* Andrey Zolotnicky" <andrey@kost.kz> ftpdu_check_seq() fix
+
+* 2-20-2001 flow-tools 0.41 released
+
+* html and man docs included in make dist
+
+* ftpdu_check_seq() implementation.  Check and report errors with
+  received sequence numbers
+
+* include everything needed for lex/yacc to build acl* including yyerror()
+  for linux
+
+* use autoconf macros to include string.h / strings.h
+
+* All files use config.h
+
+* inspect return val of ftio_set_version() to bomb out earlier
+
+* ftio_init(), and ftio_set_version properly return error
+
+* flow-gen uses same -V format as flow-receive and flow-capture
+
+* flow-receive and flow-capture have -I <ip address of exports> and 
+  -V <PDU version expecting> options.  -I required for flow-capture
+
+* resurrected flow-export hack to dump flows in pcap format
+
+* ftset_init() - code simplify/cleanup
+
+* AS 0 substitition option in flow-receive and flow-capture
+
+* CFLAGS = -g -ansi -Wall
+
+* ftio_set_nflows() uses u_int32 not u_int64
+
+* flow-capture not properly updating nflows in header
+
+* ftpdu_verify() implemented
+
+* Miguel A.L. Paraz" <map@internet.org.ph - potential unitialized return
+  value in ftio_close()
+
+* Added perl/ftprint - example of using flow-tools with perl
+
+* Fixed autoconfig problem where everything was linked with lex/yacc libs
+
+* Andrey Zolotnicky" <andrey@kost.kz> - linux modifies timeval after select()
+  - fixed flow-capture.c and flow-fanout.c
+
+* 2-11-2001 flow-tools 0.40 released
+
+* FT_IO_MAXDECODE and FT_IO_MAXENCODE bumped up to 4K
+
+

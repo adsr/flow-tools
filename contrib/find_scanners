@@ -1,0 +1,1129 @@
+#!/usr/bin/perl -w
+
+#
+# Copyright (c) 2001
+#      The Regents of the University of Minnesota.  All rights reserved.
+#
+#
+# This code is inspired and partially derived from the find_random_http
+# script posted to the flowtools email list on Aug 1, 2001 by Dave Plonka.
+# I owe him much for making this script possible.  -Paul Dokas
+#
+#
+# Redistribution and use in source and binary forms, with or without
+# modification, are permitted provided that the following conditions
+# are met:
+# 1. Redistributions of source code must retain the above copyright
+#    notice, this list of conditions and the following disclaimer.
+# 2. Redistributions in binary form must reproduce the above copyright
+#    notice, this list of conditions and the following disclaimer in the
+#    documentation and/or other materials provided with the distribution.
+# 3. All advertising materials mentioning features or use of this software
+#    must display the following acknowledgement:
+#      This product includes software developed by the University of
+#      Minnesota and its contributors.
+# 4. Neither the name of the University nor the names of its contributors
+#    may be used to endorse or promote products derived from this software
+#    without specific prior written permission.
+#
+# THIS SOFTWARE IS PROVIDED BY THE REGENTS AND CONTRIBUTORS ``AS IS'' AND
+# ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE
+# IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE
+# ARE DISCLAIMED.  IN NO EVENT SHALL THE REGENTS OR CONTRIBUTORS BE LIABLE
+# FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+# DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS
+# OR SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+# HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT
+# LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY
+# OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF
+# SUCH DAMAGE.
+#
+
+#
+# $Id: find_scanners,v 1.7 2001/11/28 20:36:40 dokas Exp $
+#
+
+#########################################################################
+#
+# This script is meant, more or less as a replacement for the very long
+# string of piped commands involving flow-cat, flow-stat, awk and sort
+# that I'd been using to analyze my border flows.  I wanted to be able
+# to see a list of IP addresses sorted by bandwidth, flows or number of
+# packets and the services that were being used in one relatively small
+# format.
+#
+# The following are examples of how I run this script on the flows that
+# I collect with the OSU flow-tools:
+#
+#   Show the source IP addresses for the top 20 outbound bandwidth
+#   consumers and show the top 7 source and destination ports for the
+#   10 minute period ending at 08:30 on 11/26/2001:
+#
+#     find_scanners -S -o -b 20 -s 7 -d 7 cf05.2001-11-26.083001 | less
+#
+#
+#   Show the destination IP addresses for the top 10 inbound flow consumers
+#   and show the top 7 source and destination ports for the 10 minute
+#   period ending at 08:30 on 11/26/2001:
+#
+#     find_scanners -D -i -f 20 -s 7 -d 7 cf05.2001-11-26.083001 | less
+#
+#
+# I find this script particularly helpful when I'm trying to figure out
+# what created all of those spikes in my FlowScan graphs.  DOS attacks
+# are usually *really* easy to identify with this script.
+#
+# And finally, be warned that this script can consume a *LOT* of memory.
+# I collect flows at about 1.1 Mflows/10 minutes or about 1.8Kflows/sec
+# and this script routinely uses around 500MBytes of memory when chewing
+# on just 10 minutes worth of flows.
+#
+#########################################################################
+#
+# To use this script, you'll need to install the following Perl modules:
+#
+#  Net::Patricia
+#   http://net.doit.wisc.edu/~plonka/Net-Patricia/
+#   or as found on CPAN
+#
+#  Cflow
+#   http://net.doit.wisc.edu/~plonka/Cflow/
+#
+#
+# And, to get the Cflow module working, you'll need to be collecting flows
+# with one of the following:
+#
+#
+# CAIDA's cflowd 2.x by Daniel McRobb (with Cisco's NetFlow v5):
+#   http://www.caida.org/tools/measurement/cflowd/
+#   http://net.doit.wisc.edu/~plonka/cflowd/
+# 
+# flow-tools by Mark Fullmer (with NetFlow v1, v5, v6, or v7):
+#   http://www.splintered.net/sw/flow-tools/
+#
+# lfapd by Steve Premeau (with Riverstone's LFAPv4):
+#
+#         http://www.nmops.org/
+#
+#########################################################################
+#
+# Please send all bug fixes or enhancements to dokas@cs.umn.edu
+#
+#########################################################################
+
+
+use strict;
+
+use POSIX;
+use Getopt::Std;
+
+use Cflow qw(:flowvars :tcpflags :icmptypes :icmpcodes 1.028);
+use Net::Patricia;
+
+use IO::File;
+use Socket; # for inet_ntoa
+
+
+
+#
+# Initialization
+#
+
+# Place your networks here
+#
+# E.G.
+#  10.0.0.0/8
+#  192.168.0.0/16
+#  172.16.0.0/12
+my @MY_NETS = qw(
+);
+
+#
+# Known services not necessarily in /etc/services.
+# You can also override /etc/services here.
+#
+my %KNOWN_SERVICES = (
+  kazaa => \&kazaa,
+  gnutella => \&gnutella,
+  hotline => \&hotline,
+  ntp => \&ntp,
+  ftp => \&ftp,
+  http => \&http,
+  dns => \&dns
+);
+
+
+my $insuspect = new Net::Patricia;
+die unless ref($insuspect);
+
+my $outsuspect = new Net::Patricia;
+die unless ref($outsuspect);
+
+my $net = new Net::Patricia;
+die unless ref($net);
+
+if ($#MY_NETS == -1)
+  {
+    print("You need to put your networks into the @MY_NETS variable.\n");
+    print("Edit the source and add your networks to the @MY_NETS variable at line 138.\n");
+    exit(0);
+  }
+foreach (@MY_NETS) { $net->add_string($_) }
+
+
+#
+# Globals
+#
+my $nfiles = 0;
+
+my $all_flows = 0;
+my $all_pkts = 0;
+my $all_bytes = 0;
+
+my %protocol_cache = (
+    1 => 'icmp',
+    6 => 'tcp',
+    17 => 'udp',
+    47 => 'gre',
+    50 => 'esp',
+    51 => 'ah',
+  );
+my %service_cache = (
+    '412/6' => 'NeoModus',
+    '1214/6' => 'KaZaA',
+    '2340/6' => 'CuteMX',
+    '4661/6' => 'eDonkey2000',
+    '4662/6' => 'eDonkey2000',
+    '5190/6' => 'AIM',
+    '5501/6' => 'HotLine',
+    '5502/6' => 'HotLine',
+    '6257/17' => 'WinMX',
+    '6346/6' => 'Gnutella',
+    '6347/6' => 'Gnutella',
+    '6699/6' => 'WinMX',
+    '12345/6' => 'NetBus',
+    '12346/6' => 'NetBus',
+    '27015/17' => 'HalfLife',
+    '27374/6' => 'SubSeven',
+    '31337/6' => 'Elite',
+  );
+
+#our $filter_sub = \&kazaa;
+our $filter_sub = undef;
+
+
+#
+# Global command line arguments
+#
+our $opt_h = 0;
+our $opt_x = 0;
+
+our $opt_n = 0;
+
+our $opt_S = 0;
+our $opt_D = 0;
+
+our $opt_c = 0;
+our $opt_f = 0;
+our $opt_p = 0;
+our $opt_b = 0;
+
+our $opt_o = 0;
+our $opt_i = 0;
+
+our $opt_s = 0;
+our $opt_d = 0;
+
+our $opt_F = "";
+
+
+#
+# Parse command line arguments
+#
+if (!getopts('hxnSDc:f:p:b:ios:d:F:') || $opt_h )
+  {
+    usage("find_scanners");
+  }
+
+
+#
+# make sure the arguments are sane and set defaults as necessary
+#
+$opt_S = 1 if ($opt_S == 0 && $opt_D == 0);
+usage("find_scanners") if ($opt_S != 0 && $opt_D != 0);
+
+$opt_c = 10 if ($opt_c == 0 && $opt_f == 0 && $opt_p == 0 && $opt_b == 0);
+usage("find_scanners") if (($opt_c != 0) && ($opt_f != 0 || $opt_p != 0 || $opt_b != 0));
+usage("find_scanners") if (($opt_f != 0) && ($opt_c != 0 || $opt_p != 0 || $opt_b != 0));
+usage("find_scanners") if (($opt_p != 0) && ($opt_c != 0 || $opt_f != 0 || $opt_b != 0));
+usage("find_scanners") if (($opt_b != 0) && ($opt_c != 0 || $opt_f != 0 || $opt_p != 0));
+
+$opt_i = 1 if ($opt_o == 0 && $opt_i == 0);
+
+$opt_d = 10 if ($opt_s == 0 && $opt_d == 0);
+
+if ($opt_F ne "")
+  {
+    $filter_sub = eval("sub { if (".$opt_F.") { return 1; } else { return 0; } }") or die("Error compiling filter");
+  }
+
+
+
+
+#
+# actually cut the flows
+#
+print("Cutting flows...\n") if ($opt_x);
+Cflow::verbose(1);
+Cflow::find(\&do_flow, \&do_file, (-1 != $#ARGV) ? @ARGV : '-');
+print("Done cutting flows.\n") if ($opt_x);
+
+
+#
+#
+#
+if ($opt_o)
+  {
+    my @top = ();
+
+
+    find_top($insuspect, \@top);
+
+    if ($opt_c > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top outbound hosts by hosts counted\n");
+        print("----------------------------------------\n");
+        print_top($insuspect, \&ip_by_count, \&port_by_flows, $opt_c, \@top);
+      }
+
+    if ($opt_f > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top outbound hosts by flows\n");
+        print("----------------------------------------\n");
+        print_top($insuspect, \&ip_by_flows, \&port_by_flows, $opt_f, \@top);
+      }
+
+    if ($opt_p > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top outbound hosts by packets\n");
+        print("----------------------------------------\n");
+        print_top($insuspect, \&ip_by_pkts, \&port_by_pkts, $opt_p, \@top);
+      }
+
+    if ($opt_b > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top outbound hosts by bandwidth\n");
+        print("----------------------------------------\n");
+        print_top($insuspect, \&ip_by_bytes, \&port_by_bytes, $opt_b, \@top);
+      }
+  }
+
+
+#
+#
+#
+if ($opt_i)
+  {
+    my @top = ();
+
+
+    find_top($outsuspect, \@top);
+
+    if ($opt_c > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top inbound hosts by hosts counted\n");
+        print("----------------------------------------\n");
+        print_top($outsuspect, \&ip_by_count, \&port_by_flows, $opt_c, \@top);
+      }
+
+    if ($opt_f > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top inbound hosts by flows\n");
+        print("----------------------------------------\n");
+        print_top($outsuspect, \&ip_by_flows, \&port_by_flows, $opt_f, \@top);
+      }
+ 
+    if ($opt_p > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top inbound hosts by packets\n");
+        print("----------------------------------------\n");
+        print_top($outsuspect, \&ip_by_pkts, \&port_by_pkts, $opt_p, \@top);
+      }
+  
+    if ($opt_b > 0)
+      {
+        print("\n");
+        print("----------------------------------------\n");
+        print("Top inbound hosts by bandwidth\n");
+        print("----------------------------------------\n");
+        print_top($outsuspect, \&ip_by_bytes, \&port_by_bytes, $opt_b, \@top);
+      }
+  }
+
+
+exit(0);
+
+
+#
+#
+#
+sub do_file
+{
+  my $fname = shift;
+
+  print(">>> Cutting $fname\n");
+
+  $nfiles++;
+}
+
+
+#
+#
+#
+sub add_flow
+{
+  my $suspectdb = shift;
+
+  my $addr1 = shift;
+  my $ip1 = inet_ntoa(pack("N", $addr1));
+  my $port1 = shift;
+
+  my $addr2 = shift;
+  my $ip2 = inet_ntoa(pack("N", $addr2));
+  my $port2 = shift;
+
+  my $scanner;
+
+
+  print("$protocol\t$ip1 $port1\t$ip2 $port2\n") if ($opt_x);
+
+
+  if ($scanner = $suspectdb->match_integer($addr1))
+    {
+      my $victim;
+
+
+      #
+      # tally protocol/port pairs.
+      #
+      $scanner->{dstprotocolport}->{$protocol."-".$dstport}->{flows}++;
+      $scanner->{dstprotocolport}->{$protocol."-".$dstport}->{pkts} += $pkts;
+      $scanner->{dstprotocolport}->{$protocol."-".$dstport}->{bytes} += $bytes;
+
+      $srcport = $dstport if ($protocol == 1);
+      $scanner->{srcprotocolport}->{$protocol."-".$srcport}->{flows}++;
+      $scanner->{srcprotocolport}->{$protocol."-".$srcport}->{pkts} += $pkts;
+      $scanner->{srcprotocolport}->{$protocol."-".$srcport}->{bytes} += $bytes;
+
+
+      #
+      # Earlier start time?
+      #
+      $scanner->{startime} = $startime if ($scanner->{startime} > $startime);
+
+      #
+      # Later end time?
+      #
+      $scanner->{endtime} = $endtime if ($scanner->{endtime} < $endtime);
+
+
+      #
+      #
+      #
+      $victim = $scanner->{remote}->match_integer($addr2);
+      if (! defined($victim))
+        {
+          $victim = $scanner->{remote}->add_string($ip2, {
+                                                           flows => 1,
+                                                           pkts => $pkts,
+                                                           bytes => $bytes
+                                                         });
+        }
+      else
+        {
+          $victim->{flows}++;
+          $victim->{pkts} += $pkts;
+          $victim->{bytes} += $bytes;
+        }
+    }
+  else
+    {
+      $scanner = $suspectdb->add_string($ip1, {
+                                                  startime => $startime,
+
+                                                  endtime => $endtime,
+
+                                                  addr => $addr1,
+                                                  remote => new Net::Patricia
+                                                });
+
+      $scanner->{remote}->add_string($ip2, {
+                                             flows => 1,
+                                             pkts => $pkts,
+                                             bytes => $bytes,
+                                           });
+
+      if ($opt_s)
+        {
+          $srcport = $dstport if ($protocol == 1);
+          $scanner->{srcprotocolport}->{$protocol."-".$srcport} = {
+                                                                  flows => 1,
+                                                                  pkts => $pkts,
+                                                                  bytes => $bytes
+                                                                }
+        }
+
+      if ($opt_d)
+        {
+          $scanner->{dstprotocolport}->{$protocol."-".$dstport} = {
+                                                                  flows => 1,
+                                                                  pkts => $pkts,
+                                                                  bytes => $bytes
+                                                                }
+        }
+    }
+}
+
+
+#
+#
+#
+sub do_flow
+{
+  my ($addr1, $port1);
+  my ($addr2, $port2);
+
+
+  print("do_flow()\n") if ($opt_x);
+
+
+  #
+  #
+  #
+  $all_flows++;
+  $all_pkts += $pkts;
+  $all_bytes += $bytes;
+
+
+  #
+  #
+  #
+  if ($opt_S)
+    {
+      $addr1 = $srcaddr;
+      $port1 = $srcport;
+
+      $addr2 = $dstaddr;
+      $port2 = $dstport;
+    }
+  elsif ($opt_D)
+    {
+      $addr1 = $dstaddr;
+      $port1 = $dstport;
+
+      $addr2 = $srcaddr;
+      $port2 = $srcport;
+    }
+
+  #
+  #
+  #
+  if (($opt_o) and ($net->match_integer($srcaddr)))
+    {
+      if ($opt_F ne "")
+        {
+          return(0) if (! &$filter_sub());
+        }
+
+      add_flow($insuspect, $addr1, $port1, $addr2, $port2);
+    }
+
+  #
+  #
+  #
+  elsif (($opt_i) and (! $net->match_integer($srcaddr)))
+    {
+      if ($opt_F ne "")
+        {
+          return(0) if (! &$filter_sub());
+        }
+
+      add_flow($outsuspect, $addr1, $port1, $addr2, $port2);
+    }
+
+  return(1);
+}
+
+
+#
+#
+#
+sub find_top
+{
+  my $suspectdb = shift;
+  my $tops = shift;
+
+
+  $suspectdb->climb( sub {
+                           my $node = $_[0];
+
+                           my $top_flows = 0;
+                           my $top_pkts = 0;
+                           my $top_bytes = 0;
+
+                           my $ip = inet_ntoa(pack("N", $node->{addr}));
+
+
+
+                           print("Checking:  $ip\n") if ($opt_x);
+
+
+                           #
+                           # Gather the stats
+                           #
+                           my $count = $node->{remote}->climb(sub {
+                                                                    $top_flows += $_[0]->{flows};
+                                                                    $top_pkts += $_[0]->{pkts};
+                                                                    $top_bytes += $_[0]->{bytes};
+                                                                    return(1);
+                                                                  });
+
+
+                           #
+                           # Save the host's info
+                           #
+                           push(@$tops, [$ip, $count, $top_flows, $top_pkts, $top_bytes]);
+
+
+                           #
+                           # Done
+                           #
+                           return(1);
+                         } );
+}
+
+
+
+#
+#
+#
+sub print_top
+{
+  my $suspectdb = shift;
+  my $ip_sort_sub = shift;
+  my $port_sort_sub = shift;
+  my $ntop = shift;
+  my $tops = shift;
+
+  my $all_top_flows = 0;
+  my $all_top_pkts = 0;
+  my $all_top_bytes = 0;
+
+  my $top;
+
+
+
+  print("print_top()\n") if ($opt_x);
+
+  #
+  #
+  #
+  foreach $top (sort($ip_sort_sub @$tops))
+    {
+      my ($ip, $count, $top_flows, $top_pkts, $top_bytes) = @{$top};
+      my $node = $suspectdb->match_exact_string($ip);
+
+      my $all_flows_ratio;
+      my $all_pkts_ratio;
+      my $all_bytes_ratio;
+
+
+      #
+      # sanity check
+      #
+      die("$ip was not found in the suspectdb!") if (!defined($node));
+
+
+      #
+      # Header information
+      #
+      print("Scanner:  $ip");
+      if (!$opt_n)
+        {
+          my $hostname = gethostbyaddr(pack("N", $node->{addr}), AF_INET);
+
+          if (defined($hostname))
+            {
+              print(" ($hostname)");
+            }
+          else
+            {
+              print(" ($ip)");
+            }
+        }
+      print("\t$count hosts touched\n");
+
+
+      #
+      # Times
+      #
+      my ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst);
+
+      ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($node->{startime});
+      $year += 1900;
+      $mon++;
+      printf("\t%04d/%02d/%02d %02d:%02d:%02d ->", $year, $mon, $mday, $hour, $min, $sec);
+      ($sec, $min, $hour, $mday, $mon, $year, $wday, $yday, $isdst) = localtime($node->{endtime});
+      $year += 1900;
+      $mon++;
+      printf("%04d/%02d/%02d %02d:%02d:%02d\n", $year, $mon, $mday, $hour, $min, $sec);
+
+
+      #
+      # Flow counts
+      #
+      $all_flows_ratio = ($top_flows / $all_flows) * 100.0;
+      printf("\tFLOWS:   %21d (%6.2f%%)\n", $top_flows, $all_flows_ratio);
+
+
+      #
+      # Packet counts
+      #
+      $all_pkts_ratio = ($top_pkts / $all_pkts) * 100.0;
+      printf("\tPKTS:    %21d (%6.2f%%)\n", $top_pkts, $all_pkts_ratio);
+
+
+      #
+      # Byte counts
+      #
+      $all_bytes_ratio = ($top_bytes / $all_bytes) * 100.0;
+      printf("\tBYTES:   %21d (%6.2f%%)\n", $top_bytes, $all_bytes_ratio);
+
+
+      #
+      # sort and show all protocol/port pairs
+      #
+      my @pps;
+      my $pp;
+      my $nports;
+
+
+      #
+      #
+      #
+      if ($opt_d > 0)
+        {
+          @pps = ();
+
+          foreach $pp (keys(%{$node->{dstprotocolport}}))
+            {
+              my ($protocol, $port) = split(/-/, $pp);
+
+              push(@pps, {
+                           flows => $node->{dstprotocolport}->{$pp}->{flows},
+                           pkts => $node->{dstprotocolport}->{$pp}->{pkts},
+                           bytes => $node->{dstprotocolport}->{$pp}->{bytes},
+                           protocol => $protocol,
+                           port => $port
+                         });
+            }
+
+          print("\n\tAll Destination Ports:\n");
+          print("                PROTO/PORT\t     FLOWS\t      PKTS\t     BYTES\n");
+          $nports = $opt_d;
+          foreach $pp (sort($port_sort_sub @pps))
+            {
+              # fill the protocol cache
+              my $protocol = $protocol_cache{$pp->{protocol}};
+              if (! defined($protocol))
+                {
+                  $protocol = getprotobynumber($pp->{protocol});
+                  $protocol = $pp->{protocol} if (! defined($protocol));
+
+                  $protocol_cache{$pp->{protocol}} = $protocol;
+                }
+
+              # fill the service cache
+              if ($pp->{protocol} == 1)
+                {
+                  my $ICMPType = ($pp->{port} >> 8) & 0xff;
+                  my $ICMPCode = $pp->{port} & 0xff;
+
+                  printf("%14s%7s/%-6s\t%10d\t%10d\t%10d\n", $ICMPType, $ICMPCode, $protocol, $pp->{flows}, $pp->{pkts}, $pp->{bytes});
+                }
+              else
+                {
+                  my $service = $service_cache{$pp->{port}."/".$pp->{protocol}};
+                  if (! defined($service))
+                    {
+                      $service = getservbyport($pp->{port}, $protocol);
+                      $service = "" if (! defined($service));
+
+                      $service_cache{$pp->{port}."/".$pp->{protocol}} = $service;
+                    }
+                  printf("%14s%7s/%-6s\t%10d\t%10d\t%10d\n", $service, "(".$pp->{port}.")", $protocol, $pp->{flows}, $pp->{pkts}, $pp->{bytes});
+                }
+
+              last if (--$nports == 0);
+            }
+        }
+
+
+      #
+      #
+      #
+      if ($opt_s > 0)
+        {
+          @pps = ();
+
+          foreach $pp (keys(%{$node->{srcprotocolport}}))
+            {
+              my ($protocol, $port) = split(/-/, $pp);
+
+              push(@pps, {
+                           flows => $node->{srcprotocolport}->{$pp}->{flows},
+                           pkts => $node->{srcprotocolport}->{$pp}->{pkts},
+                           bytes => $node->{srcprotocolport}->{$pp}->{bytes},
+                           protocol => $protocol,
+                           port => $port
+                         });
+            }
+
+          print("\n\tAll Source Ports:\n");
+          print("                PROTO/PORT\t     FLOWS\t      PKTS\t     BYTES\n");
+          $nports = $opt_s;
+          foreach $pp (sort($port_sort_sub @pps))
+            {
+              # fill the protocol cache
+              my $protocol = $protocol_cache{$pp->{protocol}};
+              if (! defined($protocol))
+                {
+                  $protocol = getprotobynumber($pp->{protocol});
+                  $protocol = $pp->{protocol} if (! defined($protocol));
+
+                  $protocol_cache{$pp->{protocol}} = $protocol;
+                }
+
+              # fill the service cache
+              if ($pp->{protocol} == 1)
+                {
+                  my $ICMPType = ($pp->{port} >> 8) & 0xff;
+                  my $ICMPCode = $pp->{port} & 0xff;
+
+                  printf("%14s%7s/%-6s\t%10d\t%10d\t%10d\n", $ICMPType, $ICMPCode, $protocol, $pp->{flows}, $pp->{pkts}, $pp->{bytes});
+                }
+              else
+                {
+                  my $service = $service_cache{$pp->{port}."/".$pp->{protocol}};
+                  if (! defined($service))
+                    {
+                      $service = getservbyport($pp->{port}, $protocol);
+                      $service = "" if (! defined($service));
+
+                      $service_cache{$pp->{port}."/".$pp->{protocol}} = $service;
+                    }
+                  printf("%14s%7s/%-6s\t%10d\t%10d\t%10d\n", $service, "(".$pp->{port}.")", $protocol, $pp->{flows}, $pp->{pkts}, $pp->{bytes});
+                }
+
+              last if (--$nports == 0);
+            }
+        }
+
+
+      #
+      # Save top counts
+      #
+      $all_top_flows += $top_flows;
+      $all_top_pkts += $top_pkts;
+      $all_top_bytes += $top_bytes;
+
+
+      print("\n");
+
+
+      #
+      #
+      #
+      $ntop--;
+      last if ($ntop == 0);
+    }
+
+
+  #
+  #
+  #
+  if ($all_top_flows > 0)
+    {
+      my $all_flows_ratio = ($all_top_flows / $all_flows) * 100.0;
+      my $all_pkts_ratio = ($all_top_pkts / $all_pkts) * 100.0;
+      my $all_bytes_ratio = ($all_top_bytes / $all_bytes) * 100.0;
+                            
+                                                
+      $all_top_bytes /= 1024 * 1024;
+      my $tmp = $all_bytes / (1024 * 1024);
+
+      print("Top:       $all_top_flows flows\t$all_top_pkts pkts\t$all_top_bytes MB\n");
+      print("All:       $all_flows flows\t$all_pkts pkts\t$tmp MB\n\n");
+
+      printf("Top FLOWS:   %15d (%6.2f%%)\n", $all_top_flows, $all_flows_ratio);
+      printf("Top PKTS:    %15d (%6.2f%%)\n", $all_top_pkts, $all_pkts_ratio);
+      printf("Top BYTES:   %12.2f MB (%6.2f%%)\n\n", $all_top_bytes, $all_bytes_ratio);
+    }
+}
+
+
+#
+# ip_by_count
+#
+sub ip_by_count
+{
+  my ($aip, $acount, $atop_flows, $atop_pkts, $atop_bytes) = @{$a};
+  my ($bip, $bcount, $btop_flows, $btop_pkts, $btop_bytes) = @{$b};
+
+
+  print("$aip, $acount <=> $bip, $bcount\n") if ($opt_x);
+
+  return($bcount <=> $acount);
+}
+
+
+#
+# ip_by_flows
+#
+sub ip_by_flows
+{
+  my ($aip, $acount, $atop_flows, $atop_pkts, $atop_bytes) = @{$a};
+  my ($bip, $bcount, $btop_flows, $btop_pkts, $btop_bytes) = @{$b};
+
+
+  print("$aip, $atop_flows <=> $bip, $btop_flows\n") if ($opt_x);
+
+  return($btop_flows <=> $atop_flows);
+}
+
+
+#
+# ip_by_pkts
+#
+sub ip_by_pkts
+{
+  my ($aip, $acount, $atop_flows, $atop_pkts, $atop_bytes) = @{$a};
+  my ($bip, $bcount, $btop_flows, $btop_pkts, $btop_bytes) = @{$b};
+
+
+  print("$aip, $atop_pkts <=> $bip, $atop_pkts\n") if ($opt_x);
+
+  return($btop_pkts <=> $atop_pkts);
+}
+
+
+#
+# ip_by_bytes
+#
+sub ip_by_bytes
+{
+  my ($aip, $acount, $atop_flows, $atop_pkts, $atop_bytes) = @{$a};
+  my ($bip, $bcount, $btop_flows, $btop_pkts, $btop_bytes) = @{$b};
+
+
+  print("$aip, $atop_bytes <=> $bip, $atop_bytes\n") if ($opt_x);
+
+  return($btop_bytes <=> $atop_bytes);
+}
+
+
+#
+# port_by_flows
+#
+sub port_by_flows
+{
+  return($b->{flows} <=> $a->{flows});
+}
+
+
+#
+# port_by_pkts
+#
+sub port_by_pkts
+{
+  return($b->{pkts} <=> $a->{pkts});
+}
+
+
+#
+# port_by_bytes
+#
+sub port_by_bytes
+{
+  return($b->{bytes} <=> $a->{bytes});
+}
+
+
+#
+#
+#
+sub TCP
+{
+  return(1) if ($protocol == 6);
+  return(0);
+}
+
+
+#
+#
+#
+sub UDP
+{
+  return(1) if ($protocol == 17);
+  return(0);
+}
+
+
+#
+#
+#
+sub ICMP
+{
+  return(1) if ($protocol == 1);
+  return(0);
+}
+
+
+#
+#
+#
+sub kazaa
+{
+  return(0) if ($protocol != 6);
+  return(1) if (($srcport == 1214) || ($dstport == 1214));
+  return(0);
+}
+
+
+#
+#
+#
+sub gnutella
+{
+  return(0) if ($protocol != 6);
+  return(1) if (($srcport == 6346) || ($dstport == 6346));
+  return(1) if (($srcport == 6347) && ($dstport == 6347));
+  return(0);
+}
+
+
+#
+#
+#
+sub hotline
+{
+  return(0) if ($protocol != 6);
+  return(1) if (($dstport == 5501) || ($dstport == 5502));
+  return(0);
+}
+
+
+#
+#
+#
+sub ntp
+{
+  return(1) if (($protocol == 6) && ($dstport == 123));
+  return(1) if (($protocol == 17) && ($dstport == 123));
+  return(0);
+}
+
+
+#
+#
+#
+sub ftp
+{
+  return(1) if (($protocol == 6) && ($dstport == 21));
+  return(1) if (($protocol == 6) && ($srcport == 20));
+  return(0);
+}
+
+
+#
+#
+#
+sub http
+{
+  return(1) if (($protocol == 6) && ($dstport == 80));
+  return(0);
+}
+
+
+#
+#
+#
+sub irc
+{
+  return(0) if ($protocol != 6);
+  return(1) if (($srcport == 6666) || ($dstport == 6666));
+  return(1) if (($srcport == 6667) || ($dstport == 6667));
+  return(0);
+}
+
+
+#
+#
+#
+sub dns
+{
+  return(1) if (($protocol == 6) && ($dstport == 53));
+  return(1) if (($protocol == 17) && ($dstport == 53));
+  return(0);
+}
+
+
+#
+#
+#
+sub usage
+{
+  my $progname = shift;
+
+
+  print(STDERR "usage:  $progname [-h] [-x] [-n] [-S]|[-D] [-c]|[-f]|[-p]|[-b] [-i] [-o] [-s N] [-d N] [flow_file [...]]\n");
+  print(STDERR "\n");
+  print(STDERR "        -h\thelp\n");
+  print(STDERR "        -x\tdebug\n");
+  print(STDERR "\n");
+  print(STDERR "        -n\tno name lookups\n");
+  print(STDERR "\n");
+  print(STDERR "        -S\tanalyze source machines\n");
+  print(STDERR "        -D\tanalyze destination machines\n");
+  print(STDERR "\n");
+  print(STDERR "        -c N\tsort by number of hosts contacted (default)\n");
+  print(STDERR "        -f N\tsort by number of flows\n");
+  print(STDERR "        -p N\tsort by number of packets\n");
+  print(STDERR "        -b N\tsort by number of bytes\n");
+  print(STDERR "\n");
+  print(STDERR "        N is the number of hosts to show (default is 10)\n");
+  print(STDERR "\n");
+  print(STDERR "        -i\tanalyze inbound traffic (default)\n");
+  print(STDERR "        -o\tanalyze outbound traffic\n");
+  print(STDERR "\n");
+  print(STDERR "        -s N\tshow top N source ports\n");
+  print(STDERR "        -d N\tshow top N destination ports (default with N = 10)\n");
+  print(STDERR "\n");
+  print(STDERR "        -F 'filter'\tonly analyze the flows for which filter returns true\n");
+
+  exit($opt_h ? 0 : 2);
+}

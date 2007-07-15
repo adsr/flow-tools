@@ -1,0 +1,188 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-split</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-split</application>
+</refname>
+<refpurpose>
+Split flow files into smaller files.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-split</command>
+<arg>-gGhn</arg>
+<arg>-b<replaceable> big</replaceable>|<replaceable>little</replaceable></arg>
+<arg>-C<replaceable> comment</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-N<replaceable> nflows</replaceable></arg>
+<arg>-o<replaceable> outfile_basename</replaceable></arg>
+<arg>-T<replaceable> nseconds</replaceable></arg>
+<arg>-z<replaceable> z_level</replaceable></arg>
+</cmdsynopsis>
+</refsynopsisdiv>
+
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-split</command> utility will split a flow file into smaller
+files based on the the number of flows or the ammount of time that
+has passed.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-b<replaceable> big</replaceable>|<replaceable>little</replaceable</term>
+<listitem>
+<para>
+Byte order of output.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-C<replaceable> Comment</replaceable></term>
+<listitem>
+<para>
+Add a comment.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-g</term>
+<listitem>
+<para>
+Split on source tag.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-G</term>
+<listitem>
+<para>
+Split on destination tag.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-n</term>
+<listitem>
+<para>
+Use symbols for tag field in filename.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-N<replaceable> nflows</replaceable></term>
+<listitem>
+<para>
+Split after processing <replaceable>nflows</replaceable>.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-o<replaceable> outfile_basename</replaceable></term>
+<listitem>
+<para>
+The basename of the resulting files.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-T<replaceable> nsecond</replaceable></term>
+<listitem>
+<para>
+Split after processing an interval of <replaceable>nseconds</replaceable> flows.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-z<replaceable> z_level</replaceable></term>
+<listitem>
+<para>
+Configure compression level to <replaceable> z_level</replaceable>.  0 is
+disabled (no compression), 9 is highest compression.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Create 1 minute flow files from the flow archive in <filename>/flows/krc4</filename>.  Store the results in <filename>/flows/krc4.split</filename>
+</para>
+<para>
+  <command>flow-cat /flows/krc4 | flow-split -T60 -o /flows/krc4.split/1min</command>.
+</para>
+</informalexample>
+</refsect1>
+
+<refsect1>
+<title>BUGS</title>
+<para>
+None known.
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>

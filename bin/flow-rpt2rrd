@@ -1,0 +1,366 @@
+#!/usr/local/bin/python
+
+import getopt
+import os
+import rrdtool
+import sys
+import string
+
+#
+# flow-rpt2rrd - convert flow-report output to rrd format
+#
+
+# TODO
+#  work with time-series flow-report output
+#  relax 5 minute sample requirement.
+
+#
+# load key file
+#
+def load_keyfile(fname):
+  keys = []
+  f = open(fname, "r")
+  line = f.readline().strip()
+  while line:
+    if line[0:1] == '#':
+      line = f.readline()
+      continue
+    keys.append(line)
+    line = f.readline().strip()
+  f.close()
+  return string.join(keys, ',')
+
+#
+# Class: ftsym
+#   load a symbol table from a file in value symbol format, provide
+#   access methods findbyname and findbyval
+#
+class ftsym:
+
+#
+# load symbols
+#
+  def __init__(self,field):
+    self.sv = {}
+    self.vs = {}
+    __symbol_lookup = { 'ip-source-port' : 'tcp-port.sym',
+                      'ip-destination-port' : 'tcp-port.sym',
+                      'ip-protocol' : 'ip-prot.sym',
+                      'source-as' : 'asn.sym',
+                      'destination-as' : 'asn.sym',
+                      'source-tag' : 'tag.sym',
+                      'destination-tag' : 'tag.sym',
+                      'ip-address-type' : 'ip-type.sym',
+                    }
+    fname = "/usr/local/netflow/var/sym/%s" % __symbol_lookup[field]
+    f = open(fname, "r")
+    line = f.readline().strip()
+    while line:
+      (v,s) = line.split();
+      self.vs[v] = s
+      self.sv[s] = v
+      line = f.readline().strip()
+    f.close()
+
+#
+# access by name, return value.  If the name does not exist return the name.
+#
+  def findbyname(self, name):
+    return self.sv.get(name,name)
+
+#
+# access by value, return name.  If the value does not exist return the value.
+#
+  def findbyval(self, val):
+    return self.vs.get(val,val)
+
+
+#
+# Class: ftrpt2rrd
+#
+#   Read in output of flow-report, make suitable for rrd
+#
+#   pickfields - pick flows,octets,packets for inclusion into new rrd
+#   pickkeys - pick keys for inclusion into new rrds.
+#   mapsym() - replace key values with symbols
+#   setrrd() - set rrd params
+#   convert(stream) - convert to rrd format
+#
+class ftrpt2rrd:
+#
+#
+#
+  def __init__(self):
+    # not in data area
+    self.debug = 0
+    self.verbose = 0
+    self.in_data = 0
+    self.use_key_names = {}
+    self.use_key_names_special = {}
+    self.use_key_names_total = 0
+    self.use_fields = {'flows' : 1, 'octets' : 1, 'packets' : 1}
+    self.mapsym = 0
+    self.rrd_5min = 0
+    self.rrd_30min = 0
+    self.rrd_2hr = 0
+    self.rrd_1day = 0
+    self.rrd_path = '.'
+    self.rrd_postfix = ''
+    self.field_names = {}
+    self.field_names2 = {}
+    self.field_total = 0
+    self.field_keys = {}
+    self.field_vals = {}
+    self.start_time = 0
+    self.sym = {}
+    self.records_processed = 0
+
+  def set_use_fields(self,f):
+    self.use_fields = {}
+    for i in string.split(f, ','):
+      self.use_fields[i] = 1
+    
+  def set_use_key_names(self,f):
+    self.use_key_names = {}
+    self.use_key_names_special = {}
+    for i in string.split(f, ','):
+      if i[:6] == 'total_':
+        self.use_key_names_special[i] = 1
+      else:
+        self.use_key_names[i] = 1
+        self.use_key_names_total += 1
+
+  def set_mapsym(self):
+    self.mapsym = 1
+
+  def set_debug(self, debug):
+    self.debug = debug
+
+  def set_verbose(self, verbose):
+    self.verbose = verbose
+
+  def setrrd(self, storage, path, postfix):
+    (self.rrd_5min, self.rrd_30min, self.rrd_2hr, self.rrd_1day) = \
+      string.split(storage,':')
+    self.rrd_path = path
+    self.rrd_postfix = postfix
+
+  def update_rrd(self, key, vals, use_fields_index):
+
+    # / in the key maps to - for files
+    key = key.replace('/','-')
+
+    # open an rrd, it it doesn't exist create it.
+    rrdFile = "%s/%s%s.rrd" % (self.rrd_path, key, self.rrd_postfix)
+
+    # exists?
+    if not os.access(rrdFile, os.F_OK):
+
+      print "Creating RRD", rrdFile
+
+      rrdParams = []
+      t = str(int(self.start_time) - 300)
+      rrdParams.append('--start')
+      rrdParams.append(t)
+      for i in use_fields_index.keys():
+        rrdParams.append("DS:%s:ABSOLUTE:600:U:U" % use_fields_index[i])
+      if (self.rrd_5min):
+        rrdParams.append('RRA:AVERAGE:0.5:1:%s' % self.rrd_5min)
+        rrdParams.append('RRA:MAX:0.5:1:%s' % self.rrd_5min)
+      if (self.rrd_30min):
+        rrdParams.append('RRA:AVERAGE:0.5:6:%s' % self.rrd_30min)
+        rrdParams.append('RRA:MAX:0.5:6:%s' % self.rrd_30min)
+      if (self.rrd_2hr):
+        rrdParams.append('RRA:AVERAGE:0.5:24:%s' % self.rrd_2hr)
+        rrdParams.append('RRA:MAX:0.5:24:%s' % self.rrd_2hr)
+      if (self.rrd_1day):
+        rrdParams.append('RRA:AVERAGE:0.5:288:%s' % self.rrd_1day)
+        rrdParams.append('RRA:MAX:0.5:288:%s' % self.rrd_1day)
+
+      rrdtool.create(rrdFile, *rrdParams)
+      if self.debug:
+        print >>sys.stderr, string.join(rrdParams,' ')
+
+    # foreach value
+
+    update = self.start_time
+    for i in use_fields_index.keys():
+      update = "%s:%s" % (update,vals[i])
+    if self.debug:
+      print >>sys.stderr, "update", update
+
+    if (self.verbose):
+      print "Updating RRD", rrdFile
+
+    rrdtool.update(rrdFile,update)
+    
+#
+#
+#
+  def convert(self, f):
+
+    # first line
+    line = f.readline().strip()
+  
+    while line:
+  
+      # report data starts after recn comment
+      if (not self.in_data) :
+
+        if line[:13] == '# first-flow:':
+          self.start_time = (string.split(line[14:]))[0]
+
+        # handle the totals record differently
+        if line[:53] == '# rec1: records,ignores,flows,octets,packets,duration':
+          tmp = string.split(line[8:], ',')
+          line = f.readline().strip()
+          tmp_use_fields_index = {}
+          tmp_splt = string.split(line, ',')
+          x = 0
+          ds = 0
+          for i in tmp:
+            if self.use_key_names_special.get("total_%s" % i,0):
+              tmp_use_fields_index[x] = i
+              ds = ds + 1
+            x = x + 1
+          if ds:
+            self.update_rrd('totals', tmp_splt, tmp_use_fields_index)
+          del tmp_splt, tmp_use_fields_index, i, x, ds
+          continue
+    
+        if line[:6] == '# recn':
+          self.in_data = 1
+    
+          # foreach element in field names
+          for i in string.split(line[8:],','):
+    
+            # remove key designators
+            if i[-1:] == '*':
+              i = i[:-1]
+              self.field_keys[self.field_total] = 1
+            else:
+              self.field_vals[self.field_total] = 1
+
+            # store the field names
+            self.field_names[self.field_total] = i
+            self.field_names2[i] = self.field_total
+
+            self.field_total += 1
+
+          # start time must be set by now
+          if (self.start_time == 0):
+            raise ValueError, "Start time not found, make sure flow-report is including the header"
+
+          # load symbol tables
+          if self.mapsym == 1:
+            for i in self.field_keys.keys():
+              self.sym[i] = ftsym(self.field_names[i])
+
+          # convert use_fields to use_fields_index for easier access
+          self.use_fields_index = {}
+          for i in self.use_fields.keys():
+            if self.use_fields[i] and self.field_names2.get(i,'x') != 'x':
+              self.use_fields_index[self.field_names2[i]] = i
+
+      else :
+    
+        # if in the data area and not a comment, store it
+        if self.in_data and line [:1] != '#':
+    
+          splt = string.split(line, ',')
+
+          # combine the key fields to form one key
+          k = ''
+          for i in self.field_keys.keys():
+            # try a symbol table lookup
+            if self.mapsym == 1:
+              t = self.sym[i].findbyval(splt[i])
+            else:
+              t = splt[i]
+            k = "%s-%s" % (k, t)
+
+          # done if all entries in key_names list have been stored.
+          if self.use_key_names_total:
+            if self.records_processed == self.use_key_names_total:
+              break
+
+          # if set, only allow specified keys
+          if self.use_key_names.get(k[1:],0) == 0:
+            line = f.readline().strip()
+            continue
+
+          # mark this key as processed
+          self.use_key_names[k[1:]] |= 2
+
+          self.records_processed += 1
+
+          self.update_rrd(k[1:], splt, self.use_fields_index)
+
+      # next line
+      line = f.readline().strip()
+
+    # keys which were not available in the report also need to be
+    # updated with 0 values.
+    for i in xrange(len(splt)):
+      splt[i] = 0
+    for x in self.use_key_names.keys():
+      if not (self.use_key_names[x] & 2):
+        self.update_rrd(x, splt, self.use_fields_index)
+
+#
+# main
+#
+   
+(opts,rags) = getopt.getopt(sys.argv[1:], "dhk:K:f:np:P:r:v")
+
+# mrtg defaults
+opt_rrd_storage = "600:600:600:732"
+opt_keys = ''
+opt_fields = 'flows,octets,packets'
+opt_names = 0
+opt_rrd_path = './'
+opt_keyfile = ''
+opt_debug = 0
+opt_rrd_postfix = ''
+opt_verbose = 0
+
+for o,v in opts:
+
+  if o == '-d':
+    opt_debug = 1
+  elif o == '-k':
+    opt_keys = v
+  elif o == '-K':
+    opt_keys = load_keyfile(v)
+  elif o == '-f':
+    opt_fields = v
+  elif o == '-n':
+    opt_names = 1
+  elif o == '-p':
+     opt_rrd_path = v
+  elif o == '-P':
+     opt_rrd_postfix = v
+  elif o == '-r':
+    opt_rrd_storage = v
+  elif o == '-v':
+    opt_verbose = 1
+  elif o == '-h':
+    print "Usage: flow-rpt2rrd [-nv] [-k keys] [-K keyfile] [-f fields]"
+    print "                    [-p rrd_path] [-P fname_postfix]"
+    print "                    [-r rrd_storage 5_min:30_min:2_hr:1_day ]"
+    sys.exit(0)
+
+if opt_keys == '':
+  print >>sys.stderr, "Keys must be defined with -k or -K."
+  sys.exit(1)
+
+ftrrd = ftrpt2rrd()
+if (opt_names == 1):
+  ftrrd.set_mapsym()
+ftrrd.setrrd(opt_rrd_storage, opt_rrd_path, opt_rrd_postfix)
+ftrrd.set_use_key_names(opt_keys)
+ftrrd.set_use_fields(opt_fields)
+ftrrd.set_debug(opt_debug)
+ftrrd.set_verbose(opt_verbose)
+ftrrd.convert(sys.stdin)
+

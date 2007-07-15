@@ -1,0 +1,244 @@
+<!DOCTYPE refentry PUBLIC "-//Davenport//DTD DocBook V3.0//EN">
+<refentry>
+
+<refmeta>
+<refentrytitle>
+<application>flow-fanout</application>
+</refentrytitle>
+<manvolnum>1</manvolnum>
+</refmeta>
+
+<refnamediv>
+<refname>
+<application>flow-fanout</application>
+</refname>
+<refpurpose>
+Fanout (replicate) flow exports to many destinations.
+</refpurpose>
+</refnamediv>
+
+<refsynopsisdiv>
+<cmdsynopsis>
+<command>flow-fanout</command>
+<arg>-h</arg>
+<arg>-A<replaceable> AS0_substitution</replaceable></arg>
+<arg>-d<replaceable> debug_level</replaceable></arg>
+<arg>-f<replaceable> filter_fname</replaceable></arg>
+<arg>-F<replaceable> filter_definition</replaceable></arg>
+<arg>-m<replaceable> privacy_mask</replaceable></arg>
+<arg>-p<replaceable> pidfile</replaceable></arg>
+<arg>-s</arg>
+<arg>-S<replaceable> stat_interval</replaceable></arg>
+<arg>-V<replaceable> pdu_version</replaceable></arg>
+<arg>-x<replaceable> xmit_delay</replaceable></arg>
+<arg choice="req"><replaceable>localip/remoteip/port</replaceable></arg>
+<arg choice="req" rep="repeat"><replaceable>localip/remoteip/port</replaceable></arg>
+
+</cmdsynopsis>
+</refsynopsisdiv>
+
+<refsect1>
+<title>DESCRIPTION</title>
+<para>
+The <command>flow-fanout</command> utility will replicate flows arriving
+on localip/remoteip/port to destination(s) specified by localip/remoteip/port.
+</para>
+<para>
+Flows processed by multiple exporters will be mixed into a single output
+stream.  This functionality appeared to support Cisco Catalyst exports and
+may have other uses.
+</para>
+<para>
+A SIGQUIT or SIGTERM signal will cause <command>flow-fanout</command> to exit.
+</para>
+</refsect1>
+
+<refsect1>
+<title>OPTIONS</title>
+<variablelist>
+
+<varlistentry>
+<term>-A<replaceable> AS0_substitution</replaceable></term>
+<listitem>
+<para>
+Cisco's NetFlow exports represent the local autonomous system as 0 instead of
+the real value.  This option can be used to replace the 0 in the export with
+the a configured value.  Unfortunately under certain configurations AS 0 can
+also represent a cache miss or non forwarded traffic so use with caution.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>-d<replaceable> debug_level</replaceable></term>
+<listitem>
+<para>
+Enable debugging.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-f<replaceable> filter_fname</replaceable></term>
+<listitem>
+<para>
+Filter list filename.  Defaults to <filename>@localstatedir@/cfg/filter</filename>.
+</para>
+</listitem>
+</varlistentry>
+ 
+<varlistentry>
+<term>-F<replaceable> filter_definition</replaceable></term>
+<listitem>
+<para>
+Select the active definition.  Defaults to default.
+</para>
+</listitem>
+</varlistentry>
+
+
+<varlistentry>
+<term>-h</term>
+<listitem>
+<para>
+Display help.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-m<replaceable> privacy_mask</replaceable></term>
+<listitem>
+<para>
+Apply <replaceable>privacy_mask</replaceable> to the source and destination IP
+address of flows.  For example a privacy_mask of 255.255.255.0 would convert
+flows with source/destination IP addresses 10.1.1.1 and 10.2.2.2 to 10.1.1.0
+and 10.2.2.0 respectively.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-p<replaceable> pidfile</replaceable></term>
+<listitem>
+<para>
+Configure the process ID file.  Use - to disable pid file creation.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-s</term>
+<listitem>
+<para>
+Spoof the source IP address.  If the IP address is 0 then it is replaced
+with the exporter source IP.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-S<replaceable> stat_interval</replaceable></term>
+<listitem>
+<para>
+When configured <command>flow-fanout</command> will emit a timestamped
+message on stderr every <replaceable>stat_interval</replaceable> minutes
+indicating counters such as the number of flows received, packets processed,
+and lost flows.
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-V<replaceable> pdu_version</replaceable></term>
+<listitem>
+<para>
+Use <replaceable>pdu_version</replaceable> format output.
+<literallayout>
+    1    NetFlow version 1 (No sequence numbers, AS, or mask)
+    5    NetFlow version 5
+    6    NetFlow version 6 (5+ Encapsulation size)
+    7    NetFlow version 7 (Catalyst switches)
+    8.1  NetFlow AS Aggregation
+    8.2  NetFlow Proto Port Aggregation
+    8.3  NetFlow Source Prefix Aggregation
+    8.4  NetFlow Destination Prefix Aggregation
+    8.5  NetFlow Prefix Aggregation
+    8.6  NetFlow Destination (Catalyst switches)
+    8.7  NetFlow Source Destination (Catalyst switches)
+    8.8  NetFlow Full Flow (Catalyst switches)
+    8.9  NetFlow ToS AS Aggregation
+    8.10 NetFlow ToS Proto Port Aggregation
+    8.11 NetFlow ToS Source Prefix Aggregation
+    8.12 NetFlow ToS Destination Prefix Aggregation
+    8.13 NetFlow ToS Prefix Aggregation
+    8.14 NetFlow ToS Prefix Port Aggregation
+    1005 Flow-Tools tagged version 5
+</literallayout>
+</para>
+</listitem>
+</varlistentry>
+
+<varlistentry>
+<term>-x<replaceable> xmit_delay</replaceable></term>
+<listitem>
+<para>
+Configure a microsecond transmit delay between packets.  This may be necessary in some configurations to prevent a transmit buffer overrun.
+</para>
+</listitem>
+</varlistentry>
+
+</variablelist>
+</refsect1>
+
+<refsect1>
+<title>EXAMPLES</title>
+<informalexample>
+<para>
+Replicate flows arriving to local IP address 10.0.0.1 from the router
+exporting with IP address 10.1.1.1 on port 9500 to localhost port 9500
+and 10.5.5.5 port 9200.  The exports sent to 10.5.5.5 will be sent with
+a source IP address of 10.0.0.5 which must be a valid local IP address.
+</para>
+<para>
+  <command>flow-fanout 10.0.0.1/10.1.1.1/9500 0/0/9500 10.0.0.5/10.5.5.5/9200</command>
+</para>
+</informalexample>
+</refsect1>
+<refsect1>
+<title>BUGS</title>
+<para>
+NetFlow exports do not contain the exporter IP address inside the payload so
+the original exporter IP address (typically a router) will be lost when using
+<command>flow-fanout</command>.  A work around for this protocol limitation
+is to use local IP aliases and the <replaceable>localip</replaceable> option.
+
+When the spoofing option is used multiple exporters with different IP addresses
+will share the same sequence number but will have the original source IP.
+Fixing this requires per source : destination sequence number mapping.  It
+is much easier to just use multiple instances of flow-fanout running on
+different ports.
+
+</para>
+</refsect1>
+
+<refsect1>
+<title>AUTHOR</title>
+<para>
+<author>
+<firstname>Mark</firstname>
+<surname>Fullmer</surname>
+</author>
+<email>maf@splintered.net</email>
+</para>
+</refsect1>
+
+<refsect1>
+<title>SEE ALSO</title>
+<para>
+<application>flow-tools</application>(1)
+</para>
+</refsect1>
+
+</refentry>
