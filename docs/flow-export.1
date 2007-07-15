@@ -75,8 +75,9 @@ Export format\&.  Supported formats are:
 .IP "-h" 10
 Display help\&.
 .IP "-m\fI mask_fields\fP" 10
-Select fields for MySQL, PostgresSQL, cflowd, and ASCII formats\&.  The
-\fImask_fields\fP is built from a bitwise OR of the following:
+Select fields for MySQL, PostgresSQL, cflowd, and ASCII formats\&. 
+Add the mask arguments in the order shown below. The \fImask_fields\fP 
+is built from a bitwise OR of the following:
 .IP "" 10
 .PP
 .nf
@@ -183,7 +184,7 @@ the SRCADDR and DSTADDR fields\&.
 Export the flow-tools file \fBflows\fP to an MySQL Database\&.
 Include only SRCADDR, DSTADDR and DOCTETS\&.
 .PP
-  \fBflow-export -f3 -mSRCADDR,DSTADDR,DOCTETS -u "user:password:host:port:name:table" < flows \fP
+  \fBflow-export -f3 -mDOCTETS,SRCADDR,DSTADDR -u "user:password:host:port:name:table" < flows \fP
 .SH "BUGS"
 .PP
 The pcap format is a hack\&.

@@ -892,7 +892,7 @@ int format5(struct ftio *ftio, struct options *opt)
     db_name = strsep(&tmp, ":");
     db_table = strsep(&tmp, ":");
 
-    if (!db_user || !db_pwd || !db_host || !db_tmp || !db_name || !db_table) {
+    if (!db_user || !db_pwd || !db_host || !db_port || !db_name || !db_table) {
       fterr_warnx("Missing field in dbaseURI, expecting user:pwd:host:port:name:table.");
       return -1;
     }
@@ -1200,10 +1200,10 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_EXADDR) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->exaddr)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
@@ -1258,28 +1258,28 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_SRCADDR) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->srcaddr)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DSTADDR) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->dstaddr)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_NEXTHOP) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->nexthop)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
@@ -1376,19 +1376,19 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_PEER_NEXTHOP) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\"';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->peer_nexthop)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_ROUTER_SC) {
     if (comma) fmt_buf[len++] = ',';
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->router_sc)),
       FMT_JUST_LEFT);
-    if (quote) fmt_buf[len++] = '"';
+    if (quote) fmt_buf[len++] = '\'';
     comma = 1;
   }
 
