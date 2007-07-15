@@ -14,5 +14,5 @@ fi
 host=`hostname | sed -e 's/\..*//g'`
 date=`date`
 
-echo "#define FT_PROG_BUILD \"$me@$host on $date\"" > src/ftbuild.h
+echo "#define FT_PROG_BUILD \"$me@$host on $date\"" > $1
 

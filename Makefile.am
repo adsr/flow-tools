@@ -1,7 +1,6 @@
-SUBDIRS = lib src bin configs docs
+SUBDIRS = lib src bin configs docs utils
 
-EXTRA_DIST = utils/* \
- SECURITY contrib/* configs/*
+EXTRA_DIST = SECURITY contrib
 
 dist-hook:
 	rm -rf $(distdir)/contrib/CVS

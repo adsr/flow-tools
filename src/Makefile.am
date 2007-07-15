@@ -17,8 +17,8 @@ bin_PROGRAMS = flow-capture flow-cat flow-stat flow-print flow-dscan \
 
 #force_build:
 #
-#ftbuild.h: ftbuild.sh force_build
-#	./ftbuild.sh
+ftbuild.h: ftbuild.sh
+	./ftbuild.sh $@
 
 flow_mask_SOURCES = flow-mask.c ftbuild.h
 flow_mask_LDFLAGS = -L../lib
