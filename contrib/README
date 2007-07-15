@@ -15,8 +15,7 @@ find_scanners:
  Paul Dokas <dokas@cs.umn.edu>.  Compact report of top IP's, ports, etc.
 
 pyflowtools:
- Robin Sommer <robin@net.uni-sb.de>.  Python support.
- http://www.net.uni-sb.de/~robin/flowtools
+ New location: http://code.google.com/p/pyflowtools/
 
 see also:
 
