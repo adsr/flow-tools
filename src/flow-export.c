@@ -961,7 +961,7 @@ int format5(struct ftio *ftio, struct options *opt)
 
 int fmt_xfields_type(char *buf, u_int64 xfield)
 {
-  int comma;
+  int comma = 0;
 
   buf[0] = 0;
 
