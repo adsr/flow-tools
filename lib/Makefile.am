@@ -2,7 +2,7 @@
 
 #AM_CFLAGS=-g -Wall -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs
 #AM_CFLAGS=-O2
-AM_CFLAGS=-g -Wall
+AM_CFLAGS=-g -Wall -fPIC
 
 DEFS=-I. -I$(srcdir)/lib
 
