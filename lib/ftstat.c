@@ -11673,10 +11673,10 @@ int ftstat_rpt_72_accum(struct ftstat_rpt *rpt, char *rec,
     ftch_recprefix_tag, ftch_recprefix_tagp);
 
   FT_RECGET_DSTADDR(cur,rec,*fo);
-  FT_RECGET_DST_TAG(cur,rec,*fo);
+  FT_RECGET_SRC_TAG(cur,rec,*fo);
  
   ftch_recprefix_tag.prefix = cur.dstaddr;
-  ftch_recprefix_tag.tag = cur.dst_tag;
+  ftch_recprefix_tag.tag = cur.src_tag;
 
   /* only use mask if option set */
   if (rpt->options & (FT_STAT_OPT_DST_PREFIX_MASK|FT_STAT_OPT_DST_PREFIX_LEN)) {
