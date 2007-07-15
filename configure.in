@@ -162,9 +162,6 @@ AC_CHECK_FUNCS(timelocal)
 AC_CHECK_FUNCS(sigaction)
 AC_REPLACE_FUNCS(strsep strerror strtoull)
 
-test "x$prefix" = xNONE && prefix=$ac_default_prefix
-eval localstatedir=`echo $localstatedir`
-
 dnl strtoul on some systems is really strtoull
 AC_MSG_CHECKING([strtoul returns 64 bits])
 AC_TRY_RUN(
@@ -184,16 +181,38 @@ int main(void) {
 
 AC_SYS_LARGEFILE
 
-AC_OUTPUT([lib/Makefile src/Makefile bin/Makefile Makefile docs/Makefile lib/ftpaths.h configs/Makefile utils/Makefile docs/flow-capture.1 docs/flow-capture.html docs/flow-nfilter.1 docs/flow-nfilter.html docs/flow-print.1 docs/flow-print.html docs/flow-report.1 docs/flow-report.html docs/flow-receive.1 docs/flow-receive.html docs/flow-tag.1 docs/flow-tag.html docs/flow-mask.1 docs/flow-mask.html docs/flow-fanout.1 docs/flow-fanout.html docs/flow-xlate.1 docs/flow-xlate.html docs/flow-rpt2rrd.1 docs/flow-rpt2rrd.html docs/flow-rptfmt.1 docs/flow-rptfmt.html docs/flow-log2rrd.1 docs/flow-log2rrd.html])
-
-# create build header
-# $srcdir/src/ftbuild.sh; cd ..
-#cd src; ./ftbuild.sh; cd ..
-
-echo
-echo "Please subscribe to the flow-tools mailing list by sending a message to"
-echo "flow-tools-request@splintered.net"
-echo
-echo "Now type make to continue the build process"
-echo
+AC_OUTPUT([
+  lib/Makefile
+  src/Makefile 
+  bin/Makefile
+  Makefile
+  docs/Makefile 
+  lib/ftpaths.h 
+  configs/Makefile
+  utils/Makefile
+  docs/flow-capture.1
+  docs/flow-capture.html 
+  docs/flow-nfilter.1 
+  docs/flow-nfilter.html 
+  docs/flow-print.1 
+  docs/flow-print.html 
+  docs/flow-report.1 
+  docs/flow-report.html 
+  docs/flow-receive.1 
+  docs/flow-receive.html 
+  docs/flow-tag.1 
+  docs/flow-tag.html 
+  docs/flow-mask.1 
+  docs/flow-mask.html 
+  docs/flow-fanout.1 
+  docs/flow-fanout.html 
+  docs/flow-xlate.1 
+  docs/flow-xlate.html 
+  docs/flow-rpt2rrd.1 
+  docs/flow-rpt2rrd.html 
+  docs/flow-rptfmt.1 
+  docs/flow-rptfmt.html 
+  docs/flow-log2rrd.1 
+  docs/flow-log2rrd.html
+])
 
