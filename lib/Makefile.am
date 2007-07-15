@@ -4,15 +4,15 @@
 #AM_CFLAGS=-O2
 AM_CFLAGS=-g -Wall -fPIC
 
-DEFS=-I. -I$(srcdir)/lib
+# DEFS=-I. -I$(srcdir)/lib
 
 include_HEADERS = ftlib.h ftqueue.h radix.h ftpaths.h ftconfig.h
-lib_LIBRARIES = libft.a
+lib_LIBRARIES = libft.la
 
-libft_a_SOURCES = ftio.c ftswap.c ftencode.c ftdecode.c ftprof.c bit1024.c \
+libft_la_SOURCES = ftio.c ftswap.c ftencode.c ftdecode.c ftprof.c bit1024.c \
  fmt.c support.c ftfile.c fttlv.c ftmap.c ftrec.c fterr.c \
  ftchash.c ftsym.c radix.c fttag.c ftfil.c ftstat.c getdate.c ftxfield.c\
  ftmask.c ftvar.c ftxlate.c
 
-libft_a_LIBADD = @LIBOBJS@ 
+libft_la_LIBADD = $(LTLIBOBJS) $(CRYPTOLIB)
 

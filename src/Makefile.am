@@ -7,7 +7,7 @@ DEFS=-I$(srcdir)/../lib -L$(srcdir)/../lib
 
 #AM_CFLAGS=-g -Wall -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs
 #AM_CFLAGS=-O2
-AM_CFLAGS=-g -Wall
+#AM_CFLAGS=-g -Wall
 
 bin_PROGRAMS = flow-capture flow-cat flow-stat flow-print flow-dscan \
         flow-send flow-receive flow-gen flow-expire \
@@ -101,9 +101,9 @@ flow_filter_LDADD =  -lft @LEXLIB@ @YLIB@
 flow_filter_DEPENDENCIES = ftbuild.h
 
 flow_export_SOURCES = flow-export.c
-flow_export_LDFLAGS = -L../lib
-flow_export_CFLAGS = @MYSQLCFLAGS@ @PGSQLCFLAGS@
-flow_export_LDADD =  -lft @MYSQLLIB@ @PGSQLLIB@
+flow_export_LDFLAGS = -L../lib $(MYSQLLDFLAGS) $(PGSQLLDFLAGS)
+flow_export_CFLAGS = $(MYSQLCFLAGS) $(PGSQLCFLAGS)
+flow_export_LDADD =  -lft $(MYSQLLIB) $(PGSQLLIB)
 flow_export_DEPENDENCIES = ftbuild.h
 
 flow_header_SOURCES = flow-header.c
@@ -117,8 +117,8 @@ flow_split_LDADD =  -lft
 flow_split_DEPENDENCIES = ftbuild.h
 
 flow_xlate_SOURCES = flow-xlate.c
-flow_xlate_LDFLAGS = -L../lib
-flow_xlate_LDADD =  -lft @CRYPTOLIB@
+flow_xlate_LDFLAGS = -L../lib $(CRYPTOLDFLAGS)
+flow_xlate_LDADD =  -lft $(CRYPTOLIB)
 flow_xlate_DEPENDENCIES = ftbuild.h
 
 flow_tag_SOURCES = flow-tag.c

@@ -1,31 +1,32 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(lib/bit1024.c)
+AC_INIT(flow-tools, 0.68)
 
-AC_PREFIX_DEFAULT(/usr/local/netflow)
+AC_PREFIX_DEFAULT(/usr/local/flow-tools)
 
-AM_INIT_AUTOMAKE(flow-tools, 0.68)
-AM_CONFIG_HEADER(lib/ftconfig.h:lib/ftconfig.h.in) 
+AM_INIT_AUTOMAKE([foreign])
+AM_CONFIG_HEADER(lib/ftconfig.h) 
 
-CFLAGS="-g -Wall"
+dnl CFLAGS="-g -Wall"
 
 dnl Checks for programs.
+AC_PROG_LIBTOOL
 AC_PROG_CC
 AC_PROG_INSTALL
 AC_PROG_MAKE_SET
 AC_PROG_YACC
 YACC="$YACC -d"
-AC_PROG_RANLIB
 AM_PROG_LEX
 
 AC_SUBST(YLIB)
 AC_SUBST(MYSQLLIB)
 AC_SUBST(MYSQLCFLAGS)
-AC_SUBST(MYSQLINCLUDE)
+AC_SUBST(MYSQLLDFLAGS)
 AC_SUBST(PGSQLLIB)
 AC_SUBST(PGSQLCFLAGS)
-AC_SUBST(PGSQLINCLUDE)
+AC_SUBST(PGSQLLDFLAGS)
 AC_SUBST(CRYPTOLIB)
 AC_SUBST(OPENSSLINCLUDE)
+AC_SUBST(OPENSSLLDFLAGS)
 
 dnl extra argument: --with-mysql
 WITH_MYSQL=
@@ -66,37 +67,51 @@ AC_ARG_WITH(openssl,
 dnl Checks for libraries.
 
 if test "x$WHERE_MYSQL" != "x"; then
-  LIBS="-L$WHERE_MYSQL/lib/mysql"
+  old_LIBS="$LIBS"
+  old_LDFLAGS="$LDFLAGS"
+  LDFLAGS="$LDFLAGS -L$WHERE_MYSQL/lib/mysql"
   AC_CHECK_LIB(mysqlclient, my_init,
     [
-      MYSQLCFLAGS="-L$WHERE_MYSQL/lib/mysql -I$WHERE_MYSQL/include/mysql"
+      MYSQLCFLAGS="-I$WHERE_MYSQL/include/mysql"
+      MYSQLLDFLAGS="-L$WHERE_MYSQL/lib/mysql"
       MYSQLLIB="-lmysqlclient"
       AC_DEFINE(HAVE_MYSQL)
     ]
   )
+  LIBS="$old_LIBS"
+  LDFLAGS="$old_LDFLAGS"
 fi
 
 if test "x$WHERE_OPENSSL" != "x"; then
-  LIBS="-L$WHERE_OPENSSL/lib"
+  old_LIBS="$LIBS"
+  old_LDFLAGS="$LDFLAGS"
+  LDFLAGS="$LDFLAGS -L$WHERE_OPENSSL/lib"
   AC_CHECK_LIB(crypto, EVP_EncryptUpdate,
     [
-      OPENSSLCFLAGS="-L$WHERE_OPENSSL/lib -I$WHERE_OPENSSL/include"
+      OPENSSLCFLAGS="-I$WHERE_OPENSSL/include"
+      OPENSSLLDFLAGS="-L$WHERE_OPENSSL/lib"
       CRYPTOLIB="-lcrypto"
       AC_DEFINE(HAVE_OPENSSL)
     ]
   )
+  LIBS="$old_LIBS"
+  LDFLAGS="$old_LDFLAGS"
 fi
 
-
 if test "x$WHERE_PGSQL" != "x"; then
-  LIBS="-L$WHERE_PGSQL/lib/pgsql"
+  old_LIBS="$LIBS"
+  old_LDFLAGS="$LDFLAGS"
+  LDFLAGS="-L$WHERE_PGSQL/lib/pgsql"
   AC_CHECK_LIB(pq, PQsetdbLogin,
     [
-      PGSQLCFLAGS="-L$WHERE_PGSQL/lib -I$WHERE_PGSQL/include/pgsql"
+      PGSQLCFLAGS="-I$WHERE_PGSQL/include/pgsql"
+      PGSQLLDFLAGS="-L$WHERE_PGSQL/lib"
       PGSQLLIB="-lpq"
       AC_DEFINE(HAVE_PGSQL)
     ]
   )
+  LIBS="$old_LIBS"
+  LDFLAGS="$old_LDFLAGS"
 fi
 
 AC_CHECK_LIB(y, main,YLIB="$YLIB -ly",)
@@ -167,21 +182,7 @@ int main(void) {
 [AC_MSG_RESULT(no)],
 )
 
-dnl Allow the user to enable large file support
-AC_ARG_ENABLE(lfs, AC_HELP_STRING([--enable-lfs],
-	[Enable Large File Support. (default=no)]),
-	[
-		if test "x$enable_lfs" = xyes; then
-			AC_MSG_NOTICE([Large File Support Enabled.])
-			ifelse(AC_ACVERSION, [2.13],
-			[
-				CFLAGS="$CFLAGS -D_FILE_OFFSET_BITS=64 -D_LARGEFILE_SOURCE"
-			],
-			[
-				AC_SYS_LARGEFILE
-			])
-		fi
-	],[])
+AC_SYS_LARGEFILE
 
 AC_OUTPUT(lib/Makefile src/Makefile bin/Makefile Makefile docs/Makefile lib/ftpaths.h configs/Makefile docs/flow-capture.1 docs/flow-capture.html docs/flow-nfilter.1 docs/flow-nfilter.html docs/flow-print.1 docs/flow-print.html docs/flow-report.1 docs/flow-report.html docs/flow-receive.1 docs/flow-receive.html docs/flow-tag.1 docs/flow-tag.html docs/flow-mask.1 docs/flow-mask.html docs/flow-fanout.1 docs/flow-fanout.html docs/flow-xlate.1 docs/flow-xlate.html docs/flow-rpt2rrd.1 docs/flow-rpt2rrd.html docs/flow-rptfmt.1 docs/flow-rptfmt.html docs/flow-log2rrd.1 docs/flow-log2rrd.html)
 
