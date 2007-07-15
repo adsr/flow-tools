@@ -2710,9 +2710,9 @@ int ftfile_expire (struct ftfile_entries *fte, int doit, int curbytes);
 int ftfile_dump(struct ftfile_entries *fte);
 struct ftfile_entry *ftfile_entry_new(int len);
 void ftfile_entry_free(struct ftfile_entry *entry);
-int ftfile_mkpath(u_int32 ftime, int nest);
+int ftfile_mkpath(time_t ftime, int nest);
 void ftfile_pathname(char *buf, int bsize, int nest, struct ftver ftv,
- int done, u_int32 ftime);
+ int done, time_t ftime);
 
 
 
