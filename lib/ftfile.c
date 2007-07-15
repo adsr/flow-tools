@@ -53,7 +53,7 @@
 
 int load_dir(char *prefix, struct ftfile_entries *fte, int flags, int *depth);
 
-extern int debug;
+#define debug 0
 
 /*
  * function: ftfile_entry_new
