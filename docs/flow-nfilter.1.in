@@ -66,7 +66,7 @@ match lines grouped to form logical AND and OR operations on the flow
 using the selected primitives\&.  A definition may contain the invert
 command which will invert the result of the evaluation\&.
 .PP
-Words in the configuration file of the form @VAR or @{VAR:default} will be
+Words in the configuration file of the form @VAR or @{VAR:-default} will be
 expanded at run-time by setting variable names with the -v option\&.
 .PP
 Filter primitives begin with the filter-primitive keyword followed by
