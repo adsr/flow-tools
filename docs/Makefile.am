@@ -19,10 +19,10 @@ SUFFIXES = .sgml .1 .html .1.in .html.in
 	docbook-to-man $*.sgml > $*.1.in
  
 .sgml.html:
-	openjade -V nochunks -c /usr/local/share/sgml/docbook/dsssl/modular/catalog -c /usr/local/share/sgml/docbook/catalog -c /usr/local/share/sgml/jade/catalog -d /usr/local/share/sgml/docbook/dsssl/modular/html/docbook.dsl -t sgml $*.sgml > $*.html
+	openjade -V nochunks -c /usr/share/sgml/docbook/dsssl/modular/catalog -c /usr/local/share/sgml/docbook/catalog -c /usr/local/share/sgml/jade/catalog -d /usr/local/share/sgml/docbook/dsssl/modular/html/docbook.dsl -t sgml $*.sgml > $*.html
 
 .sgml.html.in:
-	openjade -V nochunks -c /usr/local/share/sgml/docbook/dsssl/modular/catalog -c /usr/local/share/sgml/docbook/catalog -c /usr/local/share/sgml/jade/catalog -d /usr/local/share/sgml/docbook/dsssl/modular/html/docbook.dsl -t sgml $*.sgml > $*.html.in
+	openjade -V nochunks -c /usr/share/sgml/docbook/dsssl/modular/catalog -c /usr/local/share/sgml/docbook/catalog -c /usr/local/share/sgml/jade/catalog -d /usr/local/share/sgml/docbook/dsssl/modular/html/docbook.dsl -t sgml $*.sgml > $*.html.in
 
 all-am: Makefile $(man_MANSIN) $(man_HTMLS)
 
