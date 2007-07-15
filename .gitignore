@@ -10,9 +10,20 @@
 /missing
 /ylwrap
 
+/confdefs.h
+/config.log
+/config.status
+/libtool
+
 # special case
 /lib/ftconfig.h.in*
+/lib/ftconfig.h
+/lib/ftpaths.h
+/src/ftbuild.h
 
 # common patterns
 
 Makefile.in
+Makefile
+.deps
+stamp-h1
