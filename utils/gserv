@@ -1,4 +1,4 @@
-#!/usr/bin/perl
+#!/bin/env perl
 
 #
 # convert unix /etc/services format to flow-tools

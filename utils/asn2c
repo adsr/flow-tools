@@ -1,4 +1,4 @@
-#!/usr/local/bin/perl
+#!/bin/env perl
 
 #
 # converts internic netinfo/asn.txt to C code
