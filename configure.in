@@ -21,9 +21,6 @@ AC_SUBST(YLIB)
 AC_SUBST(MYSQLLIB)
 AC_SUBST(MYSQLCFLAGS)
 AC_SUBST(MYSQLLDFLAGS)
-AC_SUBST(PGSQLLIB)
-AC_SUBST(PGSQLCFLAGS)
-AC_SUBST(PGSQLLDFLAGS)
 AC_SUBST(CRYPTOLIB)
 AC_SUBST(OPENSSLINCLUDE)
 AC_SUBST(OPENSSLLDFLAGS)
@@ -40,17 +37,13 @@ AC_ARG_WITH(mysql,
 ]
 )
 
-dnl extra argument: --with-pgsql
-WITH_PGSQL=
-AC_ARG_WITH(pgsql,
-[  --with-pgsql[=PATH]           Compile in PostgreSQL support. (default=no)],
-[ if test -x "$withval"; then
-    WHERE_PGSQL=$withval
-  else
-    WHERE_PGSQL="/usr"
-  fi
-]
-)
+AX_LIB_POSTGRESQL
+
+AC_SUBST(POSTGRESQL_LIB)
+
+if test "x$found_postgresql" = "xyes" ; then
+  POSTGRESQL_LIB=-lpq
+fi
 
 dnl extra argument: --with-openssl
 WITH_OPENSSL=
@@ -92,22 +85,6 @@ if test "x$WHERE_OPENSSL" != "x"; then
       OPENSSLLDFLAGS="-L$WHERE_OPENSSL/lib"
       CRYPTOLIB="-lcrypto"
       AC_DEFINE(HAVE_OPENSSL)
-    ]
-  )
-  LIBS="$old_LIBS"
-  LDFLAGS="$old_LDFLAGS"
-fi
-
-if test "x$WHERE_PGSQL" != "x"; then
-  old_LIBS="$LIBS"
-  old_LDFLAGS="$LDFLAGS"
-  LDFLAGS="-L$WHERE_PGSQL/lib/pgsql"
-  AC_CHECK_LIB(pq, PQsetdbLogin,
-    [
-      PGSQLCFLAGS="-I$WHERE_PGSQL/include/pgsql"
-      PGSQLLDFLAGS="-L$WHERE_PGSQL/lib"
-      PGSQLLIB="-lpq"
-      AC_DEFINE(HAVE_PGSQL)
     ]
   )
   LIBS="$old_LIBS"

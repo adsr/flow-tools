@@ -60,7 +60,7 @@
 
 #endif /* MYSQL */
 
-#ifdef HAVE_PGSQL
+#ifdef HAVE_POSTGRESQL
 
 #include <libpq-fe.h>
 
@@ -860,7 +860,7 @@ retry:
  */
 int format5(struct ftio *ftio, struct options *opt)
 {
-#ifdef HAVE_PGSQL
+#ifdef HAVE_POSTGRESQL
   struct fts3rec_offsets fo;
   struct ftver ftv;
   char fields[1024], values[1024], query[3*1024];

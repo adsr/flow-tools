@@ -101,9 +101,9 @@ flow_filter_LDADD =  -lft @LEXLIB@ @YLIB@
 flow_filter_DEPENDENCIES = ftbuild.h
 
 flow_export_SOURCES = flow-export.c
-flow_export_LDFLAGS = -L../lib $(MYSQLLDFLAGS) $(PGSQLLDFLAGS)
-flow_export_CFLAGS = $(MYSQLCFLAGS) $(PGSQLCFLAGS)
-flow_export_LDADD =  -lft $(MYSQLLIB) $(PGSQLLIB)
+flow_export_LDFLAGS = -L../lib $(MYSQLLDFLAGS) $(POSTGRESQL_LDFLAGS)
+flow_export_CFLAGS = $(MYSQLCFLAGS) $(POSTGRESQL_CFLAGS)
+flow_export_LDADD =  -lft $(MYSQLLIB) $(POSTGRESQL_LIB)
 flow_export_DEPENDENCIES = ftbuild.h
 
 flow_header_SOURCES = flow-header.c
