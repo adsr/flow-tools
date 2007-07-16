@@ -938,6 +938,8 @@ int format5(struct ftio *ftio, struct options *opt)
       if (!res || PQresultStatus(res) != PGRES_COMMAND_OK) {
         PQclear(res);
         fterr_errx(1,"PQexec(): %s\n", PQerrorMessage(conn));
+      } else if (res) {
+	  PQclear(res);
       }
 
     }
