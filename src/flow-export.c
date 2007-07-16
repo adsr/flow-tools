@@ -51,12 +51,12 @@
 
 #include <mysql.h>
 
-#define DB_DEFAULT_DBHOST "localhost"
-#define DB_DEFAULT_DBNAME "netflow"
-#define DB_DEFAULT_DBPORT 3306
-#define DB_DEFAULT_DBTABLE "raw"
-#define DB_DEFAULT_DBUSER "netflow"
-#define DB_DEFAULT_DBPWD "netflow"
+#define MYSQL_DEFAULT_DBHOST "localhost"
+#define MYSQL_DEFAULT_DBNAME "netflow"
+#define MYSQL_DEFAULT_DBPORT 3306
+#define MYSQL_DEFAULT_DBTABLE "raw"
+#define MYSQL_DEFAULT_DBUSER "netflow"
+#define MYSQL_DEFAULT_DBPWD "netflow"
 
 #endif /* MYSQL */
 
@@ -64,12 +64,12 @@
 
 #include <libpq-fe.h>
 
-#define DB_DEFAULT_DBHOST "localhost"
-#define DB_DEFAULT_DBNAME "netflow"
-#define DB_DEFAULT_DBPORT "5432"
-#define DB_DEFAULT_DBTABLE "raw"
-#define DB_DEFAULT_DBUSER "netflow"
-#define DB_DEFAULT_DBPWD "netflow"
+#define POSTGRESQL_DEFAULT_DBHOST "localhost"
+#define POSTGRESQL_DEFAULT_DBNAME "netflow"
+#define POSTGRESQL_DEFAULT_DBPORT "5432"
+#define POSTGRESQL_DEFAULT_DBTABLE "raw"
+#define POSTGRESQL_DEFAULT_DBUSER "netflow"
+#define POSTGRESQL_DEFAULT_DBPWD "netflow"
 
 #endif /* PGSQL*/
 
@@ -695,12 +695,12 @@ int format3(struct ftio *ftio, struct options *opt)
 
   MYSQL mysql;
 
-  db_host = DB_DEFAULT_DBHOST;
-  db_name = DB_DEFAULT_DBNAME;
-  db_port = DB_DEFAULT_DBPORT;
-  db_user = DB_DEFAULT_DBUSER;
-  db_table = DB_DEFAULT_DBTABLE;
-  db_pwd = DB_DEFAULT_DBPWD;
+  db_host = MYSQL_DEFAULT_DBHOST;
+  db_name = MYSQL_DEFAULT_DBNAME;
+  db_port = MYSQL_DEFAULT_DBPORT;
+  db_user = MYSQL_DEFAULT_DBUSER;
+  db_table = MYSQL_DEFAULT_DBTABLE;
+  db_pwd = MYSQL_DEFAULT_DBPWD;
 
   /* parse URI string */
 
@@ -872,12 +872,12 @@ int format5(struct ftio *ftio, struct options *opt)
   PGconn     *conn;
   PGresult   *res;
 
-  db_host = DB_DEFAULT_DBHOST;
-  db_name = DB_DEFAULT_DBNAME;
-  db_port = DB_DEFAULT_DBPORT;
-  db_user = DB_DEFAULT_DBUSER;
-  db_table = DB_DEFAULT_DBTABLE;
-  db_pwd = DB_DEFAULT_DBPWD;
+  db_host = POSTGRESQL_DEFAULT_DBHOST;
+  db_name = POSTGRESQL_DEFAULT_DBNAME;
+  db_port = POSTGRESQL_DEFAULT_DBPORT;
+  db_user = POSTGRESQL_DEFAULT_DBUSER;
+  db_table = POSTGRESQL_DEFAULT_DBTABLE;
+  db_pwd = POSTGRESQL_DEFAULT_DBPWD;
 
   /* parse URI string */
 
