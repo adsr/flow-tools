@@ -29,6 +29,10 @@
 #include "ftconfig.h"
 #include "ftlib.h"
 
+#ifdef HAVE_UNISTD_H
+#include <unistd.h>
+#endif
+
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <sys/socket.h>
@@ -286,7 +290,7 @@ u_long scan_ip(char *s)
   struct in_addr *ina;
   u_long addr = 0;
   u_int n;
-  int dns, shift;
+  int dns, shift = 0;
   char *t;
 
   /* if there is anything ascii in here, this may be a hostname */
@@ -312,8 +316,6 @@ u_long scan_ip(char *s)
     return (ntohl(ina->s_addr));
 
   } /* dns */
-
-  shift = 0;
 
 numeric:
   while (1) {
@@ -625,7 +627,7 @@ int bigsockbuf(int fd, int dir, int size)
 */
 int mkpath(const char *path, mode_t mode)
 {
-  char *c, *cs, *c2, *p, *p2;
+  char *c, *cs = NULL, *c2 = NULL, *p, *p2;
   int len, ret, done, nodir;
  
   len = strlen(path);
