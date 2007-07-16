@@ -633,7 +633,7 @@ if (rpt->out->fields & FT_STAT_FIELD_LAST) {\
   struct fts3rec_all2 cur;\
   struct A *B;\
   u_int32 duration_tmp;\
-  double bps_tmp, pps_tmp;\
+  double bps_tmp = 0, pps_tmp = 0;\
   B = rpt->data;\
   STD_ACCUM;
 

@@ -209,7 +209,7 @@ int fttag_load(struct fttag *fttag, struct ftvar *ftvar, char *fname)
   struct stat sb;
   struct jump *jmp;
   struct line_parser lp;
-  int fd, ret, found;
+  int fd, ret, found = 0;
   char *buf, *buf2, *c;
   char sbuf[FT_LP_MAXLINE];
 
@@ -1477,7 +1477,7 @@ int resolve_actions(struct fttag *fttag)
   struct fttag_def_term *ftdt;
   struct fttag_def_term_actions *ftdta;
   struct fttag_action *fta;
-  int i, found;
+  int i, found = 0;
 
   /* foreach definition */
   FT_SLIST_FOREACH(ftd, &fttag->defs, chain) {
