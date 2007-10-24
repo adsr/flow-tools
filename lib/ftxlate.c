@@ -28,6 +28,7 @@
 
 #include "ftconfig.h"
 #include "ftlib.h"
+#include "ftpaths.h"
 
 #ifdef HAVE_OPENSSL
 #define free_func ssl_free_func /* hack, zlib uses free_func also */

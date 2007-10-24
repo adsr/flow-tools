@@ -81,7 +81,6 @@
 #define u_short unsigned short
 
 #include "ftqueue.h"
-#include "ftpaths.h"
 #include "radix.h"
 
 /*
