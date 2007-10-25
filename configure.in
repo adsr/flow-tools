@@ -67,7 +67,7 @@ if test "x$WHERE_MYSQL" != "x"; then
       MYSQLCFLAGS="-I$WHERE_MYSQL/include/mysql"
       MYSQLLDFLAGS="-L$WHERE_MYSQL/lib/mysql"
       MYSQLLIB="-lmysqlclient"
-      AC_DEFINE(HAVE_MYSQL)
+      AC_DEFINE(HAVE_MYSQL, 1, [Do we have to build MySQL support])
     ]
   )
   LIBS="$old_LIBS"
@@ -83,7 +83,7 @@ if test "x$WHERE_OPENSSL" != "x"; then
       OPENSSLCFLAGS="-I$WHERE_OPENSSL/include"
       OPENSSLLDFLAGS="-L$WHERE_OPENSSL/lib"
       CRYPTOLIB="-lcrypto"
-      AC_DEFINE(HAVE_OPENSSL)
+      AC_DEFINE(HAVE_OPENSSL, 1, [Do we have to include OpenSSL support])
     ]
   )
   LIBS="$old_LIBS"
@@ -112,11 +112,11 @@ AC_TRY_COMPILE([#include <sys/types.h>
 #include <sys/socket.h>
 #include <netinet/in.h>],
 [struct sockaddr_in sock; sock.sin_len = sizeof(sock);],
-echo yes;AC_DEFINE(HAVE_SOCK_SIN_LEN), 
+echo yes;AC_DEFINE(HAVE_SOCK_SIN_LEN, 1, [Do we have sock.sin_len]), 
 echo no)
 
 
-AC_DEFINE(_BSD_SOURCE)
+AC_DEFINE(_BSD_SOURCE, 1, [We need BSD compatibility])
 
 dnl Checks for typedefs, structures, and compiler characteristics.
 AC_C_CONST
