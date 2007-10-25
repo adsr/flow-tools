@@ -136,7 +136,7 @@ AC_CHECK_LIB(socket,socket)
 AC_CHECK_FUNCS(gethostname gettimeofday select socket strdup strtoul)
 AC_CHECK_FUNCS(timelocal)
 AC_CHECK_FUNCS(sigaction)
-AC_CONFIG_LIBOBJ_DIR(lib)
+AC_CONFIG_LIBOBJ_DIR([lib])
 AC_REPLACE_FUNCS(strsep strerror strtoull)
 
 AC_SYS_LARGEFILE
