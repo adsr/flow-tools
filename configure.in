@@ -163,7 +163,6 @@ AC_OUTPUT([
   bin/Makefile
   Makefile
   docs/Makefile 
-  lib/ftpaths.h 
   configs/Makefile
   utils/Makefile
   docs/flow-capture.1
