@@ -6,7 +6,7 @@ edit = sed \
 	-e 's|@sysconfdir[@]|$(sysconfdir)|g' \
 	-e 's|@prefix[@]|$(prefix)|g'
 
-ftpaths.h: ftpaths.h.in Makefile
+ftpaths.h: $(srcdir)/ftpaths.h.in $(srcdir)/Makefile
 	rm -f $@ $@.tmp
 	$(edit) '$(srcdir)/$@.in' >$@.tmp
 	mv $@.tmp $@
