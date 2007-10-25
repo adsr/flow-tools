@@ -11,9 +11,11 @@ ftpaths.h: $(srcdir)/ftpaths.h.in $(srcdir)/Makefile
 	$(edit) '$(srcdir)/$@.in' >$@.tmp
 	mv $@.tmp $@
 
-CLEANFILES = ftpaths.h
+DISTCLEANFILES = ftconfig.h ftpaths.h
+EXTRA_DIST = ftpaths.h.in
 
-include_HEADERS = ftlib.h ftqueue.h radix.h ftpaths.h ftconfig.h
+include_HEADERS = ftlib.h ftqueue.h radix.h
+nodist_include_HEADERS = ftpaths.h ftconfig.h
 lib_LTLIBRARIES = libft.la
 
 libft_la_SOURCES = ftio.c ftswap.c ftencode.c ftdecode.c ftprof.c bit1024.c \
