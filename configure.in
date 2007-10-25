@@ -138,23 +138,6 @@ AC_CHECK_FUNCS(timelocal)
 AC_CHECK_FUNCS(sigaction)
 AC_REPLACE_FUNCS(strsep strerror strtoull)
 
-dnl strtoul on some systems is really strtoull
-AC_MSG_CHECKING([strtoul returns 64 bits])
-AC_TRY_RUN(
-[
-#include <stdlib.h>
-int main(void) {
-  unsigned long long ll;
-  ll = strtoul("0x1010101010101010", (char**)0L, 0);
-  return (ll != 0x1010101010101010LL);
-}
-],
-[AC_MSG_RESULT(yes)
-  AC_DEFINE(HAVE_LL_STRTOUL)
-],
-[AC_MSG_RESULT(no)],
-)
-
 AC_SYS_LARGEFILE
 
 AC_OUTPUT([
