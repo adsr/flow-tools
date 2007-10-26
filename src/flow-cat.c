@@ -412,6 +412,29 @@ skip1:
 
         /* total flows */
         total_flows += ftio_get_flows_count(&ftio_in);
+        if (ftio_get_hostname(&ftio_in))
+          ftio_set_cap_hostname(&ftio_out, ftio_get_hostname(&ftio_in));
+        if (ftio_get_comment(&ftio_in))
+          ftio_set_comment(&ftio_out, ftio_get_comment(&ftio_in));
+        if (ftio_in.fth.fields & FT_FIELD_SEQ_RESET)
+          ftio_set_reset(&ftio_out, ftio_in.fth.seq_reset);
+
+#define COPY_IF_EXISTS(BITS, FIELD) \
+        do { \
+          if (ftio_in.fth.fields & BITS) { \
+            ftio_out.fth.fields |= BITS; \
+            ftio_out.fth.FIELD = ftio_in.fth.FIELD; \
+          } \
+        } while(0)
+
+        COPY_IF_EXISTS(FT_FIELD_FLOW_MISORDERED, flows_misordered);
+        COPY_IF_EXISTS(FT_FIELD_VENDOR, vendor);
+        COPY_IF_EXISTS(FT_FIELD_EXPORTER_IP, exporter_ip);
+        COPY_IF_EXISTS(FT_FIELD_AGG_METHOD, agg_method);
+        COPY_IF_EXISTS(FT_FIELD_AGG_VER, agg_version);
+        COPY_IF_EXISTS(FT_FIELD_ROT_SCHEDULE, rotation);
+
+#undef COPY_IF_EXISTS
 
 skip_file:
         if (debug > 5)
