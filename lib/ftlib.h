@@ -2545,8 +2545,10 @@ void ftio_set_reset(struct ftio *ftio, u_int32 n);
 void ftio_set_xip(struct ftio *ftio, u_int32 ip);
 
 void ftio_get_ver(struct ftio *ftio, struct ftver *ver);
-u_int32 ftio_get_cap_start(struct ftio *ftio);
-u_int32 ftio_get_cap_end(struct ftio *ftio);
+u_int32 ftio_get_cap_start(const struct ftio *ftio);
+u_int32 ftio_get_cap_end(const struct ftio *ftio);
+time_t ftio_get_cap_start_time_t(const struct ftio *ftio);
+time_t ftio_get_cap_end_time_t(const struct ftio *ftio);
 u_int64 ftio_get_rec_total(struct ftio *ftio);
 int ftio_get_debug(struct ftio *ftio);
 u_int32 ftio_get_corrupt(struct ftio *ftio);

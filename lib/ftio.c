@@ -569,14 +569,22 @@ void ftio_get_ver(struct ftio *ftio, struct ftver *ver)
   ver->agg_version = ftio->fth.agg_version;
 }
 
+time_t ftio_uint32_to_time_t(u_int32 val) {
+  return (time_t) val;
+}
+
 /*
  * function: ftio_get_stime
  *
  * Get the starting time from a ftio stream
  */
-u_int32 ftio_get_cap_start(struct ftio *ftio)
+u_int32 ftio_get_cap_start(const struct ftio *ftio)
 {
   return ftio->fth.cap_start;
+}
+
+time_t ftio_get_cap_start_time_t(const struct ftio *ftio) {
+  return ftio_uint32_to_time_t(ftio_get_cap_start(ftio));
 }
 
 /*
@@ -584,9 +592,13 @@ u_int32 ftio_get_cap_start(struct ftio *ftio)
  *
  * Get the ending time from a ftio stream
  */
-u_int32 ftio_get_cap_end(struct ftio *ftio)
+u_int32 ftio_get_cap_end(const struct ftio *ftio)
 {
   return ftio->fth.cap_end;
+}
+
+time_t ftio_get_cap_end_time_t(const struct ftio *ftio) {
+  return ftio_uint32_to_time_t(ftio_get_cap_end(ftio));
 }
 
 /*
@@ -1586,6 +1598,20 @@ ftio_write_out:
 
 } /* ftio_write */
 
+static size_t strftime_tz(char *s, size_t max, const time_t timeval) {
+  struct tm tm_struct;
+
+  return strftime(s, max, "%a, %d %b %Y %H:%M:%S %z", localtime_r(&timeval, &tm_struct));
+}
+
+static void fprintf_time(FILE *std, char *format, char cc, const time_t timeval) {
+  char timebuf[128];
+
+  strftime_tz(timebuf, sizeof(timebuf), timeval);
+
+  fprintf(std, format, cc, timebuf);
+}
+
 /*
  * function: ftio_header_print
  *
@@ -1605,7 +1631,6 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
   u_int32 flags, fields;
   u_long period;
   int n, streaming2;
-  time_t t;
 
   fth = &ftio->fth;
 
@@ -1639,29 +1664,19 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
     }
   }
 
-  if (!streaming2)
-    if (fields & FT_FIELD_CAP_START) {
-      t = fth->cap_start;
-      fprintf(std, "%c capture start:        %s", cc,
-        ctime(&t));
-    }
+  if ((!streaming2) && (fields & FT_FIELD_CAP_START))
+    fprintf_time(std, "%c capture start:        %s\n", cc, ftio_get_cap_start_time_t(ftio));
 
   if (!streaming2) {
-
     if ((flags & FT_HEADER_FLAG_DONE) || (flags & FT_HEADER_FLAG_PRELOADED)) {
+      if (fields & FT_FIELD_CAP_END)
+        fprintf_time(std, "%c capture end:          %s\n", cc, ftio_get_cap_end_time_t(ftio));
 
-      if (fields & FT_FIELD_CAP_END) {
-	t = fth->cap_end;
-        fprintf(std, "%c capture end:          %s", cc,
-	  ctime(&t));
-      }
-
-      period = fth->cap_end - fth->cap_start;
-      if ((fields & FT_FIELD_CAP_END) && (fields & FT_FIELD_CAP_START))
+      if ((fields & FT_FIELD_CAP_END) && (fields & FT_FIELD_CAP_START)) {
+        period = fth->cap_end - fth->cap_start;
         fprintf(std, "%c capture period:       %lu seconds\n", cc, period);
-
+      }
     }
-
   }
 
   fprintf(std, "%c compress:             %s\n", cc, 
