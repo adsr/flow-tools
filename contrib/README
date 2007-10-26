@@ -1,6 +1,15 @@
 Cflow:
  Dave Plonka's Cflow perl module.  See http://net.doit.wisc.edu/~plonka/Cflow/
 
+ To properly install Cflow on your system, untar the Cflow archive, cd to the
+ Cflow dir, then do:
+
+   perl Makefile.PL CCFLAGS='-DOSU' LIBS='-lft'
+
+ This assumes you have flow-tools installed on your system fully, including headers 
+ and development libraries. This is the only supported way to use Cflow. Do not
+ try to install it as specified in its readme.
+
 inter.net:
   Miguel A.L. Paraz <map@internet.org.ph>
   William Emmanuel S. Yu <william.s.yu@ieee.org> <wyy@cersa.admu.edu.ph>
