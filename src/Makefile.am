@@ -2,12 +2,9 @@
 noinst_HEADERS = flow-dscan.h pcap.h cflowd.h acl2.h aclyacc.h
 
 EXTRA_DIST = ftbuild.sh
+CLEANFILES = ftbuild.h
 
 DEFS=-I$(srcdir)/../lib -L$(srcdir)/../lib 
-
-#AM_CFLAGS=-g -Wall -Wpointer-arith -Wstrict-prototypes -Wmissing-prototypes -Wmissing-declarations -Wredundant-decls -Wnested-externs
-#AM_CFLAGS=-O2
-#AM_CFLAGS=-g -Wall
 
 bin_PROGRAMS = flow-capture flow-cat flow-stat flow-print flow-dscan \
         flow-send flow-receive flow-gen flow-expire \
@@ -15,8 +12,6 @@ bin_PROGRAMS = flow-capture flow-cat flow-stat flow-print flow-dscan \
 	flow-xlate flow-merge flow-import flow-fanout flow-tag \
 	flow-nfilter flow-report flow-mask
 
-#force_build:
-#
 ftbuild.h: ftbuild.sh
 	./ftbuild.sh $@
 

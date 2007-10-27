@@ -12,7 +12,7 @@ fi
 
 
 host=`hostname | sed -e 's/\..*//g'`
-date=`date`
+date=`LANG=C date`
 
 echo "#define FT_PROG_BUILD \"$me@$host on $date\"" > $1
 
