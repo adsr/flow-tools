@@ -351,7 +351,7 @@ char **argv;
       ftv.set = 1;
       break;
 
-    case 'i': /* preserve inherited umask */
+    case 'u': /* preserve inherited umask */
       preserve_umask = 1;
       break;
 
