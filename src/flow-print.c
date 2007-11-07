@@ -2286,7 +2286,6 @@ int format24(struct ftio *ftio, int options)
 void usage(void) {
 
   fprintf(stderr, "Usage: flow-print [-hlnpw] [-d debug_level] [-f format]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 } /* usage */
 

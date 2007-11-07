@@ -629,14 +629,11 @@ void yyerror(const char *msg)
 }
 
 void usage(void) {
-
   fprintf(stderr, "Usage: flow-filter [-hko] [-a src_as_filter] [-A dst_as_filter] [-b big|little]\n");
   fprintf(stderr, "       [-C comment] [-D dstaddr_filter_name] [-d debug_level] [-e exaddr]\n");
   fprintf(stderr, "       [-f acl_fname] [-i input_filter] [-I output_filter]  [-p srcport_filter]\n");
   fprintf(stderr, "       [-P dstport_filter] [-r ipprot_filter] [-S srcaddr_filter_name]\n");
   fprintf(stderr, "       [-t tos_filter] [-T tcp_flags_filter] [-x nexthop_filter_name]\n");
   fprintf(stderr, "       [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
 

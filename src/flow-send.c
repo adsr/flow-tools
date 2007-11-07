@@ -389,10 +389,7 @@ again:
 } /* pdu_xmit */
 
 void usage(void) {
-
   fprintf(stderr, "Usage: flow-send [-h] [-d debug_level] [-x xmit_delay] [-V pdu_version]\n");
   fprintf(stderr, "       localip/remoteip/port\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
 

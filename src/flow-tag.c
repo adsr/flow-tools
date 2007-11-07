@@ -249,7 +249,5 @@ void usage(void)
 {
   fprintf(stderr, "Usage: flow-tag [-hk] [-b big|little] [-C comment] [-d debug_level]\n");
   fprintf(stderr, "       [-t tag_fname ] [-T tag_active ] [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
 

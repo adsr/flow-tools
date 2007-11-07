@@ -1432,7 +1432,6 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 void usage(void) {
 
   fprintf(stderr, "Usage: flow-export [-h] [-d debug_level] [-f format] [-m mask_fields] -u [database URI]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 
 } /* usage */

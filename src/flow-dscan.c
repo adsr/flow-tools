@@ -1044,7 +1044,6 @@ void usage(void) {
   fprintf(stderr, "Signals:\n");
   fprintf(stderr, "   SIGHUP  - reload suppress list\n");
   fprintf(stderr, "   SIGUSR1 - dump state\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 } /* usage */
 

@@ -3997,7 +3997,6 @@ void usage(void)
 
     fprintf(stderr, "Usage: flow-stat [-hnpPw] [-d debug_level] [-f format] [-S sort_field]\n");
     fprintf(stderr, "       [-s sort_field] [-t tally_lines] [-T title]\n");
-    fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
     ++first;
 

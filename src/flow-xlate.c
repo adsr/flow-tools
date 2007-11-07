@@ -281,6 +281,5 @@ void usage(void) {
   fprintf(stderr, "Usage: flow-xlate [hkn] [-b big|little] [-C comment]\n");
   fprintf(stderr, "       [-d debug_level] [-x xlate_fname] [-X xlate_definition]\n");
   fprintf(stderr, "       [-V version] [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 }
 

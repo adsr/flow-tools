@@ -219,6 +219,5 @@ void usage(void) {
   fprintf(stderr, "Usage: flow-mask [hk] [-b big|little] [-C comment]\n");
   fprintf(stderr, "       [-d debug_level] [-m mask_fname] [-M mask_definition]\n");
   fprintf(stderr, "       [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 }
 

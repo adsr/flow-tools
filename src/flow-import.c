@@ -1270,7 +1270,5 @@ void usage(void) {
   fprintf(stderr, "       [-m mask_fields] [-V pdu_version] [-z z_level]\n");
 
 
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
 

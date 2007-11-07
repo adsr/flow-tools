@@ -704,7 +704,6 @@ void usage(void) {
   fprintf(stderr, "       [-f filter_name] [-F filter_definition]\n");
   fprintf(stderr, "       [-t tag_fname] [-T tag_active] [-V pdu_version] [-z z_level]\n");
   fprintf(stderr, "       localip/remoteip/port\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 } /* usage */
 

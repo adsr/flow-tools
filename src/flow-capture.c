@@ -1427,7 +1427,6 @@ void usage(void) {
   fprintf(stderr, "Signals:\n");
   fprintf(stderr, "   SIGHUP  - close and rotate current file\n");
   fprintf(stderr, "   SIGQUIT - close current file and exit\n");
-fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 } /* usage */ 
 

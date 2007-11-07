@@ -144,6 +144,4 @@ void usage(void)
 {
   fprintf(stderr, "Usage: flow expire [-h] [-d debug_level] [-e expire_count]\n");
   fprintf(stderr, "       [-E expire_size[bKMG]] -w workdir\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */

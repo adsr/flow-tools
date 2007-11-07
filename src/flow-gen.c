@@ -1054,9 +1054,6 @@ int gen_v1005(struct ftio *ftio, int count)
 
 } /* gen_v1005 */
 void usage(void) {
-
   fprintf(stderr, "Usage: flow-gen [-h] [-b big|little] [-d debug_level] [-n count]\n");
   fprintf(stderr, "       [-V version] [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */

@@ -649,7 +649,6 @@ void usage(void) {
   fprintf(stderr, "       [-o filename] [-t start_time] [-T end_time] [-z z_level]\n");
   fprintf(stderr, "       file|directory ...");
   fprintf(stderr, "\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 
 } /* usage */

@@ -392,10 +392,7 @@ int main(int argc, char **argv)
 } /* main */
 
 void usage() {
-
   fprintf(stderr, "Usage: flow-split [-gGhn] [-b big|little] [-C comment] [-d debug_level]\n");
   fprintf(stderr, "       [-N nflows] [-o outfile_basename] [-T nseconds] [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 }
 

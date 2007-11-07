@@ -236,6 +236,5 @@ void usage(void) {
   fprintf(stderr, "Usage: flow-nfilter [hk] [-b big|little] [-C comment]\n");
   fprintf(stderr, "       [-d debug_level] [-f filter_fname] [-F filter_definition]\n");
   fprintf(stderr, "       [-z z_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 }
 

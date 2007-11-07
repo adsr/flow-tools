@@ -511,7 +511,5 @@ void usage(void)
 {
   fprintf(stderr, "Usage: flow-merge [-aghm] [-b big|little] [-C comment] [-d debug_level]\n");
   fprintf(stderr, "       [-o filename] [-z z_level] [file|directory ...]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
 

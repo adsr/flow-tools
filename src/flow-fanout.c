@@ -986,6 +986,5 @@ void usage(void)
   fprintf(stderr, "usage: flow-fanout [-hDs] [-A AS0_substitution] [-d debug_level]\n");
   fprintf(stderr, "       [-m privacy_mask] [-p pidfile] [-S stat_interval] [-V pdu_version]\n");
   fprintf(stderr, "       [-x] xmit_delay] localip/remoteip/port localip/remoteip/port ...\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
 
 } /* usage */

@@ -87,8 +87,5 @@ int main(int argc, char **argv)
 } /* main */
 
 void usage(void) {
-
   fprintf(stderr, "Usage: flow-header [-h] [-c comment_char] [-d debug_level]\n");
-  fprintf(stderr, "\n%s version %s: built by %s\n", PACKAGE, VERSION, FT_PROG_BUILD);
-
 } /* usage */
