@@ -3033,4 +3033,35 @@ int ftxfield_parse(char *line, u_int64 *xfields);
 /* MACHINE DEPENDANT */
 #define fmt_uint fmt_uint32
 
+enum ft_config_path {
+  _FT_PATH_CFG_MAP,
+  _FT_PATH_CFG_TAG,
+  _FT_PATH_CFG_FILTER,
+  _FT_PATH_CFG_STAT,
+  _FT_PATH_CFG_MASK,
+  _FT_PATH_CFG_XLATE,
+  _FT_PATH_SYM_IP_PROT,
+  _FT_PATH_SYM_IP_TYPE,
+  _FT_PATH_SYM_TCP_PORT,
+  _FT_PATH_SYM_ASN,
+  _FT_PATH_SYM_TAG
+};
+
+const char *ft_get_path(enum ft_config_path pathid);
+
+#define FTPATHS_H
+
+#define FT_PATH_CFG_MAP ft_get_path(_FT_PATH_CFG_MAP)
+#define FT_PATH_CFG_TAG ft_get_path(_FT_PATH_CFG_TAG)
+#define FT_PATH_CFG_FILTER ft_get_path(_FT_PATH_CFG_FILTER)
+#define FT_PATH_CFG_STAT ft_get_path(_FT_PATH_CFG_STAT)
+#define FT_PATH_CFG_MASK ft_get_path(_FT_PATH_CFG_MASK)
+#define FT_PATH_CFG_XLATE ft_get_path(_FT_PATH_CFG_XLATE)
+
+#define FT_PATH_SYM_IP_PROT ft_get_path(_FT_PATH_SYM_IP_PROT)
+#define FT_PATH_SYM_IP_TYPE ft_get_path(_FT_PATH_SYM_IP_TYPE)
+#define FT_PATH_SYM_TCP_PORT ft_get_path(_FT_PATH_SYM_TCP_PORT)
+#define FT_PATH_SYM_ASN ft_get_path(_FT_PATH_SYM_ASN)
+#define FT_PATH_SYM_TAG ft_get_path(_FT_PATH_SYM_TAG)
+
 #endif /* FTLIB_H */

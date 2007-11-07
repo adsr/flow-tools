@@ -28,7 +28,6 @@
 
 #include "ftconfig.h"
 #include <ftlib.h>
-#include <ftpaths.h>
 
 #include <sys/types.h>
 #include <unistd.h>
