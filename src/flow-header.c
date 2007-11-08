@@ -27,7 +27,6 @@
  */
 
 #include "ftconfig.h"
-#include "ftbuild.h"
 #include <ftlib.h>
 
 #include <stdio.h>

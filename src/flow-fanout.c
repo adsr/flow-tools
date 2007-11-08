@@ -56,7 +56,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 #define FANOUT_PIDFILE    "/var/run/flow-fanout.pid"
 

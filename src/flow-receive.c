@@ -52,7 +52,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 int debug;
 int done;

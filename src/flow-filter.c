@@ -46,7 +46,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 #include "acl2.h"
 #include "aclyacc.h"
 

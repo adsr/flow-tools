@@ -55,8 +55,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
-
 #ifdef HAVE_LIBWRAP
 #include <tcpd.h>
 #endif /* HAVE_LIBWRAP */

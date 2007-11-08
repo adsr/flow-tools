@@ -53,7 +53,6 @@
   char    *strsep (char **, const char *);
 #endif
 
-#include "ftbuild.h"
 #include "cflowd.h"
 
 struct options {

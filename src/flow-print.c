@@ -47,7 +47,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 struct jump {
     int (*where)(struct ftio *ftio, int options);

@@ -47,7 +47,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 char *progname = "flow-expire";
 int debug;

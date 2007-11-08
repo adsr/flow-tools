@@ -77,7 +77,6 @@
   #define strtoull strtoul
 #endif /* HAVE_LL_STRTOULL */
 
-#include "ftbuild.h"
 #include "pcap.h"
 #include "cflowd.h"
 

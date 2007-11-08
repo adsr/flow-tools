@@ -3,7 +3,7 @@ AM_CFLAGS=-g -Wall -fPIC
 DISTCLEANFILES = ftconfig.h
 
 include_HEADERS = ftlib.h ftqueue.h radix.h
-nodist_include_HEADERS = ftconfig.h
+# nodist_include_HEADERS = ftconfig.h
 lib_LTLIBRARIES = libft.la
 
 libft_la_SOURCES = ftio.c ftswap.c ftencode.c ftdecode.c ftprof.c bit1024.c \

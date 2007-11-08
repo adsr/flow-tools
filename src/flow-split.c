@@ -43,7 +43,6 @@
 #endif
 
 #include <fcntl.h>
-#include "ftbuild.h"
 
 int debug;
 void usage(void);

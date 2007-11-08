@@ -16,8 +16,8 @@ ftbuild.h: ftbuild.sh
 	./ftbuild.sh $@
 
 LDADD = ../lib/libft.la
-AM_CFLAGS = -fPIE
-AM_LDFLAGS = -pie
+AM_CFLAGS = $(PICFLAGS)
+AM_LDFLAGS = $(PILDFLAGS)
 
 flow_capture_SOURCES = flow-capture.c
 flow_capture_LDADD =  $(LDADD) $(CRYPTOLIB)

@@ -49,7 +49,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 struct ftio_table {
   char *cur_entry;

@@ -49,7 +49,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 #include "flow-dscan.h"
 
 /*

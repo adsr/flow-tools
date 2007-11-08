@@ -41,7 +41,6 @@
   #include <string.h>
 #endif
 
-#include "ftbuild.h"
 
 /*
  * generate flows for testing
