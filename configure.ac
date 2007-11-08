@@ -1,9 +1,9 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(flow-tools, 0.68.2)
+AC_INIT(flow-tools, 0.68.3-rc1i, flow-tools@googlegroups.com)
 
 AC_PREFIX_DEFAULT(/usr/local/flow-tools)
 
-AM_INIT_AUTOMAKE([foreign])
+AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_CONFIG_HEADER(lib/ftconfig.h) 
 
 dnl CFLAGS="-g -Wall"
