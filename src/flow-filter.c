@@ -47,7 +47,6 @@
 #endif
 
 #include "acl2.h"
-#include "aclyacc.h"
 
 /*
  * TODO

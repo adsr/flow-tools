@@ -1,5 +1,8 @@
 
-noinst_HEADERS = flow-dscan.h pcap.h cflowd.h acl2.h aclyacc.h
+noinst_HEADERS = flow-dscan.h pcap.h cflowd.h acl2.h
+
+BUILT_SOURCES = aclyacc.h
+AM_YFLAGS = -d
 
 EXTRA_DIST = ftbuild.sh
 CLEANFILES = ftbuild.h
