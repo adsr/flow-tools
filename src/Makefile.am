@@ -26,7 +26,6 @@ flow_capture_SOURCES = flow-capture.c
 flow_capture_LDADD =  $(LDADD) $(CRYPTOLIB)
 
 flow_filter_SOURCES = flow-filter.c aclyacc.y acllex.l acl2.c 
-flow_filter_LDADD = $(LDADD) $(LEXLIB)
 flow_export_SOURCES = flow-export.c
 flow_export_LDFLAGS = $(AM_LDFLAGS) $(MYSQLLDFLAGS) $(POSTGRESQL_LDFLAGS)
 flow_export_CFLAGS = $(AM_CFLAGS) $(MYSQLCFLAGS) $(POSTGRESQL_CFLAGS)

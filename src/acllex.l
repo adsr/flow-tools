@@ -15,6 +15,8 @@
 
 byte	([0-9]+)
 
+%option noyywrap
+
 %%
 \n					{ return NL;}
 !.*					{ return COMMENT;}
