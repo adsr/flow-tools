@@ -4777,7 +4777,7 @@ int ftstat_rpt_1_accum(struct ftstat_rpt *rpt, char *rec,
   struct fts3rec_all2 cur;
   u_int32 time_tmp, duration_tmp;
   double pps_tmp, bps_tmp;
-  u_long p;
+  uint32_t p;
 
   STD_ACCUM;
 

@@ -77,7 +77,6 @@
 #define	int8 	char
 
 #define u_int unsigned int
-#define u_long unsigned long
 #define u_short unsigned short
 
 #include "ftqueue.h"
@@ -1407,8 +1406,8 @@ struct ftio {
   int rec_size;                      /* size of stream record */
   struct ftiheader fth;              /* header */
   char *d_buf;                       /* records */
-  u_long d_start;                    /* offset to next byte in d_buf */
-  u_long d_end;                      /* available bytes in d_buf */
+  uint32_t d_start;                    /* offset to next byte in d_buf */
+  uint32_t d_end;                      /* available bytes in d_buf */
   char *z_buf;                       /* zlib inflate/deflate buffer */
   int z_level;                       /* compression level */
   z_stream zs;                       /* zlib io */
@@ -2954,7 +2953,7 @@ struct ip_prefix {
 void print_3float(float f);
 void print_3float2(float f);
 int load_lookup(char *s, int size, char *list);
-u_long scan_ip(char *s);
+uint32_t scan_ip(char *s);
 int64 scan_size(char *val);
 int udp_cksum(struct ip *ip, struct udphdr *up, int len);
 

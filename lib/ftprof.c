@@ -89,7 +89,7 @@ int ftprof_print(struct ftprof *ftp, char *prog, FILE *std)
 {
 
   char fmt_buf[256];
-  u_long usec, sec;
+  uint32_t usec, sec;
   double fps;
 
   fmt_uint64(fmt_buf, ftp->nflows, FMT_JUST_LEFT);

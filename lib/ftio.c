@@ -1628,8 +1628,8 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
   char agg_ver, agg_method;
   char *agg_name;
   char fmt_buf[32];
-  u_int32 flags, fields;
-  u_long period;
+  uint32_t flags, fields;
+  uint32_t period;
   int n, streaming2;
 
   fth = &ftio->fth;
@@ -1783,22 +1783,22 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
   if (!streaming2)
     if (fields & FT_FIELD_FLOW_LOST)
       fprintf(std, "%c lost flows:           %lu\n", cc,
-        (u_long)fth->flows_lost);
+        (uint32_t)fth->flows_lost);
 
   if (!streaming2)
     if (fields & FT_FIELD_FLOW_MISORDERED)
       fprintf(std,
-        "%c misordered flows:     %lu\n", cc, (u_long)fth->flows_misordered);
+        "%c misordered flows:     %lu\n", cc, (uint32_t)fth->flows_misordered);
 
   if (!streaming2)
     if (fields & FT_FIELD_PKT_CORRUPT)
       fprintf(std,
-        "%c corrupt packets:      %lu\n", cc, (u_long)fth->pkts_corrupt);
+        "%c corrupt packets:      %lu\n", cc, (uint32_t)fth->pkts_corrupt);
 
   if (!streaming2)
     if (fields & FT_FIELD_SEQ_RESET)
       fprintf(std,
-        "%c sequencer resets:     %lu\n", cc, (u_long)fth->seq_reset);
+        "%c sequencer resets:     %lu\n", cc, (uint32_t)fth->seq_reset);
 
   if (fields & FT_FIELD_COMMENTS)
     fprintf(std, "%c comments:             %s\n", cc, fth->comments);

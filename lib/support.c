@@ -44,6 +44,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <syslog.h>
+#include <stdint.h>
 #include <time.h>
 #include <fcntl.h>
 
@@ -70,7 +71,7 @@
  *  248.0.0.0 252.0.0.0 254.0.0.0 255.0.0.0
  *
  */
-u_int32 mask_lookup[] = { 0xffffffff,
+uint32_t mask_lookup[] = { 0xffffffff,
      0x80000000, 0xc0000000, 0xe0000000, 0xf0000000,
      0xf8000000, 0xfc000000, 0xfe000000, 0xff000000,
      0xff800000, 0xffc00000, 0xffe00000, 0xfff00000,
@@ -86,7 +87,7 @@ u_int32 mask_lookup[] = { 0xffffffff,
  * returns the 32 bit network mask given a length
  *
 */
-u_int32 ipv4_len2mask(u_int8 len)
+uint32_t ipv4_len2mask(u_int8 len)
 {
   return mask_lookup[(len > 32) ? 0 : len];
 }
@@ -284,11 +285,11 @@ struct ip_prefix scan_ip_prefix(char *input)
  *  left shift any partial dotted quads, ie 10 is 0x0a000000 not 0x0a
  *  so scan_ip_prefix() works for standard prefix notation, ie 10/8
  */
-u_long scan_ip(char *s)
+uint32_t scan_ip(char *s)
 {
   struct hostent *he;
   struct in_addr *ina;
-  u_long addr = 0;
+  uint32_t addr = 0;
   u_int n;
   int dns, shift = 0;
   char *t;
@@ -309,7 +310,7 @@ u_long scan_ip(char *s)
     if (he->h_addrtype != AF_INET)
       goto numeric;
 
-    if (he->h_length != sizeof (u_int32))
+    if (he->h_length != sizeof (uint32_t))
       goto numeric;
 
     ina = (struct in_addr*)*he->h_addr_list;
