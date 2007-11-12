@@ -2788,7 +2788,7 @@ void ftxlate_free(struct ftxlate *ftxlate);
 int ftxlate_def_eval(struct ftxlate_def *ftd, char *rec,
   struct fts3rec_offsets *fo);
 struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, char *name);
-int ftxlate_def_test_xfields(struct ftxlate_def *active_def, u_int64 test);
+int ftxlate_def_test_xfields(struct ftxlate_def *active_def, uint64_t test);
 
 /* ftfil */
 struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, char *name);
