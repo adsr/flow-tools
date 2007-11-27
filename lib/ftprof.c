@@ -39,6 +39,12 @@
   #include <string.h>
 #endif
 
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
+
 /*
  * function: ftprof_start
  *
@@ -74,7 +80,6 @@ int ftprof_end(struct ftprof *ftp, u_int64 nflows)
   ftp->nflows = nflows;
 
   return 0;
-
 }
 
 /*
@@ -85,12 +90,18 @@ int ftprof_end(struct ftprof *ftp, u_int64 nflows)
  * returns: < 0 error
  *          >= 0 ok  
 */
-int ftprof_print(struct ftprof *ftp, char *prog, FILE *std)
+
+static void ftprof_print_time(FILE* std, const char * prefix, uint32_t sec, uint32_t usec, uint64_t nflows) {
+  fprintf(std, "  %s: seconds=%" PRIu32 ".%-3.3" PRIu32 " flows/second=%f\n",
+    prefix, sec, usec/1000, 
+    (double) nflows / ((double)sec + ((double)usec/1000000)));
+}
+
+void ftprof_print(struct ftprof *ftp, char *prog, FILE *std)
 {
 
   char fmt_buf[256];
   uint32_t usec, sec;
-  double fps;
 
   fmt_uint64(fmt_buf, ftp->nflows, FMT_JUST_LEFT);
 
@@ -100,22 +111,15 @@ int ftprof_print(struct ftprof *ftp, char *prog, FILE *std)
   if (usec > 1000000)
     usec -= 1000000, ++sec;
 
-  fps = (double)ftp->nflows / ((double)sec + ((double)usec/1000000));
-
   fprintf(std, "%s: processed %s flows\n", prog, fmt_buf);
-  fprintf(std, "  sys:   seconds=%lu.%-3.3lu flows/second=%f\n",
-    sec, usec/1000, fps);
+  ftprof_print_time(std, "sys", sec, usec/1000, ftp->nflows);
 
   if (ftp->t1.tv_usec < ftp->t0.tv_usec) 
     ftp->t1.tv_usec += 1000000, --ftp->t1.tv_sec;
 
   usec = ftp->t1.tv_usec - ftp->t0.tv_usec;
   sec = ftp->t1.tv_sec - ftp->t0.tv_sec;
-  fps = (double)ftp->nflows / ((double)sec + ((double)usec/1000000));
 
-  fprintf(std, "  wall:  seconds=%lu.%-3.3lu flows/second=%f\n", 
-    sec, usec/1000, fps);
-
-  return 0;
+  ftprof_print_time(std, "sys", sec, usec/1000, ftp->nflows);
 }
 

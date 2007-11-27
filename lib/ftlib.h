@@ -2655,7 +2655,7 @@ int fts3rec_pdu_v8_14_encode(struct ftencode *enc,
 
 int ftprof_start(struct ftprof *ftp);
 int ftprof_end(struct ftprof *ftp, u_int64 nflows);
-int ftprof_print(struct ftprof *ftp, char *prog, FILE *std);
+void ftprof_print(struct ftprof *ftp, char *prog, FILE *std);
 
 int ftiheader_read(int fd, struct ftiheader *h);
 

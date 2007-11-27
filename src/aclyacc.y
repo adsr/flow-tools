@@ -15,7 +15,7 @@ int x;
 
 %union {
 	char *c;
-	u_long long ip;
+	uint32_t ip;
 	int i;
 	u_int u;
 	struct acl_ip_std_entry std_entry;

@@ -60,6 +60,12 @@
  #include <sys/stat.h>
 #endif
 
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
+
 int readn(register int fd, register void *ptr, register int nbytes);
 
 /*
@@ -1674,7 +1680,7 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
 
       if ((fields & FT_FIELD_CAP_END) && (fields & FT_FIELD_CAP_START)) {
         period = fth->cap_end - fth->cap_start;
-        fprintf(std, "%c capture period:       %lu seconds\n", cc, period);
+        fprintf(std, "%c capture period:       %" PRIu32 " seconds\n", cc, period);
       }
     }
   }
@@ -1782,23 +1788,23 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
 
   if (!streaming2)
     if (fields & FT_FIELD_FLOW_LOST)
-      fprintf(std, "%c lost flows:           %lu\n", cc,
+      fprintf(std, "%c lost flows:           %" PRIu32 "\n", cc,
         (uint32_t)fth->flows_lost);
 
   if (!streaming2)
     if (fields & FT_FIELD_FLOW_MISORDERED)
       fprintf(std,
-        "%c misordered flows:     %lu\n", cc, (uint32_t)fth->flows_misordered);
+        "%c misordered flows:     %" PRIu32 "\n", cc, (uint32_t)fth->flows_misordered);
 
   if (!streaming2)
     if (fields & FT_FIELD_PKT_CORRUPT)
       fprintf(std,
-        "%c corrupt packets:      %lu\n", cc, (uint32_t)fth->pkts_corrupt);
+        "%c corrupt packets:      %" PRIu32 "\n", cc, (uint32_t)fth->pkts_corrupt);
 
   if (!streaming2)
     if (fields & FT_FIELD_SEQ_RESET)
       fprintf(std,
-        "%c sequencer resets:     %lu\n", cc, (uint32_t)fth->seq_reset);
+        "%c sequencer resets:     %" PRIu32 "\n", cc, (uint32_t)fth->seq_reset);
 
   if (fields & FT_FIELD_COMMENTS)
     fprintf(std, "%c comments:             %s\n", cc, fth->comments);

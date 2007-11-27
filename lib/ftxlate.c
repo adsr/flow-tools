@@ -50,7 +50,6 @@
 #include <unistd.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <stdint.h>
 #include <time.h>
 #include <fcntl.h>
 #include <zlib.h>
@@ -64,7 +63,9 @@
 
 #if HAVE_INTTYPES_H
 # include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
-#endif
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
 
 #if !HAVE_STRSEP
   char    *strsep (char **, const char *);
