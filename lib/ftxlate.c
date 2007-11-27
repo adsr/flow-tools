@@ -61,20 +61,24 @@
   #include <string.h>
 #endif
 
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#endif
+
 #if !HAVE_STRSEP
   char    *strsep (char **, const char *);
 #endif
 
 struct cryptopan {
-  u_int8_t m_key[16]; /* 128 bit secret key */
-  u_int8_t m_pad[16]; /* 128 bit secret pad */
+  uint8_t m_key[16]; /* 128 bit secret key */
+  uint8_t m_pad[16]; /* 128 bit secret pad */
 #ifdef HAVE_OPENSSL
   EVP_CIPHER_CTX *cipher_ctx; /* openssl cipher context */
 #endif /* HAVE_OPENSSL */
 };
 
-static int cryptopan_anon(struct cryptopan *cp, u_int32_t orig_addr,
-  u_int32_t *new_addr);
+static int cryptopan_anon(struct cryptopan *cp, uint32_t orig_addr,
+  uint32_t *new_addr);
 static int cryptopan_free(struct cryptopan *cp);
 static int cryptopan_init(struct cryptopan *cp, unsigned char *key);
 
@@ -112,7 +116,7 @@ struct ftxlate_action {
   void *action;
   void (*eval)(struct ftxlate_action *ftxa, char *rec,
     struct fts3rec_offsets *fo);
-  u_int64 xfields;
+  uint64_t xfields;
 };
 
 struct ftxlate_def_term {
@@ -121,7 +125,7 @@ struct ftxlate_def_term {
   int type; /* FT_XLATE_TYPE_MATCH_* */
   struct ftfil_def *ftfd; /* filter definition */
   int flags;
-  u_int64 xfields;
+  uint64_t xfields;
 };
 
 struct ftxlate_def_term_actions {
@@ -134,7 +138,7 @@ struct ftxlate_def {
   FT_SLIST_ENTRY(ftxlate_def) chain;
   FT_STAILQ_HEAD(xdthead, ftxlate_def_term) terms; /* terms */
   char *name;
-  u_int64 xfields;
+  uint64_t xfields;
 };
 
 struct ftxlate_act_scale {
@@ -142,21 +146,21 @@ struct ftxlate_act_scale {
 };
 
 struct ftxlate_act_asn {
-  u_int16 as;
+  uint16_t as;
 };
 struct ftxlate_act_tag_mask {
-  u_int32 src_mask;
-  u_int32 dst_mask;
+  uint32_t src_mask;
+  uint32_t dst_mask;
 };
 
 struct ftxlate_act_ip_addr_priv_mask {
-  u_int32 src_mask;
-  u_int32 dst_mask;
+  uint32_t src_mask;
+  uint32_t dst_mask;
 };
 
 struct ftxlate_act_ip_port_priv_mask {
-  u_int16 src_mask;
-  u_int16 dst_mask;
+  uint16_t src_mask;
+  uint16_t dst_mask;
 };
 struct ftxlate_act_ip_addr_anon {
   int init;
@@ -464,7 +468,7 @@ struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, char *name)
  * returns: 0 okay
  *          1 fail
  */
-int ftxlate_def_test_xfields(struct ftxlate_def *active_def, u_int64 test)
+int ftxlate_def_test_xfields(struct ftxlate_def *active_def, uint64_t test)
 {
   
   if ((active_def->xfields & test) != active_def->xfields)
@@ -867,7 +871,7 @@ int parse_action_mask(struct line_parser *lp, struct ftxlate *ftxlate)
   struct ftxlate_act_tag_mask *ftxatm;
   struct ftxlate_act_ip_addr_priv_mask *ftxaiapm;
   struct ftxlate_act_ip_port_priv_mask *ftxaippm;
-  u_int32 src_mask, dst_mask;
+  uint32_t src_mask, dst_mask;
   char *src_maskc, *dst_maskc;
 
   if (!lp->cur_action->type) {
@@ -1593,7 +1597,7 @@ static void eval_ip_src_addr2net(struct ftxlate_action *ftxa,
 
   FT_RECGET_SRC_MASK(cur,rec,*fo);
 
-  *((u_int32*)(rec+(*fo).srcaddr)) &= ipv4_len2mask(cur.src_mask);
+  *((uint32_t*)(rec+(*fo).srcaddr)) &= ipv4_len2mask(cur.src_mask);
  
 } /* eval_ip_src_addr2net */
 
@@ -1604,7 +1608,7 @@ static void eval_ip_dst_addr2net(struct ftxlate_action *ftxa,
 
   FT_RECGET_DST_MASK(cur,rec,*fo);
 
-  *((u_int32*)(rec+(*fo).dstaddr)) &= ipv4_len2mask(cur.dst_mask);
+  *((uint32_t*)(rec+(*fo).dstaddr)) &= ipv4_len2mask(cur.dst_mask);
  
 } /* eval_ip_dst_addr2net */
 
@@ -1616,11 +1620,11 @@ static void eval_ip_src_addr2cnet(struct ftxlate_action *ftxa,
   FT_RECGET_SRCADDR(cur,rec,*fo);
 
   if ((cur.srcaddr & 0x80000000) == 0)
-    *((u_int32*)(rec+(*fo).srcaddr)) &= 0xFF000000;
+    *((uint32_t*)(rec+(*fo).srcaddr)) &= 0xFF000000;
   else if ((cur.srcaddr & 0xC0000000) == 0x80000000)
-   *((u_int32*)(rec+(*fo).srcaddr)) &= 0xFFFF0000;
+   *((uint32_t*)(rec+(*fo).srcaddr)) &= 0xFFFF0000;
   else if ((cur.srcaddr & 0xC0000000) == 0xC0000000)
-    *((u_int32*)(rec+(*fo).srcaddr)) &= 0xFFFFFF00;
+    *((uint32_t*)(rec+(*fo).srcaddr)) &= 0xFFFFFF00;
 
 } /* eval_ip_src_addr2cnet */
 
@@ -1632,11 +1636,11 @@ static void eval_ip_dst_addr2cnet(struct ftxlate_action *ftxa,
   FT_RECGET_DSTADDR(cur,rec,*fo);
 
   if ((cur.dstaddr & 0x80000000) == 0)
-    *((u_int32*)(rec+(*fo).dstaddr)) &= 0xFF000000;
+    *((uint32_t*)(rec+(*fo).dstaddr)) &= 0xFF000000;
   else if ((cur.dstaddr & 0xC0000000) == 0x80000000)
-   *((u_int32*)(rec+(*fo).dstaddr)) &= 0xFFFF0000;
+   *((uint32_t*)(rec+(*fo).dstaddr)) &= 0xFFFF0000;
   else if ((cur.dstaddr & 0xC0000000) == 0xC0000000)
-    *((u_int32*)(rec+(*fo).dstaddr)) &= 0xFFFFFF00;
+    *((uint32_t*)(rec+(*fo).dstaddr)) &= 0xFFFFFF00;
  
 } /* eval_ip_dst_addr2cnet */
 
@@ -1647,8 +1651,8 @@ static void eval_ip_addr_privacy_mask(struct ftxlate_action *ftxa,
 
   ftxiapm = ftxa->action;
 
-  *((u_int32*)(rec+(*fo).srcaddr)) &= ftxiapm->src_mask;
-  *((u_int32*)(rec+(*fo).dstaddr)) &= ftxiapm->dst_mask;
+  *((uint32_t*)(rec+(*fo).srcaddr)) &= ftxiapm->src_mask;
+  *((uint32_t*)(rec+(*fo).dstaddr)) &= ftxiapm->dst_mask;
 
 } /* eval_ip_addr_privacy_mask */
 
@@ -1659,8 +1663,8 @@ static void eval_ip_port_privacy_mask(struct ftxlate_action *ftxa,
 
   ftxaipm = ftxa->action;
 
-  *((u_int16*)(rec+(*fo).srcport)) &= ftxaipm->src_mask;
-  *((u_int16*)(rec+(*fo).dstport)) &= ftxaipm->dst_mask;
+  *((uint16_t*)(rec+(*fo).srcport)) &= ftxaipm->src_mask;
+  *((uint16_t*)(rec+(*fo).dstport)) &= ftxaipm->dst_mask;
 
 } /* eval_ip_port_privacy_mask */
 
@@ -1671,8 +1675,8 @@ static void eval_tag_mask(struct ftxlate_action *ftxa,
 
   ftxatm = ftxa->action;
 
-  *((u_int32*)(rec+(*fo).src_tag)) &= ftxatm->src_mask;
-  *((u_int32*)(rec+(*fo).dst_tag)) &= ftxatm->dst_mask;
+  *((uint32_t*)(rec+(*fo).src_tag)) &= ftxatm->src_mask;
+  *((uint32_t*)(rec+(*fo).dst_tag)) &= ftxatm->dst_mask;
 
 } /*  eval_tag_mask */
 
@@ -1683,8 +1687,8 @@ static void eval_scale(struct ftxlate_action *ftxa,
 
   ftxs = ftxa->action;
 
-  *((u_int32*)(rec+(*fo).dOctets)) *= ftxs->scale;
-  *((u_int32*)(rec+(*fo).dPkts)) *= ftxs->scale;
+  *((uint32_t*)(rec+(*fo).dOctets)) *= ftxs->scale;
+  *((uint32_t*)(rec+(*fo).dPkts)) *= ftxs->scale;
 
 } /* eval_scale */
 
@@ -1693,9 +1697,9 @@ static void eval_src_asn(struct ftxlate_action *ftxa,
 {
   struct ftxlate_act_asn *ftxasn;
 
-  if (*((u_int16*)(rec+(*fo).src_as)) == 0) {
+  if (*((uint16_t*)(rec+(*fo).src_as)) == 0) {
     ftxasn = ftxa->action;
-    *((u_int16*)(rec+(*fo).src_as)) = ftxasn->as;
+    *((uint16_t*)(rec+(*fo).src_as)) = ftxasn->as;
   }
 
 } /* eval_src_asn */
@@ -1705,9 +1709,9 @@ static void eval_dst_asn(struct ftxlate_action *ftxa,
 {
   struct ftxlate_act_asn *ftxasn;
 
-  if (*((u_int16*)(rec+(*fo).dst_as)) == 0) {
+  if (*((uint16_t*)(rec+(*fo).dst_as)) == 0) {
     ftxasn = ftxa->action;
-    *((u_int16*)(rec+(*fo).dst_as)) = ftxasn->as;
+    *((uint16_t*)(rec+(*fo).dst_as)) = ftxasn->as;
   }
 
 } /* eval_dst_asn */
@@ -1716,7 +1720,7 @@ static void eval_ip_src_addr_anon(struct ftxlate_action *ftxa,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftxlate_act_ip_addr_anon *ftxiaa;
-  u_int32 new;
+  uint32_t new;
   time_t now;
 
   ftxiaa = ftxa->action;
@@ -1753,12 +1757,12 @@ static void eval_ip_src_addr_anon(struct ftxlate_action *ftxa,
     }
   } /* refresh key? */
 
-  if (cryptopan_anon(&ftxiaa->cp, *((u_int32*)(rec+(*fo).srcaddr)),
+  if (cryptopan_anon(&ftxiaa->cp, *((uint32_t*)(rec+(*fo).srcaddr)),
     &new) < 0) {
     fterr_errx(1, "cryptopan_anon(): failed");
   }
 
-  *((u_int32*)(rec+(*fo).srcaddr)) = new;
+  *((uint32_t*)(rec+(*fo).srcaddr)) = new;
 
 } /* eval_ip_src_addr_anon */
 
@@ -1766,7 +1770,7 @@ static void eval_ip_dst_addr_anon(struct ftxlate_action *ftxa,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftxlate_act_ip_addr_anon *ftxiaa;
-  u_int32 new;
+  uint32_t new;
   time_t now;
 
   ftxiaa = ftxa->action;
@@ -1803,12 +1807,12 @@ static void eval_ip_dst_addr_anon(struct ftxlate_action *ftxa,
     }
   } /* refresh key? */
 
-  if (cryptopan_anon(&ftxiaa->cp, *((u_int32*)(rec+(*fo).dstaddr)),
+  if (cryptopan_anon(&ftxiaa->cp, *((uint32_t*)(rec+(*fo).dstaddr)),
     &new) < 0) {
     fterr_errx(1, "cryptopan_anon(): failed");
   }
 
-  *((u_int32*)(rec+(*fo).dstaddr)) = new;
+  *((uint32_t*)(rec+(*fo).dstaddr)) = new;
 
 } /* eval_ip_dst_addr_anon */
 
@@ -2095,12 +2099,12 @@ static int cryptopan_free(struct cryptopan *cp)
  * returns: 0 okay
  *         -1 fail
  */
-static int cryptopan_anon(struct cryptopan *cp, u_int32_t orig_addr, u_int32_t *new_addr)
+static int cryptopan_anon(struct cryptopan *cp, uint32_t orig_addr, uint32_t *new_addr)
 {
-  u_int8_t rin_output[16];
-  u_int8_t rin_input[16];
-  u_int8_t *m_pad;
-  u_int32_t result, first4bytes_pad, first4bytes_input;
+  uint8_t rin_output[16];
+  uint8_t rin_input[16];
+  uint8_t *m_pad;
+  uint32_t result, first4bytes_pad, first4bytes_input;
   int i, pos;
 
   result = 0;
@@ -2108,10 +2112,10 @@ static int cryptopan_anon(struct cryptopan *cp, u_int32_t orig_addr, u_int32_t *
 
   bcopy(m_pad, rin_input, 16);
 
-  first4bytes_pad = (((u_int32_t) m_pad[0]) << 24) +
-                    (((u_int32_t) m_pad[1]) << 16) +
-                    (((u_int32_t) m_pad[2]) << 8) +
-                    (u_int32_t) m_pad[3]; 
+  first4bytes_pad = (((uint32_t) m_pad[0]) << 24) +
+                    (((uint32_t) m_pad[1]) << 16) +
+                    (((uint32_t) m_pad[2]) << 8) +
+                    (uint32_t) m_pad[3]; 
 
   /*
    * For each prefixes with length from 0 to 31, generate a bit using the
@@ -2134,10 +2138,10 @@ static int cryptopan_anon(struct cryptopan *cp, u_int32_t orig_addr, u_int32_t *
       first4bytes_input = ((orig_addr >> (32-pos)) << (32-pos)) |
         ((first4bytes_pad<<pos) >> pos);
 
-    rin_input[0] = (u_int8_t) (first4bytes_input >> 24);
-    rin_input[1] = (u_int8_t) ((first4bytes_input << 8) >> 24);
-    rin_input[2] = (u_int8_t) ((first4bytes_input << 16) >> 24);
-    rin_input[3] = (u_int8_t) ((first4bytes_input << 24) >> 24);
+    rin_input[0] = (uint8_t) (first4bytes_input >> 24);
+    rin_input[1] = (uint8_t) ((first4bytes_input << 8) >> 24);
+    rin_input[2] = (uint8_t) ((first4bytes_input << 16) >> 24);
+    rin_input[3] = (uint8_t) ((first4bytes_input << 24) >> 24);
 
     /*
      * Encryption: The Rijndael cipher is used as pseudorandom function.
