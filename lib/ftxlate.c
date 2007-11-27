@@ -62,6 +62,10 @@
   #include <string.h>
 #endif
 
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#endif
+
 #if !HAVE_STRSEP
   char    *strsep (char **, const char *);
 #endif
