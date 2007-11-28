@@ -60,6 +60,20 @@ ChangeLog
 /docs/flow-tag.html
 /docs/flow-xlate.1
 /docs/flow-xlate.html
+/docs/flow-cat.1
+/docs/flow-dscan.1
+/docs/flow-expire.1
+/docs/flow-export.1
+/docs/flow-filter.1
+/docs/flow-gen.1
+/docs/flow-header.1
+/docs/flow-import.1
+/docs/flow-merge.1
+/docs/flow-send.1
+/docs/flow-split.1
+/docs/flow-stat.1
+/docs/flow-tools-examples.1
+/docs/flow-tools.1
 
 # dist-bz2
 
