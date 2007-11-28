@@ -322,6 +322,7 @@ filter-definition ucast
 </literallayout>
 
 <command>flow-cat <filename>flows</filename> | flow-xlate -xxlate.cfg -Xabilene_privacy | flow-print</command>
+</para>
 </informalexample>
 </refsect1>
 

@@ -173,29 +173,5 @@ AC_OUTPUT([
   docs/Makefile 
   configs/Makefile
   utils/Makefile
-  docs/flow-capture.1
-  docs/flow-capture.html 
-  docs/flow-nfilter.1 
-  docs/flow-nfilter.html 
-  docs/flow-print.1 
-  docs/flow-print.html 
-  docs/flow-report.1 
-  docs/flow-report.html 
-  docs/flow-receive.1 
-  docs/flow-receive.html 
-  docs/flow-tag.1 
-  docs/flow-tag.html 
-  docs/flow-mask.1 
-  docs/flow-mask.html 
-  docs/flow-fanout.1 
-  docs/flow-fanout.html 
-  docs/flow-xlate.1 
-  docs/flow-xlate.html 
-  docs/flow-rpt2rrd.1 
-  docs/flow-rpt2rrd.html 
-  docs/flow-rptfmt.1 
-  docs/flow-rptfmt.html 
-  docs/flow-log2rrd.1 
-  docs/flow-log2rrd.html
 ])
 
