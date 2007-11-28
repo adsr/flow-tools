@@ -310,9 +310,9 @@ int ftfile_add_tail(struct ftfile_entries *fte, char *fname, off_t size,
 */
 int ftfile_expire (struct ftfile_entries *fte, int doit, int curbytes)
 {
-  u_int i;
+  unsigned int i;
   struct ftfile_entry *n1, *n2;
-  u_int64 bytes;
+  uint64_t bytes;
 
   /*
    * if max_files is set, remove files starting at the head of the list until
