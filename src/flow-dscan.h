@@ -51,42 +51,42 @@ struct dscan_state {
   FT_SLIST_HEAD(shead, dscan_rec) hash_scan[DSCAN_HASHSIZE];
   FT_SLIST_HEAD(sup_src_head, dscan_sup) hash_sup_src[DSCAN_HASHSIZE];
   FT_SLIST_HEAD(sup_dst_head, dscan_sup) hash_sup_dst[DSCAN_HASHSIZE];
-  u_int stat_malloc;        /* # of times malloc called */
-  u_int stat_free;          /* # of times free called */
-  u_int stat_malloc_dst;    /* # of times dst struct allocated */
-  u_int stat_malloc_rec;    /* # of times rec struct allocated */
-  u_int stat_free_dst;      /* # of times dst struct freed */
-  u_int stat_free_rec;      /* # of times rec struct freed */
-  u_int stat_aged_ip;       /* # dst ip in the list is removed */
-  u_int stat_aged_dsr;      /* # of dscan records removed */
-  u_int32   ager_timeout;   /* how long to keep flows around */
-  u_int32   dscan_ip_depth; /* lengh of ip destination list */
-  u_int32   dscan_port_trigger; /* # ports hit before scan trggers */
+  unsigned int stat_malloc;        /* # of times malloc called */
+  unsigned int stat_free;          /* # of times free called */
+  unsigned int stat_malloc_dst;    /* # of times dst struct allocated */
+  unsigned int stat_malloc_rec;    /* # of times rec struct allocated */
+  unsigned int stat_free_dst;      /* # of times dst struct freed */
+  unsigned int stat_free_rec;      /* # of times rec struct freed */
+  unsigned int stat_aged_ip;       /* # dst ip in the list is removed */
+  unsigned int stat_aged_dsr;      /* # of dscan records removed */
+  uint32_t   ager_timeout;   /* how long to keep flows around */
+  uint32_t   dscan_ip_depth; /* lengh of ip destination list */
+  uint32_t   dscan_port_trigger; /* # ports hit before scan trggers */
   char    *statefile;       /* where to store/load state */
   char    *supfile;         /* suppress list file */
 };
 
 struct dscan_dst {
-    u_int32 ip_dst;                /* destination IP */
-    u_int32 ip_time;               /* last time dst IP seen */
+    uint32_t ip_dst;                /* destination IP */
+    uint32_t ip_time;               /* last time dst IP seen */
     struct bit1024 portmap;        /* active destination ports */
   FT_STAILQ_ENTRY  (dscan_dst) chain; /* chain */
 };
 
 struct dscan_rec {
-  u_int8    depth;             /* 0..255 depth of list */
-  u_int8    flags;             /* DSCAN_FLAGS_* */
-  u_int32   ip_src;            /* src ip address (key) */
+  uint8_t    depth;             /* 0..255 depth of list */
+  uint8_t    flags;             /* DSCAN_FLAGS_* */
+  uint32_t   ip_src;            /* src ip address (key) */
   FT_STAILQ_HEAD(dhead, dscan_dst) dlhead; /* head of dst list */
   FT_SLIST_ENTRY (dscan_rec) chain;  /* chain */
 };
 
 struct dscan_sup {
-  u_int32 ip;
-  u_int16 srcport;
-  u_int16 dstport;
-  u_int8  flags;
-  u_int8  protocol;
+  uint32_t ip;
+  uint16_t srcport;
+  uint16_t dstport;
+  uint8_t  flags;
+  uint8_t  protocol;
   FT_SLIST_ENTRY (dscan_sup) chain;  /* chain */
 };
 

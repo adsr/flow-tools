@@ -27,6 +27,13 @@
  */
 
 #include "ftconfig.h"
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
+
 #include <ftlib.h>
 
 #include <sys/time.h>
@@ -89,6 +96,13 @@ void sig_usr1_handler(int sig);
 void usage(void);
 int dump_state(struct dscan_state *ds);
 
+static void snprintf_time(char* buffer, struct tm* tm, 
+    uint32_t msecs) {
+  snprintf(buffer, 64, "%-2.2d%-2.2d.%-2.2d:%-2.2d:%-2.2d.%-3" PRIu32 " ",
+      tm->tm_mon + 1, tm->tm_mday, tm->tm_hour, tm->tm_min, tm->tm_sec, 
+      msecs);
+}
+
 
 int main(int argc, char **argv)
 {
@@ -103,7 +117,7 @@ int main(int argc, char **argv)
   struct dscan_rec *drp;
   struct dscan_dst *ddp, *ddp2;
   struct dscan_sup *dsp_src, *dsp_dst;
-  u_long hash;
+  uint32_t hash;
   char fmt_buf1[64], fmt_buf2[64], fmt_buf3[64], fmt_buf4[64];
   int do_dump, do_load;
   int filter_www, filter_mcast, filter_input, filter_output;
@@ -456,9 +470,7 @@ sup:
 
               fmt_uint32(fmt_buf3, ftt.secs, FMT_JUST_LEFT);
 
-              snprintf(fmt_buf4, 64, "%-2.2d%-2.2d.%-2.2d:%-2.2d:%-2.2d.%-3lu ",
-                 (int)tm->tm_mon+1, (int)tm->tm_mday, (int)tm->tm_hour,
-                 (int)tm->tm_min, (int)tm->tm_sec, (u_long)ftt.msecs);
+              snprintf_time(fmt_buf4, tm, ftt.msecs);
 
               fterr_info("port scan: src=%s dst=%s ts=%s start=%s",
                 fmt_buf1, fmt_buf2, fmt_buf3, fmt_buf4);
@@ -482,9 +494,7 @@ sup:
 
         fmt_uint32(fmt_buf3, ftt.secs, FMT_JUST_LEFT);
 
-        snprintf(fmt_buf4, 64, "%-2.2d%-2.2d.%-2.2d:%-2.2d:%-2.2d.%-3lu ",
-         (int)tm->tm_mon+1, (int)tm->tm_mday, (int)tm->tm_hour,
-         (int)tm->tm_min, (int)tm->tm_sec, (u_long)ftt.msecs);
+        snprintf_time(fmt_buf4, tm, ftt.msecs);
 
         fterr_info( "host scan: ip=%s ts=%s start=%s", 
            fmt_buf1, fmt_buf3, fmt_buf4);
@@ -1009,16 +1019,14 @@ void flow_dump(struct fts3rec_gen *rec)
   ftt = ftltime(rec->sysUpTime, rec->unix_secs, rec->unix_nsecs, rec->First);
   tm = localtime((time_t*)&ftt.secs);
 
-  fterr_info( "%-2.2d%-2.2d.%-2.2d:%-2.2d:%-2.2d.%-3lu ",
-    (int)tm->tm_mon+1, (int)tm->tm_mday, (int)tm->tm_hour,
-    (int)tm->tm_min, (int)tm->tm_sec, (u_long)ftt.msecs);
+  snprintf_time(fmt_buf1, tm, ftt.msecs);
+  fterr_info(fmt_buf1);
 
   ftt = ftltime(rec->sysUpTime, rec->unix_secs, rec->unix_nsecs, rec->Last);
   tm = localtime((time_t*)&ftt.secs);
 
-  fterr_info( "%-2.2d%-2.2d.%-2.2d:%-2.2d:%-2.2d.%-3lu ",
-    (int)tm->tm_mon+1, (int)tm->tm_mday, (int)tm->tm_hour,
-    (int)tm->tm_min, (int)tm->tm_sec, (u_long)ftt.msecs);
+  snprintf_time(fmt_buf1, tm, ftt.msecs);
+  fterr_info(fmt_buf1);
 
   /* other info */
   fmt_ipv4(fmt_buf1, rec->srcaddr, FMT_PAD_RIGHT);
