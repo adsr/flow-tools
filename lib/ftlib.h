@@ -414,8 +414,8 @@ struct ftset {
 };
 
 struct fttime {
-  u_int32 secs;
-  u_int32 msecs;
+  uint32_t secs;
+  uint32_t msecs;
 };
 
 struct ftver {
