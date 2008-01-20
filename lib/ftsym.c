@@ -27,6 +27,13 @@
  */
 
 #include "ftconfig.h"
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
+
 #include "ftlib.h"
 
 #ifdef HAVE_UNISTD_H
@@ -57,14 +64,14 @@
  * returns allocated structure or 0L for error.
  *
  */
-struct ftsym *ftsym_new(char *fname)
+struct ftsym *ftsym_new(const char *fname)
 {
   struct stat sb;
   struct ftsym *ftsym;
   struct ftchash_rec_sym ftch_recsym, *ftch_recsymp;
   char *c, *buf, *end;
   int fd, ret;
-  u_int32 hash;
+  uint32_t hash;
 
   /* no filename? */
   if (!fname)
@@ -226,7 +233,7 @@ ftsym_new_out:
  *
  * returns pointer to record found or null if not found.
  */
-int ftsym_findbyname(struct ftsym *ftsym, char *name, u_int32 *val)
+int ftsym_findbyname(struct ftsym *ftsym, const char *name, uint32_t *val)
 {
   struct ftchash_rec_sym *ftch_recsymp;
 
@@ -255,10 +262,10 @@ int ftsym_findbyname(struct ftsym *ftsym, char *name, u_int32 *val)
  *
  * returns pointer to record found or null if not found.
  */
-int ftsym_findbyval(struct ftsym *ftsym, u_int32 val, char **name)
+int ftsym_findbyval(struct ftsym *ftsym, uint32_t val, char **name)
 {
   struct ftchash_rec_sym *ftch_recsymp;
-  u_int32 hash;
+  uint32_t hash;
 
   if (!ftsym)
     return 0;

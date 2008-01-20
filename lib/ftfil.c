@@ -27,6 +27,14 @@
  */
 
 #include "ftconfig.h"
+
+#if HAVE_INTTYPES_H
+# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
+#elif HAVE_STDINT_H
+# include <stdint.h> /* or here */
+#endif /* else commit suicide. later */
+
+
 #include "ftlib.h"
 
 #include <sys/time.h>
@@ -176,7 +184,7 @@ struct ftfil_lookup_ip_prefix {
 };
 
 struct ftfil_lookup_as {
-  u_int8 mode[65536];
+  uint8_t mode[65536];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
@@ -301,7 +309,7 @@ struct ftfil_match_item_cache {
 static int walk_free(struct radix_node *rn, struct walkarg *UNUSED);
 
 static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
-  char *list, int mode);
+  uint8_t *list, int mode);
 
 static int parse_definition(struct line_parser *lp,
   struct ftfil *ftfil);
@@ -4979,13 +4987,13 @@ int parse_primitive_mask(struct line_parser *lp, struct ftfil *ftfil)
  * to FT_FL_MODE_PERMIT or FT_FL_MODE_DENY
  */
 static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
-  char *list, int mode)
+  uint8_t *list, int mode)
 {
   char *p, *q, *r, c;
   int j, flag;
   unsigned i, i2;
   int permit,deny;
-  u_int32 val;
+  uint32_t val;
 
   if (mode == FT_FIL_MODE_DENY) {
     permit = FT_FIL_MODE_DENY;
@@ -5040,7 +5048,7 @@ static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
 
     if (list[i] != FT_FIL_MODE_UNSET)
       fterr_warnx("%s line %d: index %u previously set as %s.", lp->fname,
-        lp->lineno, i, mode_name_lookup[(int)list[i]]);
+        lp->lineno, i, mode_name_lookup[list[i]]);
       
     list[i] = flag;
 
@@ -5086,7 +5094,7 @@ static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
 
         if ((j != i) && (list[j] != FT_FIL_MODE_UNSET))
           fterr_warnx("%s line %d: index %u previously set as %s.", lp->fname,
-            lp->lineno, j, mode_name_lookup[(int)list[j]]);
+            lp->lineno, j, mode_name_lookup[list[j]]);
 
         list[j] = flag;
 

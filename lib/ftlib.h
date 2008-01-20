@@ -2770,10 +2770,10 @@ void *ftrec_xlate_func(struct ftver *in_ftv, struct ftver *out_ftv);
 
 int fts3rec_compute_offsets(struct fts3rec_offsets *o, struct ftver *ftv);
 
-struct ftsym *ftsym_new(char *fname);
+struct ftsym *ftsym_new(const char *fname);
 void ftsym_free(struct ftsym *ftsym);
-int ftsym_findbyname(struct ftsym *ftsym, char *name, u_int32 *val);
-int ftsym_findbyval(struct ftsym *ftsym, u_int32 val, char **name);
+int ftsym_findbyname(struct ftsym *ftsym, const char *name, uint32_t *val);
+int ftsym_findbyval(struct ftsym *ftsym, uint32_t val, char **name);
 
 /* fttag */
 int fttag_load(struct fttag *fttag, struct ftvar *ftvar, char *fname);
