@@ -69,7 +69,8 @@ struct line_parser {
   struct fttag_def_term *cur_def_term;
   int state, type;
   int lineno;
-  char *buf, *fname;
+  char *buf;
+  const char *fname;
 };
 
 #define FT_TAG_OR_SRCDST (FT_TAG_OR_SRC_TAG|FT_TAG_OR_DST_TAG)
@@ -203,7 +204,7 @@ static struct jump pjump[] = {{"tag-action", 0, parse_action},
  * returns: 0  ok
  *          <0 fail
  */
-int fttag_load(struct fttag *fttag, struct ftvar *ftvar, char *fname)
+int fttag_load(struct fttag *fttag, struct ftvar *ftvar, const char *fname)
 {
   static int rn_init_called;
   struct stat sb;

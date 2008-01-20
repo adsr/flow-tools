@@ -148,7 +148,8 @@ struct line_parser {
   struct ftsym *sym_tag;
   struct ftsym *sym_cur;
   int lineno;
-  char *buf, *fname, *word;
+  char *buf, *word;
+  const char *fname;
   
 };
 
@@ -2463,7 +2464,7 @@ inline int eval_match_random_sample(struct ftfil_lookup_rate *lookup, char *rec,
  * returns: 0  ok
  *          <0 fail
  */
-int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, char *fname)
+int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, const char *fname)
 {
   struct stat sb;
   struct jump *jmp;

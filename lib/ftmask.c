@@ -71,7 +71,8 @@ struct line_parser {
   enum ftmask_parse_state state;
   struct ftmask_def *cur_def;
   int lineno;
-  char *buf, *fname, *word;
+  char *buf, *word;
+  const char* fname;
   
 };
 
@@ -129,7 +130,7 @@ static struct jump pjump[] = {
  * returns: 0  ok
  *          <0 fail
  */
-int ftmask_load(struct ftmask *ftmask, char *fname)
+int ftmask_load(struct ftmask *ftmask, const char *fname)
 {
   struct stat sb;
   struct jump *jmp;

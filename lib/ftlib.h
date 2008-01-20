@@ -2100,7 +2100,7 @@ struct ftmask {
   struct ftmask_def *active_def;
 };
 
-int ftmask_load(struct ftmask *ftmask, char *fname);
+int ftmask_load(struct ftmask *ftmask, const char *fname);
 void ftmask_free(struct ftmask *ftmask);
 struct ftmask_def *ftmask_def_find(struct ftmask *ftmask, char *name);
 int ftmask_def_eval(struct ftmask_def *active_def,
@@ -2776,7 +2776,7 @@ int ftsym_findbyname(struct ftsym *ftsym, const char *name, uint32_t *val);
 int ftsym_findbyval(struct ftsym *ftsym, uint32_t val, char **name);
 
 /* fttag */
-int fttag_load(struct fttag *fttag, struct ftvar *ftvar, char *fname);
+int fttag_load(struct fttag *fttag, struct ftvar *ftvar, const char *fname);
 void fttag_free(struct fttag *fttag);
 int fttag_def_eval(struct fttag_def *ftd, struct fts3rec_v1005 *rec_out);
 struct fttag_def *fttag_def_find(struct fttag *fttag, char *name);
@@ -2794,7 +2794,7 @@ struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, char *name);
 int ftfil_def_eval(struct ftfil_def *active_def,
   char *rec, struct fts3rec_offsets *fo);
 void ftfil_free(struct ftfil *ftfil);
-int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, char *fname);
+int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, const char *fname);
 int ftfil_def_test_xfields(struct ftfil_def *active_def, u_int64 test);
 
 
