@@ -1032,13 +1032,13 @@ void flow_dump(struct fts3rec_gen *rec)
   fmt_ipv4(fmt_buf1, rec->srcaddr, FMT_PAD_RIGHT);
   fmt_ipv4(fmt_buf2, rec->dstaddr, FMT_PAD_RIGHT);
 
-  fterr_info( "%4d %-15.15s %6d %4d %-15.15s %6d %3d %2d %10lu %10lu",
+  fterr_info( "%4d %-15.15s %6d %4d %-15.15s %6d %3d %2d %10" PRIu32 " %10" PRIu32 "",
     (int)rec->input, fmt_buf1, (int)rec->srcport, 
     (int)rec->output, fmt_buf2, (int)rec->dstport,
     (int)rec->prot, 
     (int)rec->tcp_flags & 0x7,
-    (u_long)rec->dPkts, 
-    (u_long)rec->dOctets);
+    rec->dPkts, 
+    rec->dOctets);
 
 } /* flow_dump */
 
