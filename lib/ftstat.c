@@ -1257,19 +1257,19 @@ static int sort_cmp_double(const void *a, const void *b);
 void bucket_free(struct flow_bucket *b);
 int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt);
 static int bucket_dump1(FILE *fp, struct ftstat_rpt *rpt, struct flow_bucket *b,
-  u_int32 nindex, char *symfile);
+  u_int32 nindex, const char *symfile);
 static int chash_c64_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch);
 static int chash_c32_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1);
+  struct ftchash *ftch, const char *sym1);
 static int chash_c322_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2);
+  struct ftchash *ftch, const char *sym1, const char *sym2);
 static int chash_c162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2);
+  struct ftchash *ftch, const char *sym1, const char *sym2);
 static int chash_c163_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, char *sym3);
+  struct ftchash *ftch, const char *sym1, const char *sym2, const char *sym3);
 static int chash_c164_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, char *sym3, char *sym4);
+  struct ftchash *ftch, const char *sym1, const char *sym2, const char *sym3, const char *sym4);
 static int chash_ip_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch);
 static int chash_prefix_dump(FILE *fp, struct ftstat_rpt *rpt,
@@ -1277,23 +1277,23 @@ static int chash_prefix_dump(FILE *fp, struct ftstat_rpt *rpt,
 static int chash_prefix2_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch);
 static int chash_prefix16_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, int f1);
+  struct ftchash *ftch, const char *sym1, int f1);
 static int chash_prefix162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, int f1 );
+  struct ftchash *ftch, const char *sym1, const char *sym2, int f1 );
 static int chash_prefix216_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1);
+  struct ftchash *ftch, const char *sym1);
 static int chash_prefix2162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2);
+  struct ftchash *ftch, const char *sym1, const char *sym2);
 static int chash_flow1_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2);
+  struct ftchash *ftch, const char *sym1, const char *sym2);
 static int chash_flow12_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1);
+  struct ftchash *ftch, const char *sym1);
 static int chash_prefixh_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch, int f1);
 static int chash_prefix_tag_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, int f1);
+  struct ftchash *ftch, const char *sym1, int f1);
 static int chash_prefix2tag2_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1);
+  struct ftchash *ftch, const char *sym1);
 static int chash_int_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch);
 
@@ -12649,7 +12649,7 @@ static int dump_ascii_header(FILE *fp, struct ftio *ftio,
 } /* dump_ascii_header */
 
 static int chash_c32_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1)
+  struct ftchash *ftch, const char *sym1)
 {
   struct ftsym *ftsym1;
 
@@ -12713,7 +12713,7 @@ static int chash_c32_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_c32_dump */
 
 static int chash_c322_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2)
+  struct ftchash *ftch, const char *sym1, const char *sym2)
 {
   struct ftsym *ftsym1, *ftsym2;
 
@@ -12792,7 +12792,7 @@ static int chash_c322_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_c322_dump */
 
 static int chash_c162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2)
+  struct ftchash *ftch, const char *sym1, const char *sym2)
 {
   struct ftsym *ftsym1, *ftsym2;
 
@@ -12871,7 +12871,7 @@ static int chash_c162_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_c162_dump */
 
 static int chash_c163_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, char *sym3)
+  struct ftchash *ftch, const char *sym1, const char *sym2, const char *sym3)
 {
   struct ftsym *ftsym1, *ftsym2, *ftsym3;
 
@@ -12964,7 +12964,7 @@ static int chash_c163_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_c163_dump */
 
 static int chash_c164_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, char *sym3, char *sym4)
+  struct ftchash *ftch, const char *sym1, const char *sym2, const char *sym3, const char *sym4)
 {
   struct ftsym *ftsym1, *ftsym2, *ftsym3, *ftsym4;
 
@@ -13186,7 +13186,7 @@ static int chash_prefix_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_prefix_dump */
 
 static int chash_prefix_tag_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, int f1)
+  struct ftchash *ftch, const char *sym1, int f1)
 {
   struct ftsym *ftsym1;
 
@@ -13263,7 +13263,7 @@ static int chash_prefix_tag_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_prefix_tag_dump */
 
 static int chash_prefix2tag2_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1)
+  struct ftchash *ftch, const char *sym1)
 {
   struct ftsym *ftsym1;
 
@@ -13523,7 +13523,7 @@ static int chash_prefix2_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_prefix2_dump */
 
 static int chash_prefix16_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, int f1)
+  struct ftchash *ftch, const char *sym1, int f1)
 {
   struct ftsym *ftsym1;
 
@@ -13600,7 +13600,7 @@ static int chash_prefix16_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_prefix16_dump */
 
 static int chash_prefix162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2, int f1)
+  struct ftchash *ftch, const char *sym1, const char *sym2, int f1)
 {
   struct ftsym *ftsym1, *ftsym2;
 
@@ -13696,7 +13696,7 @@ static int chash_prefix162_dump(FILE *fp, struct ftstat_rpt *rpt,
 
 
 static int chash_prefix216_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1)
+  struct ftchash *ftch, const char *sym1)
 {
   struct ftsym *ftsym1;
 
@@ -13789,7 +13789,7 @@ static int chash_prefix216_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_prefix216_dump */
 
 static int chash_prefix2162_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2)
+  struct ftchash *ftch, const char *sym1, const char *sym2)
 {
   struct ftsym *ftsym1, *ftsym2;
 
@@ -14039,7 +14039,7 @@ static int chash_int_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_int_dump */
 
 static int chash_flow1_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1, char *sym2)
+  struct ftchash *ftch, const char *sym1, const char *sym2)
 {
   struct ftsym *ftsym1, *ftsym2;
 
@@ -14166,7 +14166,7 @@ static int chash_flow1_dump(FILE *fp, struct ftstat_rpt *rpt,
 } /* chash_flow1_dump */
 
 static int chash_flow12_dump(FILE *fp, struct ftstat_rpt *rpt,
-  struct ftchash *ftch, char *sym1)
+  struct ftchash *ftch, const char *sym1)
 {
   struct ftsym *ftsym1;
 
@@ -14271,7 +14271,7 @@ static int chash_flow12_dump(FILE *fp, struct ftstat_rpt *rpt,
 
 
 static int bucket_dump1(FILE *fp, struct ftstat_rpt *rpt, struct flow_bucket *b,
-  u_int32 nindex, char *symfile)
+  u_int32 nindex, const char *symfile)
 {
   struct ftsym *ftsym;
   struct tally tally;
