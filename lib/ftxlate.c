@@ -168,7 +168,7 @@ struct ftxlate_act_ip_addr_anon {
   int init;
   int algorithm;               /* algorithm - cryptopan only for now */
   char *key_fname;             /* file containing a key, null if not used */
-  char key[32];                /* key */
+  unsigned char key[32];                /* key */
   time_t key_refresh_next;     /* next key refresh */
   time_t key_refresh_interval; /* key refresh check rate */
   struct cryptopan cp;         /* cryptopan context */
@@ -1081,7 +1081,7 @@ int parse_action_key_file(struct line_parser *lp, struct ftxlate *ftxlate)
 
   strcpy(ftxiaa->key_fname, lp->word);
 
-  if (load_key_file(ftxiaa->key_fname, (char*)&ftxiaa->key) < 0) {
+  if (load_key_file(ftxiaa->key_fname, ftxiaa->key) < 0) {
     fterr_warnx("Failed to load key from %s.", ftxiaa->key_fname);
   }
 
@@ -1742,7 +1742,7 @@ static void eval_ip_src_addr_anon(struct ftxlate_action *ftxa,
        * load new key and re-init cryptopan.  If key load fails continue
        * using existing key
        */
-      if (load_key_file(ftxiaa->key_fname, (char*)&ftxiaa->key) < 0) {
+      if (load_key_file(ftxiaa->key_fname, ftxiaa->key) < 0) {
 
         fterr_warnx("Failed to load key from %s.", ftxiaa->key_fname);
 
@@ -1792,7 +1792,7 @@ static void eval_ip_dst_addr_anon(struct ftxlate_action *ftxa,
        * load new key and re-init cryptopan.  If key load fails continue
        * using existing key
        */
-      if (load_key_file(ftxiaa->key_fname, (char*)&ftxiaa->key) < 0) {
+      if (load_key_file(ftxiaa->key_fname, ftxiaa->key) < 0) {
 
         fterr_warnx("Failed to load key from %s.", ftxiaa->key_fname);
 
