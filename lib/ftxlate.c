@@ -92,7 +92,8 @@ struct line_parser {
   struct ftxlate_def_term *cur_def_term;
   int state, type;
   int lineno;
-  char *buf, *fname, *word;
+  char *buf, *word;
+  const char *fname;
 };
 
 #define FT_XLATE_TYPE_IP_SRC_ADDR2NET    0x1
@@ -298,7 +299,7 @@ static struct jump pjump[] = {
  * returns: 0  ok
  *          <0 fail
 */
-int ftxlate_load(struct ftxlate *ftxlate, struct ftvar *ftvar, char *fname)
+int ftxlate_load(struct ftxlate *ftxlate, struct ftvar *ftvar, const char *fname)
 {
   struct stat sb;
   struct jump *jmp;
@@ -445,7 +446,7 @@ load_xlate_out:
  * ftxlate_def_eval
  *
  */
-struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, char *name)
+struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, const char *name)
 {
   struct ftxlate_def *ftx;
 

@@ -363,7 +363,7 @@ load_tags_out:
  * returns : pointer to fttag_def_lookup or null if not found or error.
  *
  */
-struct fttag_def *fttag_def_find(struct fttag *fttag, char *name)
+struct fttag_def *fttag_def_find(struct fttag *fttag, const char *name)
 {
   struct fttag_def *ftd;
 

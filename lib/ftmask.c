@@ -283,7 +283,7 @@ void ftmask_free(struct ftmask *ftmask)
 
 } /* ftmask_free */
 
-struct ftmask_def *ftmask_def_find(struct ftmask *ftmask, char *name)
+struct ftmask_def *ftmask_def_find(struct ftmask *ftmask, const char *name)
 {
   struct ftmask_def *ftmd;
   int found;

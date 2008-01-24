@@ -120,7 +120,7 @@ int main(int argc, char **argv)
   unsigned int v1, v2;
   char fmt_src_ip[32], fmt_dst_ip[32], fmt_dst_port[32];
   char xl_rec[FT_IO_MAXREC], *out_rec;
-  char *filter_fname, *filter_active;
+  const char *filter_fname, *filter_active;
   int i, n, detach, one, ret, offset, hdr_len;
   int npeers, tx_delay;
   int stat_interval, stat_next, src_ip_spoof;

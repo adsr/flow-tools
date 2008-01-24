@@ -57,7 +57,7 @@ int main(int argc, char **argv)
   struct ftset ftset;
   struct fts3rec_offsets fo;
   char *rec;
-  char *fname, *dname;
+  const char *fname, *dname;
   u_int32 total_flows, cap_start, cap_end;
   u_int32 time_start, time_end;
   int i, keep_input_time;

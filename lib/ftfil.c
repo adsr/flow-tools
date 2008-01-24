@@ -2785,7 +2785,7 @@ void ftfil_free(struct ftfil *ftfil)
 
 } /* ftfil_free */
 
-struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, char *name)
+struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, const char *name)
 {
   struct ftfil_def *ftfd;
   int found;

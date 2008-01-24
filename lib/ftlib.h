@@ -2102,7 +2102,7 @@ struct ftmask {
 
 int ftmask_load(struct ftmask *ftmask, const char *fname);
 void ftmask_free(struct ftmask *ftmask);
-struct ftmask_def *ftmask_def_find(struct ftmask *ftmask, char *name);
+struct ftmask_def *ftmask_def_find(struct ftmask *ftmask, const char *name);
 int ftmask_def_eval(struct ftmask_def *active_def,
   char *rec, struct fts3rec_offsets *fo);
 
@@ -2885,9 +2885,9 @@ struct ftstat {
 };
 
 /* ftstat */
-int ftstat_load(struct ftstat *ftstat, struct ftvar *ftvar, char *fname);
+int ftstat_load(struct ftstat *ftstat, struct ftvar *ftvar, const char *fname);
 void ftstat_free(struct ftstat *ftstat);
-struct ftstat_def *ftstat_def_find(struct ftstat *ftstat, char *name);
+struct ftstat_def *ftstat_def_find(struct ftstat *ftstat, const char *name);
 int ftstat_def_test_xfields(struct ftstat_def *active_def, u_int64 test);
 int ftstat_def_new(struct ftstat_def *active_def);
 int ftstat_def_accum(struct ftstat_def *active_def,

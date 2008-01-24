@@ -61,7 +61,7 @@ int main(int argc, char **argv)
   int i, keep_input_time;
   u_int32 total_flows, cap_start, cap_end;
   u_int32 time_start, time_end;
-  char *tag_defs, *tag_active;
+  const char *tag_defs, *tag_active;
   char *rec_in, *rec_out;
 
   /* init fterr */

@@ -62,7 +62,7 @@ int main(int argc, char **argv)
   struct ftset ftset;
   struct fts3rec_offsets fo;
   char *rec;
-  char *fname, *dname;
+  const char *fname, *dname;
   u_int32 total_flows;
   int i, split, done;
   int usage_call;

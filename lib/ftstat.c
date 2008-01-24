@@ -818,7 +818,8 @@ struct line_parser {
   struct ftstat_def *cur_def;
   struct ftstat_rpt_out *cur_rpt_out;
   int lineno;
-  char *buf, *fname, *word;
+  char *buf, *word;
+  const char *fname;
 };
 
 struct jump {
@@ -2727,7 +2728,7 @@ static struct jump pjump[] = {
  * returns: 0  ok
  *          <0 fail
  */
-int ftstat_load(struct ftstat *ftstat, struct ftvar *ftvar, char *fname)
+int ftstat_load(struct ftstat *ftstat, struct ftvar *ftvar, const char *fname)
 {
   struct stat sb;
   struct jump *jmp;
@@ -2941,7 +2942,7 @@ void ftstat_free(struct ftstat *ftstat)
 
 } /* ftstat_free */
 
-struct ftstat_def *ftstat_def_find(struct ftstat *ftstat, char *name)
+struct ftstat_def *ftstat_def_find(struct ftstat *ftstat, const char *name)
 {
   struct ftstat_def *ftsd;
   int found;
