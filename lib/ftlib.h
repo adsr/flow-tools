@@ -2779,18 +2779,18 @@ int ftsym_findbyval(struct ftsym *ftsym, uint32_t val, char **name);
 int fttag_load(struct fttag *fttag, struct ftvar *ftvar, const char *fname);
 void fttag_free(struct fttag *fttag);
 int fttag_def_eval(struct fttag_def *ftd, struct fts3rec_v1005 *rec_out);
-struct fttag_def *fttag_def_find(struct fttag *fttag, char *name);
+struct fttag_def *fttag_def_find(struct fttag *fttag, const char *name);
 
 /* ftxlate */
-int ftxlate_load(struct ftxlate *ftxlate, struct ftvar *ftvar, char *fname);
+int ftxlate_load(struct ftxlate *ftxlate, struct ftvar *ftvar, const char *fname);
 void ftxlate_free(struct ftxlate *ftxlate);
 int ftxlate_def_eval(struct ftxlate_def *ftd, char *rec,
   struct fts3rec_offsets *fo);
-struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, char *name);
+struct ftxlate_def *ftxlate_def_find(struct ftxlate *ftxlate, const char *name);
 int ftxlate_def_test_xfields(struct ftxlate_def *active_def, uint64_t test);
 
 /* ftfil */
-struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, char *name);
+struct ftfil_def *ftfil_def_find(struct ftfil *ftfil, const char *name);
 int ftfil_def_eval(struct ftfil_def *active_def,
   char *rec, struct fts3rec_offsets *fo);
 void ftfil_free(struct ftfil *ftfil);

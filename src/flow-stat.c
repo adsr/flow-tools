@@ -143,13 +143,13 @@ int fopdi_alloc(struct fopdi *fopdi, int n);
 void fopdi_free(struct fopdi *fopdi);
 
 int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
-  struct fopd *total, char *title, char *symfile);
+  struct fopd *total, char *title, const char *symfile);
 
 int chash_c32_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *title, char *symfile);
+  struct fopd *total, char *title, const char *symfile);
 
 int chash_c322_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *title, char *title2, char *symfile);
+  struct fopd *total, char *title, char *title2, const char *symfile);
 
 int chash_ip_dump (struct ftchash *ftch, char cc, int sort_order, int options,
   struct fopd *total);
@@ -158,7 +158,7 @@ int chash_ip2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
   struct fopd *total);
 
 int chash_as2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *symfile);
+  struct fopd *total, const char *symfile);
 
 int chash_if2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
   struct fopd *total);
@@ -3060,7 +3060,7 @@ int chash_ip2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
 
 
 int chash_as2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *symfile)
+  struct fopd *total, const char *symfile)
 {
   struct ftchash_rec_as2 *ftch_recas2;
   struct ftsym *ftsym;
@@ -3567,7 +3567,7 @@ int fopdi_alloc(struct fopdi *fopdi, int n)
 } /* fopdi_alloc */
 
 int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
-  struct fopd *total, char *title, char *symfile)
+  struct fopd *total, char *title, const char *symfile)
 {
   struct ftsym *ftsym;
   struct fopd total2;
@@ -3716,7 +3716,7 @@ int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
 } /* tbl_out1 */
 
 int chash_c32_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *title, char *symfile)
+  struct fopd *total, char *title, const char *symfile)
 {
   struct ftsym *ftsym;
   struct ftchash_rec_c32 *ftch_recc32;
@@ -3842,7 +3842,7 @@ int chash_c32_dump (struct ftchash *ftch, char cc, int sort_order, int options,
 
 
 int chash_c322_dump (struct ftchash *ftch, char cc, int sort_order, int options,
-  struct fopd *total, char *title, char *title2, char *symfile)
+  struct fopd *total, char *title, char *title2, const char *symfile)
 {
   struct ftchash_rec_c322 *ftch_recc322;
   struct ftsym *ftsym;
