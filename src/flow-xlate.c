@@ -58,7 +58,7 @@ int main(int argc, char **argv)
   struct fts3rec_offsets fo;
   struct ftvar ftvar;
   char *rec, out_rec[FT_IO_MAXREC];
-  char *fname, *dname;
+  const char *fname, *dname;
   unsigned int v1, v2;
   u_int32 total_flows, cap_start, cap_end;
   u_int32 time_start, time_end;
