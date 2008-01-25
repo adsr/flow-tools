@@ -31,9 +31,9 @@
 
 #include <netdb.h>
 
-unsigned int fmt_uint8(register char *s, register u_int8 u, int format)
+unsigned int fmt_uint8(char *s, uint8_t u, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
 
   if (!s)
@@ -63,13 +63,13 @@ unsigned int fmt_uint8(register char *s, register u_int8 u, int format)
 
 } /* fmt_uint8 */
 
-unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, u_int16 u,
+unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, uint16_t u,
   int format)
 {
   int ret;
   char *str;
 
-  if (ftsym && ftsym_findbyval(ftsym, (u_int32)u, &str) == 1) {
+  if (ftsym && ftsym_findbyval(ftsym, (uint32_t) u, &str) == 1) {
 
     strncpy(s, str, max);
     s[max-1] = 0;
@@ -91,13 +91,13 @@ unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, u_int16 u,
 
 } /* fmt_uint16s */
 
-unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, u_int8 u,
+unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, uint8_t u,
   int format)
 {
   int ret;
   char *str;
 
-  if (ftsym && ftsym_findbyval(ftsym, (u_int32)u, &str) == 1) {
+  if (ftsym && ftsym_findbyval(ftsym, (uint32_t) u, &str) == 1) {
 
     strncpy(s, str, max);
     s[max-1] = 0;
@@ -119,13 +119,13 @@ unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, u_int8 u,
 
 } /* fmt_uint8s */
 
-unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, u_int32 u,
+unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, uint32_t u,
   int format)
 {
   int ret;
   char *str;
 
-  if (ftsym && ftsym_findbyval(ftsym, (u_int32)u, &str) == 1) {
+  if (ftsym && ftsym_findbyval(ftsym, (uint32_t) u, &str) == 1) {
 
     strncpy(s, str, max);
     s[max-1] = 0;
@@ -148,9 +148,9 @@ unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, u_int32 u,
 } /* fmt_uint32s */
 
 
-unsigned int fmt_uint16(register char *s, register u_int16 u, int format)
+unsigned int fmt_uint16(char *s, uint16_t u, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
 
   if (!s)
@@ -182,9 +182,9 @@ unsigned int fmt_uint16(register char *s, register u_int16 u, int format)
 
 
 
-unsigned int fmt_uint32(register char *s, register u_int32 u, int format)
+unsigned int fmt_uint32(char *s, uint32_t u, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
   int i;
 
@@ -222,9 +222,9 @@ unsigned int fmt_uint32(register char *s, register u_int32 u, int format)
 
 } /* fmt_uint32 */
 
-unsigned int fmt_uint64(register char *s, register u_int64 u, int format)
+unsigned int fmt_uint64(char *s, uint64_t u, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
   int i;
 
@@ -263,7 +263,7 @@ unsigned int fmt_uint64(register char *s, register u_int64 u, int format)
 
 } /* fmt_uint64 */
 
-unsigned int fmt_ipv4s(register char *s, register u_int32 u, int len,
+unsigned int fmt_ipv4s(char *s, uint32_t u, int len,
   int format)
 {
   struct sockaddr_in in;
@@ -293,12 +293,12 @@ unsigned int fmt_ipv4s(register char *s, register u_int32 u, int len,
 
 } /* fmt_ipv4s */
 
-unsigned int fmt_ipv4(register char *s, register u_int32 u, int format)
+unsigned int fmt_ipv4(char *s, uint32_t u, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
   int i, j;
-  u_int8 e[4];
+  uint8_t e[4];
   char c[4][4];
 
   if (!s)
@@ -349,8 +349,8 @@ unsigned int fmt_ipv4(register char *s, register u_int32 u, int format)
 
 } /* fmt_ipv4 */
 
-unsigned int fmt_ipv4prefixs(register char *s, register u_int32 u, 
-  u_char mask, int len, int format)
+unsigned int fmt_ipv4prefixs(char *s, uint32_t u, 
+  unsigned char mask, int len, int format)
 {
   struct sockaddr_in in;
   struct hostent *he;
@@ -379,13 +379,13 @@ unsigned int fmt_ipv4prefixs(register char *s, register u_int32 u,
 
 } /* int fmt_ipv4prefixs */
 
-unsigned int fmt_ipv4prefix(register char *s, register u_int32 u, 
-  u_char mask, int format)
+unsigned int fmt_ipv4prefix(char *s, uint32_t u, 
+  unsigned char mask, int format)
 {
-  register int len = 0;
+  int len = 0;
   char *s1;
   int i, j, k, done;
-  u_int8 e[4];
+  uint8_t e[4];
   char c[5][4];
 
   if (!s)

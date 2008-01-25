@@ -2999,22 +2999,22 @@ int bit1024_count(struct bit1024 *b);
 #define FMT_JUST_RIGHT  FMT_PAD_LEFT
 #define FMT_SYM         4
 
-unsigned int fmt_uint8(register char *s, register u_int8 u, int format);
-unsigned int fmt_uint16(register char *s, register u_int16 u, int format);
-unsigned int fmt_uint32(register char *s, register uint32_t u, int format);
-unsigned int fmt_uint64(register char *s, register u_int64 u, int format);
-unsigned int fmt_ipv4(register char *s, register uint32_t u, int format);
-unsigned int fmt_ipv4s(register char *s, register uint32_t u, int len,
+unsigned int fmt_uint8(char *s, uint8_t u, int format);
+unsigned int fmt_uint16(char *s, uint16_t u, int format);
+unsigned int fmt_uint32(char *s, uint32_t u, int format);
+unsigned int fmt_uint64(char *s, uint64_t u, int format);
+unsigned int fmt_ipv4(char *s, uint32_t u, int format);
+unsigned int fmt_ipv4s(char *s, uint32_t u, int len,
   int format);
-unsigned int fmt_ipv4prefix(register char *s, register uint32_t u,
-  u_char mask, int format);
-unsigned int fmt_ipv4prefixs(register char *s, register uint32_t u,
-  u_char mask, int len, int format);
+unsigned int fmt_ipv4prefix(char *s, uint32_t u,
+  unsigned char mask, int format);
+unsigned int fmt_ipv4prefixs(char *s, uint32_t u,
+  unsigned char mask, int len, int format);
 
-unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, u_int8 u,
+unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, uint8_t u,
   int format);
 
-unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, u_int16 u,
+unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, uint16_t u,
   int format);
 
 unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, uint32_t u,
