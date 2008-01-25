@@ -26,7 +26,7 @@
  *      $Id: ftio.c,v 1.47 2003/02/24 00:51:47 maf Exp $
  */
 
-#include "ftconfig.h"
+#include "ftinclude.h"
 #include "ftlib.h"
 
 #include <sys/time.h>
@@ -47,24 +47,11 @@
 #include <fcntl.h>
 #include <zlib.h>
 
-#if HAVE_STRINGS_H
- #include <strings.h>
-#endif
-#if HAVE_STRING_H
-  #include <string.h>
-#endif
-
 #if HAVE_MMAP
  #include <sys/types.h>
  #include <sys/mman.h>
  #include <sys/stat.h>
 #endif
-
-#if HAVE_INTTYPES_H
-# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
-#elif HAVE_STDINT_H
-# include <stdint.h> /* or here */
-#endif /* else commit suicide. later */
 
 int readn(register int fd, register void *ptr, register int nbytes);
 

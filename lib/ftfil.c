@@ -26,15 +26,7 @@
  *      $Id: ftfil.c,v 1.20 2004/01/05 17:55:23 maf Exp $
  */
 
-#include "ftconfig.h"
-
-#if HAVE_INTTYPES_H
-# include <inttypes.h> /* C99 uint8_t uint16_t uint32_t uint64_t */
-#elif HAVE_STDINT_H
-# include <stdint.h> /* or here */
-#endif /* else commit suicide. later */
-
-
+#include "ftinclude.h"
 #include "ftlib.h"
 
 #include <sys/time.h>
@@ -55,13 +47,6 @@
 #include <time.h>
 #include <fcntl.h>
 #include <zlib.h>
-
-#if HAVE_STRINGS_H
- #include <strings.h>
-#endif
-#if HAVE_STRING_H
-  #include <string.h>
-#endif
 
 #if !HAVE_STRSEP
   char    *strsep (char **, const char *);

@@ -223,25 +223,25 @@ struct mymsghdr {
 #define FT_FIELD_AGG_VER          0x00000004L
 #define FT_TLV_AGG_METHOD         0x4     /* u_int8  : aggregation method */
 #define FT_FIELD_AGG_METHOD       0x00000008L
-#define FT_TLV_EXPORTER_IP        0x5     /* u_int32 : IP of exporter */
+#define FT_TLV_EXPORTER_IP        0x5     /* uint32_t : IP of exporter */
 #define FT_FIELD_EXPORTER_IP      0x00000010L
-#define FT_TLV_CAP_START          0x6     /* u_int32 : capture start time */
+#define FT_TLV_CAP_START          0x6     /* uint32_t : capture start time */
 #define FT_FIELD_CAP_START        0x00000020L
-#define FT_TLV_CAP_END            0x7     /* u_int32 : capture end time */
+#define FT_TLV_CAP_END            0x7     /* uint32_t : capture end time */
 #define FT_FIELD_CAP_END          0x00000040L
-#define FT_TLV_HEADER_FLAGS       0x8     /* u_int32 : FT_HEADER_FLAG_* */
+#define FT_TLV_HEADER_FLAGS       0x8     /* uint32_t : FT_HEADER_FLAG_* */
 #define FT_FIELD_HEADER_FLAGS     0x00000080L
-#define FT_TLV_ROT_SCHEDULE       0x9     /* u_int32 : rotation schedule */
+#define FT_TLV_ROT_SCHEDULE       0x9     /* uint32_t : rotation schedule */
 #define FT_FIELD_ROT_SCHEDULE     0x00000100L
-#define FT_TLV_FLOW_COUNT         0xA     /* u_int32 : num flows */
+#define FT_TLV_FLOW_COUNT         0xA     /* uint32_t : num flows */
 #define FT_FIELD_FLOW_COUNT       0x00000200L
-#define FT_TLV_FLOW_LOST          0xB     /* u_int32 : lost flows */
+#define FT_TLV_FLOW_LOST          0xB     /* uint32_t : lost flows */
 #define FT_FIELD_FLOW_LOST        0x00000400L
-#define FT_TLV_FLOW_MISORDERED    0xC     /* u_int32 : misordered flows */
+#define FT_TLV_FLOW_MISORDERED    0xC     /* uint32_t : misordered flows */
 #define FT_FIELD_FLOW_MISORDERED  0x00000800L
-#define FT_TLV_PKT_CORRUPT        0xD     /* u_int32 : corrupt packets */
+#define FT_TLV_PKT_CORRUPT        0xD     /* uint32_t : corrupt packets */
 #define FT_FIELD_PKT_CORRUPT      0x00001000L
-#define FT_TLV_SEQ_RESET          0xE     /* u_int32 : times sequence # was so
+#define FT_TLV_SEQ_RESET          0xE     /* uint32_t : times sequence # was so
                                            *           far off lost/misordered
                                            *           state could not be
                                            *           determined */
@@ -250,12 +250,12 @@ struct mymsghdr {
 #define FT_FIELD_CAP_HOSTNAME     0x00004000L
 #define FT_TLV_COMMENTS           0x10    /* string  : comments */
 #define FT_FIELD_COMMENTS         0x00008000L
-#define FT_TLV_IF_NAME            0x11    /* u_int32 u_int16 string 
+#define FT_TLV_IF_NAME            0x11    /* uint32_t u_int16 string 
                                            * IP address of device
                                            * ifIndex of interface
                                            * interface name */
 #define FT_FIELD_IF_NAME          0x00010000L
-#define FT_TLV_IF_ALIAS           0x12    /* u_int32 u_int16 u_int16 string 
+#define FT_TLV_IF_ALIAS           0x12    /* uint32_t u_int16 u_int16 string 
                                            * IP address of device
                                            * ifIndex count
                                            * ifIndex of interface (count times)
@@ -385,10 +385,10 @@ struct mymsghdr {
 #define FT_XFIELD_ASC_DST_TAG "dst_tag"
 
 struct ftipmask {
-  u_int32 src_mask;
-  u_int32 dst_mask;
-  u_int32 mcast_mask;
-  u_int32 mcast_val;
+  uint32_t src_mask;
+  uint32_t dst_mask;
+  uint32_t mcast_mask;
+  uint32_t mcast_val;
 };
 
 
@@ -431,7 +431,7 @@ struct ftdecode {
   int count;                 /* number of stream records */
   int rec_size;              /* size of stream record */
   int byte_order;            /* byte order to decode to */
-  u_int32 exporter_ip;       /* ip address of exporter */
+  uint32_t exporter_ip;       /* ip address of exporter */
   u_int16 as_sub;            /* replace AS0 with this */
 };
 
@@ -441,7 +441,7 @@ struct ftencode {
                                 FT_ENC_FLAGS_IPHDR is set */
   int buf_size;              /* bytes used in buf_enc */
   struct ftver ver;          /* version of stream encoding */
-  u_int32 seq_next[65536];   /* sequence number for each engine_type & id */
+  uint32_t seq_next[65536];   /* sequence number for each engine_type & id */
   int flags;                 /* FT_ENC_FLAGS */
   int d_sum;                 /* data checksum for buf_enc */
 };
@@ -456,9 +456,9 @@ struct ftpdu {
 };
 
 struct ftseq {
-  u_int32 seq[65536];        /* sequence number for each engine_type & id */
+  uint32_t seq[65536];        /* sequence number for each engine_type & id */
   u_int8 seq_set[65536];     /* initial sequence number received? */
-  u_int32 seq_rcv, seq_exp,
+  uint32_t seq_rcv, seq_exp,
           seq_lost;          /* sequence # received / expecting / lost */
 };
 
@@ -473,8 +473,8 @@ struct ftheader_gen {
 struct ftnet {
   struct sockaddr_in loc_addr;    /* local side */
   struct sockaddr_in rem_addr;    /* remote side (exporter) */
-  u_int32 loc_ip;                 /* local IP */
-  u_int32 rem_ip;                 /* remote IP */
+  uint32_t loc_ip;                 /* local IP */
+  uint32_t rem_ip;                 /* remote IP */
   u_int16 dst_port;               /* exporter UDP destination port */
   int fd;                         /* fd receiving flows on */
   struct mymsghdr msg;            /* recvmsg data */
@@ -492,7 +492,7 @@ struct ftnet {
 };
 
 struct ftmap_ifalias {
-  u_int32 ip;
+  uint32_t ip;
   u_int16 entries;
   u_int16 *ifIndex_list;
   char *name;
@@ -500,7 +500,7 @@ struct ftmap_ifalias {
 };
 
 struct ftmap_ifname {
-  u_int32 ip;
+  uint32_t ip;
   u_int16 ifIndex;
   char *name;
   FT_LIST_ENTRY (ftmap_ifname) chain;
@@ -563,62 +563,62 @@ struct fttag_prefix_look {
   struct radix_sockaddr_in addr;
   u_int8 masklen;
   u_int16 set_flags;
-  u_int32 src_tag;
-  u_int32 dst_tag;
+  uint32_t src_tag;
+  uint32_t dst_tag;
 };
 
 struct fttag_as_look {
   u_int16 set_flags_lookup[65536];
-  u_int32 src_tag_lookup[65536];
-  u_int32 dst_tag_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_port_look {
   u_int16 set_flags_lookup[65536];
-  u_int32 src_tag_lookup[65536];
-  u_int32 dst_tag_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_tos_look {
   u_int16 set_flags_lookup[256];
-  u_int32 src_tag_lookup[256];
-  u_int32 dst_tag_lookup[256];
+  uint32_t src_tag_lookup[256];
+  uint32_t dst_tag_lookup[256];
 };
 
 struct fttag_interface_look {
   u_int16 set_flags_lookup[65536];
-  u_int32 src_tag_lookup[65536];
-  u_int32 dst_tag_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_any_look {
   u_int16 set_flags;
-  u_int32 src_tag;
-  u_int32 dst_tag;
+  uint32_t src_tag;
+  uint32_t dst_tag;
 };
 
 struct fttag_next_hop_look {
   FT_SLIST_ENTRY(fttag_next_hop_look) chain;
-  u_int32 addr; /* key */
+  uint32_t addr; /* key */
   u_int16 set_flags;
-  u_int32 src_tag;
-  u_int32 dst_tag;
+  uint32_t src_tag;
+  uint32_t dst_tag;
 };
 
 struct fttag_exporter_look {
   FT_SLIST_ENTRY(fttag_exporter_look) chain;
-  u_int32 addr; /* key */
+  uint32_t addr; /* key */
   u_int16 set_flags;
-  u_int32 src_tag;
-  u_int32 dst_tag;
+  uint32_t src_tag;
+  uint32_t dst_tag;
 };
 
 struct fttag_ip_look {
   FT_SLIST_ENTRY(fttag_ip_look) chain;
-  u_int32 addr; /* key */
+  uint32_t addr; /* key */
   u_int16 set_flags;
-  u_int32 src_tag;
-  u_int32 dst_tag;
+  uint32_t src_tag;
+  uint32_t dst_tag;
 };
 
 struct ftxfield_table {
@@ -628,8 +628,8 @@ struct ftxfield_table {
 
 /* internal representation of header */
 struct ftiheader {
-  u_int32 size;                   /* size of header written */
-  u_int32 fields;                 /* decoded fields - FT_FIELD_* */
+  uint32_t size;                   /* size of header written */
+  uint32_t fields;                 /* decoded fields - FT_FIELD_* */
   u_int8  magic1;                 /* 0xCF */
   u_int8  magic2;                 /* 0xL0 (cisco flow) */
   u_int8  byte_order;             /* 1 for little endian (VAX) */
@@ -639,16 +639,16 @@ struct ftiheader {
                                   /* 1,5,7,8 - stream version 2 */
   u_int8  agg_version;            /* v8 aggregation version */
   u_int8  agg_method;             /* v8 aggregation method */
-  u_int32 exporter_ip;            /* IP address of exporter */
-  u_int32 cap_start;              /* start time of flow capture */
-  u_int32 cap_end;                /* end time of flow capture */
-  u_int32 flags;                  /* FT_HEADER_FLAG_* */
-  u_int32 rotation;               /* rotation schedule */
-  u_int32 flows_count;            /* # flows */
-  u_int32 flows_lost;             /* # lost flows */
-  u_int32 flows_misordered;       /* # misordered flows */
-  u_int32 pkts_corrupt;           /* # corrupt packets */
-  u_int32 seq_reset;              /* # times sequence # was so far off
+  uint32_t exporter_ip;            /* IP address of exporter */
+  uint32_t cap_start;              /* start time of flow capture */
+  uint32_t cap_end;                /* end time of flow capture */
+  uint32_t flags;                  /* FT_HEADER_FLAG_* */
+  uint32_t rotation;               /* rotation schedule */
+  uint32_t flows_count;            /* # flows */
+  uint32_t flows_lost;             /* # lost flows */
+  uint32_t flows_misordered;       /* # misordered flows */
+  uint32_t pkts_corrupt;           /* # corrupt packets */
+  uint32_t seq_reset;              /* # times sequence # was so far off
                                    *   lost/misordered state could not be 
                                    *   guessed */
   u_int8 vendor;                   /* vendor ID FT_VENDOR */
@@ -657,7 +657,7 @@ struct ftiheader {
   char *cap_hostname;             /* hostname of capture device */
   char *comments;                 /* comments */
   struct ftmap *ftmap;            /* mappings */
-  u_int32 enc_len;                /* length of encoded header */
+  uint32_t enc_len;                /* length of encoded header */
 };
 
 
@@ -675,13 +675,13 @@ struct fts1header {
    */
   u_int16 d_version;                  /* 1 or 5  - stream version 1 */
                                       /* 1,5,7,8 - stream version 2 */
-  u_int32 start;                      /* start time of flow capture */
-  u_int32 end;                        /* end time of flow capture */
-  u_int32 flags;                      /* FT_HEADER_FLAG_* */
-  u_int32 rotation;                   /* rotation schedule */
-  u_int32 nflows;                     /* # of flows */
-  u_int32 pdu_drops;                  /* # of dropped pdu's detected */
-  u_int32 pdu_misordered;             /* # of detected misordered packets */
+  uint32_t start;                      /* start time of flow capture */
+  uint32_t end;                        /* end time of flow capture */
+  uint32_t flags;                      /* FT_HEADER_FLAG_* */
+  uint32_t rotation;                   /* rotation schedule */
+  uint32_t nflows;                     /* # of flows */
+  uint32_t pdu_drops;                  /* # of dropped pdu's detected */
+  uint32_t pdu_misordered;             /* # of detected misordered packets */
   char hostname[FT_HEADER1_HN_LEN];   /* 0 terminated name of capture device */
   char comments[FT_HEADER1_CMNT_LEN]; /* 0 terminated ascii comments */
 };
@@ -729,20 +729,20 @@ struct fts3rec_offsets {
 
 /* "all" fields */
 struct fts3rec_all {
-  u_int32 *unix_secs;
-  u_int32 *unix_nsecs;
-  u_int32 *sysUpTime;
-  u_int32 *exaddr;
-  u_int32 *srcaddr;
-  u_int32 *dstaddr;
-  u_int32 *nexthop;
+  uint32_t *unix_secs;
+  uint32_t *unix_nsecs;
+  uint32_t *sysUpTime;
+  uint32_t *exaddr;
+  uint32_t *srcaddr;
+  uint32_t *dstaddr;
+  uint32_t *nexthop;
   u_int16 *input;
   u_int16 *output;
-  u_int32 *dFlows;
-  u_int32 *dPkts;
-  u_int32 *dOctets;
-  u_int32 *First;
-  u_int32 *Last;
+  uint32_t *dFlows;
+  uint32_t *dPkts;
+  uint32_t *dOctets;
+  uint32_t *First;
+  uint32_t *Last;
   u_int16 *srcport;
   u_int16 *dstport;
   u_int8  *prot;
@@ -756,11 +756,11 @@ struct fts3rec_all {
   u_int16 *dst_as;
   u_int8  *in_encaps;
   u_int8  *out_encaps;
-  u_int32 *peer_nexthop;
-  u_int32 *router_sc;
-  u_int32 *src_tag;
-  u_int32 *dst_tag;
-  u_int32 *extra_pkts;
+  uint32_t *peer_nexthop;
+  uint32_t *router_sc;
+  uint32_t *src_tag;
+  uint32_t *dst_tag;
+  uint32_t *extra_pkts;
   u_int8  *marked_tos;
 };
 
@@ -769,20 +769,20 @@ struct fts3rec_all2 {
   u_int64 dFlows64;
   u_int64 dPkts64;
   u_int64 dOctets64;
-  u_int32 unix_secs;
-  u_int32 unix_nsecs;
-  u_int32 sysUpTime;
-  u_int32 exaddr;
-  u_int32 srcaddr;
-  u_int32 dstaddr;
-  u_int32 nexthop;
+  uint32_t unix_secs;
+  uint32_t unix_nsecs;
+  uint32_t sysUpTime;
+  uint32_t exaddr;
+  uint32_t srcaddr;
+  uint32_t dstaddr;
+  uint32_t nexthop;
   u_int16 input;
   u_int16 output;
-  u_int32 dFlows;
-  u_int32 dPkts;
-  u_int32 dOctets;
-  u_int32 First;
-  u_int32 Last;
+  uint32_t dFlows;
+  uint32_t dPkts;
+  uint32_t dOctets;
+  uint32_t First;
+  uint32_t Last;
   u_int16 srcport;
   u_int16 dstport;
   u_int8  prot;
@@ -796,48 +796,48 @@ struct fts3rec_all2 {
   u_int16 dst_as;
   u_int8  in_encaps;
   u_int8  out_encaps;
-  u_int32 peer_nexthop;
-  u_int32 router_sc;
-  u_int32 src_tag;
-  u_int32 dst_tag;
-  u_int32 extra_pkts;
+  uint32_t peer_nexthop;
+  uint32_t router_sc;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+  uint32_t extra_pkts;
   u_int8  marked_tos;
 };
 
 #define FT_RECGET_UNIX_SECS(A,B,C) A.unix_secs =\
-  *((u_int32*)(B+(C).unix_secs));
+  *((uint32_t*)(B+(C).unix_secs));
 #define FT_RECGET_UNIX_NSECS(A,B,C) A.unix_nsecs =\
-  *((u_int32*)(B+(C).unix_nsecs));
+  *((uint32_t*)(B+(C).unix_nsecs));
 #define FT_RECGET_SYSUPTIME(A,B,C) A.sysUpTime =\
-  *((u_int32*)(B+(C).sysUpTime));
+  *((uint32_t*)(B+(C).sysUpTime));
 #define FT_RECGET_EXADDR(A,B,C) A.exaddr =\
-  *((u_int32*)(B+(C).exaddr));
+  *((uint32_t*)(B+(C).exaddr));
 #define FT_RECGET_DFLOWS(A,B,C) A.dFlows =\
-  *((u_int32*)(B+(C).dFlows));
+  *((uint32_t*)(B+(C).dFlows));
 #define FT_RECGET64_DFLOWS(A,B,C) A.dFlows64 =\
-  *((u_int32*)(B+(C).dFlows));
+  *((uint32_t*)(B+(C).dFlows));
 #define FT_RECGET_DPKTS(A,B,C) A.dPkts =\
-  *((u_int32*)(B+(C).dPkts));
+  *((uint32_t*)(B+(C).dPkts));
 #define FT_RECGET64_DPKTS(A,B,C) A.dPkts64 =\
-  *((u_int32*)(B+(C).dPkts));
+  *((uint32_t*)(B+(C).dPkts));
 #define FT_RECGET_DOCTETS(A,B,C) A.dOctets =\
-  *((u_int32*)(B+(C).dOctets));
+  *((uint32_t*)(B+(C).dOctets));
 #define FT_RECGET64_DOCTETS(A,B,C) A.dOctets64 =\
-  *((u_int32*)(B+(C).dOctets));
+  *((uint32_t*)(B+(C).dOctets));
 #define FT_RECGET_FIRST(A,B,C) A.First =\
-  *((u_int32*)(B+(C).First));
+  *((uint32_t*)(B+(C).First));
 #define FT_RECGET_LAST(A,B,C) A.Last =\
-  *((u_int32*)(B+(C).Last));
+  *((uint32_t*)(B+(C).Last));
 #define FT_RECGET_ENGINE_TYPE(A,B,C) A.engine_type =\
   *((u_int8*)(B+(C).engine_type));
 #define FT_RECGET_ENGINE_ID(A,B,C) A.engine_id =\
   *((u_int8*)(B+(C).engine_id));
 #define FT_RECGET_SRCADDR(A,B,C) A.srcaddr =\
-  *((u_int32*)(B+(C).srcaddr));
+  *((uint32_t*)(B+(C).srcaddr));
 #define FT_RECGET_DSTADDR(A,B,C) A.dstaddr =\
-  *((u_int32*)(B+(C).dstaddr));
+  *((uint32_t*)(B+(C).dstaddr));
 #define FT_RECGET_NEXTHOP(A,B,C) A.nexthop =\
-  *((u_int32*)(B+(C).nexthop));
+  *((uint32_t*)(B+(C).nexthop));
 #define FT_RECGET_INPUT(A,B,C) A.input =\
   *((u_int16*)(B+(C).input));
 #define FT_RECGET_OUTPUT(A,B,C) A.output =\
@@ -865,30 +865,30 @@ struct fts3rec_all2 {
 #define FT_RECGET_OUT_ENCAPS(A,B,C) A.out_encaps =\
   *((u_int8*)(B+(C).out_encaps));
 #define FT_RECGET_PEER_NEXTHOP(A,B,C) A.peer_nexthop =\
-  *((u_int32*)(B+(C).peer_nexthop));
+  *((uint32_t*)(B+(C).peer_nexthop));
 #define FT_RECGET_EXTRA_PKTS(A,B,C) A.extra_pkts =\
-  *((u_int32*)(B+(C).extra_pkts));
+  *((uint32_t*)(B+(C).extra_pkts));
 #define FT_RECGET_MARKED_TOS(A,B,C) A.marked_tos =\
   *((u_int8*)(B+(C).marked_tos));
 #define FT_RECGET_SRC_TAG(A,B,C) A.src_tag =\
-  *((u_int32*)(B+(C).src_tag));
+  *((uint32_t*)(B+(C).src_tag));
 #define FT_RECGET_DST_TAG(A,B,C) A.dst_tag =\
-  *((u_int32*)(B+(C).dst_tag));
+  *((uint32_t*)(B+(C).dst_tag));
 
 struct fts3rec_gen {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -898,19 +898,19 @@ struct fts3rec_gen {
 };
 
 struct fts3rec_v5_gen {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -926,26 +926,26 @@ struct fts3rec_v5_gen {
 };
 
 struct fts3rec_v1 {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
   u_int8  tos;            /* IP Type-of-Service */
   u_int8  tcp_flags;      /* OR of TCP header bits */
   u_int8  pad;
-  u_int32 reserved;
+  uint32_t reserved;
 };
 
 /* note the v5 struct is a subset of v6 and v7.  v6 and v7 are assumed
@@ -953,19 +953,19 @@ struct fts3rec_v1 {
  *  dst_as are in the same place.  v5 is like a generic v5, v6, v7
  */
 struct fts3rec_v5 {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -981,19 +981,19 @@ struct fts3rec_v5 {
 };
 
 struct fts3rec_v6 {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -1009,23 +1009,23 @@ struct fts3rec_v6 {
   u_int8  in_encaps;      /* size in bytes of the input encapsulation */
   u_int8  out_encaps;     /* size in bytes of the output encapsulation */
   u_int16 pad2;
-  u_int32 peer_nexthop;   /* IP address of the next hop within the peer */
+  uint32_t peer_nexthop;   /* IP address of the next hop within the peer */
 };
 
 struct fts3rec_v7 {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -1038,19 +1038,19 @@ struct fts3rec_v7 {
   u_int8  dst_mask;       /* mask length of destination address */
   u_int16 src_as;         /* AS of source address */
   u_int16 dst_as;         /* AS of destination address */
-  u_int32 router_sc;      /* ID of router shortcut by switch */
+  uint32_t router_sc;      /* ID of router shortcut by switch */
 };
 
 struct fts3rec_v8_1 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
   u_int16 src_as;     /* originating AS of source address */
   u_int16 dst_as;     /* originating AS of destination address */
   u_int16 input;      /* input interface index */
@@ -1062,15 +1062,15 @@ struct fts3rec_v8_1 {
 
 
 struct fts3rec_v8_2 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
   u_int8  prot;       /* IP protocol */
   u_int8  pad;
   u_int16 reserved;
@@ -1082,16 +1082,16 @@ struct fts3rec_v8_2 {
 };
 
 struct fts3rec_v8_3 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 srcaddr;
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t srcaddr;
   u_int8  src_mask;
   u_int8  pad;
   u_int16 src_as;
@@ -1101,16 +1101,16 @@ struct fts3rec_v8_3 {
 };
 
 struct fts3rec_v8_4 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 dstaddr;
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t dstaddr;
   u_int8  dst_mask;
   u_int8  pad;
   u_int8  engine_type;/* Type of flow switching engine (RP,VIP,etc.) */
@@ -1120,17 +1120,17 @@ struct fts3rec_v8_4 {
 };
 
 struct fts3rec_v8_5 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 srcaddr;
-  u_int32 dstaddr;
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t srcaddr;
+  uint32_t dstaddr;
   u_int8  dst_mask;
   u_int8  src_mask;
   u_int8  engine_type;/* Type of flow switching engine (RP,VIP,etc.) */
@@ -1142,17 +1142,17 @@ struct fts3rec_v8_5 {
 };
 
 struct fts3rec_v8_6 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 dstaddr;    /* destination IP address */
-  u_int32 extra_pkts; /* packets that exceed the contract */
-  u_int32 router_sc;  /* IP address of the router being shortcut */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t dstaddr;    /* destination IP address */
+  uint32_t extra_pkts; /* packets that exceed the contract */
+  uint32_t router_sc;  /* IP address of the router being shortcut */
   u_int16 output;     /* output interface index */
   u_int16 pad;
   u_int8  tos;        /* tos */
@@ -1162,18 +1162,18 @@ struct fts3rec_v8_6 {
 };
 
 struct fts3rec_v8_7 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 dstaddr;    /* destination IP address */
-  u_int32 srcaddr;    /* source IP address */
-  u_int32 extra_pkts; /* packets that exceed the contract */
-  u_int32 router_sc;  /* IP address of the router being shortcut */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t dstaddr;    /* destination IP address */
+  uint32_t srcaddr;    /* source IP address */
+  uint32_t extra_pkts; /* packets that exceed the contract */
+  uint32_t router_sc;  /* IP address of the router being shortcut */
   u_int16 output;     /* output interface index */
   u_int16 input;      /* input interface index */
   u_int8  tos;        /* tos */
@@ -1183,18 +1183,18 @@ struct fts3rec_v8_7 {
 };
 
 struct fts3rec_v8_8 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 dstaddr;    /* destination IP address */
-  u_int32 srcaddr;    /* source IP address */
-  u_int32 extra_pkts; /* packets that exceed the contract */
-  u_int32 router_sc;  /* IP address of the router being shortcut */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t dstaddr;    /* destination IP address */
+  uint32_t srcaddr;    /* source IP address */
+  uint32_t extra_pkts; /* packets that exceed the contract */
+  uint32_t router_sc;  /* IP address of the router being shortcut */
   u_int16 dstport;    /* TCP/UDP destination port */
   u_int16 srcport;    /* TCP/UDP source port */
   u_int16 output;     /* output interface index */
@@ -1209,15 +1209,15 @@ struct fts3rec_v8_8 {
 };
 
 struct fts3rec_v8_9 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
   u_int16 src_as;     /* originating AS of source address */
   u_int16 dst_as;     /* originating AS of destination address */
   u_int16 input;      /* input interface index */
@@ -1229,15 +1229,15 @@ struct fts3rec_v8_9 {
 };
 
 struct fts3rec_v8_10 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
   u_int16 srcport;    /* TCP/UDP source port number of equivalent */
   u_int16 dstport;    /* TCP/UDP dst port number of equivalent */
   u_int16 input;      /* input interface index */
@@ -1249,16 +1249,16 @@ struct fts3rec_v8_10 {
 };
 
 struct fts3rec_v8_11 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 srcaddr;    /* Source Prefix */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t srcaddr;    /* Source Prefix */
   u_int8  src_mask;   /* Source Prefix mask length */
   u_int8  tos;        /* ToS */
   u_int16 src_as;     /* Source AS */
@@ -1268,16 +1268,16 @@ struct fts3rec_v8_11 {
 };
 
 struct fts3rec_v8_12 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 dstaddr;    /* Destination Prefix */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t dstaddr;    /* Destination Prefix */
   u_int16 output;     /* output interface index */
   u_int16 dst_as;     /* Destination AS */
   u_int8  dst_mask;   /* Destination Prefix mask length */
@@ -1287,17 +1287,17 @@ struct fts3rec_v8_12 {
 };
 
 struct fts3rec_v8_13 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 srcaddr;    /* Source Prefix */
-  u_int32 dstaddr;    /* Destination Prefix */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t srcaddr;    /* Source Prefix */
+  uint32_t dstaddr;    /* Destination Prefix */
   u_int16 src_as;     /* Source AS */
   u_int16 dst_as;     /* Destination AS */
   u_int16 input;      /* input interface */
@@ -1312,17 +1312,17 @@ struct fts3rec_v8_13 {
 };
 
 struct fts3rec_v8_14 {
-  u_int32 unix_secs;  /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;  /* Current time in millisecs since router booted */
-  u_int32 exaddr;     /* Exporter IP address */
-  u_int32 dFlows;     /* Number of flows */
-  u_int32 dPkts;      /* Packets sent in duration */
-  u_int32 dOctets;    /* Octets sent in duration */
-  u_int32 First;      /* SysUpTime at start of flow */
-  u_int32 Last;       /* and of last packet of flow */
-  u_int32 srcaddr;    /* Source Prefix */
-  u_int32 dstaddr;    /* Destination Prefix */
+  uint32_t unix_secs;  /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs; /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;  /* Current time in millisecs since router booted */
+  uint32_t exaddr;     /* Exporter IP address */
+  uint32_t dFlows;     /* Number of flows */
+  uint32_t dPkts;      /* Packets sent in duration */
+  uint32_t dOctets;    /* Octets sent in duration */
+  uint32_t First;      /* SysUpTime at start of flow */
+  uint32_t Last;       /* and of last packet of flow */
+  uint32_t srcaddr;    /* Source Prefix */
+  uint32_t dstaddr;    /* Destination Prefix */
   u_int16 srcport;    /* Source Port */
   u_int16 dstport;    /* Destination Port */
   u_int16 input;      /* input interface */
@@ -1343,19 +1343,19 @@ struct fts3rec_v8_14 {
 
 /* tagged v5 */
 struct fts3rec_v1005 {
-  u_int32 unix_secs;      /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 sysUpTime;      /* Current time in millisecs since router booted */
-  u_int32 exaddr;         /* Exporter IP address */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;     /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;      /* Current time in millisecs since router booted */
+  uint32_t exaddr;         /* Exporter IP address */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int8  prot;           /* IP protocol, e.g., 6=TCP, 17=UDP, ... */
@@ -1368,22 +1368,22 @@ struct fts3rec_v1005 {
   u_int8  dst_mask;       /* mask length of destination address */
   u_int16 src_as;         /* AS of source address */
   u_int16 dst_as;         /* AS of destination address */
-  u_int32 src_tag;        /* Local TAG for source address */
-  u_int32 dst_tag;        /* Local TAG for destination address */
+  uint32_t src_tag;        /* Local TAG for source address */
+  uint32_t dst_tag;        /* Local TAG for destination address */
 };
 
 struct fts1rec_compat {
-  u_int32 unix_secs;      /* offset from real time the flow started */
-  u_int32 unix_msecs;     /* "" */
-  u_int32 srcaddr;        /* Source IP Address */
-  u_int32 dstaddr;        /* Destination IP Address */
-  u_int32 nexthop;        /* Next hop router's IP Address */
+  uint32_t unix_secs;      /* offset from real time the flow started */
+  uint32_t unix_msecs;     /* "" */
+  uint32_t srcaddr;        /* Source IP Address */
+  uint32_t dstaddr;        /* Destination IP Address */
+  uint32_t nexthop;        /* Next hop router's IP Address */
   u_int16 input;          /* Input interface index */
   u_int16 output;         /* Output interface index */
-  u_int32 dPkts;          /* Packets sent in Duration */
-  u_int32 dOctets;        /* Octets sent in Duration. */
-  u_int32 First;          /* SysUptime at start of flow */
-  u_int32 Last;           /* and of last packet of flow */
+  uint32_t dPkts;          /* Packets sent in Duration */
+  uint32_t dOctets;        /* Octets sent in Duration. */
+  uint32_t First;          /* SysUptime at start of flow */
+  uint32_t Last;           /* and of last packet of flow */
   u_int16 srcport;        /* TCP/UDP source port number or equivalent */
   u_int16 dstport;        /* TCP/UDP destination port number or equiv */
   u_int16 pad;
@@ -1431,10 +1431,10 @@ struct ftpdu_header {
   /* common header for everything except v1 */
   u_int16 version;      /* 1 for now. */
   u_int16 count;        /* The number of records in the PDU */
-  u_int32 sysUpTime;    /* Current time in millisecs since router booted */
-  u_int32 unix_secs;    /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;   /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;    /* Current time in millisecs since router booted */
+  uint32_t unix_secs;    /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;   /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
@@ -1445,20 +1445,20 @@ struct ftpdu_v1 {
   /* 16 byte header */
   u_int16 version;      /* 1 for now. */
   u_int16 count;        /* The number of records in the PDU */
-  u_int32 sysUpTime;    /* Current time in millisecs since router booted */
-  u_int32 unix_secs;    /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;   /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t sysUpTime;    /* Current time in millisecs since router booted */
+  uint32_t unix_secs;    /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;   /* Residual nanoseconds since 0000 UTC 1970 */
   /* 48 byte payload */
   struct ftrec_v1 {
-    u_int32 srcaddr;        /* Source IP Address */
-    u_int32 dstaddr;        /* Destination IP Address */
-    u_int32 nexthop;        /* Next hop router's IP Address */
+    uint32_t srcaddr;        /* Source IP Address */
+    uint32_t dstaddr;        /* Destination IP Address */
+    uint32_t nexthop;        /* Next hop router's IP Address */
     u_int16 input;          /* Input interface index */
     u_int16 output;         /* Output interface index */
-    u_int32 dPkts;          /* Packets sent in Duration */
-    u_int32 dOctets;        /* Octets sent in Duration. */
-    u_int32 First;          /* SysUptime at start of flow */
-    u_int32 Last;           /* and of last packet of flow */
+    uint32_t dPkts;          /* Packets sent in Duration */
+    uint32_t dOctets;        /* Octets sent in Duration. */
+    uint32_t First;          /* SysUptime at start of flow */
+    uint32_t Last;           /* and of last packet of flow */
     u_int16 srcport;        /* TCP/UDP source port number or equivalent */
     u_int16 dstport;        /* TCP/UDP destination port number or equiv */
     u_int16 pad;
@@ -1468,7 +1468,7 @@ struct ftpdu_v1 {
     u_int8  tcp_retx_cnt;   /* Number of mis-seq with delay > 1sec */
     u_int8  tcp_retx_secs;  /* Cumulative secs between mis-sequenced pkts */
     u_int8  tcp_misseq_cnt; /* Number of mis-sequenced tcp pkts seen */
-    u_int32  reserved;
+    uint32_t  reserved;
   } records[FT_PDU_V1_MAXFLOWS];
 };
 
@@ -1476,24 +1476,24 @@ struct ftpdu_v5 {
   /* 24 byte header */
   u_int16 version;       /* 5 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int16 reserved;
   /* 48 byte payload */
   struct ftrec_v5 {
-    u_int32 srcaddr;    /* Source IP Address */
-    u_int32 dstaddr;    /* Destination IP Address */
-    u_int32 nexthop;    /* Next hop router's IP Address */
+    uint32_t srcaddr;    /* Source IP Address */
+    uint32_t dstaddr;    /* Destination IP Address */
+    uint32_t nexthop;    /* Next hop router's IP Address */
     u_int16 input;      /* Input interface index */
     u_int16 output;     /* Output interface index */
-    u_int32 dPkts;      /* Packets sent in Duration */
-    u_int32 dOctets;    /* Octets sent in Duration. */
-    u_int32 First;      /* SysUptime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dPkts;      /* Packets sent in Duration */
+    uint32_t dOctets;    /* Octets sent in Duration. */
+    uint32_t First;      /* SysUptime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 srcport;    /* TCP/UDP source port number or equivalent */
     u_int16 dstport;    /* TCP/UDP destination port number or equiv */
     u_int8  pad;
@@ -1512,24 +1512,24 @@ struct ftpdu_v6 {
   /* 24 byte header */
   u_int16 version;       /* 6 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int16 reserved;
   /* 48 byte payload */
   struct ftrec_v6 {
-    u_int32 srcaddr;      /* Source IP Address */
-    u_int32 dstaddr;      /* Destination IP Address */
-    u_int32 nexthop;      /* Next hop router's IP Address */
+    uint32_t srcaddr;      /* Source IP Address */
+    uint32_t dstaddr;      /* Destination IP Address */
+    uint32_t nexthop;      /* Next hop router's IP Address */
     u_int16 input;        /* Input interface index */
     u_int16 output;       /* Output interface index */
-    u_int32 dPkts;        /* Packets sent in Duration */
-    u_int32 dOctets;      /* Octets sent in Duration. */
-    u_int32 First;        /* SysUptime at start of flow */
-    u_int32 Last;         /* and of last packet of flow */
+    uint32_t dPkts;        /* Packets sent in Duration */
+    uint32_t dOctets;      /* Octets sent in Duration. */
+    uint32_t First;        /* SysUptime at start of flow */
+    uint32_t Last;         /* and of last packet of flow */
     u_int16 srcport;      /* TCP/UDP source port number or equivalent */
     u_int16 dstport;      /* TCP/UDP destination port number or equiv */
     u_int8  pad;
@@ -1542,7 +1542,7 @@ struct ftpdu_v6 {
     u_int8  dst_mask;     /* destination address prefix mask bits */
     u_int8  in_encaps;    /* size in bytes of the input encapsulation */
     u_int8  out_encaps;   /* size in bytes of the output encapsulation */
-    u_int32 peer_nexthop; /* IP address of the next hop within the peer */
+    uint32_t peer_nexthop; /* IP address of the next hop within the peer */
   } records[FT_PDU_V6_MAXFLOWS];
 };
 
@@ -1550,24 +1550,24 @@ struct ftpdu_v7 {
   /* 24 byte header */
   u_int16 version;       /* 7 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int16 reserved;
   /* 48 byte payload */
   struct ftrec_v7 {
-    u_int32 srcaddr;    /* Source IP Address */
-    u_int32 dstaddr;    /* Destination IP Address */
-    u_int32 nexthop;    /* Next hop router's IP Address */
+    uint32_t srcaddr;    /* Source IP Address */
+    uint32_t dstaddr;    /* Destination IP Address */
+    uint32_t nexthop;    /* Next hop router's IP Address */
     u_int16 input;      /* Input interface index */
     u_int16 output;     /* Output interface index */
-    u_int32 dPkts;      /* Packets sent in Duration */
-    u_int32 dOctets;    /* Octets sent in Duration. */
-    u_int32 First;      /* SysUptime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dPkts;      /* Packets sent in Duration */
+    uint32_t dOctets;    /* Octets sent in Duration. */
+    uint32_t First;      /* SysUptime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 srcport;    /* TCP/UDP source port number or equivalent */
     u_int16 dstport;    /* TCP/UDP destination port number or equiv */
     u_int8  pad;
@@ -1579,7 +1579,7 @@ struct ftpdu_v7 {
     u_int8  src_mask;   /* source address prefix mask bits */
     u_int8  dst_mask;   /* destination address prefix mask bits */
     u_int16 drops;
-    u_int32 router_sc;  /* Router which is shortcut by switch */
+    uint32_t router_sc;  /* Router which is shortcut by switch */
   } records[FT_PDU_V7_MAXFLOWS];
 };
 
@@ -1588,37 +1588,37 @@ struct ftpdu_v8_gen {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
 };
 
 struct ftpdu_v8_1 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 28 byte payload */
   struct ftrec_v8_1 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 src_as;     /* originating AS of source address */
     u_int16 dst_as;     /* originating AS of destination address */
     u_int16 input;      /* input interface index */
@@ -1630,22 +1630,22 @@ struct ftpdu_v8_2 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 28 byte payload */
   struct ftrec_v8_2 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int8  prot;       /* IP protocol */
     u_int8  pad;
     u_int16 reserved;
@@ -1659,23 +1659,23 @@ struct ftpdu_v8_3 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_3 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 src_prefix;
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t src_prefix;
     u_int8  src_mask;
     u_int8  pad;
     u_int16 src_as;
@@ -1689,23 +1689,23 @@ struct ftpdu_v8_4 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_4 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 dst_prefix;
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t dst_prefix;
     u_int8  dst_mask;
     u_int8  pad;
     u_int16 dst_as;
@@ -1719,24 +1719,24 @@ struct ftpdu_v8_5 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 40 byte payload */
   struct ftrec_v8_5 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 src_prefix;
-    u_int32 dst_prefix;
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t src_prefix;
+    uint32_t dst_prefix;
     u_int8  dst_mask;
     u_int8  src_mask;
     u_int16 reserved;
@@ -1751,27 +1751,27 @@ struct ftpdu_v8_6 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_6 {
-    u_int32 dstaddr;   /* destination IP address */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dstaddr;   /* destination IP address */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 output;     /* output interface index */
     u_int8  tos;        /* tos */
     u_int8  marked_tos; /* tos of pkts that exceeded the contract */
-    u_int32 extra_pkts; /* packets that exceed the contract */
-    u_int32 router_sc;  /* IP address of the router being shortcut */
+    uint32_t extra_pkts; /* packets that exceed the contract */
+    uint32_t router_sc;  /* IP address of the router being shortcut */
   } records[FT_PDU_V8_6_MAXFLOWS];
 };
 
@@ -1779,30 +1779,30 @@ struct ftpdu_v8_7 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 40 byte payload */
   struct ftrec_v8_7 {
-    u_int32 dstaddr;    /* destination IP address */
-    u_int32 srcaddr;    /* source address */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dstaddr;    /* destination IP address */
+    uint32_t srcaddr;    /* source address */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 output;     /* output interface index */
     u_int16 input;      /* input interface index */
     u_int8  tos;        /* tos */
     u_int8  marked_tos; /* tos of pkts that exceeded the contract */
     u_int16 reserved;
-    u_int32 extra_pkts; /* packets that exceed the contract */
-    u_int32 router_sc;  /* IP address of the router being shortcut */
+    uint32_t extra_pkts; /* packets that exceed the contract */
+    uint32_t router_sc;  /* IP address of the router being shortcut */
   } records[FT_PDU_V8_7_MAXFLOWS];
 };
 
@@ -1810,33 +1810,33 @@ struct ftpdu_v8_8 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 44 byte payload */
   struct ftrec_v8_8 {
-    u_int32 dstaddr;    /* destination IP address */
-    u_int32 srcaddr;    /* source IP address */
+    uint32_t dstaddr;    /* destination IP address */
+    uint32_t srcaddr;    /* source IP address */
     u_int16 dstport;    /* TCP/UDP destination port */
     u_int16 srcport;    /* TCP/UDP source port */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 output;     /* output interface index */
     u_int16 input;      /* input interface index */
     u_int8  tos;        /* tos */
     u_int8  prot;       /* protocol */
     u_int8  marked_tos; /* tos of pkts that exceeded the contract */
     u_int8  reserved;
-    u_int32 extra_pkts; /* packets that exceed the contract */
-    u_int32 router_sc;  /* IP address of the router being shortcut */
+    uint32_t extra_pkts; /* packets that exceed the contract */
+    uint32_t router_sc;  /* IP address of the router being shortcut */
   } records[FT_PDU_V8_8_MAXFLOWS];
 };
 
@@ -1845,22 +1845,22 @@ struct ftpdu_v8_9 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_9 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int16 src_as;     /* originating AS of source address */
     u_int16 dst_as;     /* originating AS of destination address */
     u_int16 input;      /* input interface index */
@@ -1875,22 +1875,22 @@ struct ftpdu_v8_10 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_10 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
     u_int8  prot;       /* IP protocol */
     u_int8  tos;        /* tos */
     u_int16 reserved;
@@ -1905,23 +1905,23 @@ struct ftpdu_v8_11 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_11 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 src_prefix; /* Source Prefix */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t src_prefix; /* Source Prefix */
     u_int8  src_mask;   /* Source Prefix mask length */
     u_int8  tos;        /* tos */
     u_int16 src_as;     /* Source AS */
@@ -1934,23 +1934,23 @@ struct ftpdu_v8_12 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 32 byte payload */
   struct ftrec_v8_12 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 dst_prefix; /* Destination Prefix */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t dst_prefix; /* Destination Prefix */
     u_int8  dst_mask;   /* Destination Prefix mask length */
     u_int8  tos;        /* tos */
     u_int16 dst_as;     /* Destination AS */
@@ -1963,24 +1963,24 @@ struct ftpdu_v8_13 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 40 byte payload */
   struct ftrec_v8_13 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 src_prefix; /* Source Prefix */
-    u_int32 dst_prefix; /* Destination Prefix */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t src_prefix; /* Source Prefix */
+    uint32_t dst_prefix; /* Destination Prefix */
     u_int8  dst_mask;   /* Destination Prefix mask length */
     u_int8  src_mask;   /* Source Prefix mask length */
     u_int8  tos;        /* tos */
@@ -1996,24 +1996,24 @@ struct ftpdu_v8_14 {
   /* 28 byte header */
   u_int16 version;       /* 8 */
   u_int16 count;         /* The number of records in the PDU */
-  u_int32 sysUpTime;     /* Current time in millisecs since router booted */
-  u_int32 unix_secs;     /* Current seconds since 0000 UTC 1970 */
-  u_int32 unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
-  u_int32 flow_sequence; /* Seq counter of total flows seen */
+  uint32_t sysUpTime;     /* Current time in millisecs since router booted */
+  uint32_t unix_secs;     /* Current seconds since 0000 UTC 1970 */
+  uint32_t unix_nsecs;    /* Residual nanoseconds since 0000 UTC 1970 */
+  uint32_t flow_sequence; /* Seq counter of total flows seen */
   u_int8  engine_type;   /* Type of flow switching engine (RP,VIP,etc.) */
   u_int8  engine_id;     /* Slot number of the flow switching engine */
   u_int8  aggregation;   /* Aggregation method being used */
   u_int8  agg_version;   /* Version of the aggregation export */
-  u_int32 reserved;
+  uint32_t reserved;
   /* 40 byte payload */
   struct ftrec_v8_14 {
-    u_int32 dFlows;     /* Number of flows */
-    u_int32 dPkts;      /* Packets sent in duration */
-    u_int32 dOctets;    /* Octets sent in duration */
-    u_int32 First;      /* SysUpTime at start of flow */
-    u_int32 Last;       /* and of last packet of flow */
-    u_int32 src_prefix; /* Source Prefix */
-    u_int32 dst_prefix; /* Destination Prefix */
+    uint32_t dFlows;     /* Number of flows */
+    uint32_t dPkts;      /* Packets sent in duration */
+    uint32_t dOctets;    /* Octets sent in duration */
+    uint32_t First;      /* SysUpTime at start of flow */
+    uint32_t Last;       /* and of last packet of flow */
+    uint32_t src_prefix; /* Source Prefix */
+    uint32_t dst_prefix; /* Destination Prefix */
     u_int8  dst_mask;   /* Destination Prefix mask length */
     u_int8  src_mask;   /* Source Prefix mask length */
     u_int8  tos;        /* tos */
@@ -2123,7 +2123,7 @@ struct ftxlate {
 struct ftfile_entry {
   char     *name;
   off_t    size;
-  u_int32  start;
+  uint32_t  start;
   int      skip; /* skip this during processing */
   FT_TAILQ_ENTRY(ftfile_entry) chain;
 };
@@ -2132,15 +2132,15 @@ struct ftfile_entries {
   FT_TAILQ_HEAD(talkqhead, ftfile_entry) head;
   u_int64 num_bytes;   /* space used by all flow files except current */
   u_int64 max_bytes;   /* min space before removing files 0=disable */
-  u_int32 max_files;   /* max num of files to keep before removing 0=disable */
-  u_int32 num_files;   /* number of files in the queue */
+  uint32_t max_files;   /* max num of files to keep before removing 0=disable */
+  uint32_t num_files;   /* number of files in the queue */
   int expiring;        /* expiring in use? */
 };
 
 
 struct ftchash_chunk {
   void *base;                                /* base pointer */
-  u_int32 next;                              /* offset to next free record */
+  uint32_t next;                              /* offset to next free record */
   FT_SLIST_ENTRY(ftchash_chunk) chain;       /* next */
 };
 
@@ -2165,12 +2165,12 @@ struct ftchash {
 
 struct ftchash_rec_gen {
   FT_SLIST_ENTRY(ftchash_rec_gen) chain;
-  u_int32 data;
+  uint32_t data;
 };
 
 struct ftchash_rec_prefixs {
   FT_SLIST_ENTRY(ftchash_rec_ips) chain;
-  u_int32 prefix;
+  uint32_t prefix;
   u_int8  mask;         /* mask */
   u_int8  fil1;
   u_int16 fil2;
@@ -2178,7 +2178,7 @@ struct ftchash_rec_prefixs {
 
 struct ftchash_rec_tags {
   FT_SLIST_ENTRY(ftchash_rec_ips) chain;
-  u_int32 tag;
+  uint32_t tag;
 };
 
 struct ftps {
@@ -2189,7 +2189,7 @@ struct ftps {
 
 struct ftchash_rec_prefixh {
   FT_SLIST_ENTRY(ftchash_rec_prefix) chain;
-  u_int32 prefix;       /* prefix */
+  uint32_t prefix;       /* prefix */
   u_int8  mask;         /* mask */
   u_int8  fil1;
   u_int16 fil2;
@@ -2205,7 +2205,7 @@ struct ftchash_rec_prefixh {
 
 struct ftchash_rec_c32 {
   FT_SLIST_ENTRY(ftchash_rec_c32) chain;
-  u_int32 c32;          /* 32 bit quantity */
+  uint32_t c32;          /* 32 bit quantity */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2227,8 +2227,8 @@ struct ftchash_rec_c64 {
 
 struct ftchash_rec_c322 {
   FT_SLIST_ENTRY(ftchash_rec_c322) chain;
-  u_int32 c32a;         /* 32 bit quantity */
-  u_int32 c32b;         /* 32 bit quantity */
+  uint32_t c32a;         /* 32 bit quantity */
+  uint32_t c32b;         /* 32 bit quantity */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2239,7 +2239,7 @@ struct ftchash_rec_c322 {
 
 struct ftchash_rec_prefix16 {
   FT_SLIST_ENTRY(ftchash_rec_prefix16) chain;
-  u_int32 prefix;       /* 32 bit quantity */
+  uint32_t prefix;       /* 32 bit quantity */
   u_int8  mask;         /* 8 bit quantity */
   u_int8  fill;         /* 8 bit quantity */
   u_int16 c16;          /* 16 bit quantity */
@@ -2253,7 +2253,7 @@ struct ftchash_rec_prefix16 {
 
 struct ftchash_rec_prefix162 {
   FT_SLIST_ENTRY(ftchash_rec_prefix16) chain;
-  u_int32 prefix;       /* 32 bit quantity */
+  uint32_t prefix;       /* 32 bit quantity */
   u_int8  mask;         /* 8 bit quantity */
   u_int8  fill;         /* 8 bit quantity */
   u_int16 c16a;         /* 16 bit quantity */
@@ -2269,11 +2269,11 @@ struct ftchash_rec_prefix162 {
 
 struct ftchash_rec_prefix216 {
   FT_SLIST_ENTRY(ftchash_rec_prefix216) chain;
-  u_int32 src_prefix;   /* 32 bit quantity */
+  uint32_t src_prefix;   /* 32 bit quantity */
   u_int8  src_mask;     /* 8 bit quantity */
   u_int8  fill;         /* 8 bit quantity */
   u_int16 c16;          /* 16 bit quantity */
-  u_int32 dst_prefix;   /* 32 bit quantity */
+  uint32_t dst_prefix;   /* 32 bit quantity */
   u_int8  dst_mask;     /* 8 bit quantity */
   u_int8  fill2;        /* 8 bit quantity */
   u_int16 fill3;        /* 16 bit quantity */
@@ -2287,11 +2287,11 @@ struct ftchash_rec_prefix216 {
 
 struct ftchash_rec_prefix2162 {
   FT_SLIST_ENTRY(ftchash_rec_prefix2162) chain;
-  u_int32 src_prefix;   /* 32 bit quantity */
+  uint32_t src_prefix;   /* 32 bit quantity */
   u_int8  src_mask;     /* 8 bit quantity */
   u_int8  fill;         /* 8 bit quantity */
   u_int16 c16a;         /* 16 bit quantity */
-  u_int32 dst_prefix;   /* 32 bit quantity */
+  uint32_t dst_prefix;   /* 32 bit quantity */
   u_int8  dst_mask;     /* 8 bit quantity */
   u_int8  fill2;        /* 8 bit quantity */
   u_int16 c16b;         /* 16 bit quantity */
@@ -2305,7 +2305,7 @@ struct ftchash_rec_prefix2162 {
 
 struct ftchash_rec_ip {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 addr;         /* ip address */
+  uint32_t addr;         /* ip address */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2316,8 +2316,8 @@ struct ftchash_rec_ip {
 
 struct ftchash_rec_ip2 {
   FT_SLIST_ENTRY(ftchash_rec_ip2) chain;
-  u_int32 src_addr;     /* ip address */
-  u_int32 dst_addr;     /* ip address */
+  uint32_t src_addr;     /* ip address */
+  uint32_t dst_addr;     /* ip address */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2390,7 +2390,7 @@ struct ftchash_rec_if2 {
 
 struct ftchash_rec_prefix {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 prefix;       /* prefix */
+  uint32_t prefix;       /* prefix */
   u_int8  mask;         /* mask */
   u_int8  fil1;
   u_int16 fil2;
@@ -2404,11 +2404,11 @@ struct ftchash_rec_prefix {
 
 struct ftchash_rec_prefix_tag {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 prefix;       /* prefix */
+  uint32_t prefix;       /* prefix */
   u_int8  mask;         /* mask */
   u_int8  fil1;
   u_int16 fil2;
-  u_int32 tag;          /* tag */
+  uint32_t tag;          /* tag */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2419,11 +2419,11 @@ struct ftchash_rec_prefix_tag {
 
 struct ftchash_rec_prefix2 {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 src_prefix;   /* prefix */
+  uint32_t src_prefix;   /* prefix */
   u_int8  src_mask;     /* mask */
   u_int8  fil1;
   u_int16 fil2;
-  u_int32 dst_prefix;   /* prefix */
+  uint32_t dst_prefix;   /* prefix */
   u_int8  dst_mask;     /* mask */
   u_int8  fil3;
   u_int16 fil4;
@@ -2437,16 +2437,16 @@ struct ftchash_rec_prefix2 {
 
 struct ftchash_rec_prefix2tag2 {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 src_prefix;   /* prefix */
+  uint32_t src_prefix;   /* prefix */
   u_int8  src_mask;     /* mask */
   u_int8  fil1;
   u_int16 fil2;
-  u_int32 dst_prefix;   /* prefix */
+  uint32_t dst_prefix;   /* prefix */
   u_int8  dst_mask;     /* mask */
   u_int8  fil3;
   u_int16 fil4;
-  u_int32 src_tag;      /* source tag */
-  u_int32 dst_tag;      /* destination tag */
+  uint32_t src_tag;      /* source tag */
+  uint32_t dst_tag;      /* destination tag */
   u_int64 nrecs;        /* flow records */
   u_int64 nflows;       /* flows */
   u_int64 noctets;      /* octets */
@@ -2457,11 +2457,11 @@ struct ftchash_rec_prefix2tag2 {
 
 struct ftchash_rec_flow1 {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 src_prefix;   /* prefix */
+  uint32_t src_prefix;   /* prefix */
   u_int8  src_mask;     /* mask */
   u_int8  prot;         /* protocol */
   u_int16 src_port;     /* source port */
-  u_int32 dst_prefix;   /* prefix */
+  uint32_t dst_prefix;   /* prefix */
   u_int8  dst_mask;     /* mask */
   u_int8  tos;          /* type of service */
   u_int16 dst_port;     /* destination port */
@@ -2475,7 +2475,7 @@ struct ftchash_rec_flow1 {
 
 struct ftchash_rec_int {
   FT_SLIST_ENTRY(ftchash_rec_int) chain;
-  u_int32 time;         /* unix seconds */
+  uint32_t time;         /* unix seconds */
   u_int64 nrecs;        /* flow records */
   double nflows;        /* flows */
   double noctets;       /* octets */
@@ -2485,38 +2485,38 @@ struct ftchash_rec_int {
 
 struct ftchash_rec_exp {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 src_ip;       /* exporter src IP */
-  u_int32 dst_ip;       /* exporter dst IP (us) */
+  uint32_t src_ip;       /* exporter src IP */
+  uint32_t dst_ip;       /* exporter dst IP (us) */
   u_int16 d_version;    /* data version */
   u_int16 dst_port;     /* destination port (FUTURE) */
-  u_int32 packets;      /* packets received from this exporter */
-  u_int32 flows;        /* flows received from this exporter */
-  u_int32 filtered_flows; /* flows filtered and dropped from this exporter */
-  u_int32 lost;         /* flows lost */
-  u_int32 reset;        /* sequence number resets */
+  uint32_t packets;      /* packets received from this exporter */
+  uint32_t flows;        /* flows received from this exporter */
+  uint32_t filtered_flows; /* flows filtered and dropped from this exporter */
+  uint32_t lost;         /* flows lost */
+  uint32_t reset;        /* sequence number resets */
   struct ftseq ftseq;   /* sequence numbers for this exporter */
   void (*xlate)(void *in_rec, void *out_rec); /* translation function */
 };
 
 struct ftchash_rec_sym {
   FT_SLIST_ENTRY(ftchash_rec_ip) chain;
-  u_int32 val;          /* string value */
+  uint32_t val;          /* string value */
   char *str;            /* string */
 };
 
 struct ftchash_rec_fil_c32 {
   FT_SLIST_ENTRY(ftchash_rec_fil_ip) chain;
-  u_int32 c32;  /* 32 bit quantity */
+  uint32_t c32;  /* 32 bit quantity */
   int mode;     /* mode */
 };
 
 struct ftchash_rec_split {
   FT_SLIST_ENTRY(ftchash_rec_fil_ip) chain;
-  u_int32 tag; /* key */
+  uint32_t tag; /* key */
   struct ftio ftio;
   int fd, id;
-  u_int32 total_flows;
-  u_int32 cap_start, cap_end;
+  uint32_t total_flows;
+  uint32_t cap_start, cap_end;
   int newfile;
 };
 
@@ -2526,7 +2526,7 @@ struct ftsym {
 };
 
 int ftio_init(struct ftio *ftio, int fd, int flag);
-int ftio_interrupt(struct ftio *ftio, u_int32 fields);
+int ftio_interrupt(struct ftio *ftio, uint32_t fields);
 void ftio_set_preloaded(struct ftio *ftio, int flag);
 void ftio_set_streaming(struct ftio *ftio, int flag);
 int ftio_set_ver(struct ftio *ftio, struct ftver *ver);
@@ -2535,24 +2535,24 @@ void ftio_set_z_level(struct ftio *ftio, int z_level);
 void ftio_set_debug(struct ftio *ftio, int debug);
 int ftio_set_comment(struct ftio *ftio, char *comment);
 int ftio_set_cap_hostname(struct ftio *ftio, char *hostname);
-void ftio_set_cap_time(struct ftio *ftio, u_int32 start, u_int32 end);
-void ftio_set_cap_time_start(struct ftio *ftio, u_int32 start);
-void ftio_set_flows_count(struct ftio *ftio, u_int32 n);
-void ftio_set_corrupt(struct ftio *ftio, u_int32 n);
-void ftio_set_lost(struct ftio *ftio, u_int32 n);
-void ftio_set_reset(struct ftio *ftio, u_int32 n);
-void ftio_set_xip(struct ftio *ftio, u_int32 ip);
+void ftio_set_cap_time(struct ftio *ftio, uint32_t start, uint32_t end);
+void ftio_set_cap_time_start(struct ftio *ftio, uint32_t start);
+void ftio_set_flows_count(struct ftio *ftio, uint32_t n);
+void ftio_set_corrupt(struct ftio *ftio, uint32_t n);
+void ftio_set_lost(struct ftio *ftio, uint32_t n);
+void ftio_set_reset(struct ftio *ftio, uint32_t n);
+void ftio_set_xip(struct ftio *ftio, uint32_t ip);
 
 void ftio_get_ver(struct ftio *ftio, struct ftver *ver);
-u_int32 ftio_get_cap_start(const struct ftio *ftio);
-u_int32 ftio_get_cap_end(const struct ftio *ftio);
+uint32_t ftio_get_cap_start(const struct ftio *ftio);
+uint32_t ftio_get_cap_end(const struct ftio *ftio);
 time_t ftio_get_cap_start_time_t(const struct ftio *ftio);
 time_t ftio_get_cap_end_time_t(const struct ftio *ftio);
 u_int64 ftio_get_rec_total(struct ftio *ftio);
 int ftio_get_debug(struct ftio *ftio);
-u_int32 ftio_get_corrupt(struct ftio *ftio);
-u_int32 ftio_get_lost(struct ftio *ftio);
-u_int32 ftio_get_flows_count(struct ftio *ftio);
+uint32_t ftio_get_corrupt(struct ftio *ftio);
+uint32_t ftio_get_lost(struct ftio *ftio);
+uint32_t ftio_get_flows_count(struct ftio *ftio);
 
 char *ftio_get_hostname(struct ftio *ftio);
 char *ftio_get_comment(struct ftio *ftio);
@@ -2569,7 +2569,7 @@ int ftio_check_generic(struct ftio *ftio);
 int ftio_check_generic5(struct ftio *ftio);
 int ftio_check_xfield(struct ftio *ftio, u_int64 xfield_need);
 
-int ftio_map_load(struct ftio *ftio, char *fname, u_int32 ip);
+int ftio_map_load(struct ftio *ftio, char *fname, uint32_t ip);
 u_int64 ftio_xfield(struct ftio *ftio);
 
 
@@ -2659,7 +2659,7 @@ void ftprof_print(struct ftprof *ftp, char *prog, FILE *std);
 
 int ftiheader_read(int fd, struct ftiheader *h);
 
-struct fttime ftltime(u_int32 sys, u_int32 secs, u_int32 nsecs, u_int32 t);
+struct fttime ftltime(uint32_t sys, uint32_t secs, uint32_t nsecs, uint32_t t);
 
 void ftencode_init(struct ftencode *enc, int flags);
 void ftencode_reset(struct ftencode *enc);
@@ -2688,14 +2688,14 @@ void ftpdu_v8_14_swap(struct ftpdu_v8_14 *pdu, int cur);
 int ftpdu_verify(struct ftpdu *pdu);
 int ftpdu_check_seq(struct ftpdu *pdu, struct ftseq *ftseq);
 
-int fttlv_enc_uint32(void *buf, int buf_size, int flip, u_int16 t, u_int32 v);
+int fttlv_enc_uint32(void *buf, int buf_size, int flip, u_int16 t, uint32_t v);
 int fttlv_enc_uint16(void *buf, int buf_size, int flip, u_int16 t, u_int16 v);
 int fttlv_enc_uint8(void *buf, int buf_size, int flip, u_int16 t, u_int8 v);
 int fttlv_enc_str(void *buf, int buf_size, int flip, u_int16 t, char *v);
 int fttlv_enc_ifname(void *buf, int buf_size, int flip, u_int16 t,
-  u_int32 ip, u_int16 ifIndex, char *name);
+  uint32_t ip, u_int16 ifIndex, char *name);
 int fttlv_enc_ifalias(void *buf, int buf_size, int flip, u_int16 t,
-  u_int32 ip, u_int16 *ifIndex_list, u_int16 entries, char *name);
+  uint32_t ip, u_int16 *ifIndex_list, u_int16 entries, char *name);
 
 
 /* XXX -> support.c? */
@@ -2705,7 +2705,7 @@ void ftfile_free(struct ftfile_entries *fte);
 int ftfile_loadfile(struct ftfile_entries *fte, char *fname, int sort);
 int ftfile_loaddir(struct ftfile_entries *fte, char *dir, int sort);
 int ftfile_add_tail(struct ftfile_entries *fte, char *fname, off_t size,
-  u_int32 start);
+  uint32_t start);
 int ftfile_expire (struct ftfile_entries *fte, int doit, int curbytes);
 int ftfile_dump(struct ftfile_entries *fte);
 struct ftfile_entry *ftfile_entry_new(int len);
@@ -2718,12 +2718,12 @@ void ftfile_pathname(char *buf, int bsize, int nest, struct ftver ftv,
 
 void ftset_init(struct ftset *ftset, int z_level);
 
-struct ftmap *ftmap_load(char *fname, u_int32 ip);
+struct ftmap *ftmap_load(char *fname, uint32_t ip);
 void ftmap_free(struct ftmap *ftmap);
 struct ftmap *ftmap_new(void);
-struct ftmap_ifalias *ftmap_ifalias_new(u_int32 ip, u_int16 *ifIndex_list,
+struct ftmap_ifalias *ftmap_ifalias_new(uint32_t ip, u_int16 *ifIndex_list,
   u_int16 entries, char *name);
-struct ftmap_ifname *ftmap_ifname_new(u_int32 ip, u_int16 ifIndex, char *name);
+struct ftmap_ifname *ftmap_ifname_new(uint32_t ip, u_int16 ifIndex, char *name);
 
 /* fterr */
 
@@ -2738,7 +2738,7 @@ void fterr_errx(int code, const char *fmt, ...);
 void fterr_info(const char *fmt, ...);
 
 int ftrec_mask_ip(void *rec, struct ftver *ftv, struct ftipmask *m);
-void ftrec_compute_mask(struct ftipmask *m, u_int32 src, u_int32 dst, int
+void ftrec_compute_mask(struct ftipmask *m, uint32_t src, uint32_t dst, int
   byte_order);
 
 /* ftvar */
@@ -2755,9 +2755,9 @@ struct ftvar {
 /* ftchash_ */
 struct ftchash *ftchash_new(int h_size, int d_size, int key_size,
   int chunk_entries);
-void *ftchash_lookup(struct ftchash *ftch, void *key, u_int32 hash);
+void *ftchash_lookup(struct ftchash *ftch, void *key, uint32_t hash);
 void ftchash_free(struct ftchash *ftch);
-void *ftchash_update(struct ftchash *ftch, void *newrec, u_int32 hash);
+void *ftchash_update(struct ftchash *ftch, void *newrec, uint32_t hash);
 void *ftchash_alloc_rec(struct ftchash *ftch);
 void *ftchash_foreach(struct ftchash *ftch);
 void ftchash_first(struct ftchash *ftch);
@@ -2813,12 +2813,12 @@ struct ftstat_rpt {
   enum ftstat_rpt_format format; /* FT_STAT_FMT* */
   char *name; /* name of the report */
   char *format_name; /* name of format */
-  u_int32 scale; /* scale data by? 0=no scaling */
-  u_int32 tag_mask_src, tag_mask_dst; /* enabled with FT_STAT_OPT_TAG_MASK  */
+  uint32_t scale; /* scale data by? 0=no scaling */
+  uint32_t tag_mask_src, tag_mask_dst; /* enabled with FT_STAT_OPT_TAG_MASK  */
   int options; /* options FT_STAT_OPT_* default to 0 */
   int allowed_options; /* options supported by report */
   int allowed_fields; /* fields supported by report */
-  u_int32 all_fields; /* all of out->fields */
+  uint32_t all_fields; /* all of out->fields */
   struct ftfil_def *ftfd; /* filter definition */
   u_int64 xfields; /* FT_XFIELD_* */
   void *data; /* ftstat_rpt_n */
@@ -2832,8 +2832,8 @@ struct ftstat_rpt {
   u_int64 t_count;
   double avg_pps, min_pps, max_pps;
   double avg_bps, min_bps, max_bps;
-  u_int32 time_start; /* real time of earliest flow */
-  u_int32 time_end; /* real time of latest flow */
+  uint32_t time_start; /* real time of earliest flow */
+  uint32_t time_end; /* real time of latest flow */
   u_int64 recs; /* records in report */
   u_int64 idx;
 };
@@ -2841,9 +2841,9 @@ struct ftstat_rpt {
 struct ftstat_rpt_out {
   FT_STAILQ_ENTRY(ftstat_rpt_out) chain; /* list */
   u_int64 records; /* report records 0=all */
-  u_int32 tally; /* tally lines 0=none */
+  uint32_t tally; /* tally lines 0=none */
   int options; /* options FT_STAT_OPT_* default to 0 */
-  u_int32 fields; /* FT_STAT_FIELD_* - default to allowed_fields */
+  uint32_t fields; /* FT_STAT_FIELD_* - default to allowed_fields */
   int sort_field;  /* field to sort on FT_STAT_FIELD_* */
   int sort_order; /* FT_STAT_FIELD_SORT_* */
   enum ftstat_rpt_time time; /* where to derive clock for output path */
@@ -2865,9 +2865,9 @@ struct ftstat_def {
   struct fttag_def *ftd; /* tag definition */
   struct ftmask_def *ftmd; /* tag definition */
   struct ftstat *ftstat; /* back pointer */
-  u_int32 max_time; /* maximum seconds for report definition */
-  u_int32 start_time; /* start seconds */
-  u_int32 interval; /* time series interval */
+  uint32_t max_time; /* maximum seconds for report definition */
+  uint32_t start_time; /* start seconds */
+  uint32_t interval; /* time series interval */
   u_int64 xfields; /* required flow fields - FT_XFIELD_* */
 };
   
@@ -2912,7 +2912,7 @@ struct fttag_def_term {
   FT_STAILQ_HEAD(actdhead, fttag_def_term_actions) actions; /* actions */
   int type; /* FT_TAG_TYPE_MATCH_* */
   int flags; /* FT_TAG_DEF_ */
-  u_int32 exporter_ip; /* exporter filter */
+  uint32_t exporter_ip; /* exporter filter */
   char in_tbl[65536]; /* input filter */
   char out_tbl[65536]; /* output filter */
 };
@@ -2939,14 +2939,14 @@ int ftvar_evalstr(struct ftvar *ftvar, char *src, char *dst, int dstlen);
 
 
 struct ftpeeri {
-  u_int32 loc_ip;        /* local ip address */
-  u_int32 rem_ip;        /* remote ip address */
+  uint32_t loc_ip;        /* local ip address */
+  uint32_t rem_ip;        /* remote ip address */
   u_int16 dst_port;      /* destination port */
   u_int8  ttl;           /* ttl */
 };
 
 struct ip_prefix {
-  u_int32 addr;
+  uint32_t addr;
   u_int8 len;
 };
 
@@ -2970,7 +2970,7 @@ void *mysignal(int signo, void *func);
 
 int get_gmtoff(time_t t);
 
-u_int32 ipv4_len2mask(u_int8 len);
+uint32_t ipv4_len2mask(u_int8 len);
 
 int bigsockbuf(int fd, int dir, int size);
 
@@ -2979,7 +2979,7 @@ int mkpath(const char *path, mode_t mode);
 time_t get_date (const char *p, const time_t *now);
 
 struct bit1024 {
- u_int32 n[32];
+ uint32_t n[32];
 };
 
 void bit1024_store(int d, struct bit1024 *old);
@@ -3001,14 +3001,14 @@ int bit1024_count(struct bit1024 *b);
 
 unsigned int fmt_uint8(register char *s, register u_int8 u, int format);
 unsigned int fmt_uint16(register char *s, register u_int16 u, int format);
-unsigned int fmt_uint32(register char *s, register u_int32 u, int format);
+unsigned int fmt_uint32(register char *s, register uint32_t u, int format);
 unsigned int fmt_uint64(register char *s, register u_int64 u, int format);
-unsigned int fmt_ipv4(register char *s, register u_int32 u, int format);
-unsigned int fmt_ipv4s(register char *s, register u_int32 u, int len,
+unsigned int fmt_ipv4(register char *s, register uint32_t u, int format);
+unsigned int fmt_ipv4s(register char *s, register uint32_t u, int len,
   int format);
-unsigned int fmt_ipv4prefix(register char *s, register u_int32 u,
+unsigned int fmt_ipv4prefix(register char *s, register uint32_t u,
   u_char mask, int format);
-unsigned int fmt_ipv4prefixs(register char *s, register u_int32 u,
+unsigned int fmt_ipv4prefixs(register char *s, register uint32_t u,
   u_char mask, int len, int format);
 
 unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, u_int8 u,
@@ -3017,7 +3017,7 @@ unsigned int fmt_uint8s(struct ftsym *ftsym, int max, char *s, u_int8 u,
 unsigned int fmt_uint16s(struct ftsym *ftsym, int max, char *s, u_int16 u,
   int format);
 
-unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, u_int32 u,
+unsigned int fmt_uint32s(struct ftsym *ftsym, int max, char *s, uint32_t u,
   int format);
 
 void *mysignal(int signo, void *func);
@@ -3026,7 +3026,7 @@ void *mysignal(int signo, void *func);
 int ftxfield_parse(char *line, u_int64 *xfields);
 
 #ifndef IN_CLASSD_SSM
-#define IN_CLASSD_SSM(i) (((u_int32_t)(i) & 0xff000000) == 0xe8000000)
+#define IN_CLASSD_SSM(i) (((uint32_t_t)(i) & 0xff000000) == 0xe8000000)
 #endif /* IN_CLASSD_SSM */
 
 /* MACHINE DEPENDANT */

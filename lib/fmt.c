@@ -32,10 +32,10 @@
 #include <netdb.h>
 
 #if HAVE_STRINGS_H
- #include <strings.h>
+#  include <strings.h>
 #endif
 #if HAVE_STRING_H
-  #include <string.h>
+#  include <string.h>
 #endif
 
 unsigned int fmt_uint8(register char *s, register u_int8 u, int format)
