@@ -26,7 +26,7 @@
  *      $Id: bit1024.c,v 1.6 2003/02/13 02:38:41 maf Exp $
  */
 
-#include "ftconfig.h"
+#include "ftinclude.h"
 #include "ftlib.h"
 
 int bit1024_reverse[] = {

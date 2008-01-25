@@ -26,17 +26,10 @@
  *      $Id: fmt.c,v 1.17 2003/03/06 22:57:25 maf Exp $
  */
 
-#include "ftconfig.h"
+#include "ftinclude.h"
 #include "ftlib.h"
 
 #include <netdb.h>
-
-#if HAVE_STRINGS_H
-#  include <strings.h>
-#endif
-#if HAVE_STRING_H
-#  include <string.h>
-#endif
 
 unsigned int fmt_uint8(register char *s, register u_int8 u, int format)
 {
