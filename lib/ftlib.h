@@ -3026,7 +3026,7 @@ void *mysignal(int signo, void *func);
 int ftxfield_parse(char *line, u_int64 *xfields);
 
 #ifndef IN_CLASSD_SSM
-#define IN_CLASSD_SSM(i) (((uint32_t_t)(i) & 0xff000000) == 0xe8000000)
+#define IN_CLASSD_SSM(i) (((uint32_t)(i) & 0xff000000) == 0xe8000000)
 #endif /* IN_CLASSD_SSM */
 
 /* MACHINE DEPENDANT */
