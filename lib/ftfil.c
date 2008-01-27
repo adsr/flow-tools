@@ -29,6 +29,8 @@
 #include "ftinclude.h"
 #include "ftlib.h"
 
+#include "radix.h"
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/uio.h>

@@ -29,6 +29,8 @@
 #include "ftconfig.h"
 #include "ftlib.h"
 
+#include "radix.h"
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/uio.h>
@@ -195,6 +197,68 @@ static struct jump pjump[] = {{"tag-action", 0, parse_action},
  *
  */
 
+struct fttag_prefix_look {
+  struct radix_node rt_nodes[2]; /* radix tree glue */
+  struct radix_sockaddr_in addr;
+  u_int8 masklen;
+  u_int16 set_flags;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+};
+
+struct fttag_as_look {
+  u_int16 set_flags_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
+};
+
+struct fttag_port_look {
+  u_int16 set_flags_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
+};
+
+struct fttag_tos_look {
+  u_int16 set_flags_lookup[256];
+  uint32_t src_tag_lookup[256];
+  uint32_t dst_tag_lookup[256];
+};
+
+struct fttag_interface_look {
+  u_int16 set_flags_lookup[65536];
+  uint32_t src_tag_lookup[65536];
+  uint32_t dst_tag_lookup[65536];
+};
+
+struct fttag_any_look {
+  u_int16 set_flags;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+};
+
+struct fttag_next_hop_look {
+  FT_SLIST_ENTRY(fttag_next_hop_look) chain;
+  uint32_t addr; /* key */
+  u_int16 set_flags;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+};
+
+struct fttag_exporter_look {
+  FT_SLIST_ENTRY(fttag_exporter_look) chain;
+  uint32_t addr; /* key */
+  u_int16 set_flags;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+};
+
+struct fttag_ip_look {
+  FT_SLIST_ENTRY(fttag_ip_look) chain;
+  uint32_t addr; /* key */
+  u_int16 set_flags;
+  uint32_t src_tag;
+  uint32_t dst_tag;
+};
 
 /*
  * function: fttag_load

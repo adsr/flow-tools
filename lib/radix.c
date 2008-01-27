@@ -41,6 +41,8 @@
 #include "ftconfig.h"
 #include "ftlib.h"
 
+#include "radix.h"
+
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>

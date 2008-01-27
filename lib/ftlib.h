@@ -80,7 +80,6 @@
 #define u_short unsigned short
 
 #include "ftqueue.h"
-#include "radix.h"
 
 /*
  * compatability
@@ -556,69 +555,6 @@ struct fttag {
   FT_SLIST_HEAD(defshead, fttag_def) defs; /* list of definitions */
   FT_SLIST_HEAD(acthead, fttag_action) actions; /* list of actions */
   int flags;
-};
-
-struct fttag_prefix_look {
-  struct radix_node rt_nodes[2]; /* radix tree glue */
-  struct radix_sockaddr_in addr;
-  u_int8 masklen;
-  u_int16 set_flags;
-  uint32_t src_tag;
-  uint32_t dst_tag;
-};
-
-struct fttag_as_look {
-  u_int16 set_flags_lookup[65536];
-  uint32_t src_tag_lookup[65536];
-  uint32_t dst_tag_lookup[65536];
-};
-
-struct fttag_port_look {
-  u_int16 set_flags_lookup[65536];
-  uint32_t src_tag_lookup[65536];
-  uint32_t dst_tag_lookup[65536];
-};
-
-struct fttag_tos_look {
-  u_int16 set_flags_lookup[256];
-  uint32_t src_tag_lookup[256];
-  uint32_t dst_tag_lookup[256];
-};
-
-struct fttag_interface_look {
-  u_int16 set_flags_lookup[65536];
-  uint32_t src_tag_lookup[65536];
-  uint32_t dst_tag_lookup[65536];
-};
-
-struct fttag_any_look {
-  u_int16 set_flags;
-  uint32_t src_tag;
-  uint32_t dst_tag;
-};
-
-struct fttag_next_hop_look {
-  FT_SLIST_ENTRY(fttag_next_hop_look) chain;
-  uint32_t addr; /* key */
-  u_int16 set_flags;
-  uint32_t src_tag;
-  uint32_t dst_tag;
-};
-
-struct fttag_exporter_look {
-  FT_SLIST_ENTRY(fttag_exporter_look) chain;
-  uint32_t addr; /* key */
-  u_int16 set_flags;
-  uint32_t src_tag;
-  uint32_t dst_tag;
-};
-
-struct fttag_ip_look {
-  FT_SLIST_ENTRY(fttag_ip_look) chain;
-  uint32_t addr; /* key */
-  u_int16 set_flags;
-  uint32_t src_tag;
-  uint32_t dst_tag;
 };
 
 struct ftxfield_table {
@@ -2080,13 +2016,6 @@ struct ftfil {
   FT_SLIST_HEAD(fildefshead, ftfil_def) defs; /* definitions */
   FT_SLIST_HEAD(filprimhead, ftfil_primitive) primitives; /* primitives */
   struct ftfil_def *active_def;
-};
-
-struct ftmask_prefix_rec {
-  struct radix_node rt_nodes[2]; /* radix tree glue */
-  struct radix_sockaddr_in addr;
-  u_int8 new_mask;
-  u_int8 masklen;
 };
 
 struct ftmask_def {

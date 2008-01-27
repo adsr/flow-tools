@@ -29,6 +29,8 @@
 #include "ftconfig.h"
 #include "ftlib.h"
 
+#include "radix.h"
+
 #include <sys/time.h>
 #include <sys/types.h>
 #include <sys/uio.h>
@@ -115,6 +117,13 @@ static struct jump pjump[] = {
  *  flow record.
  *
  */
+
+struct ftmask_prefix_rec {
+  struct radix_node rt_nodes[2]; /* radix tree glue */
+  struct radix_sockaddr_in addr;
+  u_int8 new_mask;
+  u_int8 masklen;
+};
 
 /*
  *************************************************************************
