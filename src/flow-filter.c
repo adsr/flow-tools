@@ -92,7 +92,7 @@ int main(int argc, char **argv)
   char tcp_flags_tbl[65536];
   char prot_tbl[256];
   u_char tos_mask, tos, tcp_flags_mask, tcp_flags;
-  u_int64 total_flows, xflag;
+  uint64_t total_flows, xflag;
   char *rec;
   int first_match = 0;
 

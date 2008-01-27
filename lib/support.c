@@ -384,9 +384,9 @@ void print_3float2(float f)
 } /* print_3float */
 
 /* adapted from dd */
-int64 scan_size(char *val)
+int64_t scan_size(char *val)
 {
-  u_int64 num, t;
+  uint64_t num, t;
   char *expr;
 
   if ((num = strtoul(val, &expr, 0)) == ULONG_MAX)
@@ -432,7 +432,7 @@ int64 scan_size(char *val)
 
 erange: 
 
-  return (int64)-1;
+  return (int64_t)-1;
 
 } /* scan_size */
 

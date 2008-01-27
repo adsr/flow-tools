@@ -358,7 +358,7 @@ void *ftchash_foreach(struct ftchash *ftch)
 int ftchash_sort(struct ftchash *ftch, int offset, int flags)
 {
   void *rec;
-  u_int64 x;
+  uint64_t x;
 
   /* entries to sort? */
   if (!ftch->entries)
@@ -411,14 +411,14 @@ int ftchash_sort(struct ftchash *ftch, int offset, int flags)
 
 static int cmp64(const void *a, const void *b)
 {
-  register u_int64 *la, *lb;
+  register uint64_t *la, *lb;
   char *d;
 
   d = *(char**)a;
-  la = (u_int64*)(d+sort_offset);
+  la = (uint64_t*)(d+sort_offset);
 
   d = *(char**)b;
-  lb = (u_int64*)(d+sort_offset);
+  lb = (uint64_t*)(d+sort_offset);
 
   if (*la < *lb)
     return -1;

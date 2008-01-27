@@ -111,7 +111,7 @@ int main(int argc, char **argv)
   struct fts3rec_gen *rec;
   struct fttime ftt;
   int i, match, k, no_detach;
-  u_int64 total_flows;
+  uint64_t total_flows;
   u_int32 total_flows32;
   struct dscan_state ds;
   struct dscan_rec *drp;

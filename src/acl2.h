@@ -73,7 +73,7 @@ struct acl_ip_std {
 struct acl_ip_std_entry {
   u_int32   src_addr;       /* source address */
   u_int32   src_mask;       /* source address mask */
-  u_int64   matches;        /* # of matches */
+  uint64_t   matches;        /* # of matches */
   int     flag;             /* permit/deny */
 };
 
@@ -105,7 +105,7 @@ struct acl_ip_ext_entry {
   u_int16   dst_port;    /* destination port */
   u_int16   dst_port2;   /* destination port (end of range) */
 
-  u_int64   matches;     /* # of matches */
+  uint64_t   matches;     /* # of matches */
   int     flag;          /* permit/deny, etc */
 };
 

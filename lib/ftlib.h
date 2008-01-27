@@ -60,10 +60,6 @@
 #define SWAPINT16(y) y = \
     ( (((y)&0xff)<<8) | (((y)&0xff00)>>8) );
 
-/* a 64 bit quantity */
-#define u_int64 unsigned long long
-#define int64 long long
-
 /* a 32 bit quantity */
 #define u_int32 unsigned int
 #define int32 int
@@ -2883,7 +2879,7 @@ void print_3float(float f);
 void print_3float2(float f);
 int load_lookup(char *s, int size, char *list);
 uint32_t scan_ip(char *s);
-int64 scan_size(char *val);
+int64_t scan_size(char *val);
 int udp_cksum(struct ip *ip, struct udphdr *up, int len);
 
 int unlink_pidfile(int pid, char *file, uint16_t port);
