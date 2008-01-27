@@ -738,10 +738,10 @@ int format5(struct ftio *ftio, int options)
 
     printf("%-5u %-15.15s %-5u %-5u %-15.15s %-5u %-3u %-2d %-10lu %-10lu\n",
 
-           (u_int)*cur.input, fmt_buf1, (u_int)*cur.srcport, 
-           (u_int)*cur.output, fmt_buf2, (u_int)*cur.dstport,
-           (u_int)*cur.prot, 
-           (u_int)*cur.tcp_flags & 0x7,
+           (unsigned int)*cur.input, fmt_buf1, (unsigned int)*cur.srcport, 
+           (unsigned int)*cur.output, fmt_buf2, (unsigned int)*cur.dstport,
+           (unsigned int)*cur.prot, 
+           (unsigned int)*cur.tcp_flags & 0x7,
            (u_long)*cur.dPkts, 
            (u_long)*cur.dOctets);
 

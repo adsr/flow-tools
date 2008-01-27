@@ -294,7 +294,7 @@ int fts3rec_pdu_v1_encode(struct ftencode *enc, struct fts3rec_v1 *rec_v1)
 int fts3rec_pdu_v5_encode(struct ftencode *enc, struct fts3rec_v5 *rec_v5)
 {
   struct ftpdu_v5 *pdu_v5;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v5 = (struct ftpdu_v5*) enc->buf_enc;
@@ -382,7 +382,7 @@ int fts3rec_pdu_v5_encode(struct ftencode *enc, struct fts3rec_v5 *rec_v5)
 int fts3rec_pdu_v6_encode(struct ftencode *enc, struct fts3rec_v6 *rec_v6)
 {
   struct ftpdu_v6 *pdu_v6;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v6 = (struct ftpdu_v6*) enc->buf_enc;
@@ -472,7 +472,7 @@ int fts3rec_pdu_v6_encode(struct ftencode *enc, struct fts3rec_v6 *rec_v6)
 int fts3rec_pdu_v7_encode(struct ftencode *enc, struct fts3rec_v7 *rec_v7)
 {
   struct ftpdu_v7 *pdu_v7;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v7 = (struct ftpdu_v7*) enc->buf_enc;
@@ -561,7 +561,7 @@ int fts3rec_pdu_v8_1_encode(struct ftencode *enc,
   struct fts3rec_v8_1 *rec_v8_1)
 {
   struct ftpdu_v8_1 *pdu_v8_1;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_1 = (struct ftpdu_v8_1*) enc->buf_enc;
@@ -642,7 +642,7 @@ int fts3rec_pdu_v8_2_encode(struct ftencode *enc,
   struct fts3rec_v8_2 *rec_v8_2)
 {
   struct ftpdu_v8_2 *pdu_v8_2;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_2 = (struct ftpdu_v8_2*) enc->buf_enc;
@@ -722,7 +722,7 @@ int fts3rec_pdu_v8_3_encode(struct ftencode *enc,
   struct fts3rec_v8_3 *rec_v8_3)
 {
   struct ftpdu_v8_3 *pdu_v8_3;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_3 = (struct ftpdu_v8_3*) enc->buf_enc;
@@ -803,7 +803,7 @@ int fts3rec_pdu_v8_4_encode(struct ftencode *enc,
   struct fts3rec_v8_4 *rec_v8_4)
 {
   struct ftpdu_v8_4 *pdu_v8_4;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_4 = (struct ftpdu_v8_4*) enc->buf_enc;
@@ -884,7 +884,7 @@ int fts3rec_pdu_v8_5_encode(struct ftencode *enc,
   struct fts3rec_v8_5 *rec_v8_5)
 {
   struct ftpdu_v8_5 *pdu_v8_5;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_5 = (struct ftpdu_v8_5*) enc->buf_enc;
@@ -970,7 +970,7 @@ int fts3rec_pdu_v8_6_encode(struct ftencode *enc,
   struct fts3rec_v8_6 *rec_v8_6)
 {
   struct ftpdu_v8_6 *pdu_v8_6;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_6 = (struct ftpdu_v8_6*) enc->buf_enc;
@@ -1052,7 +1052,7 @@ int fts3rec_pdu_v8_7_encode(struct ftencode *enc,
   struct fts3rec_v8_7 *rec_v8_7)
 {
   struct ftpdu_v8_7 *pdu_v8_7;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_7 = (struct ftpdu_v8_7*) enc->buf_enc;
@@ -1136,7 +1136,7 @@ int fts3rec_pdu_v8_8_encode(struct ftencode *enc,
   struct fts3rec_v8_8 *rec_v8_8)
 {
   struct ftpdu_v8_8 *pdu_v8_8;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_8 = (struct ftpdu_v8_8*) enc->buf_enc;
@@ -1222,7 +1222,7 @@ int fts3rec_pdu_v8_9_encode(struct ftencode *enc,
   struct fts3rec_v8_9 *rec_v8_9)
 {
   struct ftpdu_v8_9 *pdu_v8_9;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_9 = (struct ftpdu_v8_9*) enc->buf_enc;
@@ -1304,7 +1304,7 @@ int fts3rec_pdu_v8_10_encode(struct ftencode *enc,
   struct fts3rec_v8_10 *rec_v8_10)
 {
   struct ftpdu_v8_10 *pdu_v8_10;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_10 = (struct ftpdu_v8_10*) enc->buf_enc;
@@ -1385,7 +1385,7 @@ int fts3rec_pdu_v8_11_encode(struct ftencode *enc,
   struct fts3rec_v8_11 *rec_v8_11)
 {
   struct ftpdu_v8_11 *pdu_v8_11;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_11 = (struct ftpdu_v8_11*) enc->buf_enc;
@@ -1467,7 +1467,7 @@ int fts3rec_pdu_v8_12_encode(struct ftencode *enc,
   struct fts3rec_v8_12 *rec_v8_12)
 {
   struct ftpdu_v8_12 *pdu_v8_12;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_12 = (struct ftpdu_v8_12*) enc->buf_enc;
@@ -1549,7 +1549,7 @@ int fts3rec_pdu_v8_13_encode(struct ftencode *enc,
   struct fts3rec_v8_13 *rec_v8_13)
 {
   struct ftpdu_v8_13 *pdu_v8_13;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_13 = (struct ftpdu_v8_13*) enc->buf_enc;
@@ -1635,7 +1635,7 @@ int fts3rec_pdu_v8_14_encode(struct ftencode *enc,
   struct fts3rec_v8_14 *rec_v8_14)
 {
   struct ftpdu_v8_14 *pdu_v8_14;
-  u_int seq_index;
+  unsigned int seq_index;
   int i;
 
   pdu_v8_14 = (struct ftpdu_v8_14*) enc->buf_enc;

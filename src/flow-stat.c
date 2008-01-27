@@ -142,7 +142,7 @@ struct jump {
 int fopdi_alloc(struct fopdi *fopdi, int n);
 void fopdi_free(struct fopdi *fopdi);
 
-int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
+int tbl_out1(struct fmtargs *args, unsigned int nindex, struct fopdi *stat,
   struct fopd *total, char *title, const char *symfile);
 
 int chash_c32_dump (struct ftchash *ftch, char cc, int sort_order, int options,
@@ -1714,7 +1714,7 @@ int format15(struct fmtargs *args)
   char *rec;
   double mbytes;
   char fmt_buf[256];
-  u_int len;
+  unsigned int len;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -3566,7 +3566,7 @@ int fopdi_alloc(struct fopdi *fopdi, int n)
 
 } /* fopdi_alloc */
 
-int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
+int tbl_out1(struct fmtargs *args, unsigned int nindex, struct fopdi *stat,
   struct fopd *total, char *title, const char *symfile)
 {
   struct ftsym *ftsym;

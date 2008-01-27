@@ -290,7 +290,7 @@ uint32_t scan_ip(char *s)
   struct hostent *he;
   struct in_addr *ina;
   uint32_t addr = 0;
-  u_int n;
+  unsigned int n;
   int dns, shift = 0;
   char *t;
 

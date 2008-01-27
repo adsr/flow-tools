@@ -60,7 +60,6 @@
 #define SWAPINT16(y) y = \
     ( (((y)&0xff)<<8) | (((y)&0xff00)>>8) );
 
-#define u_int unsigned int
 #define u_short unsigned short
 
 #include "ftqueue.h"
@@ -2058,9 +2057,9 @@ struct ftchash_chunk {
 };
 
 struct ftchash {
-  u_int h_size;                              /* hash_table_size */
-  u_int d_size;                              /* data entry size */
-  u_int key_size;                            /* size of key */
+  unsigned int h_size;                              /* hash_table_size */
+  unsigned int d_size;                              /* data entry size */
+  unsigned int key_size;                            /* size of key */
   int   chunk_size;                          /* chunk size (entries * d_size */
   uint64_t entries;                           /* entries in hash table */
   void *traverse_rec;                        /* record when traversing */

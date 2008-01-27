@@ -52,7 +52,7 @@ int ftpdu_check_seq(struct ftpdu *ftpdu, struct ftseq *ftseq)
 {
   struct ftpdu_header *ph;
   int ret;
-  u_int seq_index;
+  unsigned int seq_index;
 
   /* version 1 exports do not have sequence numbers */
   if (ftpdu->ftv.d_version == 1)
