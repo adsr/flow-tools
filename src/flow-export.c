@@ -87,7 +87,7 @@
 struct options {
   char dbaseURI[256];
   u_int32 cflowd_mask;
-  u_int64 ft_mask;
+  uint64_t ft_mask;
   u_long records;
 };
 
@@ -102,11 +102,11 @@ int format3(struct ftio *ftio, struct options *opt);
 int format4(struct ftio *ftio, struct options *opt);
 int format5(struct ftio *ftio, struct options *opt);
 
-int ftxfield_tocflow(u_int64 xfields, u_int32 *cfmask);
+int ftxfield_tocflow(uint64_t xfields, u_int32 *cfmask);
 
 int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
-  u_int64 xfields, int quote);
-int fmt_xfields_type(char *buf, u_int64 xfield);
+  uint64_t xfields, int quote);
+int fmt_xfields_type(char *buf, uint64_t xfield);
 
 void usage(void);
 
@@ -960,7 +960,7 @@ int format5(struct ftio *ftio, struct options *opt)
  
 } /* format5 */ 
 
-int fmt_xfields_type(char *buf, u_int64 xfield)
+int fmt_xfields_type(char *buf, uint64_t xfield)
 {
   int comma = 0;
 
@@ -1170,7 +1170,7 @@ int fmt_xfields_type(char *buf, u_int64 xfield)
 
 
 int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
-  u_int64 xfields, int quote)
+  uint64_t xfields, int quote)
 {
   int comma, len;
 
@@ -1443,7 +1443,7 @@ void usage(void) {
  * returns 0:  ok
  *         <0  fail
  */
-int ftxfield_tocflow(u_int64 xfields, u_int32 *cfmask)
+int ftxfield_tocflow(uint64_t xfields, u_int32 *cfmask)
 {
   int droptime;
 

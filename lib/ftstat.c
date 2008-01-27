@@ -127,7 +127,7 @@
  */
 
 static struct fts3rec_offsets nfo;
-static u_int64 *sort_i64;
+static uint64_t *sort_i64;
 static double *sort_idouble;
 
 #define DUMP_STD_OUT()\
@@ -800,12 +800,12 @@ enum ftstat_parse_state { PARSE_STATE_UNSET, PARSE_STATE_REPORT,
 #define FT_STAT_SORT_DESCEND     0x2
 
 struct tally {
-  u_int64 rt_flows, rt_octets, rt_packets, rt_recs, t_recs;
+  uint64_t rt_flows, rt_octets, rt_packets, rt_recs, t_recs;
   double ravg_bps, ravg_pps, rt_frecs;
 };
 
 struct flow_bucket {
-  u_int64 *recs, *flows, *octets, *packets, *duration;
+  uint64_t *recs, *flows, *octets, *packets, *duration;
   double *avg_pps, *avg_bps;
   double *min_pps, *min_bps;
   double *max_pps, *max_bps;
@@ -837,11 +837,11 @@ struct typelookup {
   void* (*f_free)();
   int allowed_fields; /* FT_STAT_FIELD_* */
   int allowed_options;/* FT_STAT_OPT_* */
-  u_int64 xfields; /* FT_XFIELD_* */
+  uint64_t xfields; /* FT_XFIELD_* */
 };
 
 struct ftstat_rpt_1 {
-  u_int64 time;       /* total time in 1/1000 of flows */
+  uint64_t time;       /* total time in 1/1000 of flows */
 
   double  aflowtime;  /* average time of flow */
   double  aps;        /* average packet size */
@@ -850,8 +850,8 @@ struct ftstat_rpt_1 {
   double  fps;        /* average flows per second */
   double  fps_real;   /* average flows per second (realtime) */
 
-  u_int64 start;      /* earliest flow time */
-  u_int64 end;        /* latest flow time */
+  uint64_t start;      /* earliest flow time */
+  uint64_t end;        /* latest flow time */
 
   u_int32 time_start; /* earliest flow (realtime) */
   u_int32 time_end;   /* last flow (realtime) */
@@ -859,53 +859,53 @@ struct ftstat_rpt_1 {
   u_int32 time_real;  /* realtime duration */
 
   /* average packet sizes */
-  u_int64 psize32;    /* bytes/packet 1    <= p <= 32 */
-  u_int64 psize64;    /* bytes/packet 32   < p <= 64  */
-  u_int64 psize96; u_int64 psize128; u_int64 psize160; u_int64 psize192;
-  u_int64 psize224; u_int64 psize256; u_int64 psize288; u_int64 psize320;
-  u_int64 psize352; u_int64 psize384; u_int64 psize416; u_int64 psize448;
-  u_int64 psize480; u_int64 psize512; u_int64 psize544; u_int64 psize576;
-  u_int64 psize1024; u_int64 psize1536; u_int64 psize2048; u_int64 psize2560;
-  u_int64 psize3072; u_int64 psize3584; u_int64 psize4096; u_int64 psize4608;
+  uint64_t psize32;    /* bytes/packet 1    <= p <= 32 */
+  uint64_t psize64;    /* bytes/packet 32   < p <= 64  */
+  uint64_t psize96; uint64_t psize128; uint64_t psize160; uint64_t psize192;
+  uint64_t psize224; uint64_t psize256; uint64_t psize288; uint64_t psize320;
+  uint64_t psize352; uint64_t psize384; uint64_t psize416; uint64_t psize448;
+  uint64_t psize480; uint64_t psize512; uint64_t psize544; uint64_t psize576;
+  uint64_t psize1024; uint64_t psize1536; uint64_t psize2048; uint64_t psize2560;
+  uint64_t psize3072; uint64_t psize3584; uint64_t psize4096; uint64_t psize4608;
 
   /* packets per flow */
-  u_int64 fpsize1;    /* packets/flow = 1 */
-  u_int64 fpsize2;    /* packets/flow = 2 */
-  u_int64 fpsize4;    /* packets/flow 2 < p <= 4 */
-  u_int64 fpsize8;    /* packets/flow 4 < p <= 8 */
-  u_int64 fpsize12; u_int64 fpsize16; u_int64 fpsize20; u_int64 fpsize24;
-  u_int64 fpsize28; u_int64 fpsize32; u_int64 fpsize36; u_int64 fpsize40;
-  u_int64 fpsize44; u_int64 fpsize48; u_int64 fpsize52; u_int64 fpsize60;
-  u_int64 fpsize100; u_int64 fpsize200; u_int64 fpsize300; u_int64 fpsize400;
-  u_int64 fpsize500; u_int64 fpsize600; u_int64 fpsize700; u_int64 fpsize800;
-  u_int64 fpsize900;
-  u_int64 fpsize_other; /* packets/flow 200 < p */
+  uint64_t fpsize1;    /* packets/flow = 1 */
+  uint64_t fpsize2;    /* packets/flow = 2 */
+  uint64_t fpsize4;    /* packets/flow 2 < p <= 4 */
+  uint64_t fpsize8;    /* packets/flow 4 < p <= 8 */
+  uint64_t fpsize12; uint64_t fpsize16; uint64_t fpsize20; uint64_t fpsize24;
+  uint64_t fpsize28; uint64_t fpsize32; uint64_t fpsize36; uint64_t fpsize40;
+  uint64_t fpsize44; uint64_t fpsize48; uint64_t fpsize52; uint64_t fpsize60;
+  uint64_t fpsize100; uint64_t fpsize200; uint64_t fpsize300; uint64_t fpsize400;
+  uint64_t fpsize500; uint64_t fpsize600; uint64_t fpsize700; uint64_t fpsize800;
+  uint64_t fpsize900;
+  uint64_t fpsize_other; /* packets/flow 200 < p */
 
   /* octets per flow */
-  u_int64 fosize32;     /* octets/flow 1    <= p <= 32 */
-  u_int64 fosize64;     /* octets/flow 32   < p <= 64 */
-  u_int64 fosize128;    /* octets/flow 64   < p <= 128 */
-  u_int64 fosize256;    /* octets/flow 128   < p <= 256 */
-  u_int64 fosize512; u_int64 fosize1280; u_int64 fosize2048;
-  u_int64 fosize2816; u_int64 fosize3584; u_int64 fosize4352;
-  u_int64 fosize5120; u_int64 fosize5888; u_int64 fosize6656;
-  u_int64 fosize7424; u_int64 fosize8192; u_int64 fosize8960;
-  u_int64 fosize9728; u_int64 fosize10496; u_int64 fosize11264;
-  u_int64 fosize12032; u_int64 fosize12800; u_int64 fosize13568;
-  u_int64 fosize14336; u_int64 fosize15104; u_int64 fosize15872;
-  u_int64 fosize_other; /* octets/flow 15872   < p */
+  uint64_t fosize32;     /* octets/flow 1    <= p <= 32 */
+  uint64_t fosize64;     /* octets/flow 32   < p <= 64 */
+  uint64_t fosize128;    /* octets/flow 64   < p <= 128 */
+  uint64_t fosize256;    /* octets/flow 128   < p <= 256 */
+  uint64_t fosize512; uint64_t fosize1280; uint64_t fosize2048;
+  uint64_t fosize2816; uint64_t fosize3584; uint64_t fosize4352;
+  uint64_t fosize5120; uint64_t fosize5888; uint64_t fosize6656;
+  uint64_t fosize7424; uint64_t fosize8192; uint64_t fosize8960;
+  uint64_t fosize9728; uint64_t fosize10496; uint64_t fosize11264;
+  uint64_t fosize12032; uint64_t fosize12800; uint64_t fosize13568;
+  uint64_t fosize14336; uint64_t fosize15104; uint64_t fosize15872;
+  uint64_t fosize_other; /* octets/flow 15872   < p */
 
   /* time per flow */
-  u_int64 ftime10;    /* time/flow 1 <= p <= 10 */
-  u_int64 ftime50;    /* time/flow 10 < p <= 50 */
-  u_int64 ftime100; u_int64 ftime200; u_int64 ftime500; u_int64 ftime1000;
-  u_int64 ftime2000; u_int64 ftime3000; u_int64 ftime4000; u_int64 ftime5000;
-  u_int64 ftime6000; u_int64 ftime7000; u_int64 ftime8000; u_int64 ftime9000;
-  u_int64 ftime10000; u_int64 ftime12000; u_int64 ftime14000;
-  u_int64 ftime16000; u_int64 ftime18000; u_int64 ftime20000;
-  u_int64 ftime22000; u_int64 ftime24000; u_int64 ftime26000;
-  u_int64 ftime28000; u_int64 ftime30000;
-  u_int64 ftime_other;  /* time/flow 2000 < p */
+  uint64_t ftime10;    /* time/flow 1 <= p <= 10 */
+  uint64_t ftime50;    /* time/flow 10 < p <= 50 */
+  uint64_t ftime100; uint64_t ftime200; uint64_t ftime500; uint64_t ftime1000;
+  uint64_t ftime2000; uint64_t ftime3000; uint64_t ftime4000; uint64_t ftime5000;
+  uint64_t ftime6000; uint64_t ftime7000; uint64_t ftime8000; uint64_t ftime9000;
+  uint64_t ftime10000; uint64_t ftime12000; uint64_t ftime14000;
+  uint64_t ftime16000; uint64_t ftime18000; uint64_t ftime20000;
+  uint64_t ftime22000; uint64_t ftime24000; uint64_t ftime26000;
+  uint64_t ftime28000; uint64_t ftime30000;
+  uint64_t ftime_other;  /* time/flow 2000 < p */
 };
 
 struct ftstat_rpt_2 {
@@ -2969,7 +2969,7 @@ struct ftstat_def *ftstat_def_find(struct ftstat *ftstat, const char *name)
  * returns: 0 okay
  *          1 fail
  */
-int ftstat_def_test_xfields(struct ftstat_def *active_def, u_int64 test)
+int ftstat_def_test_xfields(struct ftstat_def *active_def, uint64_t test)
 {
 
   /* if the definition has tagging enabled _accum() will add the tags */
@@ -14754,29 +14754,29 @@ int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt)
 
   bzero(b, sizeof (*b));
 
-  if (!(b->recs = (u_int64*)malloc(n*sizeof(u_int64)))) {
+  if (!(b->recs = (uint64_t*)malloc(n*sizeof(uint64_t)))) {
     fterr_warn("malloc(b->recs):");
     return -1;
   }
 
-  if (!(b->flows = (u_int64*)malloc(n*sizeof(u_int64)))) {
+  if (!(b->flows = (uint64_t*)malloc(n*sizeof(uint64_t)))) {
     fterr_warn("malloc(b->flows):");
     return -1;
   }
 
-  if (!(b->octets = (u_int64*)malloc(n*sizeof(u_int64)))) {
+  if (!(b->octets = (uint64_t*)malloc(n*sizeof(uint64_t)))) {
     fterr_warn("malloc(fopdi):");
     bucket_free(b);
     return -1;
   }
 
-  if (!(b->packets = (u_int64*)malloc(n*sizeof(u_int64)))) {
+  if (!(b->packets = (uint64_t*)malloc(n*sizeof(uint64_t)))) {
     fterr_warn("malloc(b->packets):");
     bucket_free(b);
     return -1;
   }
 
-  if (!(b->duration = (u_int64*)malloc(n*sizeof(u_int64)))) {
+  if (!(b->duration = (uint64_t*)malloc(n*sizeof(uint64_t)))) {
     fterr_warn("malloc(b->duration):");
     bucket_free(b);
     return -1;
@@ -14835,11 +14835,11 @@ int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt)
 
   }
 
-  bzero(b->recs, n*sizeof(u_int64));
-  bzero(b->flows, n*sizeof(u_int64));
-  bzero(b->octets, n*sizeof(u_int64));
-  bzero(b->packets, n*sizeof(u_int64));
-  bzero(b->duration, n*sizeof(u_int64));
+  bzero(b->recs, n*sizeof(uint64_t));
+  bzero(b->flows, n*sizeof(uint64_t));
+  bzero(b->octets, n*sizeof(uint64_t));
+  bzero(b->packets, n*sizeof(uint64_t));
+  bzero(b->duration, n*sizeof(uint64_t));
 
   for (i = 0; i < n; ++i)
     b->index[i] = i;

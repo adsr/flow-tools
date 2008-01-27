@@ -67,7 +67,7 @@ int ftprof_start(struct ftprof *ftp)
  * returns: < 0 error
  *          >= 0 ok  
 */
-int ftprof_end(struct ftprof *ftp, u_int64 nflows)
+int ftprof_end(struct ftprof *ftp, uint64_t nflows)
 {
   int ret;
 

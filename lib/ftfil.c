@@ -2838,7 +2838,7 @@ int ftfil_def_eval(struct ftfil_def *active_def,
  * returns: 0 okay
  *          1 fail
  */
-int ftfil_def_test_xfields(struct ftfil_def *active_def, u_int64 test)
+int ftfil_def_test_xfields(struct ftfil_def *active_def, uint64_t test)
 {
 
   if ((active_def->xfields & test) != active_def->xfields)

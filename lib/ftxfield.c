@@ -90,7 +90,7 @@ struct ftxfield_table ftxfield_table[] = {
  *         <0 fail
  */
 
-int ftxfield_parse(char *line, u_int64 *xfields)
+int ftxfield_parse(char *line, uint64_t *xfields)
 {
   extern struct ftxfield_table ftxfield_table[];
   char *c, *p, *save;

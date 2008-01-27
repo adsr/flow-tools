@@ -599,7 +599,7 @@ time_t ftio_get_cap_end_time_t(const struct ftio *ftio) {
  *
  * Get the total records processed from a ftio stream
  */
-u_int64 ftio_get_rec_total(struct ftio *ftio)
+uint64_t ftio_get_rec_total(struct ftio *ftio)
 {
   return ftio->rec_total;
 }
@@ -2110,10 +2110,10 @@ int ftrec_size(struct ftver *ver)
  * Return the FT_XFIELD* based on the d_version and agg_method
  *
  */
-u_int64 ftrec_xfield(struct ftver *ver)
+uint64_t ftrec_xfield(struct ftver *ver)
 {
 
-  u_int64 ret;
+  uint64_t ret;
 
    switch (ver->d_version) {
 
@@ -2227,7 +2227,7 @@ u_int64 ftrec_xfield(struct ftver *ver)
  * Return the FT_XFIELD*
  *
  */
-u_int64 ftio_xfield(struct ftio *ftio)
+uint64_t ftio_xfield(struct ftio *ftio)
 {
   struct ftver ver;
 
@@ -2993,7 +2993,7 @@ ftio_interrupt_out:
  * returns: 0  ok
  *          != fail - a field required is not available.
  */
-int ftio_check_xfield(struct ftio *ftio, u_int64 xfield_need)
+int ftio_check_xfield(struct ftio *ftio, uint64_t xfield_need)
 {
 
   if ((xfield_need & ftio->xfield) != xfield_need)

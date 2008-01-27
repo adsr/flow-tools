@@ -58,7 +58,7 @@
 struct options {
   struct ftver ftv;
   struct ftset ftset;
-  u_int64 ft_mask;
+  uint64_t ft_mask;
   int set_format;
   u_long records;
 };
@@ -78,7 +78,7 @@ void usage(void);
 struct jump format[] = {{format0}, {format1}, {format2},
 			{ format_NFCollector1 }, {format4} };
 
-static u_int64 vXmask[] = {
+static uint64_t vXmask[] = {
   0,
   FT_XFIELD_V1_MASK,
   0, 0, 0,
@@ -86,7 +86,7 @@ static u_int64 vXmask[] = {
   FT_XFIELD_V6_MASK,
   FT_XFIELD_V7_MASK };
 
-static u_int64 v8mask[] = {
+static uint64_t v8mask[] = {
   0,
   FT_XFIELD_V8_1_MASK,
   FT_XFIELD_V8_2_MASK,
@@ -582,7 +582,7 @@ int format2(struct ftio *ftio, struct options *opt)
   u_char buf[FT_IO_MAXREC];
   char inbuf[1024], *inbufp, *field;
   char *rec, *c;
-  u_int64 dmask, inmask;
+  uint64_t dmask, inmask;
   int ret;
 
   rec = (char*)&buf;
@@ -872,7 +872,7 @@ typedef enum { TYPE_IPV4, TYPE_16B, TYPE_32B, TYPE_8B , TYPE_DISCARD,
 	       TYPE_LAST } cvt_t;
 
 struct for2nat_st {
-  u_int64 mask;
+  uint64_t mask;
   cvt_t type;
   int offset;
 };
@@ -933,7 +933,7 @@ int format_NFCollector1(struct ftio *ftio, struct options *opt)
   char inbuf[1024];
   char *rec;
   char *fields[20];
-  u_int64 dmask, imask;
+  uint64_t dmask, imask;
   int ret;
   int debug=ftio_get_debug(ftio);
 
