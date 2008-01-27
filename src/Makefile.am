@@ -22,11 +22,9 @@ LDADD = ../lib/libft.la
 AM_CFLAGS = $(PICFLAGS)
 AM_LDFLAGS = $(PILDFLAGS)
 
-flow_capture_SOURCES = flow-capture.c
 flow_capture_LDADD =  $(LDADD) $(CRYPTOLIB)
 
 flow_filter_SOURCES = flow-filter.c aclyacc.y acllex.l acl2.c 
-flow_export_SOURCES = flow-export.c
 flow_export_LDFLAGS = $(AM_LDFLAGS) $(MYSQLLDFLAGS) $(POSTGRESQL_LDFLAGS)
 flow_export_CFLAGS = $(AM_CFLAGS) $(MYSQLCFLAGS) $(POSTGRESQL_CFLAGS)
 flow_export_LDADD =  $(LDADD) $(MYSQLLIB) $(POSTGRESQL_LIB)
