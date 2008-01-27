@@ -121,8 +121,8 @@ static struct jump pjump[] = {
 struct ftmask_prefix_rec {
   struct radix_node rt_nodes[2]; /* radix tree glue */
   struct radix_sockaddr_in addr;
-  u_int8 new_mask;
-  u_int8 masklen;
+  uint8_t new_mask;
+  uint8_t masklen;
 };
 
 /*
@@ -337,7 +337,7 @@ int ftmask_def_eval(struct ftmask_def *active_def,
     if ((prefix_rec = (struct ftmask_prefix_rec*)rhead->rnh_matchaddr(
       &sock1, rhead))) {
 
-      *((u_int8*)(rec+fo->src_mask)) = prefix_rec->new_mask;
+      *((uint8_t*)(rec+fo->src_mask)) = prefix_rec->new_mask;
 
     }
 
@@ -355,7 +355,7 @@ int ftmask_def_eval(struct ftmask_def *active_def,
     if ((prefix_rec = (struct ftmask_prefix_rec*)rhead->rnh_matchaddr(
       &sock1, rhead))) {
 
-      *((u_int8*)(rec+fo->dst_mask)) = prefix_rec->new_mask;
+      *((uint8_t*)(rec+fo->dst_mask)) = prefix_rec->new_mask;
 
     }
 
@@ -451,7 +451,7 @@ static int parse_definition_prefix(struct line_parser *lp,
   struct radix_sockaddr_in sock1, sock2;
   struct ip_prefix ipp;
   struct ftmask_prefix_rec *prefix_rec;
-  u_int8 new_mask;
+  uint8_t new_mask;
   char *prefix;
   int new;
 

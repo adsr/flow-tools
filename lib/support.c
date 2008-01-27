@@ -87,7 +87,7 @@ uint32_t mask_lookup[] = { 0xffffffff,
  * returns the 32 bit network mask given a length
  *
 */
-uint32_t ipv4_len2mask(u_int8 len)
+uint32_t ipv4_len2mask(uint8_t len)
 {
   return mask_lookup[(len > 32) ? 0 : len];
 }

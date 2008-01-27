@@ -247,7 +247,7 @@ int format0(struct ftio *ftio, struct options *opt)
   char *rec;
   uint32_t ui32, Start;
   uint16_t ui16;
-  u_int8 ui8;
+  uint8_t ui8;
   uint32_t cfdmask, index;
   int ret;
 
@@ -464,14 +464,14 @@ int format0(struct ftio *ftio, struct options *opt)
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_PROTOCOLMASK)
-        *((u_int8*)(rec+fo.prot)) = ui8;
+        *((uint8_t*)(rec+fo.prot)) = ui8;
     }
 
     if (index & CF_TOSMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_TOSMASK)
-        *((u_int8*)(rec+fo.tos)) = ui8;
+        *((uint8_t*)(rec+fo.tos)) = ui8;
     }
 
     if (index & CF_SRCASMASK) {
@@ -494,35 +494,35 @@ int format0(struct ftio *ftio, struct options *opt)
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_SRCMASKLENMASK)
-        *((u_int8*)(rec+fo.src_mask)) = ui8;
+        *((uint8_t*)(rec+fo.src_mask)) = ui8;
     }
 
     if (index & CF_DSTMASKLENMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_DSTMASKLENMASK)
-        *((u_int8*)(rec+fo.dst_mask)) = ui8;
+        *((uint8_t*)(rec+fo.dst_mask)) = ui8;
     }
 
     if (index & CF_TCPFLAGSMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_TCPFLAGSMASK)
-        *((u_int8*)(rec+fo.tcp_flags)) = ui8;
+        *((uint8_t*)(rec+fo.tcp_flags)) = ui8;
     }
 
     if (index & CF_INPUTENCAPMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_INPUTENCAPMASK)
-        *((u_int8*)(rec+fo.in_encaps)) = ui8;
+        *((uint8_t*)(rec+fo.in_encaps)) = ui8;
     }
 
     if (index & CF_OUTPUTENCAPMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_OUTPUTENCAPMASK)
-        *((u_int8*)(rec+fo.out_encaps)) = ui8;
+        *((uint8_t*)(rec+fo.out_encaps)) = ui8;
     }
 
     if (index & CF_PEERNEXTHOPMASK) {
@@ -537,14 +537,14 @@ int format0(struct ftio *ftio, struct options *opt)
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_ENGINETYPEMASK)
-        *((u_int8*)(rec+fo.engine_type)) = ui8;
+        *((uint8_t*)(rec+fo.engine_type)) = ui8;
     }
 
     if (index & CF_ENGINEIDMASK) {
       if ((rlen = fread(&ui8, sizeof (ui8), 1, stdin) != 1))
         goto done;
       if (cfdmask & CF_ENGINEIDMASK)
-        *((u_int8*)(rec+fo.engine_id)) = ui8;
+        *((uint8_t*)(rec+fo.engine_id)) = ui8;
     }
 
 
@@ -694,13 +694,13 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_ENGINE_TYPE) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_ENGINE_TYPE))
-        *((u_int8*)(rec+fo.engine_type)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.engine_type)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_ENGINE_ID) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_ENGINE_ID))
-        *((u_int8*)(rec+fo.engine_id)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.engine_id)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SRCADDR) {
@@ -748,31 +748,31 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_PROT) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_PROT))
-        *((u_int8*)(rec+fo.prot)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.prot)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_TOS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_TOS))
-        *((u_int8*)(rec+fo.tos)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.tos)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_TCP_FLAGS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_TCP_FLAGS))
-        *((u_int8*)(rec+fo.tcp_flags)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.tcp_flags)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SRC_MASK) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SRC_MASK))
-        *((u_int8*)(rec+fo.src_mask)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.src_mask)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DST_MASK) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DST_MASK))
-        *((u_int8*)(rec+fo.dst_mask)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.dst_mask)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SRC_AS) {
@@ -790,13 +790,13 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_IN_ENCAPS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_IN_ENCAPS))
-        *((u_int8*)(rec+fo.in_encaps)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.in_encaps)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_OUT_ENCAPS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_OUT_ENCAPS))
-        *((u_int8*)(rec+fo.out_encaps)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.out_encaps)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_PEER_NEXTHOP) {
@@ -814,7 +814,7 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_MARKED_TOS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_MARKED_TOS))
-        *((u_int8*)(rec+fo.marked_tos)) = strtoul(field, (char **)0L, 0);
+        *((uint8_t*)(rec+fo.marked_tos)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_EXTRA_PKTS) {
@@ -1028,7 +1028,7 @@ int format_NFCollector1(struct ftio *ftio, struct options *opt)
 	  *((uint32_t*)(rec+off)) = (uint32_t)val;
 	  break;
 	case TYPE_8B:
-	  *((u_int8*)(rec+off)) = (u_int8)val;
+	  *((uint8_t*)(rec+off)) = (uint8_t)val;
 	case TYPE_DISCARD:
 	case TYPE_LAST:
 	  break; /* Make sun Cpro happy */

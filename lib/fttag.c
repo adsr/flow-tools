@@ -200,7 +200,7 @@ static struct jump pjump[] = {{"tag-action", 0, parse_action},
 struct fttag_prefix_look {
   struct radix_node rt_nodes[2]; /* radix tree glue */
   struct radix_sockaddr_in addr;
-  u_int8 masklen;
+  uint8_t masklen;
   uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
@@ -743,7 +743,7 @@ int parse_action_match(struct line_parser *lp, struct fttag *fttag)
   struct radix_node_head *rhead;
   uint32_t tag, hash, ipaddr;
   uint16_t as, port, interface;
-  u_int8 tos;
+  uint8_t tos;
   int sflag, new, tflag2, tmpflag, tflag;
   char *c, *match;
 

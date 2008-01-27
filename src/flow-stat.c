@@ -1043,7 +1043,7 @@ int format5(struct fmtargs *args)
   struct fopdi stat;
   struct fopd total;
   char *rec;
-  u_int8 prot;
+  uint8_t prot;
   uint16_t dstport;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1066,7 +1066,7 @@ int format5(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    prot = *((u_int8*)(rec+fo.prot));
+    prot = *((uint8_t*)(rec+fo.prot));
 
     /* ports only make sense for TCP and UDP */
     if ((prot != IPPROTO_UDP) && (prot != IPPROTO_TCP))
@@ -1105,7 +1105,7 @@ int format6(struct fmtargs *args)
   struct fopd total;
   struct ftver ftv;
   char *rec;
-  u_int8 prot;
+  uint8_t prot;
   uint16_t srcport;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1128,7 +1128,7 @@ int format6(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    prot = *((u_int8*)(rec+fo.prot));
+    prot = *((uint8_t*)(rec+fo.prot));
 
     /* ports only make sense for TCP and UDP */
     if ((prot != IPPROTO_UDP) && (prot != IPPROTO_TCP))
@@ -1167,7 +1167,7 @@ int format7(struct fmtargs *args)
   struct fopdi stat;
   struct fopd total;
   char *rec;
-  u_int8 prot;
+  uint8_t prot;
   uint16_t srcport, dstport;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1190,7 +1190,7 @@ int format7(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    prot = *((u_int8*)(rec+fo.prot));
+    prot = *((uint8_t*)(rec+fo.prot));
 
     /* ports only make sense for TCP and UDP */
     if ((prot != IPPROTO_UDP) && (prot != IPPROTO_TCP))
@@ -1517,7 +1517,7 @@ int format12(struct fmtargs *args)
   struct fopdi stat;
   struct fopd total;
   char *rec;
-  u_int8 prot;
+  uint8_t prot;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1543,7 +1543,7 @@ int format12(struct fmtargs *args)
 
     TOTAL_INC;
   
-    prot = *((u_int8*)(rec+fo.prot));
+    prot = *((uint8_t*)(rec+fo.prot));
 
     STAT_INCA(prot);
 
@@ -2126,7 +2126,7 @@ int format22(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   char *rec;
-  u_int8 tos;
+  uint8_t tos;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -2147,7 +2147,7 @@ int format22(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    tos = *((u_int8*)(rec+fo.tos));
+    tos = *((uint8_t*)(rec+fo.tos));
 
     CUR_GET_PLUS_FLOWS;
 

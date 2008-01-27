@@ -1842,7 +1842,7 @@ void ftio_header_print(struct ftio *ftio, FILE *std, char cc)
 void *ftio_rec_swapfunc(struct ftio *ftio)
 {
 
-  u_int8 s_ver, d_ver, agg_ver, agg_method;
+  uint8_t s_ver, d_ver, agg_ver, agg_method;
   void *ret;
 
   s_ver = ftio->fth.s_version;
@@ -2944,7 +2944,7 @@ int ftio_interrupt(struct ftio *ftio, uint32_t fields)
 
   if (ftio->fth.fields & FT_FIELD_INTERRUPT) {
     if ((n = fttlv_enc_uint8(enc_buf+offset, len-offset,
-      flip, FT_TLV_INTERRUPT, (u_int8)0)) < 0)
+      flip, FT_TLV_INTERRUPT, (uint8_t)0)) < 0)
       goto ftio_interrupt_out;
     else
       offset += n;

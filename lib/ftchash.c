@@ -431,7 +431,7 @@ static int cmp64(const void *a, const void *b)
 static int cmp40(const void *a, const void *b)
 {
   register uint32_t *la, *lb;
-  register u_int8 *ca, *cb;
+  register uint8_t *ca, *cb;
   register char *d;
 
   d = *(char**)a;
@@ -446,10 +446,10 @@ static int cmp40(const void *a, const void *b)
     return 1;
 
   d = *(char**)a;
-  ca = (u_int8*)(d+sort_offset+4);
+  ca = (uint8_t*)(d+sort_offset+4);
 
   d = *(char**)b;
-  cb = (u_int8*)(d+sort_offset+4);
+  cb = (uint8_t*)(d+sort_offset+4);
   
   if (*ca < *cb)
     return -1;
@@ -500,14 +500,14 @@ static int cmp16(const void *a, const void *b)
 
 static int cmp8(const void *a, const void *b)
 {
-  register u_int8 *la, *lb;
+  register uint8_t *la, *lb;
   char *d;
 
   d = *(char**)a;
-  la = (u_int8*)(d+sort_offset);
+  la = (uint8_t*)(d+sort_offset);
 
   d = *(char**)b;
-  lb = (u_int8*)(d+sort_offset);
+  lb = (uint8_t*)(d+sort_offset);
 
   if (*la < *lb)
     return -1;

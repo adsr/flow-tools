@@ -84,16 +84,16 @@ struct acl_ip_ext {
 
 struct acl_ip_ext_entry {
 
-  u_int8    protocol;      /* IP protocol */
-  u_int8    precedence;    /* IP precedence */
-  u_int8    tos;           /* IP type of service */
+  uint8_t    protocol;      /* IP protocol */
+  uint8_t    precedence;    /* IP precedence */
+  uint8_t    tos;           /* IP type of service */
 
-  u_int8    type;
-  u_int8    type_code;
-  u_int8    message;
+  uint8_t    type;
+  uint8_t    type_code;
+  uint8_t    message;
 
-  u_int8    src_op;
-  u_int8    dst_op;
+  uint8_t    src_op;
+  uint8_t    dst_op;
 
   uint32_t   src_addr;    /* source address */
   uint32_t   src_mask;    /* source address mask */

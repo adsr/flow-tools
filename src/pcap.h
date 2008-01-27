@@ -52,20 +52,20 @@ struct pcap_packet_header {
 /* eth header */
 struct pcap_data1 {
   /* eth header */
-  u_int8 eth_dst[6];
-  u_int8 eth_src[6];
+  uint8_t eth_dst[6];
+  uint8_t eth_src[6];
   uint16_t eth_prot;
 };
 
 /* ip header */
 struct pcap_data2 {
-  u_int8 version;
-  u_int8 tos;
+  uint8_t version;
+  uint8_t tos;
   uint16_t len;
   uint16_t id;
   uint16_t flags_fragment;
-  u_int8 ttl;
-  u_int8 prot;
+  uint8_t ttl;
+  uint8_t prot;
   uint16_t csum;
   uint32_t srcaddr;
   uint32_t dstaddr;

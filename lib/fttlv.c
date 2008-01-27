@@ -121,7 +121,7 @@ int fttlv_enc_uint16(void *buf, int buf_size, int flip, uint16_t t, uint16_t v)
 /*
  * function: fttlv_enc_uint8
  *
- * encode a u_int8 TLV into buf
+ * encode a uint8_t TLV into buf
  *  buf        buffer to encode to
  *  buf_size   available bytes in buf
  *  flip       swap byte order
@@ -130,7 +130,7 @@ int fttlv_enc_uint16(void *buf, int buf_size, int flip, uint16_t t, uint16_t v)
  *
  * returns: -1 if buffer is not large enough, else bytes used.
 */
-int fttlv_enc_uint8(void *buf, int buf_size, int flip, uint16_t t, u_int8 v)
+int fttlv_enc_uint8(void *buf, int buf_size, int flip, uint16_t t, uint8_t v)
 {
   uint16_t len;
 

@@ -419,9 +419,9 @@ int main(int argc, char **argv)
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tcp_flags = ((uint8_t*)(rec+fo.tcp_flags));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     ++ total_flows;
 

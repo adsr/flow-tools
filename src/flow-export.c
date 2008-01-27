@@ -222,7 +222,7 @@ int format0(struct ftio *ftio, struct options *opt)
   char *rec;
   uint32_t ui32, index, sysUpTime, unix_secs, unix_nsecs, First, Last;
   uint16_t ui16;
-  u_int8 ui8;
+  uint8_t ui8;
 
   ftio_get_ver(ftio, &ftv);
 
@@ -413,12 +413,12 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_PROTOCOLMASK) {
-       ui8 = *((u_int8*)(rec+fo.prot));
+       ui8 = *((uint8_t*)(rec+fo.prot));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_TOSMASK) {
-       ui8 = *((u_int8*)(rec+fo.tos));
+       ui8 = *((uint8_t*)(rec+fo.tos));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
@@ -435,27 +435,27 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_SRCMASKLENMASK) {
-       ui8 = *((u_int8*)(rec+fo.src_mask));
+       ui8 = *((uint8_t*)(rec+fo.src_mask));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_DSTMASKLENMASK) {
-       ui8 = *((u_int8*)(rec+fo.dst_mask));
+       ui8 = *((uint8_t*)(rec+fo.dst_mask));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_TCPFLAGSMASK) {
-       ui8 = *((u_int8*)(rec+fo.tcp_flags));
+       ui8 = *((uint8_t*)(rec+fo.tcp_flags));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_INPUTENCAPMASK) {
-       ui8 = *((u_int8*)(rec+fo.in_encaps));
+       ui8 = *((uint8_t*)(rec+fo.in_encaps));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_OUTPUTENCAPMASK) {
-       ui8 = *((u_int8*)(rec+fo.out_encaps));
+       ui8 = *((uint8_t*)(rec+fo.out_encaps));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
@@ -466,12 +466,12 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_ENGINETYPEMASK) {
-       ui8 = *((u_int8*)(rec+fo.engine_type));
+       ui8 = *((uint8_t*)(rec+fo.engine_type));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_ENGINEIDMASK) {
-       ui8 = *((u_int8*)(rec+fo.engine_id));
+       ui8 = *((uint8_t*)(rec+fo.engine_id));
        fwrite(&ui8, sizeof (ui8), 1, stdout);
     }
 
@@ -564,8 +564,8 @@ int format1(struct ftio *ftio, struct options *opt)
 
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
 
@@ -1245,14 +1245,14 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_ENGINE_TYPE) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->engine_type)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->engine_type)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_ENGINE_ID) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->engine_id)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->engine_id)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1314,35 +1314,35 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_PROT) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->prot)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->prot)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_TOS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->tos)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->tos)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_TCP_FLAGS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->tcp_flags)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->tcp_flags)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_SRC_MASK) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->src_mask)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->src_mask)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DST_MASK) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->dst_mask)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->dst_mask)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1363,14 +1363,14 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_IN_ENCAPS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->in_encaps)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->in_encaps)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_OUT_ENCAPS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->out_encaps)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->out_encaps)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1395,7 +1395,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_MARKED_TOS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint8(fmt_buf+len, *((u_int8*)(rec+fo->marked_tos)),
+    len += fmt_uint8(fmt_buf+len, *((uint8_t*)(rec+fo->marked_tos)),
       FMT_JUST_LEFT);
     comma = 1;
   }

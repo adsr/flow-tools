@@ -161,7 +161,7 @@ struct ftfil_lookup_ip_mask_rec {
 struct ftfil_lookup_ip_prefix_rec {
   struct radix_node rt_nodes[2]; /* radix tree glue */
   struct radix_sockaddr_in addr;
-  u_int8 masklen;
+  uint8_t masklen;
   int mode; /* FT_FIL_MODE_PERMIT/DENY */
 };
 
@@ -178,45 +178,45 @@ struct ftfil_lookup_as {
 };
 
 struct ftfil_lookup_ip_prot {
-  u_int8 mode[256];
+  uint8_t mode[256];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_ip_port {
-  u_int8 mode[65536];
+  uint8_t mode[65536];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_ip_tos {
-  u_int8 mask;
-  u_int8 mode[256];
+  uint8_t mask;
+  uint8_t mode[256];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_ip_tcp_flags {
-  u_int8 mask;
-  u_int8 mode[256];
+  uint8_t mask;
+  uint8_t mode[256];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_if_index {
-  u_int8 mode[65536];
+  uint8_t mode[65536];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_engine {
-  u_int8 mode[256];
+  uint8_t mode[256];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
 
 struct ftfil_lookup_ip_prefix_len {
-  u_int8 mode[33];
+  uint8_t mode[33];
   enum ftfil_mode default_mode; /* FT_FIL_MODE_PERMIT/DENY */
   int init; /* initialized? */
 };
@@ -601,10 +601,10 @@ inline int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
 inline int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
-  u_int8 *ip_prot;
+  uint8_t *ip_prot;
   int val;
 
-  ip_prot = ((u_int8*)(rec+fo->prot));
+  ip_prot = ((uint8_t*)(rec+fo->prot));
 
   val = lookup->mode[*ip_prot];
 
@@ -629,10 +629,10 @@ inline int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
 inline int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 *src_mask;
+  uint8_t *src_mask;
   int val;
 
-  src_mask = ((u_int8*)(rec+fo->src_mask));
+  src_mask = ((uint8_t*)(rec+fo->src_mask));
 
   val = lookup->mode[*src_mask];
 
@@ -657,10 +657,10 @@ inline int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len *looku
 inline int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 *dst_mask;
+  uint8_t *dst_mask;
   int val;
 
-  dst_mask = ((u_int8*)(rec+fo->dst_mask));
+  dst_mask = ((uint8_t*)(rec+fo->dst_mask));
 
   val = lookup->mode[*dst_mask];
 
@@ -685,10 +685,10 @@ inline int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len *looku
 inline int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 tos;
+  uint8_t tos;
   int val;
 
-  tos = *((u_int8*)(rec+fo->tos));
+  tos = *((uint8_t*)(rec+fo->tos));
   tos &= lookup->mask;
 
   val = lookup->mode[tos];
@@ -713,10 +713,10 @@ inline int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
 inline int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 marked_tos;
+  uint8_t marked_tos;
   int val;
 
-  marked_tos = *((u_int8*)(rec+fo->marked_tos));
+  marked_tos = *((uint8_t*)(rec+fo->marked_tos));
   marked_tos &= lookup->mask;
 
   val = lookup->mode[marked_tos];
@@ -742,10 +742,10 @@ inline int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
 inline int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 tcp_flags;
+  uint8_t tcp_flags;
   int val;
 
-  tcp_flags = *((u_int8*)(rec+fo->tcp_flags));
+  tcp_flags = *((uint8_t*)(rec+fo->tcp_flags));
   tcp_flags &= lookup->mask;
 
   val = lookup->mode[tcp_flags];
@@ -881,10 +881,10 @@ inline int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
 inline int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 *engine_id;
+  uint8_t *engine_id;
   int val;
 
-  engine_id = ((u_int8*)(rec+fo->engine_id));
+  engine_id = ((uint8_t*)(rec+fo->engine_id));
 
   val = lookup->mode[*engine_id];
 
@@ -909,10 +909,10 @@ inline int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
 inline int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int8 *engine_type;
+  uint8_t *engine_type;
   int val;
 
-  engine_type = ((u_int8*)(rec+fo->engine_type));
+  engine_type = ((uint8_t*)(rec+fo->engine_type));
 
   val = lookup->mode[*engine_type];
 

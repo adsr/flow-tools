@@ -261,7 +261,7 @@ int format0(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
@@ -333,9 +333,9 @@ int format1(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tcp_flags = ((uint8_t*)(rec+fo.tcp_flags));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     if (!*cur.dPkts) {
       fprintf(stderr, "Ignoring bogus flow dPkts=0\n");
@@ -434,9 +434,9 @@ int format2(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tcp_flags = ((uint8_t*)(rec+fo.tcp_flags));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     if (!*cur.dPkts) {
       fprintf(stderr, "Ignoring bogus flow dPkts=0\n");
@@ -544,7 +544,7 @@ int format3(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
 
@@ -629,9 +629,9 @@ int format4(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
 
@@ -713,8 +713,8 @@ int format5(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tcp_flags = ((uint8_t*)(rec+fo.tcp_flags));
 
     ftt = ftltime(*cur.sysUpTime, *cur.unix_secs, *cur.unix_nsecs, *cur.First);
     time_ftt = ftt.secs;
@@ -848,9 +848,9 @@ int format7(struct ftio *ftio, int options)
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_PAD_RIGHT);
 
@@ -926,11 +926,11 @@ int format8(struct ftio *ftio, int options)
     cur.peer_nexthop = ((uint32_t*)(rec+fo.peer_nexthop));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
-    cur.in_encaps = ((u_int8*)(rec+fo.in_encaps));
-    cur.out_encaps = ((u_int8*)(rec+fo.out_encaps));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
+    cur.in_encaps = ((uint8_t*)(rec+fo.in_encaps));
+    cur.out_encaps = ((uint8_t*)(rec+fo.out_encaps));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_PAD_RIGHT);
 
@@ -1178,7 +1178,7 @@ int format11(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
 
     fmt_uint16s(sym_tcp, 16, fmt_buf1, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
     fmt_uint16s(sym_tcp, 16, fmt_buf2, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
@@ -1255,7 +1255,7 @@ int format12(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((uint16_t*)(rec+fo.input));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
     fmt_uint16s(sym_asn, 18, fmt_buf3, *cur.src_as, FMT_JUST_LEFT);
@@ -1330,7 +1330,7 @@ int format13(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
     fmt_uint16s(sym_asn, 18, fmt_buf3, *cur.dst_as, FMT_JUST_LEFT);
@@ -1410,8 +1410,8 @@ int format14(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
     fmt_ipv4prefix(fmt_buf3, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
@@ -1479,8 +1479,8 @@ int format15(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.output = ((uint16_t*)(rec+fo.output));
-    cur.tos = ((u_int8*)(rec+fo.tos));
-    cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
+    cur.marked_tos = ((uint8_t*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_ipv4(fmt_buf1, *cur.dstaddr, FMT_PAD_RIGHT);
@@ -1542,8 +1542,8 @@ int format16(struct ftio *ftio, int options)
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.input = ((uint16_t*)(rec+fo.input));
-    cur.tos = ((u_int8*)(rec+fo.tos));
-    cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
+    cur.marked_tos = ((uint8_t*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
@@ -1619,9 +1619,9 @@ int format17(struct ftio *ftio, int options)
     cur.input = ((uint16_t*)(rec+fo.input));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.tos = ((u_int8*)(rec+fo.tos));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.marked_tos = ((uint8_t*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_uint16s(sym_tcp, 5, fmt_buf6, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
@@ -1705,7 +1705,7 @@ int format18(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
     fmt_uint16s(sym_asn, 18, fmt_buf2, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
@@ -1785,8 +1785,8 @@ int format19(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tos = ((u_int8*)(rec+fo.prot));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tos = ((uint8_t*)(rec+fo.prot));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_PAD_RIGHT);
     fmt_uint16s(sym_tcp, 16, fmt_buf2, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
@@ -1867,8 +1867,8 @@ int format20(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((uint16_t*)(rec+fo.input));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
     fmt_ipv4prefix(fmt_buf2, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
@@ -1947,8 +1947,8 @@ int format21(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
     fmt_ipv4prefix(fmt_buf2, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
@@ -2031,9 +2031,9 @@ int format22(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
     fmt_ipv4prefix(fmt_buf2, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
@@ -2122,10 +2122,10 @@ int format23(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.src_mask = ((u_int8*)(rec+fo.src_mask));
-    cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.src_mask = ((uint8_t*)(rec+fo.src_mask));
+    cur.dst_mask = ((uint8_t*)(rec+fo.dst_mask));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
 
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
@@ -2223,9 +2223,9 @@ int format24(struct ftio *ftio, int options)
     cur.output = ((uint16_t*)(rec+fo.output));
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
-    cur.prot = ((u_int8*)(rec+fo.prot));
-    cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
-    cur.tos = ((u_int8*)(rec+fo.tos));
+    cur.prot = ((uint8_t*)(rec+fo.prot));
+    cur.tcp_flags = ((uint8_t*)(rec+fo.tcp_flags));
+    cur.tos = ((uint8_t*)(rec+fo.tos));
     cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
             
