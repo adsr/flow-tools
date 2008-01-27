@@ -5,14 +5,15 @@ man_SGMLS = flow-capture.sgml flow-cat.sgml flow-dscan.sgml flow-expire.sgml flo
 man_HTMLS = flow-capture.html flow-cat.html flow-dscan.html flow-expire.html flow-export.html flow-fanout.html flow-filter.html flow-gen.html flow-header.html flow-import.html flow-merge.html flow-print.html flow-receive.html flow-send.html flow-split.html flow-stat.html flow-tools-examples.html flow-tools.html flow-tag.html flow-nfilter.html flow-report.html flow-mask.html flow-xlate.html flow-rptfmt.html flow-log2rrd.html flow-rpt2rrd.html
 
 EXTRA_DIST = $(man_SGMLS)
+DISTCLEANFILES = $(man_MANS) $(man_HTMLS)
 
 SUFFIXES = .sgml .1 .html
 
 .sgml.1:
-	docbook2man $*.sgml
+	docbook2man $(srcdir)/$*.sgml
 
 .sgml.html:
-	docbook2html $*.sgml
+	docbook2html $(srcdir)/$*.sgml
 
 all-am: Makefile $(man_MANS) $(man_HTMLS)
 
