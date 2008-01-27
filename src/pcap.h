@@ -54,27 +54,27 @@ struct pcap_data1 {
   /* eth header */
   u_int8 eth_dst[6];
   u_int8 eth_src[6];
-  u_int16 eth_prot;
+  uint16_t eth_prot;
 };
 
 /* ip header */
 struct pcap_data2 {
   u_int8 version;
   u_int8 tos;
-  u_int16 len;
-  u_int16 id;
-  u_int16 flags_fragment;
+  uint16_t len;
+  uint16_t id;
+  uint16_t flags_fragment;
   u_int8 ttl;
   u_int8 prot;
-  u_int16 csum;
+  uint16_t csum;
   uint32_t srcaddr;
   uint32_t dstaddr;
 };
 
 /* tcp header */
 struct pcap_data3 {
-  u_int16 srcport;
-  u_int16 dstport;
+  uint16_t srcport;
+  uint16_t dstport;
   uint32_t hold1; /* seq */
   uint32_t hold2; /* ack */
   uint32_t hold3; /* data, reserved, flags, window */
@@ -85,8 +85,8 @@ struct pcap_data3 {
 
 /* udp header */
 struct pcap_data4 {
-  u_int16 srcport;
-  u_int16 dstport;
+  uint16_t srcport;
+  uint16_t dstport;
   uint32_t hold1; /* len */
   uint32_t hold2; /* csum */
   uint32_t hold3; /* data ...*/

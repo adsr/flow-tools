@@ -60,16 +60,6 @@
 #define SWAPINT16(y) y = \
     ( (((y)&0xff)<<8) | (((y)&0xff00)>>8) );
 
-/* a 32 bit quantity */
-/*
-#define u_int32 unsigned int
-#define int32 int
-*/
-
-/* a 16 bit quantity */
-#define u_int16 unsigned short
-#define int16 short
-
 /* a 8 bit quantity */
 #define u_int8  unsigned char
 #define	int8 	char

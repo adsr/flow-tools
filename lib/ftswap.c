@@ -39,7 +39,7 @@
 void ftpdu_swap(void *pdu, int cur)
 {
   struct ftpdu_header *ph;
-  int16 i;
+  int16_t i;
   char agg_method, agg_version;
 
   ph = pdu;
@@ -159,7 +159,7 @@ void ftpdu_swap(void *pdu, int cur)
 */
 void ftpdu_v1_swap(struct ftpdu_v1 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -196,7 +196,7 @@ void ftpdu_v1_swap(struct ftpdu_v1 *pdu, int cur)
 
 void ftpdu_v5_swap(struct ftpdu_v5 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -245,7 +245,7 @@ void ftpdu_v5_swap(struct ftpdu_v5 *pdu, int cur)
 */
 void ftpdu_v6_swap(struct ftpdu_v6 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -293,7 +293,7 @@ void ftpdu_v6_swap(struct ftpdu_v6 *pdu, int cur)
 */
 void ftpdu_v7_swap(struct ftpdu_v7 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -342,7 +342,7 @@ void ftpdu_v7_swap(struct ftpdu_v7 *pdu, int cur)
 */
 void ftpdu_v8_1_swap(struct ftpdu_v8_1 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -386,7 +386,7 @@ void ftpdu_v8_1_swap(struct ftpdu_v8_1 *pdu, int cur)
 */
 void ftpdu_v8_2_swap(struct ftpdu_v8_2 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -428,7 +428,7 @@ void ftpdu_v8_2_swap(struct ftpdu_v8_2 *pdu, int cur)
 */
 void ftpdu_v8_3_swap(struct ftpdu_v8_3 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -471,7 +471,7 @@ void ftpdu_v8_3_swap(struct ftpdu_v8_3 *pdu, int cur)
 */
 void ftpdu_v8_4_swap(struct ftpdu_v8_4 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -514,7 +514,7 @@ void ftpdu_v8_4_swap(struct ftpdu_v8_4 *pdu, int cur)
 */
 void ftpdu_v8_5_swap(struct ftpdu_v8_5 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -560,7 +560,7 @@ void ftpdu_v8_5_swap(struct ftpdu_v8_5 *pdu, int cur)
 */
 void ftpdu_v8_6_swap(struct ftpdu_v8_6 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -604,7 +604,7 @@ void ftpdu_v8_6_swap(struct ftpdu_v8_6 *pdu, int cur)
 */
 void ftpdu_v8_7_swap(struct ftpdu_v8_7 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -649,7 +649,7 @@ void ftpdu_v8_7_swap(struct ftpdu_v8_7 *pdu, int cur)
 */
 void ftpdu_v8_8_swap(struct ftpdu_v8_8 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -696,7 +696,7 @@ void ftpdu_v8_8_swap(struct ftpdu_v8_8 *pdu, int cur)
 */
 void ftpdu_v8_9_swap(struct ftpdu_v8_9 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -740,7 +740,7 @@ void ftpdu_v8_9_swap(struct ftpdu_v8_9 *pdu, int cur)
 */
 void ftpdu_v8_10_swap(struct ftpdu_v8_10 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -784,7 +784,7 @@ void ftpdu_v8_10_swap(struct ftpdu_v8_10 *pdu, int cur)
 */
 void ftpdu_v8_11_swap(struct ftpdu_v8_11 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -827,7 +827,7 @@ void ftpdu_v8_11_swap(struct ftpdu_v8_11 *pdu, int cur)
 */
 void ftpdu_v8_12_swap(struct ftpdu_v8_12 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -870,7 +870,7 @@ void ftpdu_v8_12_swap(struct ftpdu_v8_12 *pdu, int cur)
 */
 void ftpdu_v8_13_swap(struct ftpdu_v8_13 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 
@@ -916,7 +916,7 @@ void ftpdu_v8_13_swap(struct ftpdu_v8_13 *pdu, int cur)
 */
 void ftpdu_v8_14_swap(struct ftpdu_v8_14 *pdu, int cur)
 {
-  int16 i;
+  int16_t i;
 
   i = pdu->count;
 

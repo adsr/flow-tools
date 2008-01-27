@@ -257,10 +257,10 @@ int format0(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
@@ -329,10 +329,10 @@ int format1(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
     cur.tos = ((u_int8*)(rec+fo.tos));
@@ -430,10 +430,10 @@ int format2(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
     cur.tos = ((u_int8*)(rec+fo.tos));
@@ -542,19 +542,19 @@ int format3(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));   
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
 
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf3, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf3, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf4, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf4, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf5, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
 
     if (options & FT_OPT_WIDE)
       printf("%-15.15s  %-15.15s  %-5.5s  %-16.16s  %-16.16s  %-10lu  %-10lu\n",
@@ -625,10 +625,10 @@ int format4(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));   
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
@@ -637,11 +637,11 @@ int format4(struct ftio *ftio, int options)
 
     fmt_ipv4prefix(fmt_buf2, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf3, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf3, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_asn, 18, fmt_buf4, (u_int16)*cur.src_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf4, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
 
-    fmt_uint16s(sym_asn, 18, fmt_buf5, (u_int16)*cur.dst_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf5, (uint16_t)*cur.dst_as, FMT_JUST_LEFT);
 
     if (options & FT_OPT_WIDE)
       printf("%4.4x %4.4x %-18.18s  %-18.18s  %-5.5s  %-16.16s  %-16.16s  %-10lu  %-10lu\n",
@@ -709,10 +709,10 @@ int format5(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
 
@@ -846,8 +846,8 @@ int format7(struct ftio *ftio, int options)
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
@@ -858,11 +858,11 @@ int format7(struct ftio *ftio, int options)
 
     fmt_ipv4(fmt_buf3, *cur.router_sc, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf5, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf6, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf6, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
 
     printf("%-18.18s  %-18.18s  %-15.15s  %-5.5s  %-14.14s  %-14.14s  %-10lu  %-10lu\n",
       fmt_buf1, fmt_buf2, fmt_buf3, fmt_buf4, fmt_buf5, fmt_buf6,
@@ -924,8 +924,8 @@ int format8(struct ftio *ftio, int options)
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.peer_nexthop = ((uint32_t*)(rec+fo.peer_nexthop));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
@@ -938,11 +938,11 @@ int format8(struct ftio *ftio, int options)
 
     fmt_ipv4(fmt_buf3, *cur.peer_nexthop, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf5, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf6, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf6, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
 
     printf("%-18.18s  %-18.18s  %-15.15s  %-4d %-4d  %-5.5s  %-14.14s  %-14.14s  %-10lu  %-10lu\n",
       fmt_buf1, fmt_buf2, fmt_buf3, (int)*cur.in_encaps, (int)*cur.out_encaps,
@@ -1096,13 +1096,13 @@ int format10(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
 
-    fmt_uint16s(sym_asn, 18, fmt_buf1, (u_int16)*cur.src_as, FMT_JUST_LEFT);
-    fmt_uint16s(sym_asn, 18, fmt_buf2, (u_int16)*cur.dst_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf1, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf2, (uint16_t)*cur.dst_as, FMT_JUST_LEFT);
     fmt_uint16(fmt_buf3, *cur.input, FMT_JUST_LEFT);
     fmt_uint16(fmt_buf4, *cur.output, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf5, *cur.dFlows, FMT_JUST_LEFT);
@@ -1176,13 +1176,13 @@ int format11(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
 
-    fmt_uint16s(sym_tcp, 16, fmt_buf1, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_tcp, 16, fmt_buf2, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_prot, 5, fmt_buf3, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf1, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf2, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf3, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
     fmt_uint32(fmt_buf4, *cur.dFlows, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf5, *cur.dOctets, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf6, *cur.dPkts, FMT_JUST_LEFT);
@@ -1253,8 +1253,8 @@ int format12(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
@@ -1328,8 +1328,8 @@ int format13(struct ftio *ftio, int options)
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
 
     fmt_ipv4prefix(fmt_buf1, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
@@ -1406,10 +1406,10 @@ int format14(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
 
@@ -1478,7 +1478,7 @@ int format15(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
-    cur.output = ((u_int16*)(rec+fo.output));
+    cur.output = ((uint16_t*)(rec+fo.output));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
@@ -1540,8 +1540,8 @@ int format16(struct ftio *ftio, int options)
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.input = ((u_int16*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.input = ((uint16_t*)(rec+fo.input));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
@@ -1615,20 +1615,20 @@ int format17(struct ftio *ftio, int options)
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
     cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
-    fmt_uint16s(sym_tcp, 5, fmt_buf6, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 5, fmt_buf6, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
   
-    fmt_uint16s(sym_tcp, 5, fmt_buf7, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 5, fmt_buf7, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf8, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf8, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
@@ -1701,15 +1701,15 @@ int format18(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.tos = ((u_int8*)(rec+fo.tos));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_JUST_LEFT);
-    fmt_uint16s(sym_asn, 18, fmt_buf2, (u_int16)*cur.src_as, FMT_JUST_LEFT);
-    fmt_uint16s(sym_asn, 18, fmt_buf3, (u_int16)*cur.dst_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf2, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
+    fmt_uint16s(sym_asn, 18, fmt_buf3, (uint16_t)*cur.dst_as, FMT_JUST_LEFT);
     fmt_uint16(fmt_buf4, *cur.input, FMT_JUST_LEFT);
     fmt_uint16(fmt_buf5, *cur.output, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf6, *cur.dFlows, FMT_JUST_LEFT);
@@ -1783,15 +1783,15 @@ int format19(struct ftio *ftio, int options)
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tos = ((u_int8*)(rec+fo.prot));
 
     fmt_uint8(fmt_buf1, *cur.tos, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_tcp, 16, fmt_buf2, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_tcp, 16, fmt_buf3, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (u_int16)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf2, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf3, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
     fmt_uint32(fmt_buf5, *cur.dFlows, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf6, *cur.dOctets, FMT_JUST_LEFT);
     fmt_uint32(fmt_buf7, *cur.dPkts, FMT_JUST_LEFT);
@@ -1865,8 +1865,8 @@ int format20(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.tos = ((u_int8*)(rec+fo.tos));
 
@@ -1945,8 +1945,8 @@ int format21(struct ftio *ftio, int options)
     cur.First = ((uint32_t*)(rec+fo.First));
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
     cur.tos = ((u_int8*)(rec+fo.tos));
 
@@ -2027,10 +2027,10 @@ int format22(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
     cur.tos = ((u_int8*)(rec+fo.tos));
@@ -2118,10 +2118,10 @@ int format23(struct ftio *ftio, int options)
     cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -2132,9 +2132,9 @@ int format23(struct ftio *ftio, int options)
     fmt_ipv4prefix(fmt_buf2, *cur.srcaddr, *cur.src_mask, FMT_JUST_LEFT);
     fmt_ipv4prefix(fmt_buf3, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (u_int16)*cur.prot, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_tcp, 16, fmt_buf5, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
-    fmt_uint16s(sym_tcp, 16, fmt_buf6, (u_int16)*cur.dstport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
+    fmt_uint16s(sym_tcp, 16, fmt_buf6, (uint16_t)*cur.dstport, FMT_PAD_RIGHT);
 
     fmt_uint16(fmt_buf7, *cur.input, FMT_JUST_LEFT);
     fmt_uint16(fmt_buf8, *cur.output, FMT_JUST_LEFT);
@@ -2219,15 +2219,15 @@ int format24(struct ftio *ftio, int options)
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.exaddr = ((uint32_t*)(rec+fo.exaddr));
     cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
-    cur.input = ((u_int16*)(rec+fo.input));
-    cur.output = ((u_int16*)(rec+fo.output));
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.input = ((uint16_t*)(rec+fo.input));
+    cur.output = ((uint16_t*)(rec+fo.output));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tcp_flags = ((u_int8*)(rec+fo.tcp_flags));
     cur.tos = ((u_int8*)(rec+fo.tos));
-    cur.src_as = ((u_int16*)(rec+fo.src_as));
-    cur.dst_as = ((u_int16*)(rec+fo.dst_as));
+    cur.src_as = ((uint16_t*)(rec+fo.src_as));
+    cur.dst_as = ((uint16_t*)(rec+fo.dst_as));
             
 
     if (!*cur.dPkts) {

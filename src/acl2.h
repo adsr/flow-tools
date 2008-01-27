@@ -97,13 +97,13 @@ struct acl_ip_ext_entry {
 
   uint32_t   src_addr;    /* source address */
   uint32_t   src_mask;    /* source address mask */
-  u_int16   src_port;    /* source port */
-  u_int16   src_port2;   /* source port (end of range) */
+  uint16_t   src_port;    /* source port */
+  uint16_t   src_port2;   /* source port (end of range) */
 
   uint32_t   dst_addr;    /* destination address */
   uint32_t   dst_mask;    /* destinan address mask */
-  u_int16   dst_port;    /* destination port */
-  u_int16   dst_port2;   /* destination port (end of range) */
+  uint16_t   dst_port;    /* destination port */
+  uint16_t   dst_port2;   /* destination port (end of range) */
 
   uint64_t   matches;     /* # of matches */
   int     flag;          /* permit/deny, etc */

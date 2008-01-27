@@ -480,7 +480,7 @@ void *mysignal(int signo, void *func)
 
 
 
-int unlink_pidfile(int pid, char *file, u_int16 port)
+int unlink_pidfile(int pid, char *file, uint16_t port)
 {
   char *c;
   int ret;
@@ -500,7 +500,7 @@ int unlink_pidfile(int pid, char *file, u_int16 port)
 } /* unlink_pidfile */
  
 
-int write_pidfile(int pid, char *file, u_int16 port)
+int write_pidfile(int pid, char *file, uint16_t port)
 {
   int fd, len;
   char str[16], *c;
@@ -716,14 +716,14 @@ mkpath_out:
  */
 int udp_cksum(struct ip *ip, struct udphdr *up, int len)
 {
-  u_int16 *word;
+  uint16_t *word;
   int sum;
   
-  word = (u_int16*)&ip->ip_src.s_addr;
+  word = (uint16_t*)&ip->ip_src.s_addr;
   sum = *word++;
   sum += *word;
 
-  word = (u_int16*)&ip->ip_dst.s_addr;
+  word = (uint16_t*)&ip->ip_dst.s_addr;
   sum += *word++;
   sum += *word;
 

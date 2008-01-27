@@ -246,7 +246,7 @@ int format0(struct ftio *ftio, struct options *opt)
   u_char buf[FT_IO_MAXREC];
   char *rec;
   uint32_t ui32, Start;
-  u_int16 ui16;
+  uint16_t ui16;
   u_int8 ui8;
   uint32_t cfdmask, index;
   int ret;
@@ -387,7 +387,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_DSTIPADDRMASK)
-        *((u_int16*)(rec+fo.input)) = ui16;
+        *((uint16_t*)(rec+fo.input)) = ui16;
     }
 
     if (index & CF_OUTPUTIFINDEXMASK) {
@@ -395,7 +395,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_OUTPUTIFINDEXMASK)
-        *((u_int16*)(rec+fo.output)) = ui16;
+        *((uint16_t*)(rec+fo.output)) = ui16;
     }
 
     if (index & CF_SRCPORTMASK) {
@@ -403,7 +403,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_SRCPORTMASK)
-        *((u_int16*)(rec+fo.srcport)) = ui16;
+        *((uint16_t*)(rec+fo.srcport)) = ui16;
     }
 
     if (index & CF_DSTPORTMASK) {
@@ -411,7 +411,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_DSTPORTMASK)
-        *((u_int16*)(rec+fo.dstport)) = ui16;
+        *((uint16_t*)(rec+fo.dstport)) = ui16;
     }
 
     if (index & CF_PKTSMASK) {
@@ -479,7 +479,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_SRCASMASK)
-        *((u_int16*)(rec+fo.src_as)) = ui16;
+        *((uint16_t*)(rec+fo.src_as)) = ui16;
     }
 
     if (index & CF_DSTASMASK) {
@@ -487,7 +487,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui16 = ntohs(ui16);
       if (cfdmask & CF_DSTASMASK)
-        *((u_int16*)(rec+fo.dst_as)) = ui16;
+        *((uint16_t*)(rec+fo.dst_as)) = ui16;
     }
 
     if (index & CF_SRCMASKLENMASK) {
@@ -724,25 +724,25 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_INPUT) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_INPUT))
-        *((u_int16*)(rec+fo.input)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.input)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_OUTPUT) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_OUTPUT))
-        *((u_int16*)(rec+fo.output)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.output)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SRCPORT) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SRCPORT))
-        *((u_int16*)(rec+fo.srcport)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.srcport)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DSTPORT) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DSTPORT))
-        *((u_int16*)(rec+fo.dstport)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.dstport)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_PROT) {
@@ -778,13 +778,13 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_SRC_AS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SRC_AS))
-        *((u_int16*)(rec+fo.src_as)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.src_as)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DST_AS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DST_AS))
-        *((u_int16*)(rec+fo.dst_as)) = strtoul(field, (char **)0L, 0);
+        *((uint16_t*)(rec+fo.dst_as)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_IN_ENCAPS) {
@@ -1021,7 +1021,7 @@ int format_NFCollector1(struct ftio *ftio, struct options *opt)
 	}
 	switch(fcv[i].type) {
 	case TYPE_16B:
-	  *((u_int16*)(rec+off)) = (u_int16)val;
+	  *((uint16_t*)(rec+off)) = (uint16_t)val;
 	  break;
 	case TYPE_IPV4:
 	case TYPE_32B:

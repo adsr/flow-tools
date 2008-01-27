@@ -201,37 +201,37 @@ struct fttag_prefix_look {
   struct radix_node rt_nodes[2]; /* radix tree glue */
   struct radix_sockaddr_in addr;
   u_int8 masklen;
-  u_int16 set_flags;
+  uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
 };
 
 struct fttag_as_look {
-  u_int16 set_flags_lookup[65536];
+  uint16_t set_flags_lookup[65536];
   uint32_t src_tag_lookup[65536];
   uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_port_look {
-  u_int16 set_flags_lookup[65536];
+  uint16_t set_flags_lookup[65536];
   uint32_t src_tag_lookup[65536];
   uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_tos_look {
-  u_int16 set_flags_lookup[256];
+  uint16_t set_flags_lookup[256];
   uint32_t src_tag_lookup[256];
   uint32_t dst_tag_lookup[256];
 };
 
 struct fttag_interface_look {
-  u_int16 set_flags_lookup[65536];
+  uint16_t set_flags_lookup[65536];
   uint32_t src_tag_lookup[65536];
   uint32_t dst_tag_lookup[65536];
 };
 
 struct fttag_any_look {
-  u_int16 set_flags;
+  uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
 };
@@ -239,7 +239,7 @@ struct fttag_any_look {
 struct fttag_next_hop_look {
   FT_SLIST_ENTRY(fttag_next_hop_look) chain;
   uint32_t addr; /* key */
-  u_int16 set_flags;
+  uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
 };
@@ -247,7 +247,7 @@ struct fttag_next_hop_look {
 struct fttag_exporter_look {
   FT_SLIST_ENTRY(fttag_exporter_look) chain;
   uint32_t addr; /* key */
-  u_int16 set_flags;
+  uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
 };
@@ -255,7 +255,7 @@ struct fttag_exporter_look {
 struct fttag_ip_look {
   FT_SLIST_ENTRY(fttag_ip_look) chain;
   uint32_t addr; /* key */
-  u_int16 set_flags;
+  uint16_t set_flags;
   uint32_t src_tag;
   uint32_t dst_tag;
 };
@@ -742,7 +742,7 @@ int parse_action_match(struct line_parser *lp, struct fttag *fttag)
   struct ip_prefix ipp;
   struct radix_node_head *rhead;
   uint32_t tag, hash, ipaddr;
-  u_int16 as, port, interface;
+  uint16_t as, port, interface;
   u_int8 tos;
   int sflag, new, tflag2, tmpflag, tflag;
   char *c, *match;
@@ -1733,7 +1733,7 @@ inline void eval_match_src_as(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_as_look *as_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   as_look = fta->look;
  
@@ -1755,7 +1755,7 @@ inline void eval_match_dst_as(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_as_look *as_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   as_look = fta->look;
  
@@ -1779,7 +1779,7 @@ inline void eval_match_src_prefix(struct fttag_action *fta,
   struct radix_sockaddr_in dst_sock;
   struct fttag_prefix_look *prefix_look;
   struct radix_node_head *rhead;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   rhead = fta->look;
 
@@ -1814,7 +1814,7 @@ inline void eval_match_dst_prefix(struct fttag_action *fta,
   struct radix_sockaddr_in dst_sock;
   struct fttag_prefix_look *prefix_look;
   struct radix_node_head *rhead;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   rhead = fta->look;
 
@@ -1849,7 +1849,7 @@ inline void eval_match_nexthop(struct fttag_action *fta,
   struct ftchash *ftch;
   uint32_t hash, ipaddr;
   struct fttag_next_hop_look *nh_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   ftch = fta->look;
   ipaddr = rec->nexthop;
@@ -1884,7 +1884,7 @@ inline void eval_match_exporter(struct fttag_action *fta,
   struct ftchash *ftch;
   uint32_t hash, ipaddr;
   struct fttag_exporter_look *exporter_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   ftch = fta->look;
   ipaddr = rec->exaddr;
@@ -1920,7 +1920,7 @@ inline void eval_match_src_ip(struct fttag_action *fta,
   struct ftchash *ftch;
   uint32_t hash, ipaddr;
   struct fttag_ip_look *ip_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   ftch = fta->look;
   ipaddr = rec->srcaddr;
@@ -1956,7 +1956,7 @@ inline void eval_match_dst_ip(struct fttag_action *fta,
   struct ftchash *ftch;
   uint32_t hash, ipaddr;
   struct fttag_ip_look *ip_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
 
   ftch = fta->look;
   ipaddr = rec->dstaddr;
@@ -2004,7 +2004,7 @@ inline void eval_match_tcp_src_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   port_look = fta->look;
 
@@ -2030,7 +2030,7 @@ inline void eval_match_tcp_dst_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   port_look = fta->look;
 
@@ -2056,7 +2056,7 @@ inline void eval_match_udp_src_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   port_look = fta->look;
 
@@ -2082,7 +2082,7 @@ inline void eval_match_udp_dst_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   port_look = fta->look;
 
@@ -2122,7 +2122,7 @@ inline void eval_match_in_interface(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_interface_look *interface_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   interface_look = fta->look;
 
@@ -2144,7 +2144,7 @@ inline void eval_match_out_interface(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_interface_look *interface_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   interface_look = fta->look;
 
@@ -2180,7 +2180,7 @@ inline void eval_match_tos(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_tos_look *tos_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   tos_look = fta->look;
 
@@ -2202,7 +2202,7 @@ inline void eval_match_any(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_any_look *any_look;
-  u_int16 set_tmp;
+  uint16_t set_tmp;
  
   any_look = fta->look;
 

@@ -221,7 +221,7 @@ int format0(struct ftio *ftio, struct options *opt)
   struct fttime ftt;
   char *rec;
   uint32_t ui32, index, sysUpTime, unix_secs, unix_nsecs, First, Last;
-  u_int16 ui16;
+  uint16_t ui16;
   u_int8 ui8;
 
   ftio_get_ver(ftio, &ftv);
@@ -351,25 +351,25 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_INPUTIFINDEXMASK) {
-       ui16 = *((u_int16*)(rec+fo.input));
+       ui16 = *((uint16_t*)(rec+fo.input));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_OUTPUTIFINDEXMASK) {
-       ui16 = *((u_int16*)(rec+fo.output));
+       ui16 = *((uint16_t*)(rec+fo.output));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_SRCPORTMASK) {
-       ui16 = *((u_int16*)(rec+fo.srcport));
+       ui16 = *((uint16_t*)(rec+fo.srcport));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_DSTPORTMASK) {
-       ui16 = *((u_int16*)(rec+fo.dstport));
+       ui16 = *((uint16_t*)(rec+fo.dstport));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
@@ -423,13 +423,13 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_SRCASMASK) {
-       ui16 = *((u_int16*)(rec+fo.src_as));
+       ui16 = *((uint16_t*)(rec+fo.src_as));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_DSTASMASK) {
-       ui16 = *((u_int16*)(rec+fo.dst_as));
+       ui16 = *((uint16_t*)(rec+fo.dst_as));
        ui16 = htons(ui16);
        fwrite(&ui16, sizeof (ui16), 1, stdout);
     }
@@ -562,8 +562,8 @@ int format1(struct ftio *ftio, struct options *opt)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.srcport = ((u_int16*)(rec+fo.srcport));
-    cur.dstport = ((u_int16*)(rec+fo.dstport));
+    cur.srcport = ((uint16_t*)(rec+fo.srcport));
+    cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
@@ -1286,28 +1286,28 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_INPUT) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->input)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->input)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_OUTPUT) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->output)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->output)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_SRCPORT) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->srcport)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->srcport)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DSTPORT) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->dstport)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->dstport)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1349,14 +1349,14 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_SRC_AS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->src_as)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->src_as)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DST_AS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint16(fmt_buf+len, *((u_int16*)(rec+fo->dst_as)),
+    len += fmt_uint16(fmt_buf+len, *((uint16_t*)(rec+fo->dst_as)),
       FMT_JUST_LEFT);
     comma = 1;
   }

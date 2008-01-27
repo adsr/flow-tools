@@ -80,7 +80,7 @@ void fterr_exit_handler(int code);
 int sig_quit_flag, sig_hup_flag, sig_term_flag, reload_flag;
 void sig_quit(int), sig_hup(int), sig_term(int);
 pid_t pid;
-u_int16 listen_port;
+uint16_t listen_port;
 
 void pdu_xmit(int npeers, int tx_delay, int src_ip_spoof, int hdr_len,
   uint32_t *send_nobufs, struct ip *ip_hdr, struct udphdr *udp_hdr,

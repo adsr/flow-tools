@@ -2329,13 +2329,13 @@ int ftiheader_read(int fd, struct ftiheader *ihead)
   struct ftmap_ifalias *ftmia;
   int n, ret, len_read, len_buf, off, flip, left;
   uint32_t ip;
-  u_int16 entries, ifIndex, *ifIndex_list;
+  uint16_t entries, ifIndex, *ifIndex_list;
   uint32_t head_off_d;
   char *dp, *c, *enc_buf;
 
   ret = -1; 
   enc_buf = (char*)0L;
-  ifIndex_list = (u_int16*)0L;
+  ifIndex_list = (uint16_t*)0L;
   bzero(ihead, sizeof (struct ftiheader));
 
   /* read the stream header version area */
@@ -2693,7 +2693,7 @@ int ftiheader_read(int fd, struct ftiheader *ihead)
           if (flip) SWAPINT32(entries);
           c = tlv.v+6 + (entries*2);
 
-          if (!(ifIndex_list = (u_int16*)malloc(entries*2))) {
+          if (!(ifIndex_list = (uint16_t*)malloc(entries*2))) {
             fterr_warn("malloc()");
             goto ftiheader_read_out;
           }
@@ -2707,7 +2707,7 @@ int ftiheader_read(int fd, struct ftiheader *ihead)
           }
 
           free(ifIndex_list);
-          ifIndex_list = (u_int16*)0L;
+          ifIndex_list = (uint16_t*)0L;
 
           /* and link it in */
           FT_LIST_INSERT_HEAD(&ihead->ftmap->ifalias, ftmia, chain);

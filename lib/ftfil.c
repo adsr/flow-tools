@@ -546,10 +546,10 @@ static struct jump pjump[] = {
 inline int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
-  u_int16 *src_as;
+  uint16_t *src_as;
   int val;
 
-  src_as = ((u_int16*)(rec+fo->src_as));
+  src_as = ((uint16_t*)(rec+fo->src_as));
 
   val = lookup->mode[*src_as];
 
@@ -573,10 +573,10 @@ inline int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
 inline int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
-  u_int16 *dst_as;
+  uint16_t *dst_as;
   int val;
 
-  dst_as = ((u_int16*)(rec+fo->dst_as));
+  dst_as = ((uint16_t*)(rec+fo->dst_as));
 
   val = lookup->mode[*dst_as];
 
@@ -771,10 +771,10 @@ inline int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
 inline int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int16 *src_port;
+  uint16_t *src_port;
   int val;
 
-  src_port = ((u_int16*)(rec+fo->srcport));
+  src_port = ((uint16_t*)(rec+fo->srcport));
 
   val = lookup->mode[*src_port];
 
@@ -798,10 +798,10 @@ inline int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
 inline int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int16 *dst_port;
+  uint16_t *dst_port;
   int val;
 
-  dst_port = ((u_int16*)(rec+fo->dstport));
+  dst_port = ((uint16_t*)(rec+fo->dstport));
 
   val = lookup->mode[*dst_port];
 
@@ -826,10 +826,10 @@ inline int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
 inline int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int16 *src_if_index;
+  uint16_t *src_if_index;
   int val;
 
-  src_if_index = ((u_int16*)(rec+fo->input));
+  src_if_index = ((uint16_t*)(rec+fo->input));
 
   val = lookup->mode[*src_if_index];
 
@@ -853,10 +853,10 @@ inline int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
 inline int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
-  u_int16 *dst_if_index;
+  uint16_t *dst_if_index;
   int val;
 
-  dst_if_index = ((u_int16*)(rec+fo->output));
+  dst_if_index = ((uint16_t*)(rec+fo->output));
 
   val = lookup->mode[*dst_if_index];
 

@@ -178,7 +178,7 @@ unsigned int fmt_uint16(char *s, uint16_t u, int format)
 
   return len;
 
-} /* fmt_uint16 */
+} /* fmt_uint16_t */
 
 
 

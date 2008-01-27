@@ -102,7 +102,7 @@ struct ftmap_ifalias *ftmap_ifalias_new2(char *ip, char *ifIndex_list,
 {
   struct ftmap_ifalias *ftmia;
   uint32_t bip;
-  u_int16 *list, entries;
+  uint16_t *list, entries;
   int n;
   char *c, *buf;
 
@@ -113,7 +113,7 @@ struct ftmap_ifalias *ftmap_ifalias_new2(char *ip, char *ifIndex_list,
     if (*c == ',')
       ++entries;
 
-  if (!(list = malloc(entries * sizeof (u_int16))))
+  if (!(list = malloc(entries * sizeof (uint16_t))))
     return (struct ftmap_ifalias*)0L;
 
   buf = ifIndex_list;
@@ -146,8 +146,8 @@ struct ftmap_ifalias *ftmap_ifalias_new2(char *ip, char *ifIndex_list,
  *
  * returns allocated structure, or NULL for error.
  */
-struct ftmap_ifalias *ftmap_ifalias_new(uint32_t ip, u_int16 *ifIndex_list,
-  u_int16 entries, char *name)
+struct ftmap_ifalias *ftmap_ifalias_new(uint32_t ip, uint16_t *ifIndex_list,
+  uint16_t entries, char *name)
 {
   struct ftmap_ifalias *ftmia;
   int ret, n;
@@ -165,7 +165,7 @@ struct ftmap_ifalias *ftmap_ifalias_new(uint32_t ip, u_int16 *ifIndex_list,
   if (!(ftmia->name = malloc(n)))
     goto ftmap_ifalias_new_out;
 
-  if (!(ftmia->ifIndex_list = malloc(entries * sizeof (u_int16))))
+  if (!(ftmia->ifIndex_list = malloc(entries * sizeof (uint16_t))))
     goto ftmap_ifalias_new_out;
 
   ftmia->ip = ip;
@@ -227,7 +227,7 @@ static void ftmap_ifalias_free(struct ftmap_ifalias *ftmia)
 struct ftmap_ifname *ftmap_ifname_new2(char *ip, char *ifIndex, char *name)
 {
   uint32_t bip;
-  u_int16 bifIndex;
+  uint16_t bifIndex;
 
   bip = scan_ip(ip);
   bifIndex = atoi(ifIndex);
@@ -244,7 +244,7 @@ struct ftmap_ifname *ftmap_ifname_new2(char *ip, char *ifIndex, char *name)
  *
  * returns allocated structure, or NULL for error.
  */
-struct ftmap_ifname *ftmap_ifname_new(uint32_t ip, u_int16 ifIndex, char *name)
+struct ftmap_ifname *ftmap_ifname_new(uint32_t ip, uint16_t ifIndex, char *name)
 {
   struct ftmap_ifname *ftmin;
   int ret, n;

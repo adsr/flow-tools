@@ -1044,7 +1044,7 @@ int format5(struct fmtargs *args)
   struct fopd total;
   char *rec;
   u_int8 prot;
-  u_int16 dstport;
+  uint16_t dstport;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1076,7 +1076,7 @@ int format5(struct fmtargs *args)
 
     TOTAL_INC;
 
-    dstport = *((u_int16*)(rec+fo.dstport));
+    dstport = *((uint16_t*)(rec+fo.dstport));
 
     STAT_INCA(dstport);
 
@@ -1106,7 +1106,7 @@ int format6(struct fmtargs *args)
   struct ftver ftv;
   char *rec;
   u_int8 prot;
-  u_int16 srcport;
+  uint16_t srcport;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1138,7 +1138,7 @@ int format6(struct fmtargs *args)
 
     TOTAL_INC;
 
-    srcport = *((u_int16*)(rec+fo.srcport));
+    srcport = *((uint16_t*)(rec+fo.srcport));
     
     STAT_INCA(srcport);
 
@@ -1168,7 +1168,7 @@ int format7(struct fmtargs *args)
   struct fopd total;
   char *rec;
   u_int8 prot;
-  u_int16 srcport, dstport;
+  uint16_t srcport, dstport;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1201,8 +1201,8 @@ int format7(struct fmtargs *args)
     TOTAL_INC;
     TOTAL_INC;
 
-    srcport = *((u_int16*)(rec+fo.srcport));
-    dstport = *((u_int16*)(rec+fo.dstport));
+    srcport = *((uint16_t*)(rec+fo.srcport));
+    dstport = *((uint16_t*)(rec+fo.dstport));
 
     STAT_INCA(srcport);
     STAT_INCA(dstport);
@@ -1834,7 +1834,7 @@ int format17(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   char *rec;
-  u_int16 input;
+  uint16_t input;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1859,7 +1859,7 @@ int format17(struct fmtargs *args)
   
     TOTAL_INC;
        
-    input = *((u_int16*)(rec+fo.input));
+    input = *((uint16_t*)(rec+fo.input));
 
     STAT_INCA(input);
 
@@ -1891,7 +1891,7 @@ int format18(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   char *rec;
-  u_int16 output;
+  uint16_t output;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1916,7 +1916,7 @@ int format18(struct fmtargs *args)
  
     TOTAL_INC;
 
-    output = *((u_int16*)(rec+fo.output));
+    output = *((uint16_t*)(rec+fo.output));
 
     STAT_INCA(output);
 
@@ -1948,7 +1948,7 @@ int format19(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   char *rec;
-  u_int16 src_as;
+  uint16_t src_as;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1973,7 +1973,7 @@ int format19(struct fmtargs *args)
 
     TOTAL_INC;
        
-    src_as = *((u_int16*)(rec+fo.src_as));
+    src_as = *((uint16_t*)(rec+fo.src_as));
 
     STAT_INCA(src_as);
 
@@ -2002,7 +2002,7 @@ int format20(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   char *rec;
-  u_int16 dst_as;
+  uint16_t dst_as;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -2027,7 +2027,7 @@ int format20(struct fmtargs *args)
  
     TOTAL_INC;
        
-    dst_as = *((u_int16*)(rec+fo.dst_as));
+    dst_as = *((uint16_t*)(rec+fo.dst_as));
 
     STAT_INCA(dst_as);
 
@@ -2087,8 +2087,8 @@ int format21(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recas2.src_as = *((u_int16*)(rec+fo.src_as));
-    ftch_recas2.dst_as = *((u_int16*)(rec+fo.dst_as));
+    ftch_recas2.src_as = *((uint16_t*)(rec+fo.src_as));
+    ftch_recas2.dst_as = *((uint16_t*)(rec+fo.dst_as));
 
     hash = (ftch_recas2.src_as) ^ (ftch_recas2.dst_as);
 
@@ -2207,8 +2207,8 @@ int format23(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    ftch_recif2.input = *((u_int16*)(rec+fo.input));
-    ftch_recif2.output = *((u_int16*)(rec+fo.output));
+    ftch_recif2.input = *((uint16_t*)(rec+fo.input));
+    ftch_recif2.output = *((uint16_t*)(rec+fo.output));
 
     hash = (ftch_recif2.input) ^ (ftch_recif2.output);
 
@@ -3122,9 +3122,9 @@ int chash_as2_dump (struct ftchash *ftch, char cc, int sort_order, int options,
 
   while ((ftch_recas2 = ftchash_foreach(ftch))) {
 
-    fmt_uint16s(ftsym, 18, fmt_buf1, (u_int16)ftch_recas2->src_as,
+    fmt_uint16s(ftsym, 18, fmt_buf1, (uint16_t)ftch_recas2->src_as,
       FMT_PAD_RIGHT);
-    fmt_uint16s(ftsym, 18, fmt_buf2, (u_int16)ftch_recas2->dst_as,
+    fmt_uint16s(ftsym, 18, fmt_buf2, (uint16_t)ftch_recas2->dst_as,
       FMT_PAD_RIGHT);
 
     if (options & FT_OPT_PERCENT) {
@@ -3654,7 +3654,7 @@ int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
         } /* options & FT_OPT_PERCENT */
       } /* print tally */
 
-      fmt_uint16s(ftsym, 16, fmt_buf2, (u_int16)stat->index[i], FMT_JUST_LEFT);
+      fmt_uint16s(ftsym, 16, fmt_buf2, (uint16_t)stat->index[i], FMT_JUST_LEFT);
 
       if (args->options & FT_OPT_PERCENT) {
 

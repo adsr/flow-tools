@@ -481,14 +481,14 @@ static int cmp32(const void *a, const void *b)
 
 static int cmp16(const void *a, const void *b)
 {
-  register u_int16 *la, *lb;
+  register uint16_t *la, *lb;
   char *d;
 
   d = *(char**)a;
-  la = (u_int16*)(d+sort_offset);
+  la = (uint16_t*)(d+sort_offset);
 
   d = *(char**)b;
-  lb = (u_int16*)(d+sort_offset);
+  lb = (uint16_t*)(d+sort_offset);
 
   if (*la < *lb)
     return -1;

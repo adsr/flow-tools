@@ -5842,7 +5842,7 @@ struct ftstat_rpt_11 *ftstat_rpt_11_new(struct ftstat_rpt *rpt)
 int ftstat_rpt_11_accum(struct ftstat_rpt *rpt, char *rec,
   struct fts3rec_offsets *fo)
 {
-  u_int16 tmp;
+  uint16_t tmp;
 
   STD_ACCUM_BUCKET1(ftstat_rpt_11, rpt11);
 
