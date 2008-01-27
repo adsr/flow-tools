@@ -73,7 +73,7 @@ int main(int argc, char **argv)
   struct ftset ftset;
   struct ftver ftv;
   struct ftprof ftp;
-  u_int32 time_start, time_end, exaddr;
+  uint32_t time_start, time_end, exaddr;
   int i, ret;
   char *acl_fname, *acl_std_src_name, *acl_std_dst_name;
   char *acl_std_nexthop_name;
@@ -409,10 +409,10 @@ int main(int argc, char **argv)
   /* grab 1 flow */
   while ((rec = ftio_read(&ftio_in))) {
 
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.exaddr = ((u_int32*)(rec+fo.exaddr));
-    cur.nexthop = ((u_int32*)(rec+fo.nexthop));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.exaddr = ((uint32_t*)(rec+fo.exaddr));
+    cur.nexthop = ((uint32_t*)(rec+fo.nexthop));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));

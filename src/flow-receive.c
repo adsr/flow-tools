@@ -87,9 +87,9 @@ int main(int argc, char **argv)
   unsigned int v1, v2;
   fd_set rfd;
   char *out_fname;
-  u_int32 nflows, time_start, time_end;
-  u_int32 flows_corrupt, flows_lost, flows_reset;
-  u_int32 hash;
+  uint32_t nflows, time_start, time_end;
+  uint32_t flows_corrupt, flows_lost, flows_reset;
+  uint32_t hash;
   char fmt_src_ip[32], fmt_dst_ip[32], fmt_dst_port[32];
   char xl_rec[FT_IO_MAXREC], *out_rec;
   int stat_interval, stat_next;
@@ -355,7 +355,7 @@ mcast_done:
     ((ftset.z_level) ? FT_IO_FLAG_ZINIT : 0) ) < 0)
     fterr_errx(1, "ftio_init(): failed");
 
-  time_start = (u_int32)time((time_t)0L);
+  time_start = (uint32_t)time((time_t)0L);
 
   ftio_set_comment(&ftio, ftset.comments);
   ftio_set_cap_hostname(&ftio, ftset.hnbuf);
@@ -666,7 +666,7 @@ skip1:
   /* rewrite header with updated info */
   if (out_fd_plain) {
   
-    time_end = (u_int32)time((time_t)0L);
+    time_end = (uint32_t)time((time_t)0L);
 
     ftio_set_cap_time(&ftio, time_start, time_end);
     ftio_set_flows_count(&ftio, nflows);

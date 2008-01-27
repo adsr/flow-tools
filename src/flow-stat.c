@@ -74,16 +74,16 @@
 #define FORMATS 33  /* # of types of output */
 
 #define CUR_GET\
-    cur.duration = *((u_int32*)(rec+fo.Last)) - *((u_int32*)(rec+fo.First));\
-    cur.octets = *((u_int32*)(rec+fo.dOctets));\
-    cur.packets = *((u_int32*)(rec+fo.dPkts));\
+    cur.duration = *((uint32_t*)(rec+fo.Last)) - *((uint32_t*)(rec+fo.First));\
+    cur.octets = *((uint32_t*)(rec+fo.dOctets));\
+    cur.packets = *((uint32_t*)(rec+fo.dPkts));\
 
 #define CUR_GET_PLUS_FLOWS\
     if (args->ftio.xfield & FT_XFIELD_DFLOWS)\
-      cur.flows = *((u_int32*)(rec+fo.dFlows));\
-    cur.duration = *((u_int32*)(rec+fo.Last)) - *((u_int32*)(rec+fo.First));\
-    cur.octets = *((u_int32*)(rec+fo.dOctets));\
-    cur.packets = *((u_int32*)(rec+fo.dPkts));\
+      cur.flows = *((uint32_t*)(rec+fo.dFlows));\
+    cur.duration = *((uint32_t*)(rec+fo.Last)) - *((uint32_t*)(rec+fo.First));\
+    cur.octets = *((uint32_t*)(rec+fo.dOctets));\
+    cur.packets = *((uint32_t*)(rec+fo.dPkts));\
 
 #define TOTAL_INC\
     total.flows += cur.flows;\
@@ -112,15 +112,15 @@ static int sort_cmp64(const void *a, const void *b);
 
 struct fopdi {
   uint64_t *flows, *octets, *packets, *duration;
-  u_int32 *index;
+  uint32_t *index;
 };
 
 struct fopd32 {
-  u_int32 flows, octets, packets, duration;
+  uint32_t flows, octets, packets, duration;
 };
 
 struct fopd32p {
-  u_int32 flows, octets, packets, duration;
+  uint32_t flows, octets, packets, duration;
 };
 
 struct fopd {
@@ -254,10 +254,10 @@ struct stat0 {
   uint64_t start;      /* earliest flow time */
   uint64_t end;        /* latest flow time */
 
-  u_int32 time_start; /* earliest flow (realtime) */
-  u_int32 time_end;   /* last flow (realtime) */
+  uint32_t time_start; /* earliest flow (realtime) */
+  uint32_t time_end;   /* last flow (realtime) */
 
-  u_int32 time_real;  /* realtime duration */
+  uint32_t time_real;  /* realtime duration */
 
   /* average packet sizes */
   uint64_t psize32;    /* bytes/packet 1    <= p <= 32 */
@@ -481,9 +481,9 @@ int format0(struct fmtargs *args)
   struct stat0 fs0;
   u_long p;
   char fmt_buf[256];
-  u_int32 time_tmp;
+  uint32_t time_tmp;
   char *rec;
-  u_int32 First, Last, unix_secs;
+  uint32_t First, Last, unix_secs;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -509,9 +509,9 @@ int format0(struct fmtargs *args)
 
     CUR_GET_PLUS_FLOWS;
 
-    First = *((u_int32*)(rec+fo.First));
-    Last = *((u_int32*)(rec+fo.Last));
-    unix_secs = *((u_int32*)(rec+fo.unix_secs));
+    First = *((uint32_t*)(rec+fo.First));
+    Last = *((uint32_t*)(rec+fo.Last));
+    unix_secs = *((uint32_t*)(rec+fo.unix_secs));
 
     if (!cur.packets) {
       fprintf(stderr, "Ignoring bogus flow dPkts=0\n");
@@ -820,7 +820,7 @@ int format1(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -894,7 +894,7 @@ int format2(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -963,7 +963,7 @@ int format3(struct fmtargs *args)
   struct ftver ftv;
   struct fopd total;
   char *rec;
-  u_int32 hash;
+  uint32_t hash;
 
   ftio_get_ver(&args->ftio, &ftv);
 
@@ -1232,7 +1232,7 @@ int format8(struct fmtargs *args)
   struct ftchash *ftch;
   struct ftchash_rec_ip ftch_recip, *ftch_recipp;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1263,7 +1263,7 @@ int format8(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.dstaddr));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.dstaddr));
 
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
 
@@ -1300,7 +1300,7 @@ int format9(struct fmtargs *args)
   struct ftchash *ftch;
   struct ftchash_rec_ip ftch_recip, *ftch_recipp;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1331,7 +1331,7 @@ int format9(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.srcaddr));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.srcaddr));
 
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
 
@@ -1368,7 +1368,7 @@ int format10(struct fmtargs *args)
   struct ftchash *ftch;
   struct ftchash_rec_ip2 ftch_recip2, *ftch_recip2p;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1399,8 +1399,8 @@ int format10(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recip2.src_addr = *((u_int32*)(rec+fo.srcaddr));
-    ftch_recip2.dst_addr = *((u_int32*)(rec+fo.dstaddr));
+    ftch_recip2.src_addr = *((uint32_t*)(rec+fo.srcaddr));
+    ftch_recip2.dst_addr = *((uint32_t*)(rec+fo.dstaddr));
 
     hash =  (ftch_recip2.src_addr>>16) ^ (ftch_recip2.src_addr & 0xFFFF) ^
       (ftch_recip2.dst_addr>>16) ^ (ftch_recip2.dst_addr & 0xFFFF);
@@ -1438,7 +1438,7 @@ int format11(struct fmtargs *args)
   struct ftchash_rec_ip ftch_recip, *ftch_recipp;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1469,7 +1469,7 @@ int format11(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.srcaddr));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.srcaddr));
 
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
 
@@ -1481,7 +1481,7 @@ int format11(struct fmtargs *args)
 
     STAT_INCP(ftch_recipp);
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.dstaddr));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.dstaddr));
 
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
 
@@ -1571,7 +1571,7 @@ int format13(struct fmtargs *args)
   struct ftver ftv;
   u_long ymin, ymax;
   u_long xmin, xmax;
-  u_int32 First, Last;
+  uint32_t First, Last;
   uint64_t nflows;
   char *rec;
 
@@ -1597,8 +1597,8 @@ int format13(struct fmtargs *args)
 
     CUR_GET_PLUS_FLOWS;
 
-    Last = *((u_int32*)(rec+fo.Last));
-    First = *((u_int32*)(rec+fo.First));
+    Last = *((uint32_t*)(rec+fo.Last));
+    First = *((uint32_t*)(rec+fo.First));
 
     ++nflows;
 
@@ -1641,7 +1641,7 @@ int format14(struct fmtargs *args)
   u_long ymin, ymax;
   u_long xmin, xmax;
   uint64_t nflows;
-  u_int32 First, Last;
+  uint32_t First, Last;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1668,8 +1668,8 @@ int format14(struct fmtargs *args)
    
     CUR_GET_PLUS_FLOWS;
 
-    Last = *((u_int32*)(rec+fo.Last));
-    First = *((u_int32*)(rec+fo.First));
+    Last = *((uint32_t*)(rec+fo.Last));
+    First = *((uint32_t*)(rec+fo.First));
 
     if (Last > xmax)
       xmax = Last;
@@ -1767,7 +1767,7 @@ int format16(struct fmtargs *args)
   struct ftchash *ftch;
   struct ftchash_rec_ip ftch_recip, *ftch_recipp;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -1797,7 +1797,7 @@ int format16(struct fmtargs *args)
     
     TOTAL_INC;
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.nexthop));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.nexthop));
   
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
    
@@ -2249,7 +2249,7 @@ int format24(struct fmtargs *args)
   struct fopd total;
   struct fopd32 cur;
   struct ftver ftv;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2277,7 +2277,7 @@ int format24(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    ftch_recpre.prefix = *((u_int32*)(rec+fo.srcaddr));
+    ftch_recpre.prefix = *((uint32_t*)(rec+fo.srcaddr));
     ftch_recpre.mask = *((u_char*)(rec+fo.src_mask));
 
     /* mask off host bits */
@@ -2323,7 +2323,7 @@ int format25(struct fmtargs *args)
   struct fopd total;
   struct fopd32 cur;
   struct ftver ftv;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2351,7 +2351,7 @@ int format25(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    ftch_recpre.prefix = *((u_int32*)(rec+fo.dstaddr));
+    ftch_recpre.prefix = *((uint32_t*)(rec+fo.dstaddr));
     ftch_recpre.mask = *((u_char*)(rec+fo.dst_mask));
 
     /* mask off host bits */
@@ -2397,7 +2397,7 @@ int format26(struct fmtargs *args)
   struct fopd total;
   struct fopd32 cur;
   struct ftver ftv;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2426,10 +2426,10 @@ int format26(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    ftch_recpre2.src_prefix = *((u_int32*)(rec+fo.srcaddr));
+    ftch_recpre2.src_prefix = *((uint32_t*)(rec+fo.srcaddr));
     ftch_recpre2.src_mask = *((u_char*)(rec+fo.src_mask));
 
-    ftch_recpre2.dst_prefix = *((u_int32*)(rec+fo.dstaddr));
+    ftch_recpre2.dst_prefix = *((uint32_t*)(rec+fo.dstaddr));
     ftch_recpre2.dst_mask = *((u_char*)(rec+fo.dst_mask));
 
     /* mask off host bits */
@@ -2441,7 +2441,7 @@ int format26(struct fmtargs *args)
            (ftch_recpre2.dst_prefix>>16)^
            (ftch_recpre2.dst_prefix & 0xFFFF)^
            (ftch_recpre2.src_mask)^
-           (u_int32)(ftch_recpre2.dst_mask<<8);
+           (uint32_t)(ftch_recpre2.dst_mask<<8);
 
     if (!(ftch_recpre2p = ftchash_update(ftch, &ftch_recpre2, hash))) {
       fterr_warnx("ftch_update(): failed");
@@ -2480,7 +2480,7 @@ int format27(struct fmtargs *args)
   struct fopd total;
   struct fopd32 cur;
   struct ftver ftv;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2507,7 +2507,7 @@ int format27(struct fmtargs *args)
 
   while ((rec = ftio_read(&args->ftio))) {
 
-    ftch_recip.addr = *((u_int32*)(rec+fo.exaddr));
+    ftch_recip.addr = *((uint32_t*)(rec+fo.exaddr));
 
     hash = (ftch_recip.addr>>16) ^ (ftch_recip.addr & 0xFFFF);
 
@@ -2657,7 +2657,7 @@ int format30(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2688,7 +2688,7 @@ int format30(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recc32.c32 = *((u_int32*)(rec+fo.src_tag));
+    ftch_recc32.c32 = *((uint32_t*)(rec+fo.src_tag));
 
     hash = (ftch_recc32.c32>>16) ^ (ftch_recc32.c32 & 0xFFFF);
 
@@ -2726,7 +2726,7 @@ int format31(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2757,7 +2757,7 @@ int format31(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recc32.c32 = *((u_int32*)(rec+fo.dst_tag));
+    ftch_recc32.c32 = *((uint32_t*)(rec+fo.dst_tag));
 
     hash = (ftch_recc32.c32>>16) ^ (ftch_recc32.c32 & 0xFFFF);
 
@@ -2795,7 +2795,7 @@ int format32(struct fmtargs *args)
   struct fopd32 cur;
   struct ftver ftv;
   struct fopd total;
-  u_int32 hash;
+  uint32_t hash;
   char *rec;
 
   ftio_get_ver(&args->ftio, &ftv);
@@ -2827,8 +2827,8 @@ int format32(struct fmtargs *args)
 
     TOTAL_INC;
 
-    ftch_recc322.c32a = *((u_int32*)(rec+fo.src_tag));
-    ftch_recc322.c32b = *((u_int32*)(rec+fo.dst_tag));
+    ftch_recc322.c32a = *((uint32_t*)(rec+fo.src_tag));
+    ftch_recc322.c32b = *((uint32_t*)(rec+fo.dst_tag));
 
     hash = (ftch_recc322.c32a>>16) ^ (ftch_recc322.c32a & 0xFFFF) ^
       (ftch_recc322.c32b>>16) ^ (ftch_recc322.c32b & 0xFFFF);
@@ -3546,7 +3546,7 @@ int fopdi_alloc(struct fopdi *fopdi, int n)
     return -1;
   }
 
-  if (!(fopdi->index = (u_int32*)malloc(n*sizeof(u_int32)))) {
+  if (!(fopdi->index = (uint32_t*)malloc(n*sizeof(uint32_t)))) {
     fterr_warn("malloc(fopdi):");
     free(fopdi->flows);
     free(fopdi->octets);
@@ -3572,10 +3572,10 @@ int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
   struct ftsym *ftsym;
   struct fopd total2;
   char fmt_buf[256], fmt_buf2[64];
-  int32 i, start, end, increment, x;
+  int32_t i, start, end, increment, x;
   int s, len;
-  u_int plines;
-  u_int32 *index;
+  unsigned int plines;
+  uint32_t *index;
 
   s = abs(args->sort_order);
   x = 0;
@@ -3589,16 +3589,16 @@ int tbl_out1(struct fmtargs *args, u_int nindex, struct fopdi *stat,
     ;
   else if (s == 2) { /* flows */
     sort_i64 = stat->flows;
-    qsort(stat->index, nindex, sizeof (u_int32), sort_cmp64);
+    qsort(stat->index, nindex, sizeof (uint32_t), sort_cmp64);
   } else if (s == 3) { /* octets */
     sort_i64 = stat->octets;
-    qsort(stat->index, nindex, sizeof (u_int32), sort_cmp64);
+    qsort(stat->index, nindex, sizeof (uint32_t), sort_cmp64);
   } else if (s == 4) { /* packets */
     sort_i64 = stat->packets;
-    qsort(stat->index, nindex, sizeof (u_int32), sort_cmp64);
+    qsort(stat->index, nindex, sizeof (uint32_t), sort_cmp64);
   } else if (s == 5) { /* duration */
     sort_i64 = stat->duration;
-    qsort(stat->index, nindex, sizeof (u_int32), sort_cmp64);
+    qsort(stat->index, nindex, sizeof (uint32_t), sort_cmp64);
   } else {
     fprintf(stderr, "%c can't sort on field %d.\n", args->cc, args->sort_order);
     return -1;
@@ -3974,10 +3974,10 @@ int chash_c322_dump (struct ftchash *ftch, char cc, int sort_order, int options,
 
 static int sort_cmp64(const void *a, const void *b)
 {
-  u_int32 l, r;
+  uint32_t l, r;
 
-  l = *(u_int32*)a;
-  r = *(u_int32*)b;
+  l = *(uint32_t*)a;
+  r = *(uint32_t*)b;
 
   if (sort_i64[l] < sort_i64[r])
     return -1;

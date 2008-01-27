@@ -61,7 +61,7 @@
 #endif
 
 extern int max_keylen;
-extern u_int32 mask_lookup[];
+extern uint32_t mask_lookup[];
 
 static struct radix_node_head *rhead;
 
@@ -741,7 +741,7 @@ int parse_action_match(struct line_parser *lp, struct fttag *fttag)
   struct fttag_any_look *any_look;
   struct ip_prefix ipp;
   struct radix_node_head *rhead;
-  u_int32 tag, hash, ipaddr;
+  uint32_t tag, hash, ipaddr;
   u_int16 as, port, interface;
   u_int8 tos;
   int sflag, new, tflag2, tmpflag, tflag;
@@ -1847,7 +1847,7 @@ inline void eval_match_nexthop(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
-  u_int32 hash, ipaddr;
+  uint32_t hash, ipaddr;
   struct fttag_next_hop_look *nh_look;
   u_int16 set_tmp;
 
@@ -1882,7 +1882,7 @@ inline void eval_match_exporter(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
-  u_int32 hash, ipaddr;
+  uint32_t hash, ipaddr;
   struct fttag_exporter_look *exporter_look;
   u_int16 set_tmp;
 
@@ -1918,7 +1918,7 @@ inline void eval_match_src_ip(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
-  u_int32 hash, ipaddr;
+  uint32_t hash, ipaddr;
   struct fttag_ip_look *ip_look;
   u_int16 set_tmp;
 
@@ -1954,7 +1954,7 @@ inline void eval_match_dst_ip(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
-  u_int32 hash, ipaddr;
+  uint32_t hash, ipaddr;
   struct fttag_ip_look *ip_look;
   u_int16 set_tmp;
 

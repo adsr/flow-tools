@@ -101,7 +101,7 @@ struct ftmap_ifalias *ftmap_ifalias_new2(char *ip, char *ifIndex_list,
   char *name)
 {
   struct ftmap_ifalias *ftmia;
-  u_int32 bip;
+  uint32_t bip;
   u_int16 *list, entries;
   int n;
   char *c, *buf;
@@ -146,7 +146,7 @@ struct ftmap_ifalias *ftmap_ifalias_new2(char *ip, char *ifIndex_list,
  *
  * returns allocated structure, or NULL for error.
  */
-struct ftmap_ifalias *ftmap_ifalias_new(u_int32 ip, u_int16 *ifIndex_list,
+struct ftmap_ifalias *ftmap_ifalias_new(uint32_t ip, u_int16 *ifIndex_list,
   u_int16 entries, char *name)
 {
   struct ftmap_ifalias *ftmia;
@@ -226,7 +226,7 @@ static void ftmap_ifalias_free(struct ftmap_ifalias *ftmia)
  */
 struct ftmap_ifname *ftmap_ifname_new2(char *ip, char *ifIndex, char *name)
 {
-  u_int32 bip;
+  uint32_t bip;
   u_int16 bifIndex;
 
   bip = scan_ip(ip);
@@ -244,7 +244,7 @@ struct ftmap_ifname *ftmap_ifname_new2(char *ip, char *ifIndex, char *name)
  *
  * returns allocated structure, or NULL for error.
  */
-struct ftmap_ifname *ftmap_ifname_new(u_int32 ip, u_int16 ifIndex, char *name)
+struct ftmap_ifname *ftmap_ifname_new(uint32_t ip, u_int16 ifIndex, char *name)
 {
   struct ftmap_ifname *ftmin;
   int ret, n;
@@ -312,7 +312,7 @@ static void ftmap_ifname_free(struct ftmap_ifname *ftmin)
  * returns initalized ftmap with entries loaded from fname or NULL on error.
  * 
  */
-struct ftmap *ftmap_load(char *fname, u_int32 ip)
+struct ftmap *ftmap_load(char *fname, uint32_t ip)
 {
   struct stat sb;
   struct ftmap *ftmap;

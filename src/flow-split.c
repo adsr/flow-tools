@@ -65,7 +65,7 @@ int main(int argc, char **argv)
   enum split_tag stag;
   int i, names;
   char *out_path, out_fname[MAXPATHNAME], fmt_buf[32];
-  u_int32 max_flows, max_time, hash, unix_secs, total_flows;
+  uint32_t max_flows, max_time, hash, unix_secs, total_flows;
 
   /* init fterr */
   fterr_setid(argv[0]);
@@ -199,7 +199,7 @@ int main(int argc, char **argv)
 
     ++total_flows;
 
-    unix_secs = *((u_int32*)(rec+fo.unix_secs));
+    unix_secs = *((uint32_t*)(rec+fo.unix_secs));
 
     /*
      * if tagging is enabled, grab the tag and look it up, possibly
@@ -209,9 +209,9 @@ int main(int argc, char **argv)
      if (stag) {
 
        if (stag == SPLIT_TAG_SRC)
-         ftch_recsplit.tag = *((u_int32*)(rec+fo.src_tag));
+         ftch_recsplit.tag = *((uint32_t*)(rec+fo.src_tag));
        else if (stag == SPLIT_TAG_DST)
-         ftch_recsplit.tag = *((u_int32*)(rec+fo.dst_tag));
+         ftch_recsplit.tag = *((uint32_t*)(rec+fo.dst_tag));
 
        hash = (ftch_recsplit.tag>>16) ^ (ftch_recsplit.tag & 0xFFFF);
 

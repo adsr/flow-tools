@@ -63,7 +63,7 @@ int main(int argc, char **argv)
   struct fts3rec_offsets fo;
   char *rec;
   const char *fname, *dname;
-  u_int32 total_flows;
+  uint32_t total_flows;
   int i, split, done;
   int usage_call;
 

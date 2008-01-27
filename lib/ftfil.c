@@ -72,7 +72,7 @@
   }\
 
 extern int max_keylen;
-extern u_int32 mask_lookup[];
+extern uint32_t mask_lookup[];
 static int rn_init_called;
 static struct radix_node_head *rhead;
 
@@ -154,7 +154,7 @@ struct ftfil_lookup_ip_mask {
 
 struct ftfil_lookup_ip_mask_rec {
   FT_STAILQ_ENTRY(ftfil_lookup_ip_mask_rec) chain;
-  u_int32 ip, mask;
+  uint32_t ip, mask;
   int mode; /* FT_FIL_MODE_PERMIT/DENY */
 };
 
@@ -223,7 +223,7 @@ struct ftfil_lookup_ip_prefix_len {
 
 struct ftfil_lookup_counter_rec {
   FT_STAILQ_ENTRY(ftfil_lookup_counter_rec) chain;
-  u_int32 val;
+  uint32_t val;
   enum ftfil_op op; /* FT_FIL_OP */
   int mode;
 };
@@ -255,7 +255,7 @@ struct ftfil_lookup_tag {
 
 struct ftfil_lookup_tag_mask_rec {
   FT_STAILQ_ENTRY(ftfil_lookup_tag_mask_rec) chain;
-  u_int32 tag, mask;
+  uint32_t tag, mask;
   int mode; /* FT_FIL_MODE_PERMIT/DENY */
 };
 
@@ -287,7 +287,7 @@ struct ftfil_lookup_rate {
 
 struct ftfil_match_item_cache {
   FT_SLIST_ENTRY(ftfil_match_item_cache) chain;
-  u_int32 time; /* cache time -- only valid for flow == curflow+1 */
+  uint32_t time; /* cache time -- only valid for flow == curflow+1 */
   void *flow; /* address of flow evaluating -- used to invalidate cache */
   enum ftfil_mode mode; /* result FT_FIL_MODE_* */
   void *lookup; /* data for evaluator */
@@ -937,10 +937,10 @@ inline int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
-  u_int32 *flows;
+  uint32_t *flows;
   int t, match;
 
-  flows = ((u_int32*)(rec+fo->dFlows));
+  flows = ((uint32_t*)(rec+fo->dFlows));
 
   match = 0;
 
@@ -1002,10 +1002,10 @@ inline int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
-  u_int32 *octets;
+  uint32_t *octets;
   int t, match;
 
-  octets = ((u_int32*)(rec+fo->dOctets));
+  octets = ((uint32_t*)(rec+fo->dOctets));
 
   match = 0;
 
@@ -1067,10 +1067,10 @@ inline int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
-  u_int32 *packets;
+  uint32_t *packets;
   int t, match;
 
-  packets = ((u_int32*)(rec+fo->dPkts));
+  packets = ((uint32_t*)(rec+fo->dPkts));
 
   match = 0;
 
@@ -1132,10 +1132,10 @@ inline int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
-  u_int32 *xtra_packets;
+  uint32_t *xtra_packets;
   int t, match;
 
-  xtra_packets = ((u_int32*)(rec+fo->extra_pkts));
+  xtra_packets = ((uint32_t*)(rec+fo->extra_pkts));
 
   match = 0;
 
@@ -1197,11 +1197,11 @@ inline int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
-  u_int32 duration, *first, *last;
+  uint32_t duration, *first, *last;
   int t, match;
 
-  first = ((u_int32*)(rec+fo->First));
-  last = ((u_int32*)(rec+fo->Last));
+  first = ((uint32_t*)(rec+fo->First));
+  last = ((uint32_t*)(rec+fo->Last));
   duration = *last - *first;
 
   match = 0;
@@ -1265,13 +1265,13 @@ inline int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
 {
   struct ftfil_lookup_counter_rec *ftflcr;
   struct fttime ftt;
-  u_int32 *sysUpTime, *unix_secs, *unix_nsecs, *First;
+  uint32_t *sysUpTime, *unix_secs, *unix_nsecs, *First;
   int t, match;
 
-  sysUpTime = ((u_int32*)(rec+fo->sysUpTime));
-  unix_secs = ((u_int32*)(rec+fo->unix_secs));
-  unix_nsecs = ((u_int32*)(rec+fo->unix_nsecs));
-  First = ((u_int32*)(rec+fo->First));
+  sysUpTime = ((uint32_t*)(rec+fo->sysUpTime));
+  unix_secs = ((uint32_t*)(rec+fo->unix_secs));
+  unix_nsecs = ((uint32_t*)(rec+fo->unix_nsecs));
+  First = ((uint32_t*)(rec+fo->First));
 
   ftt = ftltime(*sysUpTime, *unix_secs, *unix_nsecs, *First);
 
@@ -1336,13 +1336,13 @@ inline int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
 {
   struct ftfil_lookup_counter_rec *ftflcr;
   struct fttime ftt;
-  u_int32 *sysUpTime, *unix_secs, *unix_nsecs, *Last;
+  uint32_t *sysUpTime, *unix_secs, *unix_nsecs, *Last;
   int t, match;
 
-  sysUpTime = ((u_int32*)(rec+fo->sysUpTime));
-  unix_secs = ((u_int32*)(rec+fo->unix_secs));
-  unix_nsecs = ((u_int32*)(rec+fo->unix_nsecs));
-  Last = ((u_int32*)(rec+fo->Last));
+  sysUpTime = ((uint32_t*)(rec+fo->sysUpTime));
+  unix_secs = ((uint32_t*)(rec+fo->unix_secs));
+  unix_nsecs = ((uint32_t*)(rec+fo->unix_nsecs));
+  Last = ((uint32_t*)(rec+fo->Last));
 
   ftt = ftltime(*sysUpTime, *unix_secs, *unix_nsecs, *Last);
 
@@ -1409,13 +1409,13 @@ inline int eval_match_start_time(struct ftfil_lookup_time *lookup,
   struct tm *tm;
   struct ftfil_lookup_time_rec *ftfltmer;
   struct fttime ftt;
-  u_int32 *sysUpTime, *unix_secs, *unix_nsecs, *First;
+  uint32_t *sysUpTime, *unix_secs, *unix_nsecs, *First;
   int t, match;
 
-  sysUpTime = ((u_int32*)(rec+fo->sysUpTime));
-  unix_secs = ((u_int32*)(rec+fo->unix_secs));
-  unix_nsecs = ((u_int32*)(rec+fo->unix_nsecs));
-  First = ((u_int32*)(rec+fo->First));
+  sysUpTime = ((uint32_t*)(rec+fo->sysUpTime));
+  unix_secs = ((uint32_t*)(rec+fo->unix_secs));
+  unix_nsecs = ((uint32_t*)(rec+fo->unix_nsecs));
+  First = ((uint32_t*)(rec+fo->First));
 
   ftt = ftltime(*sysUpTime, *unix_secs, *unix_nsecs, *First);
 
@@ -1499,13 +1499,13 @@ inline int eval_match_end_time(struct ftfil_lookup_time *lookup,
   struct tm *tm;
   struct ftfil_lookup_time_rec *ftfltmer;
   struct fttime ftt;
-  u_int32 *sysUpTime, *unix_secs, *unix_nsecs, *Last;
+  uint32_t *sysUpTime, *unix_secs, *unix_nsecs, *Last;
   int t, match;
 
-  sysUpTime = ((u_int32*)(rec+fo->sysUpTime));
-  unix_secs = ((u_int32*)(rec+fo->unix_secs));
-  unix_nsecs = ((u_int32*)(rec+fo->unix_nsecs));
-  Last = ((u_int32*)(rec+fo->Last));
+  sysUpTime = ((uint32_t*)(rec+fo->sysUpTime));
+  unix_secs = ((uint32_t*)(rec+fo->unix_secs));
+  unix_nsecs = ((uint32_t*)(rec+fo->unix_nsecs));
+  Last = ((uint32_t*)(rec+fo->Last));
 
   ftt = ftltime(*sysUpTime, *unix_secs, *unix_nsecs, *Last);
 
@@ -1586,10 +1586,10 @@ inline int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_tag_mask_rec *ftfltmr;
-  u_int32 *src_tag;
+  uint32_t *src_tag;
   int match;
 
-  src_tag = ((u_int32*)(rec+fo->src_tag));
+  src_tag = ((uint32_t*)(rec+fo->src_tag));
 
   match = 0;
 
@@ -1624,10 +1624,10 @@ inline int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *src_tag, hash;
+  uint32_t *src_tag, hash;
   int match;
 
-  src_tag = ((u_int32*)(rec+fo->src_tag));
+  src_tag = ((uint32_t*)(rec+fo->src_tag));
 
   match = 0;
 
@@ -1658,10 +1658,10 @@ inline int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *dst_tag, hash;
+  uint32_t *dst_tag, hash;
   int match;
 
-  dst_tag = ((u_int32*)(rec+fo->dst_tag));
+  dst_tag = ((uint32_t*)(rec+fo->dst_tag));
 
   match = 0;
 
@@ -1692,10 +1692,10 @@ inline int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_tag_mask_rec *ftfltmr;
-  u_int32 *dst_tag;
+  uint32_t *dst_tag;
   int match;
 
-  dst_tag = ((u_int32*)(rec+fo->dst_tag));
+  dst_tag = ((uint32_t*)(rec+fo->dst_tag));
 
   match = 0;
 
@@ -1730,10 +1730,10 @@ inline int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
-  u_int32 *nexthop;
+  uint32_t *nexthop;
   int match;
 
-  nexthop = ((u_int32*)(rec+fo->nexthop));
+  nexthop = ((uint32_t*)(rec+fo->nexthop));
 
   match = 0;
 
@@ -1768,10 +1768,10 @@ inline int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *nexthop, hash;
+  uint32_t *nexthop, hash;
   int match;
 
-  nexthop = ((u_int32*)(rec+fo->nexthop));
+  nexthop = ((uint32_t*)(rec+fo->nexthop));
 
   match = 0;
 
@@ -1806,7 +1806,7 @@ inline int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   struct radix_sockaddr_in sock1;
   int match;
 
-  sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->nexthop));
+  sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->nexthop));
   sock1.sin_len = sizeof sock1;
   sock1.sin_family = AF_INET;
 
@@ -1839,10 +1839,10 @@ inline int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
-  u_int32 *sc;
+  uint32_t *sc;
   int match;
 
-  sc = ((u_int32*)(rec+fo->router_sc));
+  sc = ((uint32_t*)(rec+fo->router_sc));
 
   match = 0;
 
@@ -1877,10 +1877,10 @@ inline int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *sc, hash;
+  uint32_t *sc, hash;
   int match;
 
-  sc = ((u_int32*)(rec+fo->router_sc));
+  sc = ((uint32_t*)(rec+fo->router_sc));
 
   match = 0;
 
@@ -1915,7 +1915,7 @@ inline int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   struct radix_sockaddr_in sock1;
   int match;
 
-  sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->router_sc));
+  sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->router_sc));
   sock1.sin_len = sizeof sock1;
   sock1.sin_family = AF_INET;
 
@@ -1948,10 +1948,10 @@ inline int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
-  u_int32 *ip_src_addr;
+  uint32_t *ip_src_addr;
   int match;
 
-  ip_src_addr = ((u_int32*)(rec+fo->srcaddr));
+  ip_src_addr = ((uint32_t*)(rec+fo->srcaddr));
 
   match = 0;
 
@@ -1986,10 +1986,10 @@ inline int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *ip_src_addr, hash;
+  uint32_t *ip_src_addr, hash;
   int match;
 
-  ip_src_addr = ((u_int32*)(rec+fo->srcaddr));
+  ip_src_addr = ((uint32_t*)(rec+fo->srcaddr));
 
   match = 0;
 
@@ -2024,7 +2024,7 @@ inline int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   struct radix_sockaddr_in sock1;
   int match;
 
-  sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->srcaddr));
+  sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->srcaddr));
   sock1.sin_len = sizeof sock1;
   sock1.sin_family = AF_INET;
 
@@ -2057,10 +2057,10 @@ inline int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
-  u_int32 *ip_dst_addr;
+  uint32_t *ip_dst_addr;
   int match;
 
-  ip_dst_addr = ((u_int32*)(rec+fo->dstaddr));
+  ip_dst_addr = ((uint32_t*)(rec+fo->dstaddr));
 
   match = 0;
 
@@ -2095,10 +2095,10 @@ inline int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *ip_dst_addr, hash;
+  uint32_t *ip_dst_addr, hash;
   int match;
 
-  ip_dst_addr = ((u_int32*)(rec+fo->dstaddr));
+  ip_dst_addr = ((uint32_t*)(rec+fo->dstaddr));
 
   match = 0;
 
@@ -2133,7 +2133,7 @@ inline int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   struct radix_sockaddr_in sock1;
   int match;
 
-  sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->dstaddr));
+  sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->dstaddr));
   sock1.sin_len = sizeof sock1;
   sock1.sin_family = AF_INET;
 
@@ -2166,10 +2166,10 @@ inline int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
-  u_int32 *ip_exporter_addr;
+  uint32_t *ip_exporter_addr;
   int match;
 
-  ip_exporter_addr = ((u_int32*)(rec+fo->exaddr));
+  ip_exporter_addr = ((uint32_t*)(rec+fo->exaddr));
 
   match = 0;
 
@@ -2204,10 +2204,10 @@ inline int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
-  u_int32 *ip_exporter_addr, hash;
+  uint32_t *ip_exporter_addr, hash;
   int match;
 
-  ip_exporter_addr = ((u_int32*)(rec+fo->exaddr));
+  ip_exporter_addr = ((uint32_t*)(rec+fo->exaddr));
 
   match = 0;
 
@@ -2242,7 +2242,7 @@ inline int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   struct radix_sockaddr_in sock1;
   int match;
 
-  sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->exaddr));
+  sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->exaddr));
   sock1.sin_len = sizeof sock1;
   sock1.sin_family = AF_INET;
 
@@ -2276,12 +2276,12 @@ inline int eval_match_bps(struct ftfil_lookup_double *lookup, char *rec,
 {
   struct ftfil_lookup_double_rec *ftfldr;
   double bps;
-  u_int32 dOctets, Last, First, duration;
+  uint32_t dOctets, Last, First, duration;
   int t, match;
 
-  dOctets = *((u_int32*)(rec+fo->dOctets));
-  Last = *((u_int32*)(rec+fo->Last));
-  First = *((u_int32*)(rec+fo->First));
+  dOctets = *((uint32_t*)(rec+fo->dOctets));
+  Last = *((uint32_t*)(rec+fo->Last));
+  First = *((uint32_t*)(rec+fo->First));
   duration = Last - First;
 
   if (duration)
@@ -2350,12 +2350,12 @@ inline int eval_match_pps(struct ftfil_lookup_double *lookup, char *rec,
 {
   struct ftfil_lookup_double_rec *ftfldr;
   double pps;
-  u_int32 dPkts, Last, First, duration;
+  uint32_t dPkts, Last, First, duration;
   int t, match;
 
-  dPkts = *((u_int32*)(rec+fo->dPkts));
-  Last = *((u_int32*)(rec+fo->Last));
-  First = *((u_int32*)(rec+fo->First));
+  dPkts = *((uint32_t*)(rec+fo->dPkts));
+  Last = *((uint32_t*)(rec+fo->Last));
+  First = *((uint32_t*)(rec+fo->First));
   duration = Last - First;
 
   if (duration)
@@ -3742,7 +3742,7 @@ int parse_primitive_type_ip_address(struct line_parser *lp,
 {
   struct ftfil_lookup_ip_address *ftflipa;
   struct ftchash_rec_fil_c32 ftch_recfc32, *ftch_recfc32p;
-  u_int32 hash;
+  uint32_t hash;
   char fmt_buf[32];
 
   ftflipa = (struct ftfil_lookup_ip_address*)lp->cur_primitive->lookup;
@@ -3785,7 +3785,7 @@ int parse_primitive_type_tag(struct line_parser *lp,
 {
   struct ftfil_lookup_tag *ftflt;
   struct ftchash_rec_fil_c32 ftch_recfc32, *ftch_recfc32p;
-  u_int32 hash, val;
+  uint32_t hash, val;
 
   ftflt = (struct ftfil_lookup_tag*)lp->cur_primitive->lookup;
 
@@ -3892,7 +3892,7 @@ int parse_primitive_type_tag_mask(struct line_parser *lp,
 {
   struct ftfil_lookup_tag_mask *ftfltm;
   struct ftfil_lookup_tag_mask_rec *ftfltmr, *ftfltmr2;
-  u_int32 val, tval;
+  uint32_t val, tval;
   char *tag;
 
   tag = lp->word;

@@ -60,8 +60,8 @@ int main(int argc, char **argv)
   char *rec, out_rec[FT_IO_MAXREC];
   const char *fname, *dname;
   unsigned int v1, v2;
-  u_int32 total_flows, cap_start, cap_end;
-  u_int32 time_start, time_end;
+  uint32_t total_flows, cap_start, cap_end;
+  uint32_t time_start, time_end;
   int i, n, keep_input_time;
   int xlate_version;
   int no_config;

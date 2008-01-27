@@ -253,10 +253,10 @@ int format0(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -320,15 +320,15 @@ int format1(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.unix_secs = ((u_int32*)(rec+fo.unix_secs));
-    cur.unix_nsecs = ((u_int32*)(rec+fo.unix_nsecs));
-    cur.sysUpTime = ((u_int32*)(rec+fo.sysUpTime));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.unix_secs = ((uint32_t*)(rec+fo.unix_secs));
+    cur.unix_nsecs = ((uint32_t*)(rec+fo.unix_nsecs));
+    cur.sysUpTime = ((uint32_t*)(rec+fo.sysUpTime));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -421,15 +421,15 @@ int format2(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.unix_secs = ((u_int32*)(rec+fo.unix_secs));
-    cur.unix_nsecs = ((u_int32*)(rec+fo.unix_nsecs));
-    cur.sysUpTime = ((u_int32*)(rec+fo.sysUpTime));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.unix_secs = ((uint32_t*)(rec+fo.unix_secs));
+    cur.unix_nsecs = ((uint32_t*)(rec+fo.unix_nsecs));
+    cur.sysUpTime = ((uint32_t*)(rec+fo.sysUpTime));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -538,10 +538,10 @@ int format3(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));   
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));   
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -619,12 +619,12 @@ int format4(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));   
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));   
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
@@ -700,15 +700,15 @@ int format5(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.unix_secs = ((u_int32*)(rec+fo.unix_secs));
-    cur.unix_nsecs = ((u_int32*)(rec+fo.unix_nsecs));
-    cur.sysUpTime = ((u_int32*)(rec+fo.sysUpTime));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.unix_secs = ((uint32_t*)(rec+fo.unix_secs));
+    cur.unix_nsecs = ((uint32_t*)(rec+fo.unix_nsecs));
+    cur.sysUpTime = ((uint32_t*)(rec+fo.sysUpTime));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -782,10 +782,10 @@ int format6(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
 
@@ -841,11 +841,11 @@ int format7(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.router_sc = ((u_int32*)(rec+fo.router_sc));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -919,11 +919,11 @@ int format8(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.peer_nexthop = ((u_int32*)(rec+fo.peer_nexthop));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.peer_nexthop = ((uint32_t*)(rec+fo.peer_nexthop));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -997,12 +997,12 @@ int format9(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));   
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.src_tag = ((u_int32*)(rec+fo.src_tag));   
-    cur.dst_tag = ((u_int32*)(rec+fo.dst_tag));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));   
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.src_tag = ((uint32_t*)(rec+fo.src_tag));   
+    cur.dst_tag = ((uint32_t*)(rec+fo.dst_tag));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
@@ -1012,12 +1012,12 @@ int format9(struct ftio *ftio, int options)
 
     if (options & FT_OPT_NAMES) {
 
-      if (ftsym_findbyval(sym_tag, (u_int32)*cur.src_tag, &fmt_src) != 1) {
+      if (ftsym_findbyval(sym_tag, (uint32_t)*cur.src_tag, &fmt_src) != 1) {
         sprintf(fmt_buf3, "0x%-8.8lx", (u_long)*cur.src_tag);
         fmt_src = fmt_buf3;
       }
 
-      if (ftsym_findbyval(sym_tag, (u_int32)*cur.dst_tag, &fmt_dst) != 1) {
+      if (ftsym_findbyval(sym_tag, (uint32_t)*cur.dst_tag, &fmt_dst) != 1) {
         sprintf(fmt_buf4, "0x%-8.8lx", (u_long)*cur.dst_tag);
         fmt_dst = fmt_buf4;
       }
@@ -1091,11 +1091,11 @@ int format10(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
@@ -1171,11 +1171,11 @@ int format11(struct ftio *ftio, int options)
 
    while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -1246,13 +1246,13 @@ int format12(struct ftio *ftio, int options)
 
    while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
@@ -1322,12 +1322,12 @@ int format13(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.dst_as = ((u_int16*)(rec+fo.dst_as));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
@@ -1399,13 +1399,13 @@ int format14(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
@@ -1474,14 +1474,14 @@ int format15(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.router_sc = ((u_int32*)(rec+fo.router_sc));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
-    cur.extra_pkts = ((u_int32*)(rec+fo.extra_pkts));
+    cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_ipv4(fmt_buf1, *cur.dstaddr, FMT_PAD_RIGHT);
     fmt_ipv4(fmt_buf2, *cur.router_sc, FMT_PAD_RIGHT);
@@ -1535,16 +1535,16 @@ int format16(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.router_sc = ((u_int32*)(rec+fo.router_sc));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
-    cur.extra_pkts = ((u_int32*)(rec+fo.extra_pkts));
+    cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_ipv4(fmt_buf1, *cur.srcaddr, FMT_PAD_RIGHT);
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
@@ -1610,11 +1610,11 @@ int format17(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.router_sc = ((u_int32*)(rec+fo.router_sc));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -1622,7 +1622,7 @@ int format17(struct ftio *ftio, int options)
     cur.tos = ((u_int8*)(rec+fo.tos));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.marked_tos = ((u_int8*)(rec+fo.marked_tos));
-    cur.extra_pkts = ((u_int32*)(rec+fo.extra_pkts));
+    cur.extra_pkts = ((uint32_t*)(rec+fo.extra_pkts));
 
     fmt_uint16s(sym_tcp, 5, fmt_buf6, (u_int16)*cur.srcport, FMT_PAD_RIGHT);
   
@@ -1696,11 +1696,11 @@ int format18(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
@@ -1778,11 +1778,11 @@ int format19(struct ftio *ftio, int options)
 
    while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
@@ -1858,13 +1858,13 @@ int format20(struct ftio *ftio, int options)
 
    while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
     cur.src_mask = ((u_int8*)(rec+fo.src_mask));
@@ -1939,12 +1939,12 @@ int format21(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.dst_as = ((u_int16*)(rec+fo.dst_as));
     cur.dst_mask = ((u_int8*)(rec+fo.dst_mask));
@@ -2020,13 +2020,13 @@ int format22(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.src_as = ((u_int16*)(rec+fo.src_as));
@@ -2111,13 +2111,13 @@ int format23(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.dFlows = ((u_int32*)(rec+fo.dFlows));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.dFlows = ((uint32_t*)(rec+fo.dFlows));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));
@@ -2208,17 +2208,17 @@ int format24(struct ftio *ftio, int options)
 
   while ((rec = ftio_read(ftio))) {
 
-    cur.unix_secs = ((u_int32*)(rec+fo.unix_secs));
-    cur.unix_nsecs = ((u_int32*)(rec+fo.unix_nsecs));
-    cur.sysUpTime = ((u_int32*)(rec+fo.sysUpTime));
-    cur.dOctets = ((u_int32*)(rec+fo.dOctets));
-    cur.dPkts = ((u_int32*)(rec+fo.dPkts));
-    cur.First = ((u_int32*)(rec+fo.First));
-    cur.Last = ((u_int32*)(rec+fo.Last));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
-    cur.exaddr = ((u_int32*)(rec+fo.exaddr));
-    cur.router_sc = ((u_int32*)(rec+fo.router_sc));
+    cur.unix_secs = ((uint32_t*)(rec+fo.unix_secs));
+    cur.unix_nsecs = ((uint32_t*)(rec+fo.unix_nsecs));
+    cur.sysUpTime = ((uint32_t*)(rec+fo.sysUpTime));
+    cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
+    cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
+    cur.First = ((uint32_t*)(rec+fo.First));
+    cur.Last = ((uint32_t*)(rec+fo.Last));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
+    cur.exaddr = ((uint32_t*)(rec+fo.exaddr));
+    cur.router_sc = ((uint32_t*)(rec+fo.router_sc));
     cur.input = ((u_int16*)(rec+fo.input));
     cur.output = ((u_int16*)(rec+fo.output));
     cur.srcport = ((u_int16*)(rec+fo.srcport));

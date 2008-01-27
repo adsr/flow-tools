@@ -245,10 +245,10 @@ int format0(struct ftio *ftio, struct options *opt)
   size_t rlen;
   u_char buf[FT_IO_MAXREC];
   char *rec;
-  u_int32 ui32, Start;
+  uint32_t ui32, Start;
   u_int16 ui16;
   u_int8 ui8;
-  u_int32 cfdmask, index;
+  uint32_t cfdmask, index;
   int ret;
 
   rec = (char*)&buf;
@@ -363,7 +363,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_ROUTERMASK)
-        *((u_int32*)(rec+fo.exaddr)) = ui32;
+        *((uint32_t*)(rec+fo.exaddr)) = ui32;
     }
 
     if (index & CF_SRCIPADDRMASK) {
@@ -371,7 +371,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_SRCIPADDRMASK)
-        *((u_int32*)(rec+fo.srcaddr)) = ui32;
+        *((uint32_t*)(rec+fo.srcaddr)) = ui32;
     }
 
     if (index & CF_DSTIPADDRMASK) {
@@ -379,7 +379,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_DSTIPADDRMASK)
-        *((u_int32*)(rec+fo.dstaddr)) = ui32;
+        *((uint32_t*)(rec+fo.dstaddr)) = ui32;
     }
 
     if (index & CF_INPUTIFINDEXMASK) {
@@ -419,7 +419,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_PKTSMASK)
-        *((u_int32*)(rec+fo.dPkts)) = ui32;
+        *((uint32_t*)(rec+fo.dPkts)) = ui32;
     }
 
     if (index & CF_BYTESMASK) {
@@ -427,7 +427,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_BYTESMASK)
-        *((u_int32*)(rec+fo.dOctets)) = ui32;
+        *((uint32_t*)(rec+fo.dOctets)) = ui32;
     }
 
     if (index & CF_IPNEXTHOPMASK) {
@@ -435,7 +435,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_IPNEXTHOPMASK)
-        *((u_int32*)(rec+fo.nexthop)) = ui32;
+        *((uint32_t*)(rec+fo.nexthop)) = ui32;
     }
 
     if (index & CF_STARTTIMEMASK) {
@@ -444,7 +444,7 @@ int format0(struct ftio *ftio, struct options *opt)
       ui32 = ntohl(ui32);
       Start = ui32;
       if (cfdmask & CF_STARTTIMEMASK)
-        *((u_int32*)(rec+fo.unix_secs)) = ui32;
+        *((uint32_t*)(rec+fo.unix_secs)) = ui32;
     }
 
     if (index & CF_ENDTIMEMASK) {
@@ -453,9 +453,9 @@ int format0(struct ftio *ftio, struct options *opt)
       ui32 = ntohl(ui32);
       if (cfdmask & CF_ENDTIMEMASK) {
         if (Start)
-          *((u_int32*)(rec+fo.Last)) = (ui32 - Start) * 1000;
+          *((uint32_t*)(rec+fo.Last)) = (ui32 - Start) * 1000;
         else
-          *((u_int32*)(rec+fo.unix_secs)) = ui32;
+          *((uint32_t*)(rec+fo.unix_secs)) = ui32;
         
       }
     }
@@ -530,7 +530,7 @@ int format0(struct ftio *ftio, struct options *opt)
         goto done;
       ui32 = ntohl(ui32);
       if (cfdmask & CF_PEERNEXTHOPMASK)
-        *((u_int32*)(rec+fo.peer_nexthop)) = ui32;
+        *((uint32_t*)(rec+fo.peer_nexthop)) = ui32;
     }
 
     if (index & CF_ENGINETYPEMASK) {
@@ -640,55 +640,55 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_UNIX_SECS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_UNIX_SECS))
-        *((u_int32*)(rec+fo.unix_secs)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.unix_secs)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_UNIX_NSECS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_UNIX_NSECS))
-        *((u_int32*)(rec+fo.unix_nsecs)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.unix_nsecs)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SYSUPTIME) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SYSUPTIME))
-        *((u_int32*)(rec+fo.sysUpTime)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.sysUpTime)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_EXADDR) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_EXADDR))
-        *((u_int32*)(rec+fo.exaddr)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.exaddr)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_DFLOWS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DFLOWS))
-        *((u_int32*)(rec+fo.dFlows)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.dFlows)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DPKTS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DPKTS))
-        *((u_int32*)(rec+fo.dPkts)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.dPkts)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DOCTETS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DOCTETS))
-        *((u_int32*)(rec+fo.dOctets)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.dOctets)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_FIRST) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_FIRST))
-        *((u_int32*)(rec+fo.First)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.First)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_LAST) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_LAST))
-        *((u_int32*)(rec+fo.Last)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.Last)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_ENGINE_TYPE) {
@@ -706,19 +706,19 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_SRCADDR) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SRCADDR))
-        *((u_int32*)(rec+fo.srcaddr)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.srcaddr)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_DSTADDR) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DSTADDR))
-        *((u_int32*)(rec+fo.dstaddr)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.dstaddr)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_NEXTHOP) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_NEXTHOP))
-        *((u_int32*)(rec+fo.nexthop)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.nexthop)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_INPUT) {
@@ -802,13 +802,13 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_PEER_NEXTHOP) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_PEER_NEXTHOP))
-        *((u_int32*)(rec+fo.peer_nexthop)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.peer_nexthop)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_ROUTER_SC) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_ROUTER_SC))
-        *((u_int32*)(rec+fo.router_sc)) = scan_ip(field);
+        *((uint32_t*)(rec+fo.router_sc)) = scan_ip(field);
     }
 
     if (inmask & FT_XFIELD_MARKED_TOS) {
@@ -820,19 +820,19 @@ int format2(struct ftio *ftio, struct options *opt)
     if (inmask & FT_XFIELD_EXTRA_PKTS) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_EXTRA_PKTS))
-        *((u_int32*)(rec+fo.extra_pkts)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.extra_pkts)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_SRC_TAG) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_SRC_TAG))
-        *((u_int32*)(rec+fo.src_tag)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.src_tag)) = strtoul(field, (char **)0L, 0);
     }
 
     if (inmask & FT_XFIELD_DST_TAG) {
       field = strsep(&inbufp, ",");
       if (field && (dmask & FT_XFIELD_DST_TAG))
-        *((u_int32*)(rec+fo.dst_tag)) = strtoul(field, (char **)0L, 0);
+        *((uint32_t*)(rec+fo.dst_tag)) = strtoul(field, (char **)0L, 0);
     }
       
     if (ftio_write(ftio, rec) < 0) {
@@ -994,7 +994,7 @@ int format_NFCollector1(struct ftio *ftio, struct options *opt)
   ret = 1;
   while (!(feof(stdin))) {
     char **fp;
-    u_int32 val=0;
+    uint32_t val=0;
     int off=0,n,i;
     if(fgets(inbuf,sizeof(inbuf),stdin) == NULL)
       continue;
@@ -1025,7 +1025,7 @@ int format_NFCollector1(struct ftio *ftio, struct options *opt)
 	  break;
 	case TYPE_IPV4:
 	case TYPE_32B:
-	  *((u_int32*)(rec+off)) = (u_int32)val;
+	  *((uint32_t*)(rec+off)) = (uint32_t)val;
 	  break;
 	case TYPE_8B:
 	  *((u_int8*)(rec+off)) = (u_int8)val;

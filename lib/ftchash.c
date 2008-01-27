@@ -131,7 +131,7 @@ void ftchash_free(struct ftchash *ftch)
  *   returns pointer to record found or
  *           *0L if not found
  */
-void *ftchash_lookup(struct ftchash *ftch, void *key, u_int32 hash)
+void *ftchash_lookup(struct ftchash *ftch, void *key, uint32_t hash)
 {
 
   struct ftchash_rec_gen *rec;
@@ -167,7 +167,7 @@ void *ftchash_lookup(struct ftchash *ftch, void *key, u_int32 hash)
  *   returns 0L on error
  *           or pointer to allocated record
  */
-void *ftchash_update(struct ftchash *ftch, void *newrec, u_int32 hash)
+void *ftchash_update(struct ftchash *ftch, void *newrec, uint32_t hash)
 {
 
   struct ftchash_rec_gen *rec;
@@ -430,15 +430,15 @@ static int cmp64(const void *a, const void *b)
 
 static int cmp40(const void *a, const void *b)
 {
-  register u_int32 *la, *lb;
+  register uint32_t *la, *lb;
   register u_int8 *ca, *cb;
   register char *d;
 
   d = *(char**)a;
-  la = (u_int32*)(d+sort_offset);
+  la = (uint32_t*)(d+sort_offset);
 
   d = *(char**)b;
-  lb = (u_int32*)(d+sort_offset);
+  lb = (uint32_t*)(d+sort_offset);
 
   if (*la < *lb)
     return -1;
@@ -462,14 +462,14 @@ static int cmp40(const void *a, const void *b)
 
 static int cmp32(const void *a, const void *b)
 {
-  register u_int32 *la, *lb;
+  register uint32_t *la, *lb;
   char *d;
 
   d = *(char**)a;
-  la = (u_int32*)(d+sort_offset);
+  la = (uint32_t*)(d+sort_offset);
 
   d = *(char**)b;
-  lb = (u_int32*)(d+sort_offset);
+  lb = (uint32_t*)(d+sort_offset);
 
   if (*la < *lb)
     return -1;

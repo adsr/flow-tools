@@ -439,7 +439,7 @@ if (rpt->out->fields & FT_STAT_FIELD_LAST) {\
     return (struct A*)0L;\
   }\
   bzero(B, sizeof *B);\
-  if (bucket_alloc(&B->bucket, (u_int32)C, D)) {\
+  if (bucket_alloc(&B->bucket, (uint32_t)C, D)) {\
     fterr_warnx("bucket_alloc(): failed");\
     free(B);\
     return (struct A*)0L;\
@@ -632,7 +632,7 @@ if (rpt->out->fields & FT_STAT_FIELD_LAST) {\
 #define STD_ACCUM_BUCKET1(A,B)\
   struct fts3rec_all2 cur;\
   struct A *B;\
-  u_int32 duration_tmp;\
+  uint32_t duration_tmp;\
   double bps_tmp = 0, pps_tmp = 0;\
   B = rpt->data;\
   STD_ACCUM;
@@ -662,8 +662,8 @@ if (rpt->out->fields & FT_STAT_FIELD_LAST) {\
   struct fts3rec_all2 cur;\
   struct C D, *E;\
   struct A *B;\
-  u_int32 hash;\
-  u_int32 duration_tmp;\
+  uint32_t hash;\
+  uint32_t duration_tmp;\
   double bps_tmp, pps_tmp;\
   bzero(&D, sizeof D);\
   B = rpt->data;\
@@ -809,7 +809,7 @@ struct flow_bucket {
   double *avg_pps, *avg_bps;
   double *min_pps, *min_bps;
   double *max_pps, *max_bps;
-  u_int32 *index;
+  uint32_t *index;
 }; /* flow_bucket */
 
 struct line_parser {
@@ -853,10 +853,10 @@ struct ftstat_rpt_1 {
   uint64_t start;      /* earliest flow time */
   uint64_t end;        /* latest flow time */
 
-  u_int32 time_start; /* earliest flow (realtime) */
-  u_int32 time_end;   /* last flow (realtime) */
+  uint32_t time_start; /* earliest flow (realtime) */
+  uint32_t time_end;   /* last flow (realtime) */
 
-  u_int32 time_real;  /* realtime duration */
+  uint32_t time_real;  /* realtime duration */
 
   /* average packet sizes */
   uint64_t psize32;    /* bytes/packet 1    <= p <= 32 */
@@ -1256,9 +1256,9 @@ static int recn_dump(FILE *fp, int fields, char *key, char *key1,
 static int sort_cmp64(const void *a, const void *b);
 static int sort_cmp_double(const void *a, const void *b);
 void bucket_free(struct flow_bucket *b);
-int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt);
+int bucket_alloc(struct flow_bucket *b, uint32_t n, struct ftstat_rpt *rpt);
 static int bucket_dump1(FILE *fp, struct ftstat_rpt *rpt, struct flow_bucket *b,
-  u_int32 nindex, const char *symfile);
+  uint32_t nindex, const char *symfile);
 static int chash_c64_dump(FILE *fp, struct ftstat_rpt *rpt,
   struct ftchash *ftch);
 static int chash_c32_dump(FILE *fp, struct ftstat_rpt *rpt,
@@ -3124,8 +3124,8 @@ int ftstat_def_accum(struct ftstat_def *active_def,
       FT_RECGET_SRC_TAG(cur,rec,*fo);
       FT_RECGET_DST_TAG(cur,rec,*fo);
 
-      *((u_int32*)(rec+(*fo).src_tag)) &= ftsrpt->tag_mask_src;
-      *((u_int32*)(rec+(*fo).dst_tag)) &= ftsrpt->tag_mask_dst;
+      *((uint32_t*)(rec+(*fo).src_tag)) &= ftsrpt->tag_mask_src;
+      *((uint32_t*)(rec+(*fo).dst_tag)) &= ftsrpt->tag_mask_dst;
 
     }
 
@@ -3144,8 +3144,8 @@ int ftstat_def_accum(struct ftstat_def *active_def,
 restore_tag:
     if (ftsrpt->options & FT_STAT_OPT_TAG_MASK) {
 
-      *((u_int32*)(rec+(*fo).src_tag)) = cur.src_tag;
-      *((u_int32*)(rec+(*fo).dst_tag)) = cur.dst_tag;
+      *((uint32_t*)(rec+(*fo).src_tag)) = cur.src_tag;
+      *((uint32_t*)(rec+(*fo).dst_tag)) = cur.dst_tag;
 
     }
 
@@ -4048,7 +4048,7 @@ int parse_rpt_out_tally(struct line_parser *lp, struct ftstat *ftstat)
 int parse_rpt_out_fields(struct line_parser *lp, struct ftstat *ftstat)
 {
   char *c, op;
-  u_int32 nfields;
+  uint32_t nfields;
 
   if (!lp->cur_rpt_out) {
     fterr_warnx("%s line %d: Not in report output.", lp->fname, lp->lineno);
@@ -4776,7 +4776,7 @@ int ftstat_rpt_1_accum(struct ftstat_rpt *rpt, char *rec,
 {
   struct ftstat_rpt_1 *rpt1;
   struct fts3rec_all2 cur;
-  u_int32 time_tmp, duration_tmp;
+  uint32_t time_tmp, duration_tmp;
   double pps_tmp, bps_tmp;
   uint32_t p;
 
@@ -4928,7 +4928,7 @@ int ftstat_rpt_1_accum(struct ftstat_rpt *rpt, char *rec,
 int ftstat_rpt_1_calc(struct ftstat_rpt *rpt)
 {
   struct ftstat_rpt_1 *rpt1;
-  u_int32 dif;
+  uint32_t dif;
 
   rpt1 = rpt->data;
 
@@ -5142,7 +5142,7 @@ int ftstat_rpt_2_accum(struct ftstat_rpt *rpt, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct fts3rec_all2 cur;
-  u_int32 duration_tmp;
+  uint32_t duration_tmp;
   double pps_tmp, bps_tmp;
 
   STD_ACCUM;
@@ -6381,7 +6381,7 @@ int ftstat_rpt_17_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix2.dst_prefix>>16)^
           (ftch_recprefix2.dst_prefix & 0xFFFF)^
           (ftch_recprefix2.src_mask)^
-          (u_int32)(ftch_recprefix2.dst_mask<<8);
+          (uint32_t)(ftch_recprefix2.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt17, ftch_recprefix2, ftch_recprefix2p);
 
@@ -7414,7 +7414,7 @@ int ftstat_rpt_29_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt29, ftch_recprefix216, ftch_recprefix216p);
   
@@ -7523,7 +7523,7 @@ int ftstat_rpt_30_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt30, ftch_recprefix216, ftch_recprefix216p);
   
@@ -7637,7 +7637,7 @@ int ftstat_rpt_31_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix2162.c16b)^
           (ftch_recprefix2162.c16a)^
           (ftch_recprefix2162.src_mask)^
-          (u_int32)(ftch_recprefix2162.dst_mask<<8);
+          (uint32_t)(ftch_recprefix2162.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt31, ftch_recprefix2162, ftch_recprefix2162p);
   
@@ -8127,7 +8127,7 @@ int ftstat_rpt_36_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt36, ftch_recprefix216, ftch_recprefix216p);
   
@@ -8239,7 +8239,7 @@ int ftstat_rpt_37_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
   
   STD_ACCUM_HASH2(rpt37, ftch_recprefix216, ftch_recprefix216p);
 
@@ -8354,7 +8354,7 @@ int ftstat_rpt_38_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix2162.c16b)^
           (ftch_recprefix2162.c16a)^
           (ftch_recprefix2162.src_mask)^
-          (u_int32)(ftch_recprefix2162.dst_mask<<8);
+          (uint32_t)(ftch_recprefix2162.dst_mask<<8);
   
   STD_ACCUM_HASH2(rpt38, ftch_recprefix2162, ftch_recprefix2162p);
 
@@ -10023,7 +10023,7 @@ int ftstat_rpt_57_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
  
   STD_ACCUM_HASH2(rpt57, ftch_recprefix216, ftch_recprefix216p);
 
@@ -10133,7 +10133,7 @@ int ftstat_rpt_58_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix216.dst_prefix & 0xFFFF)^
           (ftch_recprefix216.c16)^
           (ftch_recprefix216.src_mask)^
-          (u_int32)(ftch_recprefix216.dst_mask<<8);
+          (uint32_t)(ftch_recprefix216.dst_mask<<8);
   
   STD_ACCUM_HASH2(rpt58, ftch_recprefix216, ftch_recprefix216p);
 
@@ -10248,7 +10248,7 @@ int ftstat_rpt_59_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recprefix2162.c16b)^
           (ftch_recprefix2162.c16a)^
           (ftch_recprefix2162.src_mask)^
-          (u_int32)(ftch_recprefix2162.dst_mask<<8);
+          (uint32_t)(ftch_recprefix2162.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt59, ftch_recprefix2162, ftch_recprefix2162p);
 
@@ -11290,7 +11290,7 @@ int ftstat_rpt_68_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recflow1.src_mask)^
           (ftch_recflow1.tos)^
           (ftch_recflow1.prot)^
-          (u_int32)(ftch_recflow1.dst_mask<<8);
+          (uint32_t)(ftch_recflow1.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt68, ftch_recflow1, ftch_recflow1p);
 
@@ -11403,7 +11403,7 @@ int ftstat_rpt_69_accum(struct ftstat_rpt *rpt, char *rec,
           (ftch_recflow1.src_mask)^
           (ftch_recflow1.tos)^
           (ftch_recflow1.prot)^
-          (u_int32)(ftch_recflow1.dst_mask<<8);
+          (uint32_t)(ftch_recflow1.dst_mask<<8);
 
   STD_ACCUM_HASH2(rpt69, ftch_recflow1, ftch_recflow1p);
 
@@ -11981,7 +11981,7 @@ int ftstat_rpt_75_accum(struct ftstat_rpt *rpt, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct fttime start, end;
-  u_int32 i;
+  uint32_t i;
   double p_flows, p_octets, p_packets, d;
 
   STD_ACCUM_HASH1(ftstat_rpt_75, rpt75, ftchash_rec_int,
@@ -14272,14 +14272,14 @@ static int chash_flow12_dump(FILE *fp, struct ftstat_rpt *rpt,
 
 
 static int bucket_dump1(FILE *fp, struct ftstat_rpt *rpt, struct flow_bucket *b,
-  u_int32 nindex, const char *symfile)
+  uint32_t nindex, const char *symfile)
 {
   struct ftsym *ftsym;
   struct tally tally;
   char fmt_buf1[32], fmt_buf[1024];
   int len, comma;
-  int32 i, start, end, increment;
-  u_int32 *index;
+  int32_t i, start, end, increment;
+  uint32_t *index;
 
   ftsym = (struct ftsym*)0L;
   fmt_buf1[0] = fmt_buf[0] = 0;
@@ -14300,34 +14300,34 @@ static int bucket_dump1(FILE *fp, struct ftstat_rpt *rpt, struct flow_bucket *b,
       ; /* sorted by default */
     } else if (rpt->out->sort_field == FT_STAT_FIELD_FLOWS) {
       sort_i64 = b->flows;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp64);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp64);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_OCTETS) {
       sort_i64 = b->octets;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp64);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp64);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_PACKETS) {
       sort_i64 = b->packets;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp64);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp64);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_DURATION) {
       sort_i64 = b->duration;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp64);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp64);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_AVG_PPS) {
       sort_idouble = b->avg_pps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_MIN_PPS) {
       sort_idouble = b->min_pps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_MAX_PPS) {
       sort_idouble = b->max_pps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_AVG_BPS) {
       sort_idouble = b->avg_bps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_MIN_BPS) {
       sort_idouble = b->min_bps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else if (rpt->out->sort_field == FT_STAT_FIELD_MAX_BPS) {
       sort_idouble = b->max_bps;
-      qsort(b->index, nindex, sizeof (u_int32), sort_cmp_double);
+      qsort(b->index, nindex, sizeof (uint32_t), sort_cmp_double);
     } else {
       fterr_errx(1,"bucket_dump1(): internal error");
     }
@@ -14748,7 +14748,7 @@ static int recn_dump(FILE *fp, int fields, char *key, char *key1,
 
 } /* recn_dump */
 
-int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt)
+int bucket_alloc(struct flow_bucket *b, uint32_t n, struct ftstat_rpt *rpt)
 {
   register int i;
 
@@ -14782,7 +14782,7 @@ int bucket_alloc(struct flow_bucket *b, u_int32 n, struct ftstat_rpt *rpt)
     return -1;
   }
 
-  if (!(b->index = (u_int32*)malloc(n*sizeof(u_int32)))) {
+  if (!(b->index = (uint32_t*)malloc(n*sizeof(uint32_t)))) {
     fterr_warn("malloc(b->index):");
     bucket_free(b);
     return -1;
@@ -14881,10 +14881,10 @@ void bucket_free(struct flow_bucket *b)
 
 static int sort_cmp64(const void *a, const void *b)
 {
-  u_int32 l, r;
+  uint32_t l, r;
         
-  l = *(u_int32*)a;
-  r = *(u_int32*)b;
+  l = *(uint32_t*)a;
+  r = *(uint32_t*)b;
         
   if (sort_i64[l] < sort_i64[r])
     return -1;
@@ -14896,10 +14896,10 @@ static int sort_cmp64(const void *a, const void *b)
 
 static int sort_cmp_double(const void *a, const void *b)
 {
-  u_int32 l, r;
+  uint32_t l, r;
         
-  l = *(u_int32*)a;
-  r = *(u_int32*)b;
+  l = *(uint32_t*)a;
+  r = *(uint32_t*)b;
         
   if (sort_idouble[l] < sort_idouble[r])
     return -1;

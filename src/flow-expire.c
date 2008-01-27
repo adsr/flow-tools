@@ -126,7 +126,7 @@ int main(int argc, char **argv)
   }
   if (debug)
     ftfile_dump(&fte);
-  if (ftfile_expire(&fte, doit, (u_int32)0)) {
+  if (ftfile_expire(&fte, doit, (uint32_t)0)) {
     fterr_errx(1, "ftfile_expire(): failed");
   }
   if (debug)

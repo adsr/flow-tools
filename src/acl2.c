@@ -460,7 +460,7 @@ int acl_add_line_ext(struct acl_list acl_list, int acl_index,
  *
  * returns 0 for permit, 1 for deny
  */
-int acl_eval_std(struct acl_list acl_list, int index, u_int32 ip)
+int acl_eval_std(struct acl_list acl_list, int index, uint32_t ip)
 {
   int x;
 #ifdef DEBUG

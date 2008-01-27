@@ -70,9 +70,9 @@ int main(int argc, char **argv)
   char *fname, *out_fname;
   char *rec;
   u_long total_bytes;
-  u_int32 total_flows, lost_flows, corrupt_flows, total_streams;
-  u_int32 time_start, time_end, time_tmp1, time_tmp2, time_delta;
-  u_int32 time_low, time_high;
+  uint32_t total_flows, lost_flows, corrupt_flows, total_streams;
+  uint32_t time_start, time_end, time_tmp1, time_tmp2, time_delta;
+  uint32_t time_low, time_high;
 
   /* init fterr */
   fterr_setid(argv[0]);

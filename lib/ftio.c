@@ -342,7 +342,7 @@ void ftio_set_z_level(struct ftio *ftio, int z_level)
  *
  * Set the # of flows for a ftio stream header
  */
-void ftio_set_flows_count(struct ftio *ftio, u_int32 n)
+void ftio_set_flows_count(struct ftio *ftio, uint32_t n)
 {
   ftio->fth.fields |= FT_FIELD_FLOW_COUNT;
   ftio->fth.flows_count = n;
@@ -485,7 +485,7 @@ int ftio_set_cap_hostname(struct ftio *ftio, char *hostname)
  *
  * Set the corrupt flows header field
  */
-void ftio_set_corrupt(struct ftio *ftio, u_int32 n)
+void ftio_set_corrupt(struct ftio *ftio, uint32_t n)
 {
   ftio->fth.fields |= FT_FIELD_PKT_CORRUPT;
   ftio->fth.pkts_corrupt = n;
@@ -496,7 +496,7 @@ void ftio_set_corrupt(struct ftio *ftio, u_int32 n)
  *
  * Set the lost flows header field
  */
-void ftio_set_lost(struct ftio *ftio, u_int32 n)
+void ftio_set_lost(struct ftio *ftio, uint32_t n)
 {
   ftio->fth.fields |= FT_FIELD_FLOW_LOST;
   ftio->fth.flows_lost = n;
@@ -507,7 +507,7 @@ void ftio_set_lost(struct ftio *ftio, u_int32 n)
  *
  * Set the reset sequence header field
  */
-void ftio_set_reset(struct ftio *ftio, u_int32 n)
+void ftio_set_reset(struct ftio *ftio, uint32_t n)
 {
   ftio->fth.fields |= FT_FIELD_SEQ_RESET;
   ftio->fth.seq_reset = n;
@@ -519,7 +519,7 @@ void ftio_set_reset(struct ftio *ftio, u_int32 n)
  *
  * Set the exporter ip header field
  */
-void ftio_set_xip(struct ftio *ftio, u_int32 ip)
+void ftio_set_xip(struct ftio *ftio, uint32_t ip)
 {
   ftio->fth.fields |= FT_FIELD_EXPORTER_IP;
   ftio->fth.exporter_ip = ip;
@@ -530,7 +530,7 @@ void ftio_set_xip(struct ftio *ftio, u_int32 ip)
  *
  * Set the header time for a ftio stream
  */
-void ftio_set_cap_time(struct ftio *ftio, u_int32 start, u_int32 end)
+void ftio_set_cap_time(struct ftio *ftio, uint32_t start, uint32_t end)
 {
   ftio->fth.fields |= FT_FIELD_CAP_START;
   ftio->fth.fields |= FT_FIELD_CAP_END;
@@ -543,7 +543,7 @@ void ftio_set_cap_time(struct ftio *ftio, u_int32 start, u_int32 end)
  *
  * Set the header time for a ftio stream
  */
-void ftio_set_cap_time_start(struct ftio *ftio, u_int32 start)
+void ftio_set_cap_time_start(struct ftio *ftio, uint32_t start)
 {
   ftio->fth.fields |= FT_FIELD_CAP_START;
   ftio->fth.cap_start = start;
@@ -562,7 +562,7 @@ void ftio_get_ver(struct ftio *ftio, struct ftver *ver)
   ver->agg_version = ftio->fth.agg_version;
 }
 
-time_t ftio_uint32_to_time_t(u_int32 val) {
+time_t ftio_uint32_to_time_t(uint32_t val) {
   return (time_t) val;
 }
 
@@ -571,7 +571,7 @@ time_t ftio_uint32_to_time_t(u_int32 val) {
  *
  * Get the starting time from a ftio stream
  */
-u_int32 ftio_get_cap_start(const struct ftio *ftio)
+uint32_t ftio_get_cap_start(const struct ftio *ftio)
 {
   return ftio->fth.cap_start;
 }
@@ -585,7 +585,7 @@ time_t ftio_get_cap_start_time_t(const struct ftio *ftio) {
  *
  * Get the ending time from a ftio stream
  */
-u_int32 ftio_get_cap_end(const struct ftio *ftio)
+uint32_t ftio_get_cap_end(const struct ftio *ftio)
 {
   return ftio->fth.cap_end;
 }
@@ -609,7 +609,7 @@ uint64_t ftio_get_rec_total(struct ftio *ftio)
  *
  * Get the total records processed from a ftio stream
  */
-u_int32 ftio_get_flows_count(struct ftio *ftio)
+uint32_t ftio_get_flows_count(struct ftio *ftio)
 {
   return ftio->fth.flows_count;
 }
@@ -650,7 +650,7 @@ char *ftio_get_comment(struct ftio *ftio)
  *
  * Get header corrupt flows from a ftio stream
 */
-u_int32 ftio_get_corrupt(struct ftio *ftio)
+uint32_t ftio_get_corrupt(struct ftio *ftio)
 {
   return ftio->fth.pkts_corrupt;
 }
@@ -660,7 +660,7 @@ u_int32 ftio_get_corrupt(struct ftio *ftio)
  *
  * Get header lost flows from a ftio stream
 */
-u_int32 ftio_get_lost(struct ftio *ftio)
+uint32_t ftio_get_lost(struct ftio *ftio)
 {
   return ftio->fth.flows_lost;
 }
@@ -869,7 +869,7 @@ void *ftio_read(struct ftio *ftio)
   int n, err;
   void *ret;
   struct fts1rec_compat *compat;
-  u_int32 bleft, boff;
+  uint32_t bleft, boff;
 
   ret = (void*)0L;
 
@@ -1170,7 +1170,7 @@ int ftio_write_header(struct ftio *ftio)
   struct ftheader_gen head_gen;
   struct ftmap_ifname *ftmin;
   struct ftmap_ifalias *ftmia;
-  u_int32 head_off_d;
+  uint32_t head_off_d;
   int n, ret, restore, flip, len;
   char *enc_buf;
 
@@ -2328,9 +2328,9 @@ int ftiheader_read(int fd, struct ftiheader *ihead)
   struct ftmap_ifname *ftmin;
   struct ftmap_ifalias *ftmia;
   int n, ret, len_read, len_buf, off, flip, left;
-  u_int32 ip;
+  uint32_t ip;
   u_int16 entries, ifIndex, *ifIndex_list;
-  u_int32 head_off_d;
+  uint32_t head_off_d;
   char *dp, *c, *enc_buf;
 
   ret = -1; 
@@ -2802,10 +2802,10 @@ int ftio_check_generic5(struct ftio *ftio)
  *
  * returns: struct fttime
  */
-struct fttime ftltime(u_int32 sys, u_int32 secs, u_int32 nsecs, u_int32 t)
+struct fttime ftltime(uint32_t sys, uint32_t secs, uint32_t nsecs, uint32_t t)
 {
 
-  u_int32 sys_s, sys_m;
+  uint32_t sys_s, sys_m;
   struct fttime ftt;
 
   /* sysUpTime is in milliseconds, convert to seconds/milliseconds */
@@ -2862,7 +2862,7 @@ void ftset_init(struct ftset *ftset, int z_level)
 
 } /* ftset_init */
 
-int ftio_map_load(struct ftio *ftio, char *fname, u_int32 ip)
+int ftio_map_load(struct ftio *ftio, char *fname, uint32_t ip)
 {
 
   /* load the map */
@@ -2877,11 +2877,11 @@ int ftio_map_load(struct ftio *ftio, char *fname, u_int32 ip)
 
 } /* ftio_map_load */
 
-int ftio_interrupt(struct ftio *ftio, u_int32 fields)
+int ftio_interrupt(struct ftio *ftio, uint32_t fields)
 {
   struct ftmap_ifname *ftmin;
   struct ftmap_ifalias *ftmia;
-  u_int32 offset, oflag;
+  uint32_t offset, oflag;
   char *enc_buf, *rec_buf;
   int len, n, ret, flip;
 

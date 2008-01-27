@@ -71,8 +71,8 @@ struct acl_ip_std {
 };
 
 struct acl_ip_std_entry {
-  u_int32   src_addr;       /* source address */
-  u_int32   src_mask;       /* source address mask */
+  uint32_t   src_addr;       /* source address */
+  uint32_t   src_mask;       /* source address mask */
   uint64_t   matches;        /* # of matches */
   int     flag;             /* permit/deny */
 };
@@ -95,13 +95,13 @@ struct acl_ip_ext_entry {
   u_int8    src_op;
   u_int8    dst_op;
 
-  u_int32   src_addr;    /* source address */
-  u_int32   src_mask;    /* source address mask */
+  uint32_t   src_addr;    /* source address */
+  uint32_t   src_mask;    /* source address mask */
   u_int16   src_port;    /* source port */
   u_int16   src_port2;   /* source port (end of range) */
 
-  u_int32   dst_addr;    /* destination address */
-  u_int32   dst_mask;    /* destinan address mask */
+  uint32_t   dst_addr;    /* destination address */
+  uint32_t   dst_mask;    /* destinan address mask */
   u_int16   dst_port;    /* destination port */
   u_int16   dst_port2;   /* destination port (end of range) */
 
@@ -119,6 +119,6 @@ int acl_add_line_std(struct acl_list acl_list, int acl_index,
   struct acl_ip_std_entry acl_ip_std_entry);
 int acl_add_line_ext(struct acl_list acl_list, int acl_index,
   struct acl_ip_ext_entry acl_ip_ext_entry);
-int acl_eval_std(struct acl_list acl_list, int index, u_int32 ip);
+int acl_eval_std(struct acl_list acl_list, int index, uint32_t ip);
 int acl_eval_ext(struct acl_list acl_list, int index,
   struct acl_ip_ext_entry entry);

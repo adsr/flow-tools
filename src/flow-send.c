@@ -72,7 +72,7 @@ int main(int argc, char **argv)
   struct ftipmask ftipmask;
   void (*xlate)(void *in_rec, void *out_rec);
   char xl_rec[FT_IO_MAXREC], *out_rec;
-  u_int32 privacy_mask;
+  uint32_t privacy_mask;
   unsigned int v1, v2, one;
   int i, n, ret, tx_delay, udp_sock;
   int src_ip_spoof, hdr_len = 0;

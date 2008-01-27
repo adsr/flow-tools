@@ -83,7 +83,7 @@ pid_t pid;
 u_int16 listen_port;
 
 void pdu_xmit(int npeers, int tx_delay, int src_ip_spoof, int hdr_len,
-  u_int32 *send_nobufs, struct ip *ip_hdr, struct udphdr *udp_hdr,
+  uint32_t *send_nobufs, struct ip *ip_hdr, struct udphdr *udp_hdr,
   struct ftencode *fte, struct peer *peers, struct ftnet *ftnet);
 
 int main(int argc, char **argv)
@@ -115,8 +115,8 @@ int main(int argc, char **argv)
   struct ftvar ftvar;
   struct peer *peers;
   struct ftipmask ftipmask;
-  u_int32 flows_corrupt, flows_lost, flows_reset, hash, privacy_mask;
-  u_int32 send_nobufs;
+  uint32_t flows_corrupt, flows_lost, flows_reset, hash, privacy_mask;
+  uint32_t send_nobufs;
   unsigned int v1, v2;
   char fmt_src_ip[32], fmt_dst_ip[32], fmt_dst_port[32];
   char xl_rec[FT_IO_MAXREC], *out_rec;
@@ -907,7 +907,7 @@ void fterr_exit_handler(int code)
 } /* fterr_exit_handler */
  
 void pdu_xmit(int npeers, int tx_delay, int src_ip_spoof, int hdr_len,
-  u_int32 *send_nobufs, struct ip *ip_hdr, struct udphdr *udp_hdr,
+  uint32_t *send_nobufs, struct ip *ip_hdr, struct udphdr *udp_hdr,
   struct ftencode *fte, struct peer *peers, struct ftnet *ftnet)
 {
   int j, sum;

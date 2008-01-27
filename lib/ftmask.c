@@ -63,7 +63,7 @@
 #endif
 
 extern int max_keylen;
-extern u_int32 mask_lookup[];
+extern uint32_t mask_lookup[];
 static int rn_init_called;
 static struct radix_node_head *rhead;
 
@@ -330,7 +330,7 @@ int ftmask_def_eval(struct ftmask_def *active_def,
 
     rhead = active_def->rhead;
 
-    sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->srcaddr));
+    sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->srcaddr));
     sock1.sin_len = sizeof sock1;
     sock1.sin_family = AF_INET;
 
@@ -348,7 +348,7 @@ int ftmask_def_eval(struct ftmask_def *active_def,
 
     rhead = active_def->rhead;
 
-    sock1.sin_addr.s_addr = *((u_int32*)(rec+fo->dstaddr));
+    sock1.sin_addr.s_addr = *((uint32_t*)(rec+fo->dstaddr));
     sock1.sin_len = sizeof sock1;
     sock1.sin_family = AF_INET;
 

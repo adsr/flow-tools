@@ -90,7 +90,7 @@ int load_state(struct dscan_state *ds);
 void flow_dump(struct fts3rec_gen *rec);
 void clear_suppress(struct dscan_state *ds, int sd);
 int load_suppress(struct dscan_state *ds, int sd);
-void ager(struct dscan_state *ds, u_int32 total_flows32);
+void ager(struct dscan_state *ds, uint32_t total_flows32);
 void sig_hup_handler(int sig);
 void sig_usr1_handler(int sig);
 void usage(void);
@@ -112,7 +112,7 @@ int main(int argc, char **argv)
   struct fttime ftt;
   int i, match, k, no_detach;
   uint64_t total_flows;
-  u_int32 total_flows32;
+  uint32_t total_flows32;
   struct dscan_state ds;
   struct dscan_rec *drp;
   struct dscan_dst *ddp, *ddp2;
@@ -122,7 +122,7 @@ int main(int argc, char **argv)
   int do_dump, do_load;
   int filter_www, filter_mcast, filter_input, filter_output;
   char in_tbl[65536], out_tbl[65536];
-  u_int32 trigger_time, trigger_packets, trigger_octets;
+  uint32_t trigger_time, trigger_packets, trigger_octets;
   pid_t pid;
   struct tm *tm;
 
@@ -631,7 +631,7 @@ int load_state(struct dscan_state *ds)
   struct dscan_dst *ddp;
   char type;
   char buf[1024];
-  u_int32 ip, hash, depth, flags, h, time, nports, i, j;
+  uint32_t ip, hash, depth, flags, h, time, nports, i, j;
 
   if (!(FP = fopen(ds->statefile, "r")))
     fterr_errx(1, "fopen(%s): failed", ds->statefile);
@@ -725,13 +725,13 @@ void sig_hup_handler(int sig)
   sig_hup = 1;
 } /* sig_usr1_handler */
 
-void ager(struct dscan_state *ds, u_int32 total_flows32)
+void ager(struct dscan_state *ds, uint32_t total_flows32)
 {
   static int ager_i;
   int i, work, picky_gcc;
   struct dscan_rec *drp, *odrp, *drp2;
   struct dscan_dst *ddp, *oddp, *ddp2;
-  u_int32 i32;
+  uint32_t i32;
 
   work = 0;
   for (i = ager_i; i < DSCAN_HASHSIZE; ++i) {
@@ -825,8 +825,8 @@ int load_suppress(struct dscan_state *ds, int sd)
   struct dscan_sup *dsp;
   int match;
   FILE *FP;
-  u_int32 prot, srcport, dstport;
-  u_int32 ip, hash;
+  uint32_t prot, srcport, dstport;
+  uint32_t ip, hash;
   char *fname;
 
   fterr_info("load_suppress %d", sd);

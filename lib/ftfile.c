@@ -276,7 +276,7 @@ int ftfile_loaddir(struct ftfile_entries *fte, char *dir, int flags)
  *          >= 0 ok
 */
 int ftfile_add_tail(struct ftfile_entries *fte, char *fname, off_t size,
-  u_int32 start)
+  uint32_t start)
 {
   struct ftfile_entry *n1;
 

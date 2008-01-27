@@ -43,7 +43,7 @@
 /*
  * function: fttlv_enc_uint32
  *
- * encode a u_int32 TLV into buf
+ * encode a uint32_t TLV into buf
  *  buf        buffer to encode to
  *  buf_size   available bytes in buf
  *  flip       swap byte order
@@ -52,7 +52,7 @@
  *
  * returns: -1 if buffer is not large enough, else bytes used.
 */
-int fttlv_enc_uint32(void *buf, int buf_size, int flip, u_int16 t, u_int32 v)
+int fttlv_enc_uint32(void *buf, int buf_size, int flip, u_int16 t, uint32_t v)
 {
   u_int16 len;
 
@@ -210,7 +210,7 @@ int fttlv_enc_str(void *buf, int buf_size, int flip, u_int16 t, char *v)
  * returns: -1 if buffer is not large enough, else bytes used.
  */
 int fttlv_enc_ifname(void *buf, int buf_size, int flip, u_int16 t,
-  u_int32 ip, u_int16 ifIndex, char *name)
+  uint32_t ip, u_int16 ifIndex, char *name)
 {
   u_int16 len, len2;
   int n;
@@ -263,7 +263,7 @@ int fttlv_enc_ifname(void *buf, int buf_size, int flip, u_int16 t,
  * returns: -1 if buffer is not large enough, else bytes used.
  */
 int fttlv_enc_ifalias(void *buf, int buf_size, int flip, u_int16 t,
-  u_int32 ip, u_int16 *ifIndex_list, u_int16 entries, char *name)
+  uint32_t ip, u_int16 *ifIndex_list, u_int16 entries, char *name)
 {
   u_int16 len, len2;
   int n,i,esize;

@@ -86,7 +86,7 @@
 
 struct options {
   char dbaseURI[256];
-  u_int32 cflowd_mask;
+  uint32_t cflowd_mask;
   uint64_t ft_mask;
   u_long records;
 };
@@ -102,7 +102,7 @@ int format3(struct ftio *ftio, struct options *opt);
 int format4(struct ftio *ftio, struct options *opt);
 int format5(struct ftio *ftio, struct options *opt);
 
-int ftxfield_tocflow(uint64_t xfields, u_int32 *cfmask);
+int ftxfield_tocflow(uint64_t xfields, uint32_t *cfmask);
 
 int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   uint64_t xfields, int quote);
@@ -220,7 +220,7 @@ int format0(struct ftio *ftio, struct options *opt)
   struct ftver ftv;
   struct fttime ftt;
   char *rec;
-  u_int32 ui32, index, sysUpTime, unix_secs, unix_nsecs, First, Last;
+  uint32_t ui32, index, sysUpTime, unix_secs, unix_nsecs, First, Last;
   u_int16 ui16;
   u_int8 ui8;
 
@@ -333,19 +333,19 @@ int format0(struct ftio *ftio, struct options *opt)
     fwrite(&index, sizeof (index), 1, stdout);
 
     if (opt->cflowd_mask & CF_ROUTERMASK) {
-       ui32 = *((u_int32*)(rec+fo.exaddr));
+       ui32 = *((uint32_t*)(rec+fo.exaddr));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_SRCIPADDRMASK) {
-       ui32 = *((u_int32*)(rec+fo.srcaddr));
+       ui32 = *((uint32_t*)(rec+fo.srcaddr));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_DSTIPADDRMASK) {
-       ui32 = *((u_int32*)(rec+fo.dstaddr));
+       ui32 = *((uint32_t*)(rec+fo.dstaddr));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
@@ -375,38 +375,38 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_PKTSMASK) {
-       ui32 = *((u_int32*)(rec+fo.dPkts));
+       ui32 = *((uint32_t*)(rec+fo.dPkts));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_BYTESMASK) {
-       ui32 = *((u_int32*)(rec+fo.dOctets));
+       ui32 = *((uint32_t*)(rec+fo.dOctets));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_IPNEXTHOPMASK) {
-       ui32 = *((u_int32*)(rec+fo.nexthop));
+       ui32 = *((uint32_t*)(rec+fo.nexthop));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_STARTTIMEMASK) {
-       sysUpTime = *((u_int32*)(rec+fo.sysUpTime));
-       unix_secs = *((u_int32*)(rec+fo.unix_secs));
-       unix_nsecs = *((u_int32*)(rec+fo.unix_nsecs));
-       First = *((u_int32*)(rec+fo.First));
+       sysUpTime = *((uint32_t*)(rec+fo.sysUpTime));
+       unix_secs = *((uint32_t*)(rec+fo.unix_secs));
+       unix_nsecs = *((uint32_t*)(rec+fo.unix_nsecs));
+       First = *((uint32_t*)(rec+fo.First));
        ftt = ftltime(sysUpTime, unix_secs, unix_nsecs, First);
        ui32 = htonl(ftt.secs);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
 
     if (opt->cflowd_mask & CF_ENDTIMEMASK) {
-       sysUpTime = *((u_int32*)(rec+fo.sysUpTime));
-       unix_secs = *((u_int32*)(rec+fo.unix_secs));
-       unix_nsecs = *((u_int32*)(rec+fo.unix_nsecs));
-       Last = *((u_int32*)(rec+fo.Last));
+       sysUpTime = *((uint32_t*)(rec+fo.sysUpTime));
+       unix_secs = *((uint32_t*)(rec+fo.unix_secs));
+       unix_nsecs = *((uint32_t*)(rec+fo.unix_nsecs));
+       Last = *((uint32_t*)(rec+fo.Last));
        ftt = ftltime(sysUpTime, unix_secs, unix_nsecs, Last);
        ui32 = htonl(ftt.secs);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
@@ -460,7 +460,7 @@ int format0(struct ftio *ftio, struct options *opt)
     }
 
     if (opt->cflowd_mask & CF_PEERNEXTHOPMASK) {
-       ui32 = *((u_int32*)(rec+fo.peer_nexthop));
+       ui32 = *((uint32_t*)(rec+fo.peer_nexthop));
        ui32 = htonl(ui32);
        fwrite(&ui32, sizeof (ui32), 1, stdout);
     }
@@ -566,8 +566,8 @@ int format1(struct ftio *ftio, struct options *opt)
     cur.dstport = ((u_int16*)(rec+fo.dstport));
     cur.prot = ((u_int8*)(rec+fo.prot));
     cur.tos = ((u_int8*)(rec+fo.tos));
-    cur.srcaddr = ((u_int32*)(rec+fo.srcaddr));
-    cur.dstaddr = ((u_int32*)(rec+fo.dstaddr));
+    cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
+    cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
 
 
     pd2.tos = *cur.tos;
@@ -1180,21 +1180,21 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_UNIX_SECS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->unix_secs)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->unix_secs)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_UNIX_NSECS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->unix_nsecs)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->unix_nsecs)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_SYSUPTIME) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->sysUpTime)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->sysUpTime)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1202,7 +1202,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_EXADDR) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\'';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->exaddr)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->exaddr)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1210,35 +1210,35 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_DFLOWS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->dFlows)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->dFlows)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DPKTS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->dPkts)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->dPkts)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DOCTETS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->dOctets)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->dOctets)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_FIRST) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->First)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->First)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_LAST) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->Last)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->Last)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1260,7 +1260,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_SRCADDR) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\'';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->srcaddr)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->srcaddr)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1269,7 +1269,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_DSTADDR) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\'';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->dstaddr)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->dstaddr)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1278,7 +1278,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_NEXTHOP) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\'';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->nexthop)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->nexthop)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1378,7 +1378,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_PEER_NEXTHOP) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\"';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->peer_nexthop)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->peer_nexthop)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1387,7 +1387,7 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
   if (xfields & FT_XFIELD_ROUTER_SC) {
     if (comma) fmt_buf[len++] = ',';
     if (quote) fmt_buf[len++] = '\'';
-    len += fmt_ipv4(fmt_buf+len, *((u_int32*)(rec+fo->router_sc)),
+    len += fmt_ipv4(fmt_buf+len, *((uint32_t*)(rec+fo->router_sc)),
       FMT_JUST_LEFT);
     if (quote) fmt_buf[len++] = '\'';
     comma = 1;
@@ -1402,21 +1402,21 @@ int fmt_xfields_val(char *fmt_buf, char *rec, struct fts3rec_offsets *fo,
 
   if (xfields & FT_XFIELD_EXTRA_PKTS) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->extra_pkts)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->extra_pkts)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_SRC_TAG) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->src_tag)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->src_tag)),
       FMT_JUST_LEFT);
     comma = 1;
   }
 
   if (xfields & FT_XFIELD_DST_TAG) {
     if (comma) fmt_buf[len++] = ',';
-    len += fmt_uint32(fmt_buf+len, *((u_int32*)(rec+fo->dst_tag)),
+    len += fmt_uint32(fmt_buf+len, *((uint32_t*)(rec+fo->dst_tag)),
       FMT_JUST_LEFT);
     comma = 1;
   }
@@ -1443,7 +1443,7 @@ void usage(void) {
  * returns 0:  ok
  *         <0  fail
  */
-int ftxfield_tocflow(uint64_t xfields, u_int32 *cfmask)
+int ftxfield_tocflow(uint64_t xfields, uint32_t *cfmask)
 {
   int droptime;
 

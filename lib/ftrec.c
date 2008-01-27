@@ -84,7 +84,7 @@ void ftrec_xlate_1005to5(struct fts3rec_v1005 *rec_v1005,
  * in certain code paths
  *
  */
-void ftrec_compute_mask(struct ftipmask *m, u_int32 src, u_int32 dst, int
+void ftrec_compute_mask(struct ftipmask *m, uint32_t src, uint32_t dst, int
   byte_order)
 {
 

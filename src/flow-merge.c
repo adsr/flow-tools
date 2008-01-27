@@ -76,8 +76,8 @@ int main(int argc, char **argv)
   int j, ftio_entries, entry;
   int x, fd, flags, fte_entries;
   char *fname, *out_fname;
-  u_int32 total_flows;
-  u_int32 time_start, time_end, time_tmp;
+  uint32_t total_flows;
+  uint32_t time_start, time_end, time_tmp;
 
   /* init fterr */
   fterr_setid(argv[0]);
@@ -462,13 +462,13 @@ int find_earliest(struct ftio_table ftio_entry[], int num_entries)
     if (ftio_entry[i].cur_entry == NULL) 
       continue;
 
-    cur.unix_secs = ((u_int32*)(ftio_entry[i].cur_entry+
+    cur.unix_secs = ((uint32_t*)(ftio_entry[i].cur_entry+
       ftio_entry[i].ftio_data.fo.unix_secs));
-    cur.unix_nsecs = ((u_int32*)(ftio_entry[i].cur_entry+
+    cur.unix_nsecs = ((uint32_t*)(ftio_entry[i].cur_entry+
       ftio_entry[i].ftio_data.fo.unix_nsecs));
-    cur.sysUpTime = ((u_int32*)(ftio_entry[i].cur_entry+
+    cur.sysUpTime = ((uint32_t*)(ftio_entry[i].cur_entry+
       ftio_entry[i].ftio_data.fo.sysUpTime));
-    cur.Last = ((u_int32*)(ftio_entry[i].cur_entry+
+    cur.Last = ((uint32_t*)(ftio_entry[i].cur_entry+
       ftio_entry[i].ftio_data.fo.Last));
 
     ftt = ftltime(*cur.sysUpTime, *cur.unix_secs, *cur.unix_nsecs, *cur.Last);

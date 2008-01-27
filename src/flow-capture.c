@@ -99,10 +99,10 @@ struct file {
   time_t time;
   struct ftver ftv;
   off_t nbytes;
-  u_int32 hdr_nflows;
-  u_int32 hdr_flows_corrupt;
-  u_int32 hdr_flows_lost;
-  u_int32 hdr_flows_reset;
+  uint32_t hdr_nflows;
+  uint32_t hdr_flows_corrupt;
+  uint32_t hdr_flows_lost;
+  uint32_t hdr_flows_reset;
 };
 
 int debug;
@@ -161,7 +161,7 @@ char **argv;
   char work_dir[MAXPATHLEN+1], post_rotate_exec[MAXPATHLEN+1];
   int i, n, tmp_len, enable_unlink, offset, detach, nest, one, max_fd;
   unsigned int v1, v2;
-  u_int32 hash;
+  uint32_t hash;
   char fmt_src_ip[32], fmt_dst_ip[32], fmt_dst_port[32];
   char xl_rec[FT_IO_MAXREC], *out_rec;
   const char *tag_fname, *tag_active;
@@ -496,7 +496,7 @@ char **argv;
 
   /* run the ager once now */
   if (fte.expiring)
-    if (ftfile_expire(&fte, enable_unlink, (u_int32)0))
+    if (ftfile_expire(&fte, enable_unlink, (uint32_t)0))
       fterr_errx(1, "ftfile_export(): failed");
 
   /* get hostname */
@@ -998,7 +998,7 @@ skip_pdu_decode:
         fterr_errx(1, "calc_rotate(): failed");
 
       /* remember when file was created */
-      cap_file.time = (u_int32)tt_now;
+      cap_file.time = (uint32_t)tt_now;
 
       /* remember the version encoded in the filename */
       bcopy(&ftv, &cap_file.ftv, sizeof cap_file.ftv);
@@ -1192,7 +1192,7 @@ skip_pdu_decode:
             
       if (cap_file.fd != -1) {
 
-        ftio_set_cap_time(&ftio, cap_file.time, (u_int32)tt_now);
+        ftio_set_cap_time(&ftio, cap_file.time, (uint32_t)tt_now);
         ftio_set_corrupt(&ftio, cap_file.hdr_flows_corrupt);
         ftio_set_lost(&ftio, cap_file.hdr_flows_lost);
         ftio_set_reset(&ftio, cap_file.hdr_flows_reset);

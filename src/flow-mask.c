@@ -58,8 +58,8 @@ int main(int argc, char **argv)
   struct fts3rec_offsets fo;
   char *rec;
   const char *fname, *dname;
-  u_int32 total_flows, cap_start, cap_end;
-  u_int32 time_start, time_end;
+  uint32_t total_flows, cap_start, cap_end;
+  uint32_t time_start, time_end;
   int i, keep_input_time;
 
   /* init fterr */

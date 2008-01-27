@@ -67,19 +67,19 @@ struct pcap_data2 {
   u_int8 ttl;
   u_int8 prot;
   u_int16 csum;
-  u_int32 srcaddr;
-  u_int32 dstaddr;
+  uint32_t srcaddr;
+  uint32_t dstaddr;
 };
 
 /* tcp header */
 struct pcap_data3 {
   u_int16 srcport;
   u_int16 dstport;
-  u_int32 hold1; /* seq */
-  u_int32 hold2; /* ack */
-  u_int32 hold3; /* data, reserved, flags, window */
-  u_int32 hold4; /* csum, urg pointer */
-  u_int32 hold5; /* options, padding */
+  uint32_t hold1; /* seq */
+  uint32_t hold2; /* ack */
+  uint32_t hold3; /* data, reserved, flags, window */
+  uint32_t hold4; /* csum, urg pointer */
+  uint32_t hold5; /* options, padding */
 };
 
 
@@ -87,13 +87,13 @@ struct pcap_data3 {
 struct pcap_data4 {
   u_int16 srcport;
   u_int16 dstport;
-  u_int32 hold1; /* len */
-  u_int32 hold2; /* csum */
-  u_int32 hold3; /* data ...*/
-  u_int32 hold4; /* data ... */
-  u_int32 hold5; /* data ... */
+  uint32_t hold1; /* len */
+  uint32_t hold2; /* csum */
+  uint32_t hold3; /* data ...*/
+  uint32_t hold4; /* data ... */
+  uint32_t hold5; /* data ... */
 #ifdef XXX
-  u_int32 hold6; /* data */
+  uint32_t hold6; /* data */
 #endif /* XXX */
 };
 
