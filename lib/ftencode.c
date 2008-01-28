@@ -85,12 +85,12 @@ void ftencode_reset(struct ftencode *enc)
 void ftencode_sum_data(struct ftencode *enc)
 {         
   int size;
-  u_short *word;
+  unsigned short *word;
   int sum;
   
   sum = 0;
   size = enc->buf_size;
-  word = (u_short*)enc->buf_enc;
+  word = (unsigned short*)enc->buf_enc;
             
   for (size = enc->buf_size; size > 1; size -=2)
     sum += *word++;

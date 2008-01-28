@@ -60,8 +60,6 @@
 #define SWAPINT16(y) y = \
     ( (((y)&0xff)<<8) | (((y)&0xff00)>>8) );
 
-#define u_short unsigned short
-
 #include "ftqueue.h"
 
 /*

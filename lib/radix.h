@@ -48,7 +48,7 @@
 struct radix_sockaddr_in {
   u_char  sin_len;
   u_char  sin_family;
-  u_short sin_port;
+  unsigned short sin_port;
   struct  in_addr sin_addr;
   char    sin_zero[8];
 };

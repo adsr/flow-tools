@@ -731,7 +731,7 @@ int udp_cksum(struct ip *ip, struct udphdr *up, int len)
 
   sum += IPPROTO_UDP<<8;
 
-  word = (u_short*)up;
+  word = (unsigned short*)up;
   sum += *word++;
   sum += *word++;
   sum += *word++;

@@ -35,8 +35,8 @@
 
 struct pcap_file_header {
   u_long magic;
-  u_short version_major;
-  u_short version_minor;
+  unsigned short version_major;
+  unsigned short version_minor;
   long thiszone;    /* gmt to local correction */
   u_long sigfigs;   /* accuracy of timestamps */
   u_long snaplen;   /* max length saved portion of each pkt */
