@@ -26,7 +26,7 @@
  *      $Id: support.c,v 1.35 2003/02/13 02:38:43 maf Exp $
  */
 
-#include "ftconfig.h"
+#include "ftinclude.h"
 #include "ftlib.h"
 
 #ifdef HAVE_UNISTD_H
@@ -44,16 +44,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <syslog.h>
-#include <stdint.h>
 #include <time.h>
 #include <fcntl.h>
-
-#if HAVE_STRINGS_H
- #include <strings.h>
-#endif
-#if HAVE_STRING_H
-  #include <string.h>
-#endif
 
 #if !HAVE_STRSEP
   char    *strsep (char **, const char *);
