@@ -2936,9 +2936,6 @@ int ftxfield_parse(char *line, uint64_t *xfields);
 #define IN_CLASSD_SSM(i) (((uint32_t)(i) & 0xff000000) == 0xe8000000)
 #endif /* IN_CLASSD_SSM */
 
-/* MACHINE DEPENDANT */
-#define fmt_uint fmt_uint32
-
 enum ft_config_path {
   _FT_PATH_CFG_MAP,
   _FT_PATH_CFG_TAG,
