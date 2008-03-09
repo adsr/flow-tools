@@ -53,7 +53,54 @@
  #include <sys/stat.h>
 #endif
 
-int readn(register int fd, register void *ptr, register int nbytes);
+/*
+ * function: readn
+ *
+ * read()'s n bytes from fd
+ * returns # of bytes read, or -1 for error
+ */
+static int readn(int fd, void *ptr, int nbytes) {
+
+  int nleft, nread;
+
+  nleft = nbytes;
+  while (nleft > 0) {
+      nread = read(fd, ptr, nleft);
+      if (nread < 0)
+        return nread;
+      else if (nread == 0)
+        break;
+
+      nleft -= nread;
+      ptr = (char*)ptr + nread;
+  }
+  return (nbytes - nleft);
+} /* readn */
+
+
+/* From Stevens
+ *
+ * function: writen
+ *
+ *  write()'s n bytes to fd.
+ *  returns # of bytes written, or -1 for error
+ */
+static int writen(int fd, const void *ptr, int nbytes) {
+
+  int nleft, nwritten;
+
+  nleft = nbytes;
+  while (nleft > 0) {
+    nwritten = write(fd, ptr, nleft);
+    if (nwritten <= 0)
+      return(nwritten); /* error */
+
+    nleft -= nwritten;
+    ptr = (char*)ptr + nwritten;
+  }
+  return(nbytes - nleft);
+} /* writen */
+
 
 /*
  * function: ftio_init
@@ -2259,56 +2306,6 @@ int ftio_rec_size(struct ftio *ftio)
 
 } /* ftio_rec_size */
 
-
-/*
- * function: readn
- *
- * read()'s n bytes from fd
- * returns # of butes read, or -1 for error
- */
-int readn(register int fd, register void *ptr, register int nbytes)
-{
-
-  int nleft, nread;
-
-  nleft = nbytes;
-  while (nleft > 0) {
-      nread = read(fd, ptr, nleft);
-      if (nread < 0)
-        return nread;
-      else if (nread == 0)
-        break;
-
-      nleft -= nread;
-      ptr = (char*)ptr + nread;
-  }
-  return (nbytes - nleft);
-} /* readn */
-
-
-/* From Stevens
- *
- * function: writen
- *
- *  write()'s n bytes to fd.
- *  returns # of bytes written, or -1 for error
- */
-int writen(register int fd, register void *ptr, register int nbytes)
-{
-
-  int nleft, nwritten;
-
-  nleft = nbytes;
-  while (nleft > 0) {
-    nwritten = write(fd, ptr, nleft);
-    if (nwritten <= 0)
-      return(nwritten); /* error */
-
-    nleft -= nwritten;
-    ptr = (char*)ptr + nwritten;
-  }
-  return(nbytes - nleft);
-} /* writen */
 
 /*
  * function: ftiheader_read

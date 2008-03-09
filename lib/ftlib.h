@@ -2608,9 +2608,6 @@ int fttlv_enc_ifalias(void *buf, int buf_size, int flip, uint16_t t,
   uint32_t ip, uint16_t *ifIndex_list, uint16_t entries, char *name);
 
 
-/* XXX -> support.c? */
-int writen(register int fd, register void *ptr, register int nbytes);
-
 void ftfile_free(struct ftfile_entries *fte);
 int ftfile_loadfile(struct ftfile_entries *fte, char *fname, int sort);
 int ftfile_loaddir(struct ftfile_entries *fte, char *dir, int sort);
