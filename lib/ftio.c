@@ -143,22 +143,22 @@ int ftio_init(struct ftio *ftio, int fd, int flag)
 #if HAVE_MMAP
 
     if (flag & FT_IO_FLAG_MMAP) {
+      /* Instead of failing completely when MMAP fails, fallback to the usual 
+       * way of doing things 
+       */
 
-      if (fstat(ftio->fd, &sb) < 0) {
-         fterr_warn("stat()");
-         goto ftio_init_out;
+      if (fstat(ftio->fd, &sb) == 0) {
+        if ((ftio->mr = mmap(NULL, sb.st_size, PROT_READ|PROT_WRITE, MAP_PRIVATE, 
+            ftio->fd, 0)) != MAP_FAILED) {
+          ftio->mr_size = sb.st_size;
+          ftio->flags |= FT_IO_FLAG_MMAP;
+        } else {
+          ftio->mr = NULL;
+          fterr_warn("mmap()");
+        }
+      } else {
+        fterr_warn("stat()");
       }
-
-      ftio->mr_size = sb.st_size;
-
-      if ((ftio->mr = mmap((caddr_t)0L, ftio->mr_size, PROT_READ|PROT_WRITE,
-         MAP_PRIVATE,
-         ftio->fd, (off_t)0L)) == MAP_FAILED) {
-         fterr_warn("mmap()");
-         goto ftio_init_out;
-      }
-
-      ftio->flags |= FT_IO_FLAG_MMAP;
 
     } /* FT_IO_FLAG_MMAP */
 
@@ -170,7 +170,7 @@ int ftio_init(struct ftio *ftio, int fd, int flag)
       goto ftio_init_out;
     }
 
-    if (flag & FT_IO_FLAG_MMAP) {
+    if (ftio->flags & FT_IO_FLAG_MMAP) {
       ftio->d_start = ftio->fth.enc_len;
       ftio->d_end = sb.st_size;
     }
@@ -249,7 +249,7 @@ int ftio_init(struct ftio *ftio, int fd, int flag)
 
 #ifdef HAVE_MMAP
  
-      if (flag & FT_IO_FLAG_MMAP) {
+      if (ftio->flags & FT_IO_FLAG_MMAP) {
 
         ftio->zs.avail_in = sb.st_size - ftio->fth.enc_len;
         ftio->zs.next_in = (Bytef*)ftio->mr+ftio->fth.enc_len;
