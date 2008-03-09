@@ -147,7 +147,7 @@ int main(int argc, char **argv)
     fterr_errx(1, "ftfil_def_find(): failed");
 
   /* input is stdin */
-  if (ftio_init(&ftio_in, 0, FT_IO_FLAG_READ) < 0)
+  if (ftio_init(&ftio_in, 0, FT_IO_FLAG_READ | FT_IO_FLAG_MMAP) < 0)
     fterr_errx(1, "ftio_init(): failed");
 
   /* output is stdout */

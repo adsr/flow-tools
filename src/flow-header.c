@@ -76,7 +76,7 @@ int main(int argc, char **argv)
     fterr_errx(1, "Extra arguments starting with %s.", argv[optind]);
 
   /* read from stdin */
-  if (ftio_init(&ftio, 0, FT_IO_FLAG_READ) < 0)
+  if (ftio_init(&ftio, 0, FT_IO_FLAG_READ | FT_IO_FLAG_MMAP) < 0)
     fterr_errx(1, "ftio_init(): failed");
 
   ftio_header_print(&ftio, stdout, cc);
