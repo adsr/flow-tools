@@ -406,7 +406,7 @@ int main(int argc, char **argv)
     fterr_errx(1, "No such format, %d\n", format_index);
 
   /* read from stdin */
-  if (ftio_init(&args.ftio, 0, FT_IO_FLAG_READ) < 0)
+  if (ftio_init(&args.ftio, 0, FT_IO_FLAG_READ | FT_IO_FLAG_MMAP) < 0)
     fterr_errx(1, "ftio_init(): failed");
 
   printf("%c  --- ---- ---- Report Information --- --- ---\n", args.cc);

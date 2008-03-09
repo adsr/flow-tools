@@ -313,6 +313,8 @@ skip1:
     }
   }
 
+  /* FIXME: this is a horrible copy&paste shit... */
+
   /* preload headers */
   if (preload) {
 
