@@ -411,7 +411,7 @@ int ftchash_sort(struct ftchash *ftch, int offset, int flags)
 
 static int cmp64(const void *a, const void *b)
 {
-  register uint64_t *la, *lb;
+  uint64_t *la, *lb;
   char *d;
 
   d = *(char**)a;
@@ -430,9 +430,9 @@ static int cmp64(const void *a, const void *b)
 
 static int cmp40(const void *a, const void *b)
 {
-  register uint32_t *la, *lb;
-  register uint8_t *ca, *cb;
-  register char *d;
+  uint32_t *la, *lb;
+  uint8_t *ca, *cb;
+  char *d;
 
   d = *(char**)a;
   la = (uint32_t*)(d+sort_offset);
@@ -462,7 +462,7 @@ static int cmp40(const void *a, const void *b)
 
 static int cmp32(const void *a, const void *b)
 {
-  register uint32_t *la, *lb;
+  uint32_t *la, *lb;
   char *d;
 
   d = *(char**)a;
@@ -481,7 +481,7 @@ static int cmp32(const void *a, const void *b)
 
 static int cmp16(const void *a, const void *b)
 {
-  register uint16_t *la, *lb;
+  uint16_t *la, *lb;
   char *d;
 
   d = *(char**)a;
@@ -500,7 +500,7 @@ static int cmp16(const void *a, const void *b)
 
 static int cmp8(const void *a, const void *b)
 {
-  register uint8_t *la, *lb;
+  uint8_t *la, *lb;
   char *d;
 
   d = *(char**)a;
@@ -519,7 +519,7 @@ static int cmp8(const void *a, const void *b)
 
 static int cmp_double(const void *a, const void *b)
 {
-  register double *la, *lb;
+  double *la, *lb;
   char *d;
 
   d = *(char**)a;

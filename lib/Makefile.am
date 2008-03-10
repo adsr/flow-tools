@@ -1,4 +1,4 @@
-AM_CFLAGS=-g -Wall -fPIC
+AM_CFLAGS = -Wall
 
 DISTCLEANFILES = ftconfig.h
 
