@@ -2,18 +2,26 @@ DOCSRC := flow-capture.sgml flow-cat.sgml flow-dscan.sgml flow-expire.sgml flow-
 
 man_MANS := $(DOCSRC:.sgml=.1)
 mantemplates := $(DOCSRC:.sgml=.1.in)
+htmltemplates := $(DOCSRC:.sgml=.html.in)
 
-dist_noinst_DATA := $(mantemplates) $(DOCSRC:%.sgml=%.html)
+dist_noinst_DATA := $(mantemplates) $(htmltemplates)
+noinst_DATA := $(DOCSRC:%.sgml=%.html)
 
 EXTRA_DIST := $(DOCSRC)
-MAINTAINERCLEANFILES := $(mantemplates)
-CLEANFILES := $(man_MANS)
+MAINTAINERCLEANFILES := $(mantemplates) $(htmltemplates)
+CLEANFILES := $(man_MANS) $(noinst_DATA)
 MOSTLYCLEANFILES := manpage.links manpage.refs
 
 do_subst = sed -e 's,[@]sysconfdir[@],$(sysconfdir),g'
 
-%.html: %.sgml
-	docbook2html -u $<
+%.html: %.html.in
+	$(do_subst) < $< > $@
+
+%.html.in: %.sgml
+	TMP=`mktemp -d` && \
+	docbook2html -u $< -o $$TMP && \
+	cat $$TMP/*.html > $@ && \
+	rm -rf $$TMP
 
 %.1: %.1.in
 	$(do_subst) < $< > $@
