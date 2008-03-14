@@ -98,7 +98,7 @@ Keep time from input.
 <listitem>
 <para>
 Load tags from <filename>tag_name</filename>.  Defaults to 
-<filename>@localstatedir@/cfg/tag</filename>
+<filename>@sysconfdir@/cfg/tag</filename>
 </para>
 </listitem>
 </varlistentry>
@@ -368,7 +368,7 @@ tag-definition OHIO-GIGAPOP
 </programlisting>
 </para>
 <para>
-First populate <filename>@localstatedir@/sym/tag</filename> for <command>flow-stat</command> to use as symbols.
+First populate <filename>@sysconfdir@/sym/tag</filename> for <command>flow-stat</command> to use as symbols.
 <programlisting>
 0x0001 OSU
 0x0002 CWRU
@@ -436,8 +436,8 @@ SPART       73998                 5170323905            7597985
 <title>FILES</title>
 <para>
   Configuration files:
-    Symbols - <filename>@localstatedir@/sym/*</filename>.
-    Tag - <filename>@localstatedir@/cfg/tag.cfg</filename>.
+    Symbols - <filename>@sysconfdir@/sym/*</filename>.
+    Tag - <filename>@sysconfdir@/cfg/tag.cfg</filename>.
 </para>
 </refsect1>
 

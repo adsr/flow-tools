@@ -228,7 +228,7 @@ Use <replaceable>pdu_version</replaceable> format output.
 <term>-x<replaceable> xlate_fname</replaceable></term>
 <listitem>
 <para>
-Translation config file name.  Defaults to <filename>@localstatedir@/cfg/xlate.cfg</filename>
+Translation config file name.  Defaults to <filename>@sysconfdir@/cfg/xlate.cfg</filename>
 </para>
 </listitem>
 </varlistentry>
@@ -330,9 +330,9 @@ filter-definition ucast
 <title>FILES</title>
 <para>
   Configuration files:
-    Symbols - <filename>@localstatedir@/sym/*</filename>.
-    Filter - <filename>@localstatedir@/cfg/filter.cfg</filename>.
-    Xlate - <filename>@localstatedir@/cfg/xlate.cfg</filename>.
+    Symbols - <filename>@sysconfdir@/sym/*</filename>.
+    Filter - <filename>@sysconfdir@/cfg/filter.cfg</filename>.
+    Xlate - <filename>@sysconfdir@/cfg/xlate.cfg</filename>.
 </para>
 </refsect1>
 

@@ -83,7 +83,7 @@ Enable debugging.
 <term>-f<replaceable> filter_fname</replaceable></term>
 <listitem>
 <para>
-Filter list filename.  Defaults to <filename>@localstatedir@/cfg/filter</filename>.
+Filter list filename.  Defaults to <filename>@sysconfdir@/cfg/filter</filename>.
 </para>
 </listitem>
 </varlistentry>

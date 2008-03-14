@@ -499,7 +499,7 @@ Enable debugging.
 <term>-s<replaceable> stat_fname</replaceable></term>
 <listitem>
 <para>
-Report configuration filename.  Defaults to <filename>@localstatedir@/cfg/stat</filename>.
+Report configuration filename.  Defaults to <filename>@sysconfdir@/cfg/stat</filename>.
 </para>
 </listitem>
 </varlistentry>
@@ -609,12 +609,12 @@ Flows without a packet or octet count are ignored.
 <title>FILES</title>
 <para>
   Configuration files:
-    Symbols - <filename>@localstatedir@/sym/*</filename>.
-    Tag - <filename>@localstatedir@/cfg/tag.cfg</filename>.
-    Filter - <filename>@localstatedir@/cfg/filter.cfg</filename>.
-    Mask - <filename>@localstatedir@/cfg/mask.cfg</filename>.
-    Report - <filename>@localstatedir@/cfg/stat.cfg</filename>.
-    Xlate - <filename>@localstatedir@/cfg/xlate.cfg</filename>.
+    Symbols - <filename>@sysconfdir@/sym/*</filename>.
+    Tag - <filename>@sysconfdir@/cfg/tag.cfg</filename>.
+    Filter - <filename>@sysconfdir@/cfg/filter.cfg</filename>.
+    Mask - <filename>@sysconfdir@/cfg/mask.cfg</filename>.
+    Report - <filename>@sysconfdir@/cfg/stat.cfg</filename>.
+    Xlate - <filename>@sysconfdir@/cfg/xlate.cfg</filename>.
 </para>
 </refsect1>
 

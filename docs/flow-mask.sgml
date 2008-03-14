@@ -91,7 +91,7 @@ Keep time from input.
 <listitem>
 <para>
 Load masks from <filename>mask_name</filename>.  Defaults to 
-<filename>@localstatedir@/cfg/mask</filename>
+<filename>@sysconfdir@/cfg/mask</filename>
 </para>
 </listitem>
 </varlistentry>
@@ -152,7 +152,7 @@ mask-definition foo
 <title>FILES</title>
 <para>
   Configuration files:
-    Mask - <filename>@localstatedir@/cfg/mask.cfg</filename>.
+    Mask - <filename>@sysconfdir@/cfg/mask.cfg</filename>.
 </para>
 </refsect1>
 

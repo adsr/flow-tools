@@ -181,7 +181,7 @@ Display flows in <filename>flowfile</filename>
 <title>FILES</title>
 <para>
   Configuration files:
-    Symbols - <filename>@localstatedir@/sym/*</filename>.
+    Symbols - <filename>@sysconfdir@/sym/*</filename>.
 </para>
 </refsect1>
 

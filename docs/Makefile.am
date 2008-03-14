@@ -1,18 +1,25 @@
 DOCSRC := flow-capture.sgml flow-cat.sgml flow-dscan.sgml flow-expire.sgml flow-export.sgml flow-fanout.sgml flow-filter.sgml flow-gen.sgml flow-header.sgml flow-import.sgml flow-merge.sgml flow-print.sgml flow-receive.sgml flow-send.sgml flow-split.sgml flow-stat.sgml flow-tools-examples.sgml flow-tools.sgml flow-xlate.sgml flow-tag.sgml flow-nfilter.sgml flow-report.sgml flow-mask.sgml flow-rptfmt.sgml flow-log2rrd.sgml flow-rpt2rrd.sgml
 
-dist_man_MANS := $(DOCSRC:.sgml=.1)
+man_MANS := $(DOCSRC:.sgml=.1)
+mantemplates := $(DOCSRC:.sgml=.1.in)
 
-dist_noinst_DATA := $(DOCSRC:%.sgml=%.html)
+dist_noinst_DATA := $(mantemplates) $(DOCSRC:%.sgml=%.html)
 
 EXTRA_DIST := $(DOCSRC)
-MAINTAINERCLEANFILES := $(man_MANS)
+MAINTAINERCLEANFILES := $(mantemplates)
+CLEANFILES := $(man_MANS)
 MOSTLYCLEANFILES := manpage.links manpage.refs
 
-.sgml.html:
+do_subst = sed -e 's,[@]sysconfdir[@],$(sysconfdir),g'
+
+%.html: %.sgml
 	docbook2html -u $<
 
-.sgml.1:
-	docbook2man $<
+%.1: %.1.in
+	$(do_subst) < $< > $@
 
-
-
+%.1.in: %.sgml
+	TMP=`mktemp -d` && \
+	docbook2man $< -o $$TMP && \
+	cat $$TMP/*.? > $@ && \
+	rm -rf $$TMP

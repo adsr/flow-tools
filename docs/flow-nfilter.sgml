@@ -243,7 +243,7 @@ Enable debugging.
 <term>-f<replaceable> filter_fname</replaceable></term>
 <listitem>
 <para>
-Filter list filename.  Defaults to <filename>@localstatedir@/cfg/filter</filename>.
+Filter list filename.  Defaults to <filename>@sysconfdir@/cfg/filter</filename>.
 </para>
 </listitem>
 </varlistentry>
@@ -455,9 +455,9 @@ filter-definition foo
 <title>FILES</title>
 <para>
   Configuration files:
-    Symbols - <filename>@localstatedir@/sym/*</filename>.
-    Tag - <filename>@localstatedir@/cfg/tag.cfg</filename>.
-    Filter - <filename>@localstatedir@/cfg/filter.cfg</filename>.
+    Symbols - <filename>@sysconfdir@/sym/*</filename>.
+    Tag - <filename>@sysconfdir@/cfg/tag.cfg</filename>.
+    Filter - <filename>@sysconfdir@/cfg/filter.cfg</filename>.
 </para>
 </refsect1>
 
