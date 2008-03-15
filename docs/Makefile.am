@@ -4,13 +4,11 @@ man_MANS := $(DOCSRC:.sgml=.1)
 mantemplates := $(DOCSRC:.sgml=.1.in)
 htmltemplates := $(DOCSRC:.sgml=.html.in)
 
-dist_noinst_DATA := $(mantemplates) $(htmltemplates)
 noinst_DATA := $(DOCSRC:%.sgml=%.html)
 
-EXTRA_DIST := $(DOCSRC)
+EXTRA_DIST := $(DOCSRC) $(mantemplates) $(htmltemplates)
 MAINTAINERCLEANFILES := $(mantemplates) $(htmltemplates)
 CLEANFILES := $(man_MANS) $(noinst_DATA)
-MOSTLYCLEANFILES := manpage.links manpage.refs
 
 do_subst = sed -e 's,[@]sysconfdir[@],$(sysconfdir),g'
 
