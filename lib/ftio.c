@@ -154,10 +154,10 @@ int ftio_init(struct ftio *ftio, int fd, int flag)
           ftio->flags |= FT_IO_FLAG_MMAP;
         } else {
           ftio->mr = NULL;
-          fterr_warn("mmap()");
+          // fterr_warn("mmap()");
         }
       } else {
-        fterr_warn("stat()");
+        // fterr_warn("stat()");
       }
 
     } /* FT_IO_FLAG_MMAP */
