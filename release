@@ -1,6 +1,6 @@
 #!/bin/bash
 
-git-shortlog v0.68.1.. > ChangeLog &&
+./genchangelog.py > ChangeLog &&
 autoreconf --install --force &&
 ./configure &&
 make dist-bzip2
