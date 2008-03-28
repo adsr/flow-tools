@@ -91,49 +91,49 @@ static int resolve_actions(struct fttag *fttag);
   
 static int walk_free(struct radix_node *rn, struct walkarg *UNUSED);
 
-static inline void eval_match_src_as(struct fttag_action *fta, 
+static void eval_match_src_as(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_dst_as(struct fttag_action *fta, 
+static void eval_match_dst_as(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_src_prefix(struct fttag_action *fta, 
+static void eval_match_src_prefix(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_dst_prefix(struct fttag_action *fta, 
+static void eval_match_dst_prefix(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_nexthop(struct fttag_action *fta, 
+static void eval_match_nexthop(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_as(struct fttag_action *fta, 
+static void eval_match_as(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_prefix(struct fttag_action *fta, 
+static void eval_match_prefix(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_tcp_src_port(struct fttag_action *fta, 
+static void eval_match_tcp_src_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_tcp_dst_port(struct fttag_action *fta, 
+static void eval_match_tcp_dst_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_tcp_port(struct fttag_action *fta, 
+static void eval_match_tcp_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_udp_src_port(struct fttag_action *fta, 
+static void eval_match_udp_src_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_udp_dst_port(struct fttag_action *fta, 
+static void eval_match_udp_dst_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_udp_port(struct fttag_action *fta, 
+static void eval_match_udp_port(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_tos(struct fttag_action *fta, 
+static void eval_match_tos(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_any(struct fttag_action *fta, 
+static void eval_match_any(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_in_interface(struct fttag_action *fta, 
+static void eval_match_in_interface(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_out_interface(struct fttag_action *fta, 
+static void eval_match_out_interface(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_interface(struct fttag_action *fta, 
+static void eval_match_interface(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_exporter(struct fttag_action *fta, 
+static void eval_match_exporter(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_src_ip(struct fttag_action *fta, 
+static void eval_match_src_ip(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_dst_ip(struct fttag_action *fta, 
+static void eval_match_dst_ip(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
-static inline void eval_match_ip(struct fttag_action *fta, 
+static void eval_match_ip(struct fttag_action *fta, 
   struct fts3rec_v1005 *rec);
 
 #define PARSE_STATE_ACTION          0x1
@@ -1690,7 +1690,7 @@ void fttag_free(struct fttag *fttag)
  *
  * returns 0
  */
-inline int fttag_def_eval(struct fttag_def *ftd,
+int fttag_def_eval(struct fttag_def *ftd,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_def_term *ftdt;
@@ -1729,7 +1729,7 @@ inline int fttag_def_eval(struct fttag_def *ftd,
 
 } /* fttag_def_eval */
 
-inline void eval_match_src_as(struct fttag_action *fta,
+static void eval_match_src_as(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_as_look *as_look;
@@ -1751,7 +1751,7 @@ inline void eval_match_src_as(struct fttag_action *fta,
 
 } /* eval_match_src_as */
 
-inline void eval_match_dst_as(struct fttag_action *fta,
+static void eval_match_dst_as(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_as_look *as_look;
@@ -1773,7 +1773,7 @@ inline void eval_match_dst_as(struct fttag_action *fta,
 
 } /* eval_match_dst_as */
 
-inline void eval_match_src_prefix(struct fttag_action *fta,
+static void eval_match_src_prefix(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct radix_sockaddr_in dst_sock;
@@ -1808,7 +1808,7 @@ inline void eval_match_src_prefix(struct fttag_action *fta,
 
 } /* eval_match_src_prefix */
 
-inline void eval_match_dst_prefix(struct fttag_action *fta,
+static void eval_match_dst_prefix(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct radix_sockaddr_in dst_sock;
@@ -1843,7 +1843,7 @@ inline void eval_match_dst_prefix(struct fttag_action *fta,
 
 } /* eval_match_dst_prefix */
 
-inline void eval_match_nexthop(struct fttag_action *fta,
+static void eval_match_nexthop(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
@@ -1878,7 +1878,7 @@ inline void eval_match_nexthop(struct fttag_action *fta,
 
 } /* eval_match_nexthop */
 
-inline void eval_match_exporter(struct fttag_action *fta,
+static void eval_match_exporter(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
@@ -1914,7 +1914,7 @@ inline void eval_match_exporter(struct fttag_action *fta,
 
 } /* eval_match_exporter */
 
-inline void eval_match_src_ip(struct fttag_action *fta,
+static void eval_match_src_ip(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
@@ -1950,7 +1950,7 @@ inline void eval_match_src_ip(struct fttag_action *fta,
 
 } /* eval_match_src_ip */
 
-inline void eval_match_dst_ip(struct fttag_action *fta,
+static void eval_match_dst_ip(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct ftchash *ftch;
@@ -1986,21 +1986,21 @@ inline void eval_match_dst_ip(struct fttag_action *fta,
 
 } /* eval_match_dst_ip */
 
-inline void eval_match_prefix(struct fttag_action *fta,
+static void eval_match_prefix(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_src_prefix(fta, rec);
   eval_match_dst_prefix(fta, rec);
 } /* eval_match_prefix */
 
-inline void eval_match_as(struct fttag_action *fta,
+static void eval_match_as(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_src_as(fta, rec);
   eval_match_dst_as(fta, rec);
 } /* eval_match_as */
 
-inline void eval_match_tcp_src_port(struct fttag_action *fta,
+static void eval_match_tcp_src_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
@@ -2026,7 +2026,7 @@ inline void eval_match_tcp_src_port(struct fttag_action *fta,
 
 } /* eval_match_tcp_src_port */
 
-inline void eval_match_tcp_dst_port(struct fttag_action *fta,
+static void eval_match_tcp_dst_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
@@ -2052,7 +2052,7 @@ inline void eval_match_tcp_dst_port(struct fttag_action *fta,
 
 } /* eval_match_tcp_dst_port */
 
-inline void eval_match_udp_src_port(struct fttag_action *fta,
+static void eval_match_udp_src_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
@@ -2078,7 +2078,7 @@ inline void eval_match_udp_src_port(struct fttag_action *fta,
 
 } /* eval_match_udp_src_port */
 
-inline void eval_match_udp_dst_port(struct fttag_action *fta,
+static void eval_match_udp_dst_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_port_look *port_look;
@@ -2104,21 +2104,21 @@ inline void eval_match_udp_dst_port(struct fttag_action *fta,
 
 } /* eval_match_udp_dst_port */
 
-inline void eval_match_tcp_port(struct fttag_action *fta,
+static void eval_match_tcp_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_tcp_src_port(fta, rec);
   eval_match_tcp_dst_port(fta, rec);
 } /* eval_match_tcp_port */
 
-inline void eval_match_udp_port(struct fttag_action *fta,
+static void eval_match_udp_port(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_udp_src_port(fta, rec);
   eval_match_udp_dst_port(fta, rec);
 } /* eval_match_udp_port */
 
-inline void eval_match_in_interface(struct fttag_action *fta,
+static void eval_match_in_interface(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_interface_look *interface_look;
@@ -2140,7 +2140,7 @@ inline void eval_match_in_interface(struct fttag_action *fta,
 
 } /* eval_match_in_interface */
 
-inline void eval_match_out_interface(struct fttag_action *fta,
+static void eval_match_out_interface(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_interface_look *interface_look;
@@ -2162,21 +2162,21 @@ inline void eval_match_out_interface(struct fttag_action *fta,
 
 } /* eval_match_out_interface */
 
-inline void eval_match_interface(struct fttag_action *fta,
+static void eval_match_interface(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_in_interface(fta, rec);
   eval_match_out_interface(fta, rec);
 } /* eval_match_interface */
 
-inline void eval_match_ip(struct fttag_action *fta,
+static void eval_match_ip(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   eval_match_src_ip(fta, rec);
   eval_match_dst_ip(fta, rec);
 } /* eval_match_ip */
 
-inline void eval_match_tos(struct fttag_action *fta,
+static void eval_match_tos(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_tos_look *tos_look;
@@ -2198,7 +2198,7 @@ inline void eval_match_tos(struct fttag_action *fta,
 
 } /* eval_match_tos */
 
-inline void eval_match_any(struct fttag_action *fta,
+static void eval_match_any(struct fttag_action *fta,
   struct fts3rec_v1005 *rec)
 {
   struct fttag_any_look *any_look;

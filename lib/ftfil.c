@@ -355,105 +355,105 @@ static int parse_primitive_type_double(struct line_parser *lp,
 static int parse_primitive_type_rate(struct line_parser *lp,
   struct ftfil *ftfil);
 
-inline int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
+static int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
+static int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
+static int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
+static int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
+static int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
+static int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo); 
-inline int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
+static int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
+static int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
+static int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
+static int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
+static int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len
+static int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len
   *lookup, char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len
+static int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len
   *lookup, char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
+static int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo);
-inline int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
+static int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo);
 
-inline int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
+static int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-
-inline int eval_match_start_time(struct ftfil_lookup_time *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_end_time(struct ftfil_lookup_time *lookup,
+static int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
-inline int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
+static int eval_match_start_time(struct ftfil_lookup_time *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
+static int eval_match_end_time(struct ftfil_lookup_time *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
-inline int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo);
-
-inline int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
-inline int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-
-inline int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
-inline int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-
-inline int eval_match_pps(struct ftfil_lookup_double *lookup,
-  char *rec, struct fts3rec_offsets *fo);
-inline int eval_match_bps(struct ftfil_lookup_double *lookup,
+static int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
-inline int eval_match_random_sample(struct ftfil_lookup_rate *lookup,
+static int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+
+static int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+
+static int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+
+static int eval_match_pps(struct ftfil_lookup_double *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+static int eval_match_bps(struct ftfil_lookup_double *lookup,
+  char *rec, struct fts3rec_offsets *fo);
+
+static int eval_match_random_sample(struct ftfil_lookup_rate *lookup,
   char *rec, struct fts3rec_offsets *fo);
 
 static int resolve_primitives(struct ftfil *ftfil);
@@ -543,7 +543,7 @@ static struct jump pjump[] = {
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
+static int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   uint16_t *src_as;
@@ -570,7 +570,7 @@ inline int eval_match_src_as(struct ftfil_lookup_as *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
+static int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   uint16_t *dst_as;
@@ -598,7 +598,7 @@ inline int eval_match_dst_as(struct ftfil_lookup_as *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
+static int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   uint8_t *ip_prot;
@@ -626,7 +626,7 @@ inline int eval_match_ip_prot(struct ftfil_lookup_ip_prot *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
+static int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t *src_mask;
@@ -654,7 +654,7 @@ inline int eval_match_ip_src_prefix_len(struct ftfil_lookup_ip_prefix_len *looku
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
+static int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t *dst_mask;
@@ -682,7 +682,7 @@ inline int eval_match_ip_dst_prefix_len(struct ftfil_lookup_ip_prefix_len *looku
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
+static int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t tos;
@@ -710,7 +710,7 @@ inline int eval_match_ip_tos(struct ftfil_lookup_ip_tos *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
+static int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t marked_tos;
@@ -739,7 +739,7 @@ inline int eval_match_ip_marked_tos(struct ftfil_lookup_ip_tos *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
+static int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t tcp_flags;
@@ -768,7 +768,7 @@ inline int eval_match_ip_tcp_flags(struct ftfil_lookup_ip_tcp_flags *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
+static int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint16_t *src_port;
@@ -795,7 +795,7 @@ inline int eval_match_ip_src_port(struct ftfil_lookup_ip_port *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
+static int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint16_t *dst_port;
@@ -823,7 +823,7 @@ inline int eval_match_ip_dst_port(struct ftfil_lookup_ip_port *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
+static int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint16_t *src_if_index;
@@ -850,7 +850,7 @@ inline int eval_match_src_if_index(struct ftfil_lookup_if_index *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
+static int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint16_t *dst_if_index;
@@ -878,7 +878,7 @@ inline int eval_match_dst_if_index(struct ftfil_lookup_if_index *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
+static int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t *engine_id;
@@ -906,7 +906,7 @@ inline int eval_match_engine_id(struct ftfil_lookup_engine *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
+static int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   uint8_t *engine_type;
@@ -933,7 +933,7 @@ inline int eval_match_engine_type(struct ftfil_lookup_engine *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -998,7 +998,7 @@ inline int eval_match_flows(struct ftfil_lookup_counter *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1063,7 +1063,7 @@ inline int eval_match_octets(struct ftfil_lookup_counter *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1128,7 +1128,7 @@ inline int eval_match_packets(struct ftfil_lookup_counter *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
+static int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1193,7 +1193,7 @@ inline int eval_match_xtra_packets(struct ftfil_lookup_counter *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
+static int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1260,7 +1260,7 @@ inline int eval_match_duration(struct ftfil_lookup_counter *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
+static int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1331,7 +1331,7 @@ inline int eval_match_start_time_date(struct ftfil_lookup_counter *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
+static int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_counter_rec *ftflcr;
@@ -1402,7 +1402,7 @@ inline int eval_match_end_time_date(struct ftfil_lookup_counter *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_start_time(struct ftfil_lookup_time *lookup,
+static int eval_match_start_time(struct ftfil_lookup_time *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   time_t t1, t2;
@@ -1492,7 +1492,7 @@ inline int eval_match_start_time(struct ftfil_lookup_time *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_end_time(struct ftfil_lookup_time *lookup,
+static int eval_match_end_time(struct ftfil_lookup_time *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   time_t t1, t2;
@@ -1582,7 +1582,7 @@ inline int eval_match_end_time(struct ftfil_lookup_time *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
+static int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_tag_mask_rec *ftfltmr;
@@ -1620,7 +1620,7 @@ inline int eval_match_src_tag_l(struct ftfil_lookup_tag_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
+static int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -1654,7 +1654,7 @@ inline int eval_match_src_tag_h(struct ftfil_lookup_tag *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
+static int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -1688,7 +1688,7 @@ inline int eval_match_dst_tag_h(struct ftfil_lookup_tag *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
+static int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_tag_mask_rec *ftfltmr;
@@ -1726,7 +1726,7 @@ inline int eval_match_dst_tag_l(struct ftfil_lookup_tag_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
@@ -1764,7 +1764,7 @@ inline int eval_match_ip_nexthop_addr_l(struct ftfil_lookup_ip_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -1798,7 +1798,7 @@ inline int eval_match_ip_nexthop_addr_h(struct ftfil_lookup_ip_address *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_prefix_rec *ftflipprr;
@@ -1835,7 +1835,7 @@ inline int eval_match_ip_nexthop_addr_r(struct ftfil_lookup_ip_prefix *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
@@ -1873,7 +1873,7 @@ inline int eval_match_ip_sc_addr_l(struct ftfil_lookup_ip_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -1907,7 +1907,7 @@ inline int eval_match_ip_sc_addr_h(struct ftfil_lookup_ip_address *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_prefix_rec *ftflipprr;
@@ -1944,7 +1944,7 @@ inline int eval_match_ip_sc_addr_r(struct ftfil_lookup_ip_prefix *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
@@ -1982,7 +1982,7 @@ inline int eval_match_ip_src_addr_l(struct ftfil_lookup_ip_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -2016,7 +2016,7 @@ inline int eval_match_ip_src_addr_h(struct ftfil_lookup_ip_address *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_prefix_rec *ftflipprr;
@@ -2053,7 +2053,7 @@ inline int eval_match_ip_src_addr_r(struct ftfil_lookup_ip_prefix *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
@@ -2091,7 +2091,7 @@ inline int eval_match_ip_dst_addr_l(struct ftfil_lookup_ip_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -2125,7 +2125,7 @@ inline int eval_match_ip_dst_addr_h(struct ftfil_lookup_ip_address *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_prefix_rec *ftflipprr;
@@ -2162,7 +2162,7 @@ inline int eval_match_ip_dst_addr_r(struct ftfil_lookup_ip_prefix *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
+static int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_mask_rec *ftflipmr;
@@ -2200,7 +2200,7 @@ inline int eval_match_ip_exporter_addr_l(struct ftfil_lookup_ip_mask *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
+static int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftchash_rec_fil_c32 *ftch_recfc32p;
@@ -2234,7 +2234,7 @@ inline int eval_match_ip_exporter_addr_h(struct ftfil_lookup_ip_address *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
+static int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
   char *rec, struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_ip_prefix_rec *ftflipprr;
@@ -2271,7 +2271,7 @@ inline int eval_match_ip_exporter_addr_r(struct ftfil_lookup_ip_prefix *lookup,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_bps(struct ftfil_lookup_double *lookup, char *rec,
+static int eval_match_bps(struct ftfil_lookup_double *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_double_rec *ftfldr;
@@ -2345,7 +2345,7 @@ inline int eval_match_bps(struct ftfil_lookup_double *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_pps(struct ftfil_lookup_double *lookup, char *rec,
+static int eval_match_pps(struct ftfil_lookup_double *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   struct ftfil_lookup_double_rec *ftfldr;
@@ -2419,7 +2419,7 @@ inline int eval_match_pps(struct ftfil_lookup_double *lookup, char *rec,
  * returns: FT_FIL_MODE_PERMIT
  *          FT_FIL_MODE_DENY
  */
-inline int eval_match_random_sample(struct ftfil_lookup_rate *lookup, char *rec,
+static int eval_match_random_sample(struct ftfil_lookup_rate *lookup, char *rec,
   struct fts3rec_offsets *fo)
 {
   int val;
