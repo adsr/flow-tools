@@ -1,5 +1,5 @@
 dnl Process this file with autoconf to produce a configure script.
-AC_INIT(flow-tools, 0.68.4-rc4, flow-tools@googlegroups.com)
+AC_INIT(flow-tools, 0.68.4-rc5, flow-tools@googlegroups.com)
 
 AC_PREFIX_DEFAULT(/usr/local/flow-tools)
 
