@@ -3,5 +3,5 @@
 ./genchangelog.py > ChangeLog &&
 autoreconf --install --force &&
 ./configure &&
-make dist-bzip2
+make distcheck
 
