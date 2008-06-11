@@ -13,7 +13,7 @@ bin_PROGRAMS = flow-capture flow-cat flow-stat flow-print flow-dscan \
         flow-send flow-receive flow-gen flow-expire \
         flow-filter flow-export flow-header flow-split \
 	flow-xlate flow-merge flow-import flow-fanout flow-tag \
-	flow-nfilter flow-report flow-mask
+	flow-nfilter flow-report flow-mask flow-merge2
 
 ftbuild.h: ftbuild.sh
 	./ftbuild.sh $@
@@ -31,3 +31,4 @@ flow_export_LDADD =  $(LDADD) $(MYSQLLIB) $(POSTGRESQL_LIB)
 flow_xlate_LDFLAGS =  $(AM_LDFLAGS) $(CRYPTOLDFLAGS)
 flow_xlate_LDADD = $(LDADD) $(CRYPTOLIB)
 
+flow_merge2_SOURCES = flow-merge2.c ippffunc.h ippf.y

@@ -2,7 +2,7 @@
 
 import subprocess
 
-tags = map(lambda x: x.strip(), subprocess.Popen(['git', 'tag', '-l'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].splitlines())
+tags = filter(lambda x: "-rc" not in x, map(lambda x: x.strip(), subprocess.Popen(['git', 'tag', '-l'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].splitlines()))
 
 upper = len(tags) - 1
 
