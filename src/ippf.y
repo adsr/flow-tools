@@ -16,7 +16,7 @@
 #define ELOG(fmt, args...) warnx(fmt, ##args)
 #define WLOG(fmt, args...) warnx(fmt, ##args)
 
-#include "ippf.h"
+#include "ippffunc.h"
 
 enum action 
 	{ ALLOW = 1, DENY = 0 };
