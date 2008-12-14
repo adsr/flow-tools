@@ -10,10 +10,15 @@ Cflow:
  and development libraries. This is the only supported way to use Cflow. Do not
  try to install it as specified in its readme.
 
+ By lack of popular demand, I removed Cflow tarball from the distribution.
+ You can download it at the URL above, then build by usual means.
+
 inter.net:
   Miguel A.L. Paraz <map@internet.org.ph>
   William Emmanuel S. Yu <william.s.yu@ieee.org> <wyy@cersa.admu.edu.ph>
  flow-split flow-split-non flow-as-if flow-cidr
+
+ Those utilities are way too much outdated and do not work.
 
 acl-filter.tgz:
  <rwariua@socrates.Berkeley.EDU>
