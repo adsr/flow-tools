@@ -131,7 +131,9 @@ struct line_parser {
   struct ftfil_match *cur_def_match;
   struct ftsym *sym_ip_prot;
   struct ftsym *sym_ip_tcp_port;
+#ifdef FT_PATH_SYM_ASN
   struct ftsym *sym_asn;
+#endif
   struct ftsym *sym_tag;
   struct ftsym *sym_cur;
   int lineno;
@@ -2470,7 +2472,9 @@ int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, const char *fname)
 
   lp.sym_ip_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
   lp.sym_ip_tcp_port = ftsym_new(FT_PATH_SYM_TCP_PORT);
+#ifdef FT_PATH_SYM_ASN
   lp.sym_asn = ftsym_new(FT_PATH_SYM_ASN);
+#endif
   lp.sym_tag = ftsym_new(FT_PATH_SYM_TAG);
 
   lp.fname = fname;
@@ -2600,8 +2604,10 @@ load_fil_out:
   if (lp.sym_ip_tcp_port)
     ftsym_free(lp.sym_ip_tcp_port);
 
+#ifdef FT_PATH_SYM_ASN
   if (lp.sym_asn)
     ftsym_free(lp.sym_asn);
+#endif
 
   if (lp.sym_tag)
     ftsym_free(lp.sym_tag);
