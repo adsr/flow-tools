@@ -1,0 +1,122 @@
+$Id: README,v 1.1.1.1 2002/05/14 02:03:11 wyy Exp $
+
+Inter.net Philippines Patches to Flow-tools
+----------------------------------------------
+
+A suite of tools used to supplement the flow-tools
+package by Mark Fulmer from Ohio State University.
+Contains tools for spliting flows based on IP grouping,
+manipulating flow output based on time or IP block
+and others.
+
+----------------------------------------------
+Developers:
+
+William Emmanuel S. Yu <wyu@ateneo.edu>
+Pasay City, Metro Manila, Philippines
+June 4, 2002
+
+Miguel A.L. Paraz <map@internet.org.ph>
+Mandaluyong City, Metro Manila, Philippines
+March 6, 2001
+
+----------------------------------------------
+Binaries:
+
+flow-divide
+flow-cidr
+flow-as-if
+flow-iptime
+flow-syn
+
+NOTE: the scripts folder contains some miscellaneous scripts
+that are potentially useful for monitoring traffic and 
+manipulating data files. one script divide usage into shifts 
+and the other script does 95th percentile billing.
+
+----------------------------------------------
+Installation:
+
+edit the Make.inc file. if you are building it right
+after building flow-tools you do not need to edit
+the Make.inc file.
+
+type 'make'
+
+copy the binaries to the flowtools install directory
+
+----------------------------------------------
+flow-divide
+
+While the rest of the flow-tools follow a "pipeline" philosophy, I found it
+necessary to to be able to split flow data into many files matching certain
+criteria.  My immediate need was to split it according to destination IP 
+network, so that I could analyze the new files separately.
+
+flow-divide description-file < flow-file
+
+or
+
+flow-cat flow-file ... | flow-divide description-file
+
+Where description-file is currently a plain text file with:
+
+file1 prefix1 prefix2 prefix3 ...
+file2 prefix1 prefix2 prefix3 ...
+...
+
+For example:
+
+lan1 192.168.0.0/24 192.168.2.0/24
+lan2 192.168.1.0/24 192.168.3.0/24
+
+
+Right now everything there must be separated by a single space, no multiple
+spaces nor tabs.  (I appreciate it if someone could clean that up.)
+
+This was built and tested on Red Hat Linux 7.  It depends on the C code Dave 
+Plonka's Net::Patricia perl module, available at CPAN, which packages up a 
+Patricia radix trie function that is used by flow-divide to easily identify 
+flows.  
+
+----------------------------------------------
+flow-as-if
+
+This tool generates a report based on the interfaces defined and will
+order them according to ASN and source interfaces. The tool will
+also group the results into clients based on a description file which
+has the same format as the definition file above.
+
+Usage:
+
+flow-cat flow-file ... | flow-as-if -f description-file -i int1,.. [-e] [-c]
+
+----------------------------------------------
+flow-cidr
+
+flow-cidr is just another filter that filters IP by CIDR IP block or
+by tags
+
+Usage:
+
+flow-cat flow-file ... | flow-cidr -i <src ip-address-block/prefix-length>
+flow-cat flow-file ... | flow-cidr -I <dst ip-address-block/prefix-length>
+flow-cat flow-file ... | flow-cidr -t <src tag>
+flow-cat flow-file ... | flow-cidr -T <dst tag>
+
+This code is intend to be part of flow-filter.
+
+----------------------------------------------
+flow-iptime
+
+This tool will filter flow files based on start and stop time
+
+Usage:
+
+flow-iptime source-ip destination-ip start-time stop-time
+flow-ipfime -f spec
+
+where spec: source-ip destination-ip start-time stop-time
+			...
+
+IP can be decimal or dotted quad ip = 0 means any
