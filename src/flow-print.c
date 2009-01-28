@@ -506,7 +506,7 @@ int format2(struct ftio *ftio, int options)
  */
 int format3(struct ftio *ftio, int options)
 {
-  struct ftsym *sym_tcp, *sym_prot;
+  struct ftsym *sym_tcp;
   struct fts3rec_all cur;
   struct fts3rec_offsets fo;
   struct ftver ftv;
@@ -524,11 +524,10 @@ int format3(struct ftio *ftio, int options)
   
   fts3rec_compute_offsets(&fo, &ftv);
 
-  sym_tcp = sym_prot = (struct ftsym*)0L;
+  sym_tcp = (struct ftsym*)0L;
 
   if (options & FT_OPT_NAMES) {
     sym_tcp = ftsym_new(FT_PATH_SYM_TCP_PORT);
-    sym_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
   }
 
   if (options & FT_OPT_WIDE)
@@ -537,6 +536,7 @@ int format3(struct ftio *ftio, int options)
     puts("srcIP            dstIP            prot  srcPort  dstPort  octets      packets");
 
   while ((rec = ftio_read(ftio))) {
+    char pbuf[64];
 
     cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
@@ -550,7 +550,10 @@ int format3(struct ftio *ftio, int options)
 
     fmt_ipv4(fmt_buf2, *cur.dstaddr, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf3, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
+    if ((options & FT_OPT_NAMES) && ftsym_get_proto_name((uint16_t)*cur.prot, pbuf, 64))
+      snprintf(fmt_buf3, 64, "%-5s", pbuf);
+    else
+      snprintf(fmt_buf3, 64, "%-5d", (uint16_t)*cur.prot);
 
     fmt_uint16s(sym_tcp, 16, fmt_buf4, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
@@ -571,7 +574,6 @@ int format3(struct ftio *ftio, int options)
   } /* while */
 
   ftsym_free(sym_tcp);
-  ftsym_free(sym_prot);
 
   return 0;
 
@@ -587,7 +589,6 @@ int format4(struct ftio *ftio, int options)
   struct fts3rec_all cur;
   struct fts3rec_offsets fo;
   struct ftver ftv;
-  struct ftsym *sym_prot, *sym_asn;
   char fmt_buf1[64], fmt_buf2[64], fmt_buf3[64], fmt_buf4[64], fmt_buf5[64];
   char *rec;
 
@@ -604,20 +605,13 @@ int format4(struct ftio *ftio, int options)
   
   fts3rec_compute_offsets(&fo, &ftv);
 
-  sym_prot = sym_asn = (struct ftsym*)0L;
-
-  if (options & FT_OPT_NAMES) {
-    sym_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
-    sym_asn = ftsym_new(FT_PATH_SYM_ASN);
-  }
-
-
   if (options & FT_OPT_WIDE)
     puts("Sif  Dif  srcIP               dstIP               prot   srcAS             dstAS             octets      packets");
   else
     puts("srcIP              dstIP              prot  srcAS  dstAS  octets      packets");
 
   while ((rec = ftio_read(ftio))) {
+    char pbuf[64];
 
     cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
@@ -637,11 +631,14 @@ int format4(struct ftio *ftio, int options)
 
     fmt_ipv4prefix(fmt_buf2, *cur.dstaddr, *cur.dst_mask, FMT_JUST_LEFT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf3, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
+    if ((options & FT_OPT_NAMES) && ftsym_get_proto_name((uint16_t)*cur.prot, pbuf, 64))
+      snprintf(fmt_buf3, 64, "%-5s", pbuf);
+    else
+      snprintf(fmt_buf3, 64, "%-5d", (uint16_t)*cur.prot);
 
-    fmt_uint16s(sym_asn, 18, fmt_buf4, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
+    fmt_uint16s(NULL, 18, fmt_buf4, (uint16_t)*cur.src_as, FMT_JUST_LEFT);
 
-    fmt_uint16s(sym_asn, 18, fmt_buf5, (uint16_t)*cur.dst_as, FMT_JUST_LEFT);
+    fmt_uint16s(NULL, 18, fmt_buf5, (uint16_t)*cur.dst_as, FMT_JUST_LEFT);
 
     if (options & FT_OPT_WIDE)
       printf("%4.4x %4.4x %-18.18s  %-18.18s  %-5.5s  %-16.16s  %-16.16s  %-10lu  %-10lu\n",
@@ -657,9 +654,6 @@ int format4(struct ftio *ftio, int options)
       fflush(stdout);
 
   } /* while */
-
-  ftsym_free(sym_prot);
-  ftsym_free(sym_asn);
 
   return 0;
 
@@ -813,7 +807,7 @@ int format7(struct ftio *ftio, int options)
   struct fts3rec_all cur;
   struct fts3rec_offsets fo;
   struct ftver ftv;
-  struct ftsym *sym_tcp, *sym_prot;
+  struct ftsym *sym_tcp;
   char fmt_buf1[64], fmt_buf2[64], fmt_buf3[64], fmt_buf4[64], fmt_buf5[64];
   char fmt_buf6[64];
   char *rec;
@@ -830,16 +824,16 @@ int format7(struct ftio *ftio, int options)
 
   fts3rec_compute_offsets(&fo, &ftv);
 
-  sym_tcp = sym_prot = (struct ftsym*)0L;
+  sym_tcp = (struct ftsym*)0L;
  
   if (options & FT_OPT_NAMES) {
     sym_tcp = ftsym_new(FT_PATH_SYM_TCP_PORT);
-    sym_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
   }
 
   puts("srcIP               dstIP               router_sc        prot   srcPort         dstPort         octets      packets");
 
   while ((rec = ftio_read(ftio))) {
+    char pbuf[64];
 
     cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
@@ -858,7 +852,10 @@ int format7(struct ftio *ftio, int options)
 
     fmt_ipv4(fmt_buf3, *cur.router_sc, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
+    if ((options & FT_OPT_NAMES) && ftsym_get_proto_name((uint16_t)*cur.prot, pbuf, 64))
+      snprintf(fmt_buf4, 64, "%-5s", pbuf);
+    else
+      snprintf(fmt_buf4, 64, "%-5d", (uint16_t)*cur.prot);
 
     fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
@@ -874,7 +871,6 @@ int format7(struct ftio *ftio, int options)
   } /* while */
 
   ftsym_free(sym_tcp);
-  ftsym_free(sym_prot);
 
   return 0;
 
@@ -887,7 +883,7 @@ int format7(struct ftio *ftio, int options)
  */
 int format8(struct ftio *ftio, int options)
 {
-  struct ftsym *sym_tcp, *sym_prot;
+  struct ftsym *sym_tcp;
   struct fts3rec_all cur;
   struct fts3rec_offsets fo;
   struct ftver ftv;
@@ -908,16 +904,16 @@ int format8(struct ftio *ftio, int options)
  
   fts3rec_compute_offsets(&fo, &ftv);
 
-  sym_tcp = sym_prot = (struct ftsym*)0L;
+  sym_tcp = (struct ftsym*)0L;
   
   if (options & FT_OPT_NAMES) {
     sym_tcp = ftsym_new(FT_PATH_SYM_TCP_PORT);
-    sym_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
   } 
 
   puts("srcIP               dstIP               peer_nexthop     encap i/o  prot   srcPort         dstPort         octets      packets");
 
   while ((rec = ftio_read(ftio))) {
+    char pbuf[64];
 
     cur.dOctets = ((uint32_t*)(rec+fo.dOctets));
     cur.dPkts = ((uint32_t*)(rec+fo.dPkts));
@@ -938,7 +934,10 @@ int format8(struct ftio *ftio, int options)
 
     fmt_ipv4(fmt_buf3, *cur.peer_nexthop, FMT_PAD_RIGHT);
 
-    fmt_uint16s(sym_prot, 5, fmt_buf4, (uint16_t)*cur.prot, FMT_PAD_RIGHT);
+    if ((options & FT_OPT_NAMES) && ftsym_get_proto_name((uint16_t)*cur.prot, pbuf, 64))
+      snprintf(fmt_buf4, 64, "%-5s", pbuf);
+    else
+      snprintf(fmt_buf4, 64, "%-5d", (uint16_t)*cur.prot);
 
     fmt_uint16s(sym_tcp, 16, fmt_buf5, (uint16_t)*cur.srcport, FMT_PAD_RIGHT);
 
@@ -954,7 +953,6 @@ int format8(struct ftio *ftio, int options)
   } /* while */
 
   ftsym_free(sym_tcp);
-  ftsym_free(sym_prot);
 
   return 0;
 

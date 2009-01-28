@@ -46,6 +46,7 @@
 #include <ctype.h>
 #include <stddef.h>
 #include <stdlib.h>
+#include <netdb.h>
 
 #if HAVE_STRINGS_H
  #include <strings.h>
@@ -301,3 +302,16 @@ void ftsym_free(struct ftsym *ftsym)
   }
 } /* ftsym_free */
 
+int ftsym_get_proto_name(int proto, char* buffer, size_t buflen) {
+  struct protoent result_buf, *result_buf_ptr;
+  char stringbuf[1024];
+  
+
+  if (!getprotobynumber_r(proto, &result_buf, &stringbuf, sizeof(stringbuf), &result_buf_ptr)) {
+    strncpy(buffer, result_buf_ptr->p_name, buflen);
+    buffer[buflen] = '\0';
+
+    return 1;
+  }
+  return 0;
+}  

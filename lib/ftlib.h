@@ -2972,4 +2972,6 @@ const char *ft_get_path(enum ft_config_path pathid);
 #define FT_PATH_SYM_ASN ft_get_path(_FT_PATH_SYM_ASN)
 #define FT_PATH_SYM_TAG ft_get_path(_FT_PATH_SYM_TAG)
 
+int ftsym_get_proto_name(int proto, char* buffer, size_t buflen);
+
 #endif /* FTLIB_H */
