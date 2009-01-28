@@ -501,14 +501,16 @@ int format1(struct ftio *ftio, struct options *opt)
   struct pcap_data2 pd2;
   struct pcap_data3 pd3;
   struct pcap_data4 pd4;
-  int bsize, bsize2, good;
+  int bsize, bsize2;
   long thiszone;
   char buf[1024];
   char *rec;
 
   if (ftio_check_xfield(ftio, FT_XFIELD_TOS | FT_XFIELD_PROT | 
     FT_XFIELD_SRCADDR | FT_XFIELD_DSTADDR | FT_XFIELD_SRCPORT |
-    FT_XFIELD_DSTPORT)) {
+    FT_XFIELD_DSTPORT |
+    FT_XFIELD_UNIX_SECS | FT_XFIELD_UNIX_NSECS |
+    FT_XFIELD_DPKTS | FT_XFIELD_DOCTETS)) {
     fterr_warnx("Flow record missing required field for format.");
     return -1;
   }
@@ -524,23 +526,17 @@ int format1(struct ftio *ftio, struct options *opt)
 
   bzero(&pfh, sizeof pfh);
   bzero(&pph, sizeof pph);
-  bzero(&pd1, sizeof pd1);
-  bzero(&pd2, sizeof pd2);
-  bzero(&pd3, sizeof pd3);
-  bzero(&pd4, sizeof pd4);
+  bzero(&pd1, sizeof pd1); /* ethernet */
+  bzero(&pd2, sizeof pd2); /* IP */
+  bzero(&pd3, sizeof pd3); /* TCP */
+  bzero(&pd4, sizeof pd4); /* UDP */
   bsize = 0;
-
-  thiszone = tz.tz_minuteswest * -60;
-
-  if (localtime((time_t *)&now.tv_sec)->tm_isdst)
-    thiszone += 3600;
 
   pfh.magic = TCPDUMP_MAGIC;  
   pfh.version_major = TCPDUMP_VERSION_MAJOR;
   pfh.version_minor = TCPDUMP_VERSION_MINOR;
-  pfh.thiszone = thiszone;
   pfh.sigfigs = 6;
-  pfh.snaplen = 38; /* XXX TODO */
+  pfh.snaplen = 65535;
   pfh.linktype = 1;
 
   if (fwrite(&pfh, sizeof pfh, 1, stdout) != 1) {
@@ -548,13 +544,10 @@ int format1(struct ftio *ftio, struct options *opt)
     return -1;
   }
 
-  pph.len = 58;
-  pph.caplen = 58;
-
   pd1.eth_prot = 0x0008;
   pd2.version = 0x45;
 
-  bcopy(&pph, buf, sizeof pph);
+  /* note: bcopy of pph to buf is deferred (so lengths can be adjusted below) */
   bsize += sizeof pph;
 
   bcopy(&pd1, buf+bsize, sizeof pd1);
@@ -562,6 +555,8 @@ int format1(struct ftio *ftio, struct options *opt)
 
   while ((rec = ftio_read(ftio))) {
 
+    cur.unix_secs = (uint32_t *)(rec+fo.unix_secs);
+    cur.unix_nsecs = (uint32_t *)(rec+fo.unix_nsecs);
     cur.srcport = ((uint16_t*)(rec+fo.srcport));
     cur.dstport = ((uint16_t*)(rec+fo.dstport));
     cur.prot = ((uint8_t*)(rec+fo.prot));
@@ -569,38 +564,47 @@ int format1(struct ftio *ftio, struct options *opt)
     cur.srcaddr = ((uint32_t*)(rec+fo.srcaddr));
     cur.dstaddr = ((uint32_t*)(rec+fo.dstaddr));
 
-
+    pd2.version = 4 << 4 | ((sizeof pd2) / 4);
     pd2.tos = *cur.tos;
     pd2.prot = *cur.prot;
     pd2.srcaddr = *cur.srcaddr;
     pd2.dstaddr = *cur.dstaddr;
+    pd2.len = sizeof pd2; /* this might be adjusted below for TCP, UDP, etc. */
+
+    pph.caplen = sizeof pd1 + sizeof pd2; /* ether and IP header */
 
 #if BYTE_ORDER == LITTLE_ENDIAN
     SWAPINT32(pd2.srcaddr);
     SWAPINT32(pd2.dstaddr);
 #endif /* LITTLE_ENDIAN */
 
-    good = 1;
+#if 1 /* { */
 
     switch (pd2.prot) {
 
-    case 6:
+    case 6: /* TCP */
 
       pd3.srcport = *cur.srcport;
       pd3.dstport = *cur.dstport;
-
 #if BYTE_ORDER == LITTLE_ENDIAN
       SWAPINT16(pd3.srcport);
       SWAPINT16(pd3.dstport);
 #endif /* LITTLE_ENDIAN */
 
-      bcopy(&pd2, buf+bsize, sizeof pd2);
+      /* set data offset to 6 32-bit words: */
+      pd3.data_reserved_flags_window = 0x60000000;
+#if BYTE_ORDER == LITTLE_ENDIAN
+      SWAPINT32(pd3.data_reserved_flags_window);
+#endif /* LITTLE_ENDIAN */
+
+      pph.caplen += sizeof pd3; /* + TCP header */
+      pd2.len += sizeof pd3;
       bcopy(&pd3, buf+bsize+sizeof pd2, sizeof pd3);
       bsize2 = bsize + sizeof pd2 + sizeof pd3;
 
       break;
 
-    case 17:
+    case 17: /* UDP */
 
       pd4.srcport = *cur.srcport;
       pd4.dstport = *cur.dstport;
@@ -610,19 +614,47 @@ int format1(struct ftio *ftio, struct options *opt)
       SWAPINT16(pd4.dstport);
 #endif /* LITTLE_ENDIAN */
 
-      bcopy(&pd2, buf+bsize, sizeof pd2);
+      pph.caplen += sizeof pd4; /* + UDP header */
+      pd2.len += sizeof pd4;
+      pd4.len = sizeof pd4; /* FIXME */
+#if BYTE_ORDER == LITTLE_ENDIAN
+      SWAPINT16(pd4.len);
+#endif /* LITTLE_ENDIAN */
       bcopy(&pd4, buf+bsize+sizeof pd2, sizeof pd4);
       bsize2 = bsize + sizeof pd2 + sizeof pd4;
 
       break;
 
-    default:
-      good = 0;
+    case 1: /* FIXME - handle ICMP specially */
+    default: /* handle others IP protocols */
+      bsize2 = bsize + sizeof pd2;
       break;
 
     } /* switch */
 
-    if (good) {
+#else /* }{ */
+    bsize2 = bsize + sizeof pd2;
+#endif /* } */
+
+    pph.ts.tv_sec = *(uint32_t *)(rec+fo.unix_secs);
+    pph.ts.tv_usec = *(uint32_t *)(rec+fo.unix_nsecs) / 1000;
+    pph.len = pph.caplen; /* FIXME */
+
+    bcopy(&pph, buf, sizeof pph);
+#if BYTE_ORDER == LITTLE_ENDIAN
+    SWAPINT16(pd2.len);
+#endif /* LITTLE_ENDIAN */
+    bcopy(&pd2, buf+bsize, sizeof pd2);
+
+    {
+      /* FIXME - add a loop here to write one record per packet (rather than
+       *         one per flow).  change the packet size to be
+       *         floor(average_pkt_size), then add one byte to the first or
+       *         last flow, if necessary, to make the byte count correct.
+       */
+       /* uint16_t dPkts; */
+       /* uint16_t dOctets; */
+
       if (fwrite(&buf, bsize2, 1, stdout) != 1) {
         fterr_warnx("pcap pkt write failed");
         return -1;
