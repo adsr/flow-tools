@@ -307,7 +307,7 @@ int ftsym_get_proto_name(int proto, char* buffer, size_t buflen) {
   char stringbuf[1024];
   
 
-  if (!getprotobynumber_r(proto, &result_buf, &stringbuf, sizeof(stringbuf), &result_buf_ptr)) {
+  if (!getprotobynumber_r(proto, &result_buf, stringbuf, sizeof(stringbuf), &result_buf_ptr)) {
     strncpy(buffer, result_buf_ptr->p_name, buflen);
     buffer[buflen] = '\0';
 
