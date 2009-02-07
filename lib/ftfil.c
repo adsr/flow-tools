@@ -298,8 +298,10 @@ struct ftfil_match_item_cache {
 
 static int walk_free(struct radix_node *rn, struct walkarg *UNUSED);
 
+typedef int (*lookup_t)(const char *name, uint32_t *val);
+
 static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
-  uint8_t *list, int mode);
+  uint8_t *list, int mode, lookup_t lookup);
 
 static int parse_definition(struct line_parser *lp,
   struct ftfil *ftfil);
@@ -2470,7 +2472,7 @@ int ftfil_load(struct ftfil *ftfil, struct ftvar *ftvar, const char *fname)
   FT_SLIST_INIT(&ftfil->defs);
   FT_SLIST_INIT(&ftfil->primitives);
 
-  lp.sym_ip_prot = ftsym_new(FT_PATH_SYM_IP_PROT);
+  lp.sym_ip_prot = NULL; // ftsym_new(FT_PATH_SYM_IP_PROT);
   lp.sym_ip_tcp_port = ftsym_new(FT_PATH_SYM_TCP_PORT);
 #ifdef FT_PATH_SYM_ASN
   lp.sym_asn = ftsym_new(FT_PATH_SYM_ASN);
@@ -3537,7 +3539,7 @@ int parse_primitive_type_asn(struct line_parser *lp, struct ftfil *ftfil)
 
   ftfla = (struct ftfil_lookup_as*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 65536, ftfla->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 65536, ftfla->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3564,7 +3566,7 @@ int parse_primitive_type_ip_prot(struct line_parser *lp,
 
   ftflipp = (struct ftfil_lookup_ip_prot*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 256, ftflipp->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 256, ftflipp->mode, lp->mode, &ftsym_get_proto_id)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3591,7 +3593,7 @@ int parse_primitive_type_ip_port(struct line_parser *lp,
 
   ftflippo = (struct ftfil_lookup_ip_port*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 65536, ftflippo->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 65536, ftflippo->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3618,7 +3620,7 @@ int parse_primitive_type_ip_prefix_len(struct line_parser *lp,
 
   ftflipl = (struct ftfil_lookup_ip_prefix_len*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 33, ftflipl->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 33, ftflipl->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3645,7 +3647,7 @@ int parse_primitive_type_ip_tos(struct line_parser *lp,
 
   ftflipt = (struct ftfil_lookup_ip_tos*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 256, ftflipt->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 256, ftflipt->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3672,7 +3674,7 @@ int parse_primitive_type_ip_tcp_flags(struct line_parser *lp,
 
   ftfliptcp = (struct ftfil_lookup_ip_tcp_flags*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 256, ftfliptcp->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 256, ftfliptcp->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3699,7 +3701,7 @@ int parse_primitive_type_if_index(struct line_parser *lp,
 
   ftflif = (struct ftfil_lookup_if_index*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 65536, ftflif->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 65536, ftflif->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -3726,7 +3728,7 @@ int parse_primitive_type_engine(struct line_parser *lp,
 
   ftfle = (struct ftfil_lookup_engine*)lp->cur_primitive->lookup;
 
-  if (ftfil_load_lookup(lp, lp->word, 65536, ftfle->mode, lp->mode)) {
+  if (ftfil_load_lookup(lp, lp->word, 65536, ftfle->mode, lp->mode, NULL)) {
     fterr_warnx("load_lookup(): failed");
     return -1;
   }
@@ -4980,14 +4982,25 @@ int parse_primitive_mask(struct line_parser *lp, struct ftfil *ftfil)
  * The array will either be unset, or set
  * to FT_FL_MODE_PERMIT or FT_FL_MODE_DENY
  */
+
+static int ftsym_lookup(struct line_parser *lp, lookup_t lookup, const char *name, uint32_t *val) {
+  if (lookup) {
+    if (lookup(name, val))
+      return !0;
+  } else if (lp->sym_cur && ftsym_findbyname(lp->sym_cur, name, val))
+    return !0;
+
+  fterr_warnx("%s line %d: symbol lookup for \"%s\" failed.", lp->fname, lp->lineno, name);
+  return 0;
+}
+  
+
 static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
-  uint8_t *list, int mode)
+  uint8_t *list, int mode, lookup_t lookup)
 {
   char *p, *q, *r, c;
   int j, flag;
-  unsigned i, i2;
   int permit,deny;
-  uint32_t val;
 
   if (mode == FT_FIL_MODE_DENY) {
     permit = FT_FIL_MODE_DENY;
@@ -5010,6 +5023,7 @@ static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
   }
 
   while (*p) {
+    uint32_t i, i2;
 
     /* skip white space */
     for (q = p; *q && (*q == ' ' || *q == '\t'); ++q);
@@ -5025,15 +5039,10 @@ static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
 
     /* looks like a symbol? then try a lookup */
     if (isalpha((int)*q)) {
-      if (lp->sym_cur && ftsym_findbyname(lp->sym_cur, q, &val))
-        i = val;
-      else {
-        fterr_warnx("%s line %d: symbol lookup for \"%s\" failed.", lp->fname,
-          lp->lineno, q);
+      if (!ftsym_lookup(lp, lookup, q, &i))
         return -1;
-      }
     } else
-      i = (unsigned)strtoul(q, (char**)0L, 0);
+      i = strtoul(q, (char**)0L, 0);
 
     if (i >= size) {
       fterr_warnx("%s line %d: Value out of range.", lp->fname, lp->lineno);
@@ -5069,15 +5078,10 @@ static int ftfil_load_lookup(struct line_parser *lp, char *s, int size,
 
       /* looks like a symbol? then try a lookup */
       if (isalpha((int)*q)) {
-        if (lp->sym_cur && ftsym_findbyname(lp->sym_cur, q, &val))
-          i2 = val;
-        else {
-          fterr_warnx("%s line %d: symbol lookup for \"%s\" failed.", lp->fname,
-            lp->lineno, q);
+        if (!ftsym_lookup(lp, lookup, q, &i2))
           return -1;
-        }
       } else
-        i2 = (unsigned)strtoul(q, (char**)0L, 0);
+        i2 = strtoul(q, (char**)0L, 0);
 
       if (i2 >= size) {
         fterr_warnx("%s line %d: Value out of range.", lp->fname, lp->lineno);

@@ -2961,12 +2961,13 @@ const char *ft_get_path(enum ft_config_path pathid);
 #define FT_PATH_CFG_MASK ft_get_path(_FT_PATH_CFG_MASK)
 #define FT_PATH_CFG_XLATE ft_get_path(_FT_PATH_CFG_XLATE)
 
-#define FT_PATH_SYM_IP_PROT ft_get_path(_FT_PATH_SYM_IP_PROT)
+// #define FT_PATH_SYM_IP_PROT ft_get_path(_FT_PATH_SYM_IP_PROT)
 #define FT_PATH_SYM_IP_TYPE ft_get_path(_FT_PATH_SYM_IP_TYPE)
 #define FT_PATH_SYM_TCP_PORT ft_get_path(_FT_PATH_SYM_TCP_PORT)
 #define FT_PATH_SYM_ASN ft_get_path(_FT_PATH_SYM_ASN)
 #define FT_PATH_SYM_TAG ft_get_path(_FT_PATH_SYM_TAG)
 
 int ftsym_get_proto_name(int proto, char* buffer, size_t buflen);
+int ftsym_get_proto_id(const char *name, uint32_t *val);
 
 #endif /* FTLIB_H */
