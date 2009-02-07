@@ -315,3 +315,15 @@ int ftsym_get_proto_name(int proto, char* buffer, size_t buflen) {
   }
   return 0;
 }  
+
+int ftsym_get_proto_id(const char *name, uint32_t *val) {
+  struct protoent result_buf, *result_buf_ptr;
+  char stringbuf[1024];
+
+  if (!getprotobyname_r(name, &result_buf, stringbuf, sizeof(stringbuf), &result_buf_ptr)) {
+    *val = result_buf_ptr->p_proto;
+
+    return 1;
+  }
+  return 0;
+}
