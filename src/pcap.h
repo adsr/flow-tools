@@ -31,7 +31,7 @@
 
 #define TCPDUMP_MAGIC 0xa1b2c3d4
 #define TCPDUMP_VERSION_MAJOR 2
-#define TCPDUMP_VERSION_MINOR 2
+#define TCPDUMP_VERSION_MINOR 4
 
 struct pcap_file_header {
   u_long magic;
@@ -45,8 +45,8 @@ struct pcap_file_header {
 
 struct pcap_packet_header {
   struct timeval ts;  /* time stamp */
-  u_long len;         /* length this packet (off wire) */
   u_long caplen;      /* length of portion present */
+  u_long len;         /* length this packet (off wire) */
 };
 
 /* eth header */
@@ -77,7 +77,7 @@ struct pcap_data3 {
   uint16_t dstport;
   uint32_t hold1; /* seq */
   uint32_t hold2; /* ack */
-  uint32_t hold3; /* data, reserved, flags, window */
+  uint32_t data_reserved_flags_window; /* data, reserved, flags, window */
   uint32_t hold4; /* csum, urg pointer */
   uint32_t hold5; /* options, padding */
 };
@@ -87,14 +87,16 @@ struct pcap_data3 {
 struct pcap_data4 {
   uint16_t srcport;
   uint16_t dstport;
-  uint32_t hold1; /* len */
-  uint32_t hold2; /* csum */
+  uint16_t len; /* len */
+  uint16_t csum; /* csum */
+#if 0 /* { */
   uint32_t hold3; /* data ...*/
   uint32_t hold4; /* data ... */
   uint32_t hold5; /* data ... */
 #ifdef XXX
   uint32_t hold6; /* data */
 #endif /* XXX */
+#endif /* } */
 };
 
 
