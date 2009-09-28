@@ -459,11 +459,16 @@ struct ftnet {
   int fd;                         /* fd receiving flows on */
   struct mymsghdr msg;            /* recvmsg data */
   struct {
-    struct cmsghdr hdr;
 #ifdef IP_RECVDSTADDR
+#ifdef CMSG_DATA
+    char cbuf[CMSG_SPACE(sizeof(struct sockaddr_storage))];
+#else
+    struct cmsghdr hdr;
     struct in_addr ip;
+#endif /* CMSG_DATA */
 #else
 #ifdef IP_PKTINFO
+    struct cmsghdr hdr;
     struct in_pktinfo pktinfo;
 #endif /* else */
 #endif /* IP RECVDSTADDR */

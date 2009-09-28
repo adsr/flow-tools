@@ -170,6 +170,11 @@ char **argv;
   int stat_interval, stat_next, child_status;
   int v_flag;
   int preserve_umask;
+#ifdef IP_RECVDSTADDR
+#ifdef CMSG_DATA
+  struct cmsghdr *cmsg;
+#endif
+#endif
 
   time_startup = time((time_t)0L);
 
@@ -621,7 +626,12 @@ mcast_done:
   ftnet.msg.msg_name = &ftnet.rem_addr;
   ftnet.msg.msg_namelen = sizeof ftnet.rem_addr;
   ftnet.msg.msg_control = &ftnet.msgip;
+
+#ifdef CMSG_DATA
+  ftnet.msg.msg_controllen = CMSG_LEN(sizeof(struct sockaddr_storage));
+#else
   ftnet.msg.msg_controllen = sizeof ftnet.msgip;
+#endif
 
   while (1) {
 
@@ -853,12 +863,24 @@ restart_recvmsg:
 
 #ifdef IP_RECVDSTADDR
       /* got destination IP back? */
+#ifdef CMSG_DATA
+      for (cmsg = CMSG_FIRSTHDR(&ftnet.msg); cmsg != NULL;
+          cmsg = CMSG_NXTHDR(&ftnet.msg, cmsg)) {
+              if (cmsg->cmsg_level == IPPROTO_IP &&
+                  cmsg->cmsg_type == IP_RECVDSTADDR) {
+                      memcpy(&ftnet.loc_addr.sin_addr.s_addr,
+                          CMSG_DATA(cmsg), sizeof(struct in_addr));
+                      break;
+              }
+      }
+#else
       if ((ftnet.msgip.hdr.cmsg_level == IPPROTO_IP) &&
           (ftnet.msgip.hdr.cmsg_type == IP_RECVDSTADDR)) {
           ftnet.loc_addr.sin_addr.s_addr = ftnet.msgip.ip.s_addr;
       } else {
         ftnet.loc_addr.sin_addr.s_addr = 0;
       }
+#endif /* CMSG_DATA */
 #else
 #ifdef IP_PKTINFO
       if ((ftnet.msgip.hdr.cmsg_level == IPPROTO_IP) &&

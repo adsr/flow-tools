@@ -124,6 +124,11 @@ int main(int argc, char **argv)
   int i, n, detach, one, ret, offset, hdr_len;
   int npeers, tx_delay;
   int stat_interval, stat_next, src_ip_spoof;
+#ifdef IP_RECVDSTADDR
+#ifdef CMSG_DATA
+  struct cmsghdr *cmsg;
+#endif
+#endif
 
   time_startup = time((time_t)0L);
 
@@ -625,12 +630,24 @@ restart_recvmsg:
 
 #ifdef IP_RECVDSTADDR
       /* got destination IP back? */
+#ifdef CMSG_DATA
+      for (cmsg = CMSG_FIRSTHDR(&ftnet.msg); cmsg != NULL;
+          cmsg = CMSG_NXTHDR(&ftnet.msg, cmsg)) {
+              if (cmsg->cmsg_level == IPPROTO_IP &&
+                  cmsg->cmsg_type == IP_RECVDSTADDR) {
+                      memcpy(&ftnet.loc_addr.sin_addr.s_addr,
+                          CMSG_DATA(cmsg), sizeof(struct in_addr));
+                      break;
+              }
+      }
+#else
       if ((ftnet.msgip.hdr.cmsg_level == IPPROTO_IP) &&
           (ftnet.msgip.hdr.cmsg_type == IP_RECVDSTADDR)) {
           ftnet.loc_addr.sin_addr.s_addr = ftnet.msgip.ip.s_addr;
       } else {
         ftnet.loc_addr.sin_addr.s_addr = 0;
       }
+#endif /* CMSG_DATA */
 #else
 #ifdef IP_PKTINFO
       if ((ftnet.msgip.hdr.cmsg_level == IPPROTO_IP) &&
