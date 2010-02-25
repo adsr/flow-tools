@@ -5,6 +5,7 @@ AC_PREFIX_DEFAULT(/usr/local/flow-tools)
 
 AM_INIT_AUTOMAKE([foreign dist-bzip2])
 AM_CONFIG_HEADER(lib/ftconfig.h) 
+AC_CONFIG_MACRO_DIR([m4])
 
 dnl CFLAGS="-g -Wall"
 
