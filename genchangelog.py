@@ -1,33 +1,34 @@
 #!/bin/env python
 
 import subprocess
+import re
 
-tags = map(lambda x: x.strip(), subprocess.Popen(['git', 'tag', '-l'], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].splitlines())
+A_re = re.compile('^(.+)-(\d+)-(.+)$', re.I)
 
-upper = len(tags) - 1
+def git_describe(ref):
+  return subprocess.Popen(['git', 'describe', ref], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0].splitlines()[0].strip()
 
-for i in xrange(upper, -1, -1):
-  if i == upper:
-    first = tags[i]
-    last = ''
-    m = 'AFTER %s' % tags[i]
-  elif i == -1:
-    first = ''
-    last = tags[i+1]
-    m = 'IN %s' % tags[i+1]
-  else:
-    first = tags[i]
-    last = tags[i+1]
-    m = 'IN %s' % tags[i+1]
+ref = git_describe('HEAD')
 
-  r = '%s..%s' % (first, last)
+while 1:
+  try:
+    n = git_describe('%s^1' % ref)
+  except:
+    break
+  if not n:
+    break
+
+  x = A_re.match(n)
+  if x:
+    n = x.group(1)
+  
+  m = 'IN %s' % ref
+  r = '%s..%s' % (n, ref)
 
   clog = subprocess.Popen(['git', 'shortlog', r], stdout=subprocess.PIPE, stderr=subprocess.PIPE).communicate()[0]
 
-  if not clog.strip():
-    continue
-
-  print "          CHANGES %s:" % m
-  print
-  print clog
-
+  if clog.strip():
+    print "          CHANGES %s:" % m
+    print
+    print clog
+  ref = n
