@@ -46,6 +46,7 @@
 #include <time.h>
 #include <fcntl.h>
 #include <zlib.h>
+#include <errno.h>
 
 #if HAVE_MMAP
  #include <sys/types.h>
@@ -58,6 +59,7 @@
  *
  * read()'s n bytes from fd
  * returns # of bytes read, or -1 for error
+ * If the number of bytes read differs from "nbytes", EOF has been reached.
  */
 static int readn(int fd, void *ptr, int nbytes) {
 
@@ -66,9 +68,12 @@ static int readn(int fd, void *ptr, int nbytes) {
   nleft = nbytes;
   while (nleft > 0) {
       nread = read(fd, ptr, nleft);
-      if (nread < 0)
-        return nread;
-      else if (nread == 0)
+      if (nread < 0) {
+        if ((errno == EINTR) || (errno == EAGAIN))
+          continue;
+        return (-1);
+      }
+      else if (nread == 0) /* EOF */
         break;
 
       nleft -= nread;
@@ -84,6 +89,7 @@ static int readn(int fd, void *ptr, int nbytes) {
  *
  *  write()'s n bytes to fd.
  *  returns # of bytes written, or -1 for error
+ *  If the number of bytes written differs from "nbytes", EOF has been reached.
  */
 static int writen(int fd, const void *ptr, int nbytes) {
 
@@ -92,8 +98,13 @@ static int writen(int fd, const void *ptr, int nbytes) {
   nleft = nbytes;
   while (nleft > 0) {
     nwritten = write(fd, ptr, nleft);
-    if (nwritten <= 0)
-      return(nwritten); /* error */
+    if (nwritten < 0) { /* error */
+      if ((errno == EINTR) || (errno == EAGAIN))
+        continue;
+      return (-1);
+    }
+    else if (nwritten == 0) /* EOF */
+      break;
 
     nleft -= nwritten;
     ptr = (char*)ptr + nwritten;
@@ -1001,7 +1012,7 @@ void *ftio_read(struct ftio *ftio)
 
       if (!ftio->zs.avail_in) {
 
-        n = read(ftio->fd, (char*)ftio->z_buf, FT_Z_BUFSIZE);
+        n = readn(ftio->fd, (char*)ftio->z_buf, FT_Z_BUFSIZE);
 
         /* EOF and inflate buffer is empty -- done. */
         if (!n) {
@@ -1093,7 +1104,7 @@ void *ftio_read(struct ftio *ftio)
       ftio->d_end = bleft;
       ftio->d_start = 0;
 
-      n = read(ftio->fd, (char*)ftio->d_buf+ftio->d_end,
+      n = readn(ftio->fd, (char*)ftio->d_buf+ftio->d_end,
         FT_D_BUFSIZE - ftio->d_end);
 
       /* read failed? */
