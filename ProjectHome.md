@@ -1,0 +1,3 @@
+flow-tools is library and a collection of programs used to collect, send, process, and generate reports from NetFlow data. The tools can be used together on a single server or distributed to multiple servers for large deployments. The flow-tools library provides an API for development of custom applications for NetFlow export versions 1,5,6 and the 14 currently defined version 8 subversions.
+
+This project is the [active fork](http://groups.google.com/group/flow-tools/topics) to old OSU flow-tools project, which is largely unmaintained at the moment.
