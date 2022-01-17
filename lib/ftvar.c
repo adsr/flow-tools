@@ -78,7 +78,7 @@ void ftvar_free(struct ftvar *ftvar)
     if (ftve->name)
       free(ftve->name);
 
-    if (ftve->val);
+    if (ftve->val)
       free(ftve->val);
 
     FT_SLIST_REMOVE_HEAD(&ftvar->entries, chain);
