@@ -3,6 +3,9 @@
 #include "acl2.h"
 #include <stdio.h> /* XXX REMOVE */
 
+int yylex(void);
+void yyerror(const char *);
+
 /* XXX remove */
 unsigned char fmt_buf[32];
 unsigned char fmt_buf2[32];
